@@ -10,10 +10,16 @@ import com.sharedone.sharedone.model.Product;
 
 @Service
 public class ProductServiceImpl implements ProductService {
-	@Autowired ProductDao pd;
+	@Autowired
+	private ProductDao pd;
 
 	@Override
 	public List<Product> productList() {
 		return pd.productList();
+	}
+
+	@Override
+	public Product productDetail(String productCD) {
+		return pd.productDetail(productCD);
 	}
 }
