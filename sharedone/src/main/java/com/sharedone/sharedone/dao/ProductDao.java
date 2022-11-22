@@ -8,4 +8,6 @@ public interface ProductDao {
 
 	List<Product> productList();
 
+	Product productDetail(String productCD);
+
 }

@@ -10,10 +10,16 @@ import com.sharedone.sharedone.model.Product;
 
 @Repository
 public class ProductDaoImpl implements ProductDao {
-	@Autowired SqlSessionTemplate sst;
+	@Autowired
+	private SqlSessionTemplate sst;
 
 	@Override
 	public List<Product> productList() {
 		return sst.selectList("productns.productList");
+	}
+
+	@Override
+	public Product productDetail(String productCD) {
+		return sst.selectOne("productns.productDetail", productCD);
 	}
 }
