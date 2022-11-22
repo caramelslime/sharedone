@@ -18,13 +18,29 @@ public class ProductController {
 	@Autowired
 	private ProductService ps;
 	
+	@RequestMapping("main")
+	public String main () {
+		return "/main";
+	}
+	
+	
 	@RequestMapping("productList")
-	public String productList(Model model, HttpSession session) {
+	public String productList(Model model) {
 		
 		List<Product> productList = ps.productList();
 		
 		model.addAttribute("productList", productList);
 		
-		return "/productList";
+		return "/nolay/productList";
+	}
+	
+	@RequestMapping("productDetail")
+	public String productDetail(Model model, Product product, String productCD) {
+
+		product = ps.productDetail(productCD);
+		
+		model.addAttribute("product", product);
+		
+		return "/nolay/productList";
 	}
 }

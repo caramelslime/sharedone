@@ -7,9 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-<script type="text/javascript">
-	/* location.href="productList.do" */
-	location.href="main.do" 
-</script>
+메인
 </body>
 </html>

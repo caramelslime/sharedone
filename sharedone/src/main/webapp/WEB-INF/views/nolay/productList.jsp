@@ -7,6 +7,28 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
+<script type="text/javascript">
+	
+	function pageView(data) {
+		var addr = data;
+	
+		var ajaxOption = {
+			url : addr,
+			async : true,
+			type : "POST",
+			dataType : "html",
+			cache : false
+		};
+	
+		$.ajax(ajaxOption).done(function(data) {
+			$('#layout-body').children().remove();
+			$('#layout-body').html(data);
+		});
+	};
+	
+</script>
+
 </head>
 <body>
 
@@ -24,7 +46,7 @@
 		<c:if test="${not empty productList }">
 			<c:forEach var="list" items="${productList }">
 			<c:set var="i" value="${i+1 }"/>
-				<div class="table-row">
+				<div class="" onclick="pageView('productDetail.do?productCD=${list.productCD}')">
 					<span class="">${i}</span>
 					<span class="">${list.productCD }</span>
 					<span class="">${list.productNM}</span>
