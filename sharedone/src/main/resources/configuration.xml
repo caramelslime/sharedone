@@ -4,9 +4,11 @@
 <configuration>
 	<typeAliases>
 		<typeAlias alias="product" type="com.sharedone.sharedone.model.Product" />
+		<typeAlias alias="emp" type="com.sharedone.sharedone.model.Employee" />
 	</typeAliases>
 	<mappers>
 		<mapper resource="product.xml" />
+		<mapper resource="employee.xml" />
 	</mappers>
 </configuration>
 
