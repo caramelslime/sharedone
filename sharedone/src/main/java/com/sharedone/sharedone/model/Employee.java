@@ -11,7 +11,6 @@ public class Employee {
 	private String name;
 	private String email;
 	private Date hiredate;
+	private String dept;
 	private String job;
-	private String rank;
-	private String authority;
 }
