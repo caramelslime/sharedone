@@ -26,7 +26,7 @@ public class ApprovalController {
 		if (emp2 == null) result = -1; // 없는 id
 		else if (emp2.getPw().equals(emp.getPw())) {
 			result = 1; // 성공 id와 password가 일치
-			session.setAttribute("id", emp2.getEmpCd());
+			session.setAttribute("empCd", emp2.getEmpCd());
 			session.setAttribute("authority", emp2.getAuthority());
 			session.setAttribute("name", emp2.getName());
 		}
