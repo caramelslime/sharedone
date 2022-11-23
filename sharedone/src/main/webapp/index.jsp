@@ -8,8 +8,9 @@
 </head>
 <body>
 <script type="text/javascript">
-	/* location.href="productList.do" */
-	location.href="main.do" 
+// 	location.href="productList.do"
+	location.href="priceList.do"
+// 	location.href="main.do" 
 </script>
 </body>
 </html>
