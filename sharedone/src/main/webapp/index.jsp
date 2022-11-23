@@ -11,6 +11,7 @@
 // 	location.href="productList.do"
 	location.href="priceList.do"
 // 	location.href="main.do" 
+	location.href="buyerManagement.do";
 </script>
 </body>
-</html>
+</html> 
