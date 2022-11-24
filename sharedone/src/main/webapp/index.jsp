@@ -9,8 +9,8 @@
 <body>
 <script type="text/javascript">
 	/* location.href="productList.do" */
-	/* location.href="main.do" */ 
-	location.href="buyerManagement.do";
+	location.href="main.do"
+	/* location.href="buyerManagement.do"; */
 </script>
 </body>
 </html> 

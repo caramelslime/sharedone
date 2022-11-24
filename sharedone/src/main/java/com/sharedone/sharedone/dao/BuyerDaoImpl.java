@@ -17,4 +17,19 @@ public class BuyerDaoImpl implements BuyerDao {
 	public List<Buyer> selectBuyerList() {
 		return sst.selectList("buyerns.selectBuyerList");
 	}
+
+	//buyer정보 insert
+	public int buyerInsert(Buyer buyer) {
+		return sst.insert("buyerns.buyerInsert", buyer);
+	}
+
+	//buyer정보 하나 불러오기
+	public Buyer selectBuyer(String buyercd) {
+		return sst.selectOne("buyerns.selectBuyer", buyercd);
+	}
+
+	//buyer정보 수정
+	public int buyerUpdate(Buyer buyer) {
+		return sst.update("buyerns.buyerUpdate", buyer);
+	}
 }
