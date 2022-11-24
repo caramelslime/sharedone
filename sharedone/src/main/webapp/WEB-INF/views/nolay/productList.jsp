@@ -46,7 +46,7 @@
 		<c:if test="${not empty productList }">
 			<c:forEach var="list" items="${productList }">
 			<c:set var="i" value="${i+1 }"/>
-				<div class="" onclick="pageView('productDetail.do?productCD=${list.productCD}')">
+				<div class="" onclick="pageView('productDetail.do?productCD=${list.productCD}')" style="cursor: pointer">
 					<span class="">${i}</span>
 					<span class="">${list.productCD }</span>
 					<span class="">${list.productNM}</span>

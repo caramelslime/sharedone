@@ -20,4 +20,12 @@ INSERT INTO product VALUES ( 'B00003', '스니커즈', 'box', '초콜릿류' );
 INSERT INTO product VALUES ( 'B00004', '카카오 72', 'box', '초콜릿류' );
 INSERT INTO product VALUES ( 'B00005', '허쉬', 'box', '초콜릿류' );
 
+UPDATE product SET productnm='새우깡', unit='box', productgroup='스넥류' WHERE productcd='A00001';
+
+DELETE product WHERE productCD = 'A00001';
+
+SELECT COUNT(*) FROM product WHERE productgroup='스넥류';
+SELECT COUNT(*) FROM product WHERE productgroup=#{productGroup}
+
+
 

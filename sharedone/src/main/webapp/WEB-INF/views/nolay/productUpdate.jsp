@@ -1,12 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-
-
 
 <script type="text/javascript">
 	function pageView(data) {
@@ -29,14 +28,19 @@
 
 </head>
 <body>
-	
-	<div onclick="pageView('productList.do')" style="cursor: pointer">
-		제품 목록
-	</div>
-	<div onclick="pageView('productInsertForm.do')" style="cursor: pointer">
-		제품 등록
-	</div>
-	
-</body>
 
+<c:if test="${result > 0 }">
+	<script type="text/javascript">
+		alert("삭제 완료")
+		pageView('productDetail.do?productCD=${product.productCD}');
+	</script>
+</c:if>
+<c:if test="${!(result > 0) }">
+	<script type="text/javascript">
+		alert("삭제 실패")
+		pageView('productDetail.do?productCD=${product.productCD}');
+	</script>
+</c:if>
+
+</body>
 </html>
