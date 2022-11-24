@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript" src="../../resources/js/jquery.js"></script>
+<script type="text/javascript" src="/sharedone/resources/js/jquery.js"></script>
 </head>
 <body>
 <c:if test="${result>0 }">

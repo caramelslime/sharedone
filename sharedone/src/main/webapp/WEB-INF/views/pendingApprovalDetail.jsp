@@ -6,6 +6,15 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script type="text/javascript" src="/sharedone/resources/js/jquery.js"></script>
+<script type="text/javascript">
+	function chk1() {
+		 frm.check.value=1;
+	}
+	function chk2() {
+		 frm.check.value=2;
+	}
+</script>
 </head>
 <body>
 <div>
@@ -22,10 +31,12 @@
 				</tr>
 			</c:forEach>
 	</table>
-	<form>
+	<form name="frm" action="approveOrRefer.do">
+		<input type="hidden" value="1" name="sono">
+		<input type="hidden" value="0" name="check">
 		<textarea rows="5" name="content"
 		required="required" placeholder="상세 사유 작성란"></textarea><br>
-		<span><input type="submit" value="승인" formaction="approve.do"><input type="submit" value="반려" formaction="refer.do"></span>
+		<span><input type="submit" id="approve" value="승인" onclick="chk1()"><input type="submit" value="반려" onclick="chk2()"></span>
 	</form>
 </div>
 </body>

@@ -74,25 +74,14 @@ public class ApprovalController {
 //		model.addAttribute("pageNum",pageNum);
 		return "pendingApprovalDetail";
 	}
-	@RequestMapping("approve.do")
-	public String approve(int sono,String pageNum,Model model,HttpSession session,String content) {
+	@RequestMapping("approveOrRefer.do")
+	public String approve(int sono,String pageNum,Model model,HttpSession session,String content,int check) {
 //		String empCd = (String)session.getAttribute("empCd");
 //		int result =-1;
-//		result = os.approve(sono);
+//		result = os.approve(sono,check);
 //		if(result>0) {result=cs.insert(empCd,content);}
 //		model.addAttribute("result",result);
 //		model.addAttribute("pageNum",pageNum);
 		return "approve";
-	}
-	//나중에 페이지하나 메소드 하나로 줄일 예정 jquery로 변수하나 넘겨줘서 승인인지 반려인지 구분할것
-	@RequestMapping("refer.do")
-	public String refer(int sono,String pageNum,Model model,HttpSession session,String content) {
-//		String empCd = (String)session.getAttribute("empCd");
-//		int result =-1;
-//		result = os.refer(sono);
-//		if(result>0) {result=cs.insert(empCd,content);}
-//		model.addAttribute("result",result);
-//		model.addAttribute("pageNum",pageNum);
-		return "refer";
 	}
 }
