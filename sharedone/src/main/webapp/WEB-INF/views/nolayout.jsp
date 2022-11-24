@@ -7,6 +7,8 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" charset="UTF-8">
+<script type="text/javascript" src="/sharedone/resources/js/jquery.js"></script>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script> -->
 <title>header</title>
 </head>
 <body>

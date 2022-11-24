@@ -23,6 +23,8 @@ CREATE TABLE M_BUYER (
 --fk추가해야함
 SELECT * FROM M_BUYER;
 DROP TABLE M_BUYER;
+ALTER TABLE m_buyer MODIFY nationcd char(5);
+DELETE FROM m_buyer WHERE buyercd='BA0009';
 
 insert into M_BUYER values(
 'BA0001' 				--거래처코드
@@ -64,3 +66,6 @@ insert into M_BUYER values(
 , '김미애'				--작성자
 , 'n' 					--삭제여부
 );
+
+update M_BUYER set remark='이 가게는 우리집 앞에 있다 안간지 오래됐넹 한번 가보쟈' where buyercd='BA0001';
+update M_BUYER set email='emart@emart.com' where buyercd='BA0001';

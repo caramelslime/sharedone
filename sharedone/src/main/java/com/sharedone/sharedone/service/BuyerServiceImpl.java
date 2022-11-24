@@ -17,4 +17,19 @@ public class BuyerServiceImpl implements BuyerService{
 	public List<Buyer> selectBuyerList() {
 		return bd.selectBuyerList();
 	}
+
+	//buyer정보 insert
+	public int buyerInsert(Buyer buyer) {
+		return bd.buyerInsert(buyer);
+	}
+
+	//buyer정보 하나 불러오기
+	public Buyer selectBuyer(String buyercd) {
+		return bd.selectBuyer(buyercd);
+	}
+
+	//buyer정보 업데이트
+	public int buyerUpdate(Buyer buyer) {
+		return bd.buyerUpdate(buyer);
+	}
 }
