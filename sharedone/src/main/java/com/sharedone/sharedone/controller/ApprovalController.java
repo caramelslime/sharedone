@@ -26,7 +26,7 @@ public class ApprovalController {
 	
 	@RequestMapping("empLoginForm")
 	public String empLoginForm() {
-		return "empLoginForm";
+		return "/empLoginForm";
 	}
 	@RequestMapping("empLogin")
 	public String empLogin(Employee emp,Model model,HttpSession session) {
@@ -63,7 +63,7 @@ public class ApprovalController {
 //		 model.addAttribute("pb",pb);
 		 
 	 
-		return "pendingApprovalList";
+		return "/pendingApprovalList";
 	}
 	@RequestMapping("pendingApprovalDetail")
 	public String view(String sono, String pageNum, Model model, HttpSession session) {
@@ -72,7 +72,7 @@ public class ApprovalController {
 //		model.addAttribute("list",odlist);
 //		model.addAttribute("sono",sono);
 //		model.addAttribute("pageNum",pageNum);
-		return "pendingApprovalDetail";
+		return "/pendingApprovalDetail";
 	}
 	@RequestMapping("approveOrRefer.do")
 	public String approve(int sono,String pageNum,Model model,HttpSession session,String content,int check) {
@@ -82,6 +82,6 @@ public class ApprovalController {
 //		if(result>0) {result=cs.insert(empCd,content);}
 //		model.addAttribute("result",result);
 //		model.addAttribute("pageNum",pageNum);
-		return "approve";
+		return "/approve";
 	}
 }
