@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="buyerns">
+	<!-- buyer정보 전체 리스트 불러오기 -->
+	<select id="selectBuyerList" resultType="buyer">
+		SELECT * FROM m_buyer ORDER BY buyercd DESC
+	</select>
+	<!-- buyer정보 inert -->
+	<insert id="buyerInsert" parameterType="buyer">
+		INSERT INTO m_buyer VALUES(
+		#{buyercd}
+		,#{buyernm}
+		,#{brno}
+		,#{rprsv_nm}
+		,#{business_status}
+		,#{event}
+		,#{receiveuserid}
+		,#{status}
+		,#{nationcd}
+		,#{postcode}
+		,#{address}
+		,#{address_detail}
+		,#{tel}
+		<if test="email != null">
+		,#{email}		
+		</if>
+		<if test="email == null">
+		,null		
+		</if>
+		<if test="remark != null">
+		,#{remark}		
+		</if>
+		<if test="remark == null">
+		,null		
+		</if>
+		,#{adddate}
+		,#{adduser}
+		,'n'
+		)
+	</insert>
+	
+	<select id="selectBuyer" parameterType="string" resultType="buyer">
+		SELECT * FROM m_buyer WHERE buyercd=#{buyercd}
+	</select>
+	
+	<update id="buyerUpdate" parameterType="buyer">
+		UPDATE m_buyer SET
+		buyernm=#{buyernm}
+		,brno=#{brno}
+		,rprsv_nm=#{rprsv_nm}
+		,business_status=#{business_status}
+		,event=#{event}
+		,receiveuserid=#{receiveuserid}
+		,status=#{status}
+		,nationcd=#{nationcd}
+		,postcode=#{postcode}
+		<if test="address != null">
+		,address=#{address}
+		</if>
+		<if test="address_detail != null">
+		,address_detail=#{address_detail}
+		</if>
+		,tel=#{tel}
+		<if test="email != null">
+		,email=#{email}		
+		</if>
+		<if test="remark != null">
+		,remark=#{remark}		
+		</if>
+		,adddate=#{adddate}
+		,adduser=#{adduser}
+		WHERE buyercd=#{buyercd}
+	</update>
+		
+
+	
+	
+</mapper>
