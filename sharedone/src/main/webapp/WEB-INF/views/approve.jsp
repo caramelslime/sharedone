@@ -6,25 +6,24 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript" src="/sharedone/resources/js/jquery.js"></script>
 </head>
 <body>
-<c:if test="${result>0 }">
+<c:if test="${result > 0}">
 	<script type="text/javascript">
-		alert("로그인 성공");
-		location.href="productList.do";
+		alert("승인 되었습니다");
+		location.href="pendingApprovalList.do?pageNum=${pageNum}";
 	</script>
 </c:if>
-<c:if test="${result==0 }">
+<c:if test="${result == 0}">
 	<script type="text/javascript">
-		alert("비밀번호가 일치하지 안습니다");
+		alert("승인 혹은 사유 입력이 정상적으로 작동하지 않았습니다.");
 		history.go(-1);
 	</script>
 </c:if>
-<c:if test="${result<0 }">
+<c:if test="${result == -1}">
 	<script type="text/javascript">
-		alert("없는 아이디 입미다");
-		history.back();
+		alert("승인 실패");
+		history.go(-1);
 	</script>
 </c:if>
 </body>
