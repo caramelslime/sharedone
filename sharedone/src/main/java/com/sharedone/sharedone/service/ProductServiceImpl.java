@@ -42,4 +42,14 @@ public class ProductServiceImpl implements ProductService {
 	public int totalByProductGroup(String productGroup) {
 		return pd.totalByProductGroup(productGroup);
 	}
+
+	@Override
+	public String delList(String productCD) {
+		return pd.delList(productCD);
+	}
+
+	@Override
+	public int deleteProduct(String delList, String productCD) {
+		return pd.deleteProduct(delList, productCD);
+	}
 }

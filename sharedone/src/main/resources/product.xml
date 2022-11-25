@@ -4,7 +4,7 @@
 <mapper namespace="productns">
 
 	<select id="productList" resultType="product">
-		SELECT * FROM product
+		SELECT * FROM product WHERE del='n' ORDER BY productCD
 	</select>
 	
 	<select id="productDetail" parameterType="String" resultType="product">
@@ -20,12 +20,19 @@
 	</delete>
 	
 	<insert id="productInsert" parameterType="product">
-		INSERT INTO product VALUES (#{productCD}, #{productNM}, #{unit}, #{productGroup})
+		INSERT INTO product VALUES (#{productCD}, #{productNM}, #{unit}, #{productGroup}, 'n')
 	</insert>
 	
 	<select id="totalByProductGroup" parameterType="String" resultType="int">
 		SELECT COUNT(*) FROM product WHERE productgroup=#{productGroup}
 	</select>
 	
+	<select id="delList" parameterType="string" resultType="string">
+		select del from product where productCD=#{productCD}
+	</select>
+	
+	<update id="deleteProduct" parameterType="map">
+		update product set del=#{delList} where productCD=#{productCD}
+	</update>
 	
 </mapper>

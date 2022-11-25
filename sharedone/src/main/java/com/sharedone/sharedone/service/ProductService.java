@@ -18,4 +18,8 @@ public interface ProductService {
 
 	int totalByProductGroup(String productGroup);
 
+	String delList(String productCD);
+
+	int deleteProduct(String delList, String productCD);
+
 }
