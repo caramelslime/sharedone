@@ -10,4 +10,16 @@ public interface ProductService {
 
 	Product productDetail(String productCD);
 
+	int productUpdate(Product product);
+
+	int productDelete(String productCD);
+
+	int productInsert(Product product);
+
+	int totalByProductGroup(String productGroup);
+
+	String delList(String productCD);
+
+	int deleteProduct(String delList, String productCD);
+
 }
