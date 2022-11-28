@@ -5,10 +5,12 @@
 	<typeAliases>
 		<typeAlias alias="product" type="com.sharedone.sharedone.model.Product" />
 		<typeAlias alias="buyer" type="com.sharedone.sharedone.model.Buyer" />
+		<typeAlias alias="employee" type="com.sharedone.sharedone.model.Employee" />
 	</typeAliases>
 	<mappers>
 		<mapper resource="product.xml" />
 		<mapper resource="buyer.xml" />
+		<mapper resource="employee.xml" />
 	</mappers>
 </configuration>
 

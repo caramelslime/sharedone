@@ -6,12 +6,14 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
 <!-- 주소검색 api -->
 <script type="text/javascript" src="/sharedone/resources/js/address.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
 <style type="text/css">@import url("/sharedone/resources/css/share.css");</style>
 <style type="text/css">@import url("/sharedone/resources/css/buyerManagement.css");</style>
+
 <script type="text/javascript">
 	$(document).ready(function(){
 		  $('.insert-div').hide();
@@ -47,7 +49,8 @@
 		
 	}
 	//수정
-	function buyerUpdate(buyercd){
+	
+ 	function buyerUpdate(buyercd){
 		$.post('updateForm.do', "buyercd="+buyercd, function(data) {
 			updateFrm.buyercd.value = data.buyercd;
 			$('#buyercd').attr("readonly", true);
@@ -111,25 +114,55 @@
 		<div class="search-div">
 			<div class="search-sub-wrap">
 			<div class="search-sub-div">
-				<div class="search-item-div"><div class="search-item-text">• 거래처코드</div><input type="text"><img class="dodbogi-img" alt="" src="/sharedone/resources/images/dodbogi.png"><img class="list-img" alt="" src="/sharedone/resources/images/list.png"> </div>
-				<div class="search-item-div each-item-div"><div class="search-item-text">• 거래처명</div><input type="text"><img class="dodbogi-img" alt="" src="/sharedone/resources/images/dodbogi.png"><img class="list-img" alt="" src="/sharedone/resources/images/list.png"></div>
+				<div class="search-item-div">
+					<div class="search-item-text">• 거래처코드/거래처명</div>
+					<input type="text" list="buyerList" id="input" >
+					<!-- 검색용 거래처 데이터 리스트 -->
+					<datalist id="buyerList">
+						<c:forEach var="buyer" items="${buyer_list }">
+							<option value="${buyer.buyercd }" label="${buyer.buyernm }"></option>
+						</c:forEach>
+					</datalist>
+				</div>
+				<div class="search-item-div">
+					<div class="search-item-text">• 거래처상태</div>
+					<select name="status">
+						<option value="">--선택--</option>
+						<option value="활성">활성</option>
+						<option value="활성">비활성</option>
+					</select>
+				</div>
 			</div>
-			<div class="search-item-div"><div class="search-item-text">• 담당자</div><input type="text"><img class="dodbogi-img" alt="" src="/sharedone/resources/images/dodbogi.png"><img class="list-img" alt="" src="/sharedone/resources/images/list.png"></div>	
+			<div class="search-item-div">
+				<div class="search-item-text">• 담당자</div>
+				<input type="text" list="employeeList">
+				<!-- 검색용 거래처 데이터 리스트 -->
+				<datalist id="employeeList">
+					<c:forEach var="emp" items="${employee_list }">
+						<option value="${emp.empCd }" label="${emp.name }"></option>
+					</c:forEach>
+				</datalist>
+			</div>	
 			</div>
 			<div class="search-box">조회</div>
 		</div>
+
+		<!-- 검색용 직원 데이터 리스트 -->
+		<datalist id="employeeList">
 		
+		</datalist>
 		
 		<div class="buyerList-div">
 			<table class="list-table">
 				<tr>
-				<th>거래처코드</th><th>거래처명</th><th>사업자등록번호</th><th>대표자</th><th>업태</th><th>종목</th><th>담당자</th><th>거래처상태</th>
+				<th></th><th>거래처코드</th><th>거래처명</th><th>사업자등록번호</th><th>대표자</th><th>업태</th><th>종목</th><th>담당자</th><th>거래처상태</th>
 				<th>국가코드</th><th>소재지</th><th>전화번호</th><th>이메일</th><th>참고사항</th>
 				</tr>
 				
 				<c:if test="${not empty buyer_list}">
 					<c:forEach var="buyer_list" items="${buyer_list }"> 
-						<tr onclick="buyerUpdate('${buyer_list.buyercd}')" id="buyerListTr_${buyer_list.buyercd }" class="buyerListTr">
+						<tr ondblclick="buyerUpdate('${buyer_list.buyercd}')" id="buyerListTr_${buyer_list.buyercd }" class="buyerListTr">
+							<td><input type="checkbox" name="xxx" value="yyy" ></td>
 							<td>${buyer_list.buyercd }</td>
 							<td>${buyer_list.buyernm }</td>
 							<td>${buyer_list.brno }</td>
