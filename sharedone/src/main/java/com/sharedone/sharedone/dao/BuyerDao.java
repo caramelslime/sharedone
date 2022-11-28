@@ -17,4 +17,13 @@ public interface BuyerDao {
 	//buyer정보 업데이트
 	int buyerUpdate(Buyer buyer);
 
+	//거래처 코드 지정을 위한 거래처 리스트 count
+	int buyerCount();
+
+	//거래처 삭제
+	String delList(String buyercd);
+
+	//거래처 삭제(update)
+	int deleteBuyer(String delList, String buyercd);
+
 }

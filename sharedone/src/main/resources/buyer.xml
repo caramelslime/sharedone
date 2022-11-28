@@ -4,7 +4,7 @@
 <mapper namespace="buyerns">
 	<!-- buyer정보 전체 리스트 불러오기 -->
 	<select id="selectBuyerList" resultType="buyer">
-		SELECT * FROM m_buyer ORDER BY buyercd DESC
+		SELECT * FROM m_buyer WHERE delyn='n' ORDER BY adddate DESC 
 	</select>
 	<!-- buyer정보 inert -->
 	<insert id="buyerInsert" parameterType="buyer">
@@ -73,7 +73,15 @@
 		WHERE buyercd=#{buyercd}
 	</update>
 		
-
+	<select id="buyerCount" resultType="integer">
+		SELECT COUNT(*) FROM m_buyer 
+	</select>
 	
+	<select id="delList" parameterType="string" resultType="string">
+		SELECT delyn from m_buyer where buyercd=#{buyercd}
+	</select>	
 	
+	<update id="deleteBuyer" parameterType="map">
+		UPDATE m_buyer SET delyn=#{delList} WHERE buyercd=#{buyercd}
+	</update>
 </mapper>

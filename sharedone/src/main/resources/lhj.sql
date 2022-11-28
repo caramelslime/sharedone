@@ -24,7 +24,7 @@ CREATE TABLE M_BUYER (
 SELECT * FROM M_BUYER;
 DROP TABLE M_BUYER;
 ALTER TABLE m_buyer MODIFY nationcd char(5);
-DELETE FROM m_buyer WHERE buyercd='BA0009';
+DELETE FROM m_buyer WHERE buyercd='B00010';
 
 insert into M_BUYER values(
 'BA0001' 				--거래처코드
@@ -83,26 +83,6 @@ CREATE TABLE employee (
     DEPT VARCHAR(20) NOT NULL,
 	JOB	VARCHAR(10)	NOT NULL
 );
--- 판매부번 테이블
-CREATE TABLE product (
-	productcd VARCHAR2(20) PRIMARY KEY,
-	productnm VARCHAR2(50),
-	unit VARCHAR2(10),
-	productgroup VARCHAR2(20)
-);
-
-SELECT * FROM product;
-
-INSERT INTO product VALUES ( 'A00001', '새우깡', 'box', '스넥류' );
-INSERT INTO product VALUES ( 'A00002', '포카칩', 'box', '스넥류' );
-INSERT INTO product VALUES ( 'A00003', '바나나킥', 'box', '스넥류' );
-INSERT INTO product VALUES ( 'A00004', '꼬북칩', 'box', '스넥류' );
-INSERT INTO product VALUES ( 'A00005', '빈츠', 'box', '스넥류' );
-INSERT INTO product VALUES ( 'B00001', 'ABC 초콜릿', 'box', '초콜릿류' );
-INSERT INTO product VALUES ( 'B00002', '트윅스', 'box', '초콜릿류' );
-INSERT INTO product VALUES ( 'B00003', '스니커즈', 'box', '초콜릿류' );
-INSERT INTO product VALUES ( 'B00004', '카카오 72', 'box', '초콜릿류' );
-INSERT INTO product VALUES ( 'B00005', '허쉬', 'box', '초콜릿류' );
 
 delete from employee;
 insert into employee values('b0247','1234','010-8838-0247','김현서','ksh98520@naver.com','1998-07-13','영업1','staff');
