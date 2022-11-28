@@ -131,7 +131,7 @@ th{
 th:first-child, td:first-child {
     border-left: none;
   }
-.productListTr:hover{
+.productListTr:hover {
 	background-color: #d3dfea;
 	cursor:pointer;
 }
@@ -164,9 +164,25 @@ th:first-child, td:first-child {
     background-color: #e5e1dc;
     box-shadow: 1px -1px 2px #b1b1b1;
     height: 24px;
+    margin-right: 10px;
     cursor: pointer;
 }
 
+.edit-start-btn{
+    border: none;
+    background-color: #e5e1dc;
+    box-shadow: 1px -1px 2px #b1b1b1;
+    height: 24px;
+    cursor: pointer;
+}
+
+.edit-finish-btn{
+    border: none;
+    background-color: #e5e1dc;
+    box-shadow: 1px -1px 2px #b1b1b1;
+    height: 24px;
+    cursor: pointer;
+}
 
 /* insert Form */
 .insert-div{
@@ -282,6 +298,14 @@ th:first-child, td:first-child {
     cursor: pointer;
 }
 
+.edit {
+	border: none;
+	outline: none;
+}
+
+.no-border {
+	border: none;
+}
 
 
 
