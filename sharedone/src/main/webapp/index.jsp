@@ -8,8 +8,8 @@
 </head>
 <body>
 <script type="text/javascript">
-	location.href="pendingApprovalDetail.do"
-	/* location.href="empLoginForm.do" */
+	/* location.href="pendingApprovalDetail.do" */
+	location.href="empLoginForm.do";
 	/* location.href="productList.do" */
 	/* location.href="main.do" */
 	/* location.href="buyerManagement.do"; */
