@@ -12,6 +12,7 @@
 <style type="text/css">@import url("/sharedone/resources/css/order.css");</style>
 
 <script type="text/javascript">
+
 	
 	function pageView(data) {
 		var addr = data;
@@ -194,6 +195,88 @@
 	    }, 200);
 	}
 	
+	function productNMUpdate(e) {
+		console.log(e);
+		var str = e.split('_');
+		
+		console.log(str[0]);
+		console.log(str[1]);
+		
+		var productCD = str[0];
+		var productNM = str[1];
+		
+		
+		
+		console.log(document.querySelector('#'+e).value);
+		
+		
+	}
+	
+	var editable = 0;
+	
+	function editStart() {
+		document.querySelector('.edit-start-btn').style.display = 'none';
+		document.querySelector('.edit-finish-btn').style.display = 'block';
+		editable = 1;
+		console.log(editable);
+	}
+	
+	function editFinish() {
+		document.querySelector('.edit-start-btn').style.display = 'block';
+		document.querySelector('.edit-finish-btn').style.display = 'none';
+		editable = 0;
+		console.log(editable);
+	}
+	
+	$(function() {
+		
+			$('.edit').on("focusin", function(event) {
+				if (editable == 1) {
+					this.readOnly = false;
+					console.log("focusin");
+//					console.log(this.value);
+//					console.log(this.getAttribute('id'));
+				};
+			});
+			
+			$('.edit').on("focusout", function(event) {
+				if (editable == 1) {
+					
+					var str = this.getAttribute('id').split('_');
+					
+					if (str[1] == 'productNM') {
+						var productCD = str[0];
+						var productNM = str[1];
+						console.log("productNM = "+productNM);
+						
+						
+						console.log("focusout");
+						console.log(this.value);
+						this.readOnly = true;
+						
+					} else if (str[1] == 'unit') {
+						var productCD = str[0];
+						var unit = str[1];
+						
+						
+						console.log("focusout");
+						console.log(this.value);
+						this.readOnly = true;
+						
+					} else if (str[1] == 'productGroup') {
+						var productCD = str[0];
+						var productGroup = str[1];
+						
+						
+						console.log("focusout");
+						console.log(this.value);
+						this.readOnly = true;
+						
+					}
+				}
+			});
+	})
+	
 	
 </script>
 
@@ -238,10 +321,10 @@
 								<td class="col1">
 									<input type="checkbox" name="selectChk" value="${list.productCD}" >
 								</td>
-								<td class="col2">${list.productCD}</td>
-								<td class="col3">${list.productNM}</td>
-								<td class="col4">${list.unit}</td>
-								<td class="col5">${list.productGroup }</td>
+								<td class="col2"><input type="text" class="no-border" value="${list.productCD}" readonly="readonly"></td>
+								<td class="col3"><input type="text" id="${list.productCD}_productNM" class="edit" <%-- onclick="edit('${list.productCD}'+'_productNM')" --%> value="${list.productNM}" readonly="readonly"></td>
+								<td class="col4"><input type="text" id="${list.productCD}_unit" class="edit" value="${list.unit}" readonly="readonly"></td>
+								<td class="col5"><input type="text" class="edit" value="${list.productGroup }" readonly="readonly"></td>
 							</tr>
 						</c:forEach>
 					</c:if>
@@ -294,12 +377,16 @@
 			
 			<div class="bottom-div">
 				<div class="bottom-btn-div">
+					<c:set var="editable" value="a"></c:set>
 					<button class="new-input-btn" onclick="newInputView()">제품등록</button>
 					<button class="del-btn" onclick="check()">삭제</button>
+					<button class="edit-start-btn" onclick="editStart()" style="display: block;">수정하기</button>
+					<button class="edit-finish-btn" onclick="editFinish()" style="display: none;">수정 완료</button>
 				</div>
 			</div>
 		</div>
 		<div style="display: none;">
+			
 			<datalist id="CDList">
 				<c:forEach var="product" items="${productList }">
 					<option value="${product.productCD}"></option>
