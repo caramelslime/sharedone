@@ -167,7 +167,7 @@ th:first-child, td:first-child {
 .insert-div{
 	background: #fff;
     width: 860px;
-    height: 526px;
+    height: 700px;
 	position: relative;
     top: -700px;
 	box-shadow: 2px -1px 4px #b1b1b1;
@@ -214,6 +214,9 @@ th:first-child, td:first-child {
 .insert-hr{
     border-top: 1px solid #d4d0cc;
 }
+
+
+
 
 /* 사업장소재지 */
 .insert-sub-row-div2{
@@ -318,5 +321,4 @@ th:first-child, td:first-child {
 }
 .buyerListTr:hover{
 	background-color: #d3dfea;
-	cursor:pointer;
 }

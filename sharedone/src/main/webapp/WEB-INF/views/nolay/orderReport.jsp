@@ -5,6 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="/sharedone/resources/js/jquery.sumoselect.min.js"></script>
+<style type="text/css">@import url("/sharedone/resources/css/sumoselect.min.css");</style>
 <style type="text/css">
 /* 공통속성 */
 ul{
@@ -52,6 +54,7 @@ ul{
 /* 검색 박스 */
 .search-div{
     width: 92%;
+    height: 100px;
     background-color: #fff;
     margin: 23px auto 20px auto;
     box-shadow: 2px -1px 4px #b1b1b1;
@@ -60,25 +63,32 @@ ul{
     justify-content: space-between;
 }
 .search-sub-wrap{
-    margin: 20px 0px 20px 40px;
+    width: 100%;
+    padding: 0 0 0 33px;
+    display: flex;
 }
 .search-sub-div{
     display: flex;
     margin-bottom: 9px;
-
+    justify-content: center;
 }
 .search-item-div{
-    width: 325px;
+	width: 1131px;
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-around;
 }
 .each-item-div{
 	margin-left: 78px;
 }
-.search-item-text{
-    width: 100px;
+.search-each-div{
+	display: flex;
 }
-.search-item-div>input{
+.search-item-text{
+    width: 70px;
+}
+.search-each-div>input{
 	border: none;
     background-color: #d7d7d7;
     height: 25px;
@@ -106,7 +116,21 @@ ul{
     font-size: 15px;
     font-weight: 400;
 }
+
+
+/* sumo select */
+.SumoSelect>.CaptionCont{
+	width: 160px;
+}
 </style>
+<script type="text/javascript">
+$('.dashDate-select').SumoSelect({ 
+	selectAll: true
+	,placeholder: '월별 기간을 선택해주세요'
+	,captionFormatAllSelected : '1월~12월'
+	});
+
+</script>
 </head>
 <body>
 
@@ -122,11 +146,43 @@ ul{
 		</div>
 		<div class="search-div">
 			<div class="search-sub-wrap">
-			<div class="search-sub-div">
-				<div class="search-item-div"><div class="search-item-text">• 거래처코드</div><input type="text"><img class="dodbogi-img" alt="" src="/sharedone/resources/images/dodbogi.png"><img class="list-img" alt="" src="/sharedone/resources/images/list.png"> </div>
-				<div class="search-item-div each-item-div"><div class="search-item-text">• 거래처명</div><input type="text"><img class="dodbogi-img" alt="" src="/sharedone/resources/images/dodbogi.png"><img class="list-img" alt="" src="/sharedone/resources/images/list.png"></div>
-			</div>
-			<div class="search-item-div"><div class="search-item-text">• 담당자</div><input type="text"><img class="dodbogi-img" alt="" src="/sharedone/resources/images/dodbogi.png"><img class="list-img" alt="" src="/sharedone/resources/images/list.png"></div>	
+				<div class="search-sub-div">
+					<div class="search-item-div">
+						<div class="search-each-div">
+							<!-- 기간 -->
+							<div class="search-item-text">• 기간</div>
+							<select class="dashDate-select" name="dashDate[]" multiple>
+								<option value="01">1월</option>
+								<option value="02">2월</option>
+								<option value="03">3월</option>
+								<option value="04">4월</option>
+								<option value="05">5월</option>
+								<option value="06">6월</option>
+								<option value="07">7월</option>
+								<option value="08">8월</option>
+								<option value="09">9월</option>
+								<option value="10">10월</option>
+								<option value="11">11월</option>
+								<option value="12">12월</option>
+							</select>
+						</div>
+
+						<div class="search-each-div">
+							<div class="search-item-text">• 바이어</div>
+							<input type="text">
+						</div>
+						
+						<div class="search-each-div">
+							<div class="search-item-text">• 사원</div>
+							<input type="text">
+						</div>
+						<div class="search-each-div">
+							<div class="search-item-text">• 승인여부</div>
+							<input type="text">
+						</div>
+					</div>
+				</div>
+					
 			</div>
 			<div class="search-box">조회</div>
 		</div>

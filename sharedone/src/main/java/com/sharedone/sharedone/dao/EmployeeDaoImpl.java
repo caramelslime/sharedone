@@ -1,5 +1,7 @@
 package com.sharedone.sharedone.dao;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -15,5 +17,10 @@ public class EmployeeDaoImpl implements EmployeeDao{
 	public Employee select(String empCd) {
 		// TODO Auto-generated method stub
 		return sst.selectOne("empns.select",empCd);
+	}
+
+	//직원 정보 전체 리스트 불러오기
+	public List<Employee> selectEmployeeList() {
+		return sst.selectList("empns.selectEmployeeList");
 	}
 }

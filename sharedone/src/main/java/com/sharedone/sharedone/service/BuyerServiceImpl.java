@@ -32,4 +32,19 @@ public class BuyerServiceImpl implements BuyerService{
 	public int buyerUpdate(Buyer buyer) {
 		return bd.buyerUpdate(buyer);
 	}
+
+	//거래처 코드 지정을 위한 거래처 리스트 count
+	public int buyerCount() {
+		return bd.buyerCount();
+	}
+
+	//거래처삭제
+	public String delList(String buyercd) {
+		return bd.delList(buyercd);
+	}
+
+	//거래처삭제(update)
+	public int deleteBuyer(String delList, String buyercd) {
+		return bd.deleteBuyer(delList, buyercd);
+	}
 }
