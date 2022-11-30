@@ -97,7 +97,7 @@ public class BuyerController {
 		        String rprsv_nm = (String) buyerInfo.get("rprsv_nm");
 		        String business_status = (String) buyerInfo.get("business_status");
 		        String event = (String) buyerInfo.get("event");
-		        String receiveuserid = (String) buyerInfo.get("receiveuserid");
+		        String empcd = (String) buyerInfo.get("empcd");
 		        String status = (String) buyerInfo.get("status");
 		        String nationcd = (String) buyerInfo.get("nationcd");
 		        String postcode = (String) buyerInfo.get("postcode");
@@ -114,7 +114,7 @@ public class BuyerController {
 		        buyer.setRprsv_nm(rprsv_nm);
 		        buyer.setBusiness_status(business_status);
 		        buyer.setEvent(event);
-		        buyer.setReceiveuserid(receiveuserid);
+		        buyer.setEmpcd(empcd);
 		        buyer.setStatus(status);
 		        buyer.setNationcd(nationcd);
 		        buyer.setPostcode(postcode);
@@ -132,7 +132,7 @@ public class BuyerController {
 				int buyer_count = bs.buyerCount();
 				System.out.println(buyer_count);
 				String buyerCD;
-				buyerCD = "BA"+String.format("%04d",buyer_count+1);
+				buyerCD = "B"+String.format("%05d",buyer_count+1);
 				buyer.setBuyercd(buyerCD);
 		    	System.out.println(buyerCD);
 		        

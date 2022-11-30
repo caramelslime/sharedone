@@ -13,12 +13,15 @@
 
 <style type="text/css">@import url("/sharedone/resources/css/share.css");</style>
 <style type="text/css">@import url("/sharedone/resources/css/buyerManagement.css");</style>
+
+<script src="/sharedone/resources/js/jquery.sumoselect.min.js"></script>
+<style type="text/css">@import url("/sharedone/resources/css/sumoselect.min.css");</style>
 <style type="text/css">
 
 .insert-div{
 	background: #fff;
     width: 860px;
-    height: 720px;
+    height: 746px;
 	position: relative;
     top: -700px;
 	box-shadow: 2px -1px 4px #b1b1b1;
@@ -61,6 +64,7 @@
 	display: flex;
     margin: 0 0 0 21px;
 }
+
 .insert-action-btn{
 	border: none;
     background-color: #00944e;
@@ -96,6 +100,89 @@
 .insert-buyercd{
 	font-size: 12px;
     font-style: italic;
+}
+
+/*  */
+.edit-start-btn{
+    border: none;
+    background-color: #e5e1dc;
+    box-shadow: 1px -1px 2px #b1b1b1;
+    height: 24px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.edit-finish-btn{
+    border: none;
+    background-color: #e5e1dc;
+    box-shadow: 1px -1px 2px #b1b1b1;
+    height: 24px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+.edit {
+	border: none;
+	outline: none;
+}
+.no-border {
+	border: none;
+}
+
+.list-input{
+	border: none;
+    background: transparent;
+    width: 55px;
+}
+.list-input2{
+	border: none;
+    background: transparent;
+    width: 110px;
+}
+.list-input3{
+	border: none;
+    background: transparent;
+    width: 139px;
+}
+.list-input4{
+	border: none;
+    background: transparent;
+	width: 79px;
+}
+
+.insert-action-btn {
+    border: none;
+    background-color: #293b4b;
+    color: white;
+    box-shadow: 1px -1px 2px #b1b1b1;
+    cursor: pointer;
+    width: 110px;
+    height: 39px;
+    margin: 10px auto 0 auto;
+}
+
+/*  */
+#status-select{
+    width: 98px;
+    height: 26px;
+    background-color: #d7d7d7;
+    border: none;
+}
+.insert-select{
+	height: 25px;
+    width: 144px;
+    border:none;
+    background-color: #d7d7d7;
+}
+
+
+/* semoselect */
+
+.SumoSelect>.CaptionCont {
+    background-color: #d7d7d7;
+    border: none;
+}
+.SumoSelect.open .search-txt{
+	background-color: #d7d7d7;
 }
 </style>
 <script type="text/javascript">
@@ -143,7 +230,7 @@
 			updateFrm.rprsv_nm.value = data.rprsv_nm;
 			updateFrm.business_status.value = data.business_status;
 			updateFrm.event.value = data.event;
-			updateFrm.receiveuserid.value = data.receiveuserid;
+			updateFrm.empcd.value = data.empcd;
 			updateFrm.status.value = data.status;
 			updateFrm.nationcd.value = data.nationcd;
 			updateFrm.postcode.value = data.postcode;
@@ -175,6 +262,8 @@
  			$('.update-div').hide();
  			$('.buyerList-div').css('opacity', '1');
  			$('.search-div').css('opacity', '1');
+		
+ 			
 			}else if(data == "n"){
 				alert("거래처 수정에 실패했습니다");
 			}
@@ -189,7 +278,7 @@
 		var rprsv_nm = insertFrm.rprsv_nm.value;
 		var business_status = insertFrm.business_status.value;
 		var event = insertFrm.event.value;
-		var receiveuserid = insertFrm.receiveuserid.value;
+		var empcd = insertFrm.empcd.value;
 		var status = insertFrm.status.value;
 		var nationcd = insertFrm.nationcd.value;
 		var postcode = insertFrm.postcode.value;
@@ -205,7 +294,7 @@
 		
 		
 		
-		if (buyerNM == "" || brno == "" || rprsv_nm == "" || business_status == "" || event == "" || receiveuserid == "" || status == "" || nationcd == "" || postcode == "" || address == "" || address_detail == "" || tel == "" || email == "" || adddate == "" || adduser == "" ) {
+		if (buyerNM == "" || brno == "" || rprsv_nm == "" || business_status == "" || event == "" || empcd == "" || status == "" || nationcd == "" || postcode == "" || address == "" || address_detail == "" || tel == "" || email == "" || adddate == "" || adduser == "" ) {
 			alert("값을 입력하세요");
 		} else {
 			$('#insertList-table').append(
@@ -218,7 +307,7 @@
 						+ "<td>"+rprsv_nm+"</td>"
 						+ "<td>"+business_status+"</td>"
 						+ "<td>"+event+"</td>"
-						+ "<td>"+receiveuserid+"</td>"
+						+ "<td>"+empcd+"</td>"
 						+ "<td>"+status+"</td>"
 						+ "<td>"+nationcd+"</td>"
 						+ "<td>"+postcode+"</td>"
@@ -237,7 +326,7 @@
 			insertFrm.rprsv_nm.value="";
 			insertFrm.business_status.value="";
 			insertFrm.event.value="";
-			insertFrm.receiveuserid.value="";
+			insertFrm.empcd.value="";
 			insertFrm.nationcd.value="";
 			insertFrm.postcode.value="";
 			insertFrm.address.value="";
@@ -274,7 +363,7 @@
 					rprsv_nm: cells[3].firstChild.data, 
 					business_status: cells[4].firstChild.data, 
 					event: cells[5].firstChild.data, 
-					receiveuserid: cells[6].firstChild.data, 
+					empcd: cells[6].firstChild.data, 
 					status: cells[7].firstChild.data, 
 					nationcd: cells[8].firstChild.data, 
 					postcode: cells[9].firstChild.data, 
@@ -357,6 +446,84 @@
 	    }, 200);
 	}
 
+	var editable = 0;
+	
+	function editStart() {
+		document.querySelector('.edit-start-btn').style.display = 'none';
+		document.querySelector('.edit-finish-btn').style.display = 'block';
+		editable = 1;
+		console.log(editable);
+	}
+	
+	function editFinish() {
+		document.querySelector('.edit-start-btn').style.display = 'block';
+		document.querySelector('.edit-finish-btn').style.display = 'none';
+		editable = 0;
+		console.log(editable);
+	}	
+	
+	//여기부터 해야함
+	$(function() {
+		
+		$('.edit').on("focusin", function(event) {
+			if (editable == 1) {
+				this.readOnly = false;
+				console.log("focusin");
+			};
+		});
+		
+		$('.edit').on("focusout", function(event) {
+			if (editable == 1) {
+				
+				var str = this.getAttribute('id').split('_');
+				
+				if (str[1] == 'productNM') {
+					var productCD = str[0];
+					var productNM = str[1];
+					console.log("productNM = "+productNM);
+					
+					
+					console.log("focusout");
+					console.log(this.value);
+					this.readOnly = true;
+					
+				} else if (str[1] == 'unit') {
+					var productCD = str[0];
+					var unit = str[1];
+					
+					
+					console.log("focusout");
+					console.log(this.value);
+					this.readOnly = true;
+					
+				} else if (str[1] == 'productGroup') {
+					var productCD = str[0];
+					var productGroup = str[1];
+					
+					
+					console.log("focusout");
+					console.log(this.value);
+					this.readOnly = true;
+					
+				}
+			}
+		});
+})
+</script>
+<script type="text/javascript">
+/* 바이어리스트 */
+$('.buyerList').SumoSelect({
+	search: true, searchText: '코드/거래처명'
+	,noMatch : '"{0}"가 없습니다',
+	});
+/* 담당자리스트 */
+$('.employeeList').SumoSelect({
+	search: true, searchText: '코드/담당자명'
+	,noMatch : '"{0}"가 없습니다',
+	});
+/* 거래처상태리스트 */
+$('.statusList').SumoSelect({
+});
 </script>
 </head>
 <body>
@@ -376,23 +543,32 @@
 			<div class="search-sub-div">
 				<div class="search-item-div">
 					<div class="search-item-text">• 거래처코드/거래처명</div>
-					<input type="text" list="buyerList" id="input" >
-					<!-- 검색용 거래처 데이터 리스트 -->
-					<datalist id="buyerList">
+					<select class="buyerList" name="buyerSelect">
+						<option value="">선택안함</option>
 						<c:forEach var="buyer" items="${buyer_list }">
-							<option value="${buyer.buyercd }" label="${buyer.buyernm }"></option>
+							<option value="${buyer.buyercd }">${buyer.buyercd } ${buyer.buyernm }</option>
 						</c:forEach>
-					</datalist>
+					</select>
+				</div>
+				<div class="search-item-div">
+					<div class="search-item-text">• 담당자</div>
+					<select class="employeeList" name="employeeSelect">
+						<option value="">선택안함</option>
+						<c:forEach var="emp" items="${employee_list }">
+							<option value="${emp.empCd }">${emp.empCd } ${emp.name }</option>
+						</c:forEach>
+					</select>
 				</div>
 				<div class="search-item-div">
 					<div class="search-item-text">• 거래처상태</div>
-					<select name="status">
+					<select class="statusList" name="statusSelect">
+						<option value="">선택안함</option>
 						<option value="활성">활성</option>
-						<option value="활성">비활성</option>
+						<option value="비활성">비활성</option>
 					</select>
 				</div>
 			</div>
-			<div class="search-item-div">
+			<%-- <div class="search-item-div">
 				<div class="search-item-text">• 담당자</div>
 				<input type="text" list="employeeList">
 				<!-- 검색용 거래처 데이터 리스트 -->
@@ -401,7 +577,7 @@
 						<option value="${emp.empCd }" label="${emp.name }"></option>
 					</c:forEach>
 				</datalist>
-			</div>	
+			</div>	 --%>
 			</div>
 			<div class="search-box">조회</div>
 		</div>
@@ -435,20 +611,20 @@
 				<c:if test="${not empty buyer_list}">
 					<c:forEach var="buyer_list" items="${buyer_list }"> 
 						<tr ondblclick="buyerUpdate('${buyer_list.buyercd}')" id="buyerListTr_${buyer_list.buyercd }" class="buyerListTr">
-							<td><input type="checkbox" name="selectChk" value="${buyer_list.buyercd}" ></td>
-							<td>${buyer_list.buyercd }</td>
-							<td>${buyer_list.buyernm }</td>
-							<td>${buyer_list.brno }</td>
-							<td>${buyer_list.rprsv_nm }</td>
-							<td>${buyer_list.business_status}</td>
-							<td>${buyer_list.event }</td>
-							<td>${buyer_list.receiveuserid }</td>
-							<td>${buyer_list.status }</td>
-							<td>${buyer_list.nationcd }</td>
+							<td><input type="checkbox" name="selectChk" value="${buyer_list.buyercd}" class="no-border" ></td>
+							<td><input type="text" readonly="readonly" value="${buyer_list.buyercd }"  class="list-input edit"></td>
+							<td><input type="text" value="${buyer_list.buyernm }" class="list-input4 edit"></td>
+							<td><input type="text" value="${buyer_list.brno }" class="list-input4 edit"></td>
+							<td><input type="text" value="${buyer_list.rprsv_nm }" class="list-input edit"></td>
+							<td><input type="text" value="${buyer_list.business_status}" class="list-input edit"></td>
+							<td><input type="text" value="${buyer_list.event }" class="list-input edit"></td>
+							<td><input type="text" value="${buyer_list.empcd }" class="list-input edit"></td>
+							<td><input type="text" value="${buyer_list.status }" class="list-input edit"></td>
+							<td><input type="text" value="${buyer_list.nationcd }" class="list-input edit"></td>
 							<td>〒${buyer_list.postcode }&nbsp;${buyer_list.address } ${buyer_list.address_detail }</td>
-							<td>${buyer_list.tel }</td>
-							<td>${buyer_list.email }</td>
-							<td>${buyer_list.remark }</td>
+							<td><input type="text" value="${buyer_list.tel }" class="list-input2 edit"></td>
+							<td><input type="text" value="${buyer_list.email }" class="list-input2 edit"></td>
+							<td><input type="text" value="${buyer_list.remark }" class="list-input3 edit"></td>
 						</tr>
 					</c:forEach>
 				</c:if>
@@ -469,14 +645,14 @@
 				</div> 
 				<div class="insert-sub-row-div">
 					<div class="insert-text">거래처상태<span class="red_warn">*</span></div>
-					<select name="status">
+					<select name="status" class="insert-select">
 						<option value="활성">활성</option>
 						<option value="비활성">비활성</option>
 					</select>
 				</div>
 				<div class="insert-sub-row-div">
 					<div class="insert-text">담당자<span class="red_warn">*</span></div>
-					<input type="text" name="receiveuserid" required="required"/>
+					<input type="text" name="empcd" required="required"/>
 				</div>
 			</div>
 			
@@ -490,7 +666,12 @@
 				</div>
 				<div class="insert-sub-row-div">
 					<div class="insert-text">국가코드<span class="red_warn">*</span></div>
-					<input type="text" name="nationcd" required="required"/>
+					<select name="nationcd" class="insert-select">
+						<option value="KR">KR</option>
+						<option value="US">US</option>
+						<option value="DE">DE</option>
+						<option value="JP">JP</option>
+					</select>
 				</div>
 				<div class="insert-sub-row-div">
 					<div class="insert-text">작성자<span class="red_warn">*</span></div>
@@ -539,11 +720,23 @@
 			<div class="insert-row-div">
 				<div class="insert-sub-row-div">
 					<div class="insert-text">업태<span class="red_warn">*</span></div>
-					<input type="text" name="business_status" required="required"/>
+					<select name="business_status" class="insert-select">
+						<option value="1">도소매업</option>
+						<option value="2">숙박업</option>
+						<option value="3">음식점업</option>
+						<option value="4">서비스업</option>
+						<option value="5">기타</option>
+					</select>
 				</div>
 				<div class="insert-sub-row-div">
 					<div class="insert-text">종목<span class="red_warn">*</span></div>
-					<input type="text" name="event" required="required"/>
+					<select name="event" class="insert-select">
+						<option value="1">식료품</option>
+						<option value="2">한식</option>
+						<option value="3">잡화</option>
+						<option value="4">사무</option>
+						<option value="5">기타</option>
+					</select>					
 				</div>
 			</div>
 			
@@ -643,7 +836,7 @@
 				</div>
 				<div class="insert-sub-row-div">
 					<div class="insert-text">담당자<span class="red_warn">*</span></div>
-					<input type="text" name="receiveuserid" required="required"/>
+					<input type="text" name="empcd" required="required"/>
 				</div>
 			</div>
 			
@@ -761,6 +954,8 @@
 			<div class="bottom-btn-div">
 				<button class="new-input-btn" onclick="newInputView()">신규등록</button>
 				<button class="del-btn" onclick="check()">삭제</button>
+				<button class="edit-start-btn" onclick="editStart()" style="display: block;">수정하기</button>
+				<button class="edit-finish-btn" onclick="editFinish()" style="display: none;">수정완료</button>
 			</div>
 		</div>
 		

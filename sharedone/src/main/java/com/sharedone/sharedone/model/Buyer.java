@@ -13,7 +13,7 @@ public class Buyer {
 	private String rprsv_nm;		//대표자
 	private String business_status;	//업태
 	private String event;			//종목
-	private String receiveuserid;	//담당자
+	private String empcd;			//담당자
 	private String status;			//거래처상태
 	private String nationcd;		//국가코드
 	private String postcode;		//우편번호
