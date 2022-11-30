@@ -82,6 +82,7 @@ public class ApprovalController {
 //		if(result>0) {result=cs.insert(empCd,content);}
 //		model.addAttribute("result",result);
 //		model.addAttribute("pageNum",pageNum);
-		return "/approve";
+//		model.addAttribute("check",check);
+		return "/approveOrRefer";
 	}
 }
