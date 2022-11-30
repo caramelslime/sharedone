@@ -49,7 +49,9 @@ public class PriceDaoImpl implements PriceDao {
 	public int deleteProduct(String delList, String periodStart) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("delList", delList);
-		map.put("priceCD", periodStart);
+		map.put("buyerCD", buyerCD);
+		map.put("delList", delList);
+		map.put("periodStart", periodStart);
 		return sst.update("pricens.deletePrice", map);
 	}
 }

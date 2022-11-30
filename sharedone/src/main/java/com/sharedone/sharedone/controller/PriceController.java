@@ -12,10 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.sharedone.sharedone.dao.ProductDao;
 import com.sharedone.sharedone.model.Buyer;
 import com.sharedone.sharedone.model.Price;
 import com.sharedone.sharedone.model.Product;
+import com.sharedone.sharedone.service.BuyerService;
 import com.sharedone.sharedone.service.PriceService;
+import com.sharedone.sharedone.service.ProductService;
 
 import net.sf.json.JSONArray;
 
@@ -24,13 +27,21 @@ public class PriceController {
 	
 	@Autowired
 	private PriceService ps;
+	@Autowired
+	private BuyerService bs;
+	@Autowired
+	private ProductService pd;
 	
 	@RequestMapping("priceList")
 	public String priceList(Model model) {
 		
 		List<Price> priceList = ps.priceList();
+		List<Buyer> buyerList = bs.selectBuyerList();
+		List<Product> productList = pd.productList();
 		
 		model.addAttribute("priceList", priceList);
+		model.addAttribute("buyerList", buyerList);
+		model.addAttribute("productList", productList);
 		
 		return "/nolay/priceList";
 	}
@@ -74,13 +85,13 @@ public class PriceController {
 			
 			for (Map<String, Object> priceInfo : info) {
 				System.out.println(priceInfo.get("periodStart"));
-				String buyernm = (String) priceInfo.get("buyerNM");
+				String buyerNM = (String) priceInfo.get("buyerNM");
 				String productNM = (String) priceInfo.get("productNM");
 				String periodStart = (String) priceInfo.get("periodStart");
 				String listPrice = (String) priceInfo.get("listPrice");
 				String currency = (String) priceInfo.get("currency");
 				
-				buyer.setBuyernm(buyernm);
+				buyer.setBuyernm(buyerNM);
 				product.setProductNM(productNM);
 				price.setPeriodStart(periodStart);
 				price.setListPrice(listPrice);

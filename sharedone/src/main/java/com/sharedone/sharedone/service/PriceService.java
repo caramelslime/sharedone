@@ -2,6 +2,7 @@ package com.sharedone.sharedone.service;
 
 import java.util.List;
 
+import com.sharedone.sharedone.model.Buyer;
 import com.sharedone.sharedone.model.Price;
 
 public interface PriceService {
@@ -19,6 +20,7 @@ public interface PriceService {
 	String delList(String periodStart);
 
 	int deletePrice(String delList, String periodStart);
+
 
 
 

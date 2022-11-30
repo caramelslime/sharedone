@@ -38,6 +38,8 @@
 		document.querySelector('#buyerNM').value="";
 		document.querySelector('#productNM').value="";
 		document.querySelector('#periodStart').value="";
+		document.querySelector('#listPrice').value="";
+		document.querySelector('#currency').value="";
 	}
 	
 	function newInputView() {
@@ -51,7 +53,7 @@
 		var buyerNM = document.querySelector('#buyerNM').value;
 		var productNM = document.querySelector('#productNM').value;
 		var periodStart = document.querySelector('#periodStart').value;
-		var price = document.querySelector('#listPrice').value;
+		var listPrice = document.querySelector('#listPrice').value;
 		var currency = document.querySelector('#currency').value;
 		
 		var rowNumber=document.querySelector('#insertList-table').rows.length;
@@ -216,6 +218,90 @@
 	    }, 200);
 	}
 	
+// 	function priceNMUpdate(e) {
+// 		console.log(e);
+// 		var str = e.split('_');
+		
+// 		console.log(str[0]);
+// 		console.log(str[1]);
+// 		console.log(str[2]);
+		
+// 		var buyerCD = str[0];
+// 		var productCD = str[1];
+// 		var periodStart = str[2];
+		
+		
+		
+// 		console.log(document.querySelector('#'+e).value);
+		
+		
+// 	}
+	
+// 	var editable = 0;
+	
+// 	function editStart() {
+// 		document.querySelector('.edit-start-btn').style.display = 'none';
+// 		document.querySelector('.edit-finish-btn').style.display = 'block';
+// 		editable = 1;
+// 		console.log(editable);
+// 	}
+	
+// 	function editFinish() {
+// 		document.querySelector('.edit-start-btn').style.display = 'block';
+// 		document.querySelector('.edit-finish-btn').style.display = 'none';
+// 		editable = 0;
+// 		console.log(editable);
+// 	}
+	
+// 	$(function() {
+		
+// 			$('.edit').on("focusin", function(event) {
+// 				if (editable == 1) {
+// 					this.readOnly = false;
+// 					console.log("focusin");
+// //					console.log(this.value);
+// //					console.log(this.getAttribute('id'));
+// 				};
+// 			});
+			
+// 			$('.edit').on("focusout", function(event) {
+// 				if (editable == 1) {
+					
+// 					var str = this.getAttribute('id').split('_');
+					
+// 					if (str[1] == 'productCD') {
+// 						var buyerCD = str[0];
+// 						var productCD = str[1];
+// 						console.log("priceNM = "+priceNM);
+						
+						
+// 						console.log("focusout");
+// 						console.log(this.value);
+// 						this.readOnly = true;
+						
+// 					} else if (str[1] == 'unit') {
+// 						var productCD = str[0];
+// 						var unit = str[1];
+						
+						
+// 						console.log("focusout");
+// 						console.log(this.value);
+// 						this.readOnly = true;
+						
+// 					} else if (str[1] == 'productGroup') {
+// 						var productCD = str[0];
+// 						var productGroup = str[1];
+						
+						
+// 						console.log("focusout");
+// 						console.log(this.value);
+// 						this.readOnly = true;
+						
+// 					}
+// 				}
+// 			});
+// 	})
+	
 </script>
 
 </head>
@@ -234,19 +320,15 @@
 			<div class="search-div">
 				<div class="search-sub-wrap">
 				<div class="search-sub-div">
-					<div class="search-item-div"><div class="search-item-text">• 거래처 코드</div><input type=text list="buyerCDList"><img class="dodbogi-img" alt="" src="/sharedone/resources/images/dodbogi.png"><img class="list-img" alt="" src="/sharedone/resources/images/list.png"> </div>
-					<div class="search-item-div each-item-div"><div class="search-item-text">• 거래처명</div><input type="text" list="buyerNMList"><img class="dodbogi-img" alt="" src="/sharedone/resources/images/dodbogi.png"><img class="list-img" alt="" src="/sharedone/resources/images/list.png"></div>
+					<div class="search-item-div"><div class="search-item-text">• 거래처명/코드</div><input type=text list="buyerList"></div>
+					<div class="search-item-div each-item-div"><div class="search-item-text">• 제품명/코드</div><input type="text" list="productList"></div>
 				</div>
-				<div class="search-sub-div">
-					<div class="search-item-div"><div class="search-item-text">• 제품 코드</div><input type=text list="productCDList"><img class="dodbogi-img" alt="" src="/sharedone/resources/images/dodbogi.png"><img class="list-img" alt="" src="/sharedone/resources/images/list.png"> </div>
-					<div class="search-item-div each-item-div"><div class="search-item-text">• 제품명</div><input type="text" list="productNMList"><img class="dodbogi-img" alt="" src="/sharedone/resources/images/dodbogi.png"><img class="list-img" alt="" src="/sharedone/resources/images/list.png"></div>
-				</div>
-				<div class="search-item-div"><div class="search-item-text">• 유효기간 시작일</div><input type="text" list="periodStartList"><img class="dodbogi-img" alt="" src="/sharedone/resources/images/dodbogi.png"><img class="list-img" alt="" src="/sharedone/resources/images/list.png"></div>	
+				<div class="search-item-div"><div class="search-item-text">• 유효기간 시작일 </div><input type="date"></div>	
 				</div>
 				<div class="search-box">조회</div>
 			</div>
 			
-			<div class="priceList-div">
+			<div class="productList-div">
 				<table class="list-table">
 					<tr>
 						<th class="col1">
@@ -261,7 +343,7 @@
 					</tr>
 					<c:if test="${not empty priceList}">
 						<c:forEach var="price" items="${priceList}">
-							<tr class="priceListTr">
+							<tr class="productListTr">
 								<td class="col1">
 									<input type="checkbox" name="selectChk" value="${price.periodStart}" >
 								</td>
@@ -269,7 +351,7 @@
 								<td class="col3">${price.productCD}</td>
 								<td class="col4">${price.periodStart}</td>
 								<td class="col5">${price.periodEnd}</td>
-								<td class="col6">${price.price}</td>
+								<td class="col6">${price.listPrice}</td>
 								<td class="col7">${price.currency}</td>
 							</tr>
 						</c:forEach>
@@ -295,7 +377,7 @@
 					</div>
 					<div class="insert-sub-row-div">
 						<div class="insert-text">판매가<span class="red_warn">*</span></div>
-						<input type="text" id="price" required="required"/>
+						<input type="text" id="listPrice" required="required"/>
 					</div>
 					<div class="insert-sub-row-div">
 						<div class="insert-text">통화<span class="red_warn">*</span></div>
@@ -335,14 +417,14 @@
 			</div>
 		</div>
 		<div style="display: none;">
-			<datalist id="buyerCDList">
-				<c:forEach var="price" items="${priceList }">
-					<option value="${price.buyerCD}"></option>
+			<datalist id="buyerList">
+				<c:forEach var="buyer" items="${buyerList }">
+					<option value="${buyer.buyernm}">${buyer.buyercd }</option>
 				</c:forEach>
 			</datalist>
-			<datalist id="buyerNMList">
-				<c:forEach var="price" items="${priceList }">
-					<option value="${buyer.buyerNM}"></option>
+			<datalist id="productList">
+				<c:forEach var="product" items="${productList }">
+					<option value="${product.productNM}">${product.productCD }</option>
 				</c:forEach>
 			</datalist>
 		</div>

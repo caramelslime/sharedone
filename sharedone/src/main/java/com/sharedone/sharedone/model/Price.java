@@ -15,6 +15,6 @@ public class Price {
 	private String delList;
 	private String selectDelete;
 	// 조인한 데이터
-	private String buyerNm;
-	private String productNm;
+	private String buyerNM;
+	private String productNM;
 }
