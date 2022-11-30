@@ -28,44 +28,18 @@ public class ProductController {
 		return "/main";
 	}
 	
-	
-	@RequestMapping("productList")
-	public String productList(Model model) {
+	@RequestMapping("product")
+	public String product(Product product, Model model, String cdnm, String productGroup) {
 		
-		List<Product> productList = ps.productList();
+		product.setCdnm(cdnm);
+		product.setProductGroup(productGroup);
+		
+		List<Product> productList = ps.productList(product);
 		
 		model.addAttribute("productList", productList);
 		
-		return "/nolay/productList";
+		return "/nolay/product";
 	}
-	
-	@RequestMapping("productDetail")
-	public String productDetail(Model model, Product product, String productCD) {
-
-		product = ps.productDetail(productCD);
-		
-		model.addAttribute("product", product);
-		
-		return "/nolay/productDetail";
-	}
-	
-	@RequestMapping("productUpdate")
-	public String productUpdate(Model model, Product product) {
-		int result = 0;
-
-		result = ps.productUpdate(product);
-		
-		model.addAttribute("product", product);
-		model.addAttribute("result", result);
-		
-		return "/nolay/productUpdate";
-	}
-	
-	@RequestMapping("productInsertForm")
-	public String productInsertForm () {
-		return "/nolay/productInsertForm";
-	}
-	
 	
 	@SuppressWarnings("unchecked")
 	@RequestMapping(path = "productInsert")
@@ -114,6 +88,7 @@ public class ProductController {
 		     result.put("result", true);
 		    
 		} catch (Exception e) {
+			System.out.println(e.getMessage());
 			result.put("result", false);
 		}
 		
@@ -163,7 +138,7 @@ public class ProductController {
 		System.out.println(result);
 		model.addAttribute("result", result);
 		
-		return "/nolay/productList";
+		return "/nolay/product";
 	}
 	
 	
