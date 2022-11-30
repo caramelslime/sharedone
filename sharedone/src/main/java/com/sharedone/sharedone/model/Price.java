@@ -4,12 +4,17 @@ import lombok.Data;
 
 @Data
 public class Price {
-	private String pricingCD;
 	private String buyerCD;
 	private String productCD;
-	private String price;
-	private String currency;
 	private String periodStart;
 	private String periodEnd;
-	private String rate;
+	private String listPrice;
+	private String currency;
+	private String del;
+	
+	private String delList;
+	private String selectDelete;
+	// 조인한 데이터
+	private String buyerNm;
+	private String productNm;
 }

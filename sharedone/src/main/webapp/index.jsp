@@ -11,9 +11,9 @@
 // 	location.href="empLoginForm.do"
 // 	location.href="productList.do"
 // 	location.href="priceList.do"
-// 	location.href="main.do" 
+	location.href="main.do" 
 // 	location.href="buyerManagement.do";
-	location.href="pendingApprovalDetail.do"
+// 	location.href="pendingApprovalDetail.do"
 </script>
 </body>
 </html> 
