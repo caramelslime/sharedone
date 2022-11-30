@@ -9,10 +9,11 @@
 <title>Insert title here</title>
 
 <style type="text/css">@import url("/sharedone/resources/css/share.css");</style>
-<style type="text/css">@import url("/sharedone/resources/css/order.css");</style>
+<style type="text/css">@import url("/sharedone/resources/css/product.css");</style>
 
 <script type="text/javascript">
-
+	
+	document.querySelector('#searchCdnm').focus();
 	
 	function pageView(data) {
 		var addr = data;
@@ -24,7 +25,9 @@
 			dataType : "html",
 			cache : false
 		};
-	
+		
+		console.log(addr);
+		
 		$.ajax(ajaxOption).done(function(data) {
 			$('#layout-body').children().remove();
 			$('#layout-body').html(data);
@@ -37,23 +40,24 @@
 		$('.search-div').css('opacity', '1');
 		$("#insertList-table tr:not(:first)").remove();	// 입력창 닫을 때 입력한 값 제거
 		document.querySelector('#unit').value="";
-		document.querySelector('#productNM').value="";
+		document.querySelector('#insertProductNM').value="";
 	}
 	
 	function newInputView() {
 		 $('.insert-div').show();
 		 $('.productList-div').css('opacity', '0.3');
 		 $('.search-div').css('opacity', '0.3');
-		 document.querySelector('#productNM').focus()	// 입력창 열었을 때 첫번째 input에 focus
+		 document.querySelector('#insertProductNM').focus()	// 입력창 열었을 때 첫번째 input에 focus
 	}
 	
 	function addInsert() {
-		var productNM = document.querySelector('#productNM').value;
-		var unit = document.querySelector('#unit').value;
-		var productGroup = document.querySelector('#productGroup').value;
+		var productNM = document.querySelector('#insertProductNM').value;
+		var unit = document.querySelector('#insertUnit').value;
+		var productGroup = document.querySelector('#insertProductGroup').value;
 		
 		var rowNumber=document.querySelector('#insertList-table').rows.length;
 		
+		console.log(productNM, unit, productGroup);
 		
 		
 		if (productNM == "" || unit == "" || productGroup == "") {
@@ -67,11 +71,11 @@
 						+ "<td>"
 						+ "<img  class='minus-img' alt='이미지 없음' src='/sharedone/resources/images/minus.png' onclick='removeInsert(this)' />"
 						+ "</td>"	
-					+ "</tr>"		
+					+ "</tr>"
 			);
-			document.querySelector('#unit').value="";
-			document.querySelector('#productNM').value="";
-			document.querySelector('#productNM').focus();
+			document.querySelector('#insertUnit').value="";
+			document.querySelector('#insertProductNM').value="";
+			document.querySelector('#insertProductNM').focus();
 		}
 		
 		
@@ -83,27 +87,22 @@
 	}
 	
 	$(function() {
-		$('#productGroup').keypress(function() { // enter키를 누르면 메세지 전송
+		$('.insert').keypress(function() { // enter키를 누르면 메세지 전송
 			//  누른 key값(asscii)  IE ?      IE의 값         IE아닌 모든 web값
 			var keycode = event.keyCode ? event.keyCode : event.which;
 			if (keycode == 13) { // 13이 enter(assii값)
 				addInsert();
 			}
 		});
-		$('#productNM').keypress(function() { // enter키를 누르면 메세지 전송
+		
+		$('.search').keypress(function() { // enter키를 누르면 메세지 전송
 			//  누른 key값(asscii)  IE ?      IE의 값         IE아닌 모든 web값
 			var keycode = event.keyCode ? event.keyCode : event.which;
 			if (keycode == 13) { // 13이 enter(assii값)
-				addInsert();
+				search();
 			}
 		});
-		$('#unit').keypress(function() { // enter키를 누르면 메세지 전송
-			//  누른 key값(asscii)  IE ?      IE의 값         IE아닌 모든 web값
-			var keycode = event.keyCode ? event.keyCode : event.which;
-			if (keycode == 13) { // 13이 enter(assii값)
-				addInsert();
-			}
-		});
+		
 		$(document).keydown(function() { // enter키를 누르면 메세지 전송
 			//  누른 key값(asscii)  IE ?      IE의 값         IE아닌 모든 web값
 			var keycode = event.keyCode ? event.keyCode : event.which;
@@ -111,6 +110,8 @@
 				xBack();
 			}
 		});
+		
+		
 	})
 	
 	function insertAction() {
@@ -139,7 +140,7 @@
 		     dataType: 'json',
 		     success: function (res) {
 		        if (res.result) {
-					pageView('productList.do');
+					pageView('product.do');
 		        }
 			}
 	   });
@@ -191,7 +192,7 @@
 			
 		}
 		setTimeout(function() {
-			pageView('productList.do');
+			pageView('product.do');
 	    }, 200);
 	}
 	
@@ -277,6 +278,15 @@
 			});
 	})
 	
+	function search() {
+		
+		var cdnm = document.querySelector('#searchCdnm').value;
+		var productGroup = document.querySelector('#searchProductGroup').value;
+		
+		pageView('product.do?cdnm='+cdnm+'&productGroup='+productGroup);
+	}
+	
+	
 	
 </script>
 
@@ -286,7 +296,7 @@
 	<div class="main-container">
 		<div class="content">
 			<div class="top-div">
-				<div class="top-title">제품목록</div>
+				<div class="top-title">제품관리</div>
 				<ul class="top-ul">
 					<li><img class="home-img" src="/sharedone/resources/images/home.png"/><span class="home-text">HOME</span></li>
 					<li class="s-li">/</li>
@@ -295,13 +305,22 @@
 			</div>
 			<div class="search-div">
 				<div class="search-sub-wrap">
-				<div class="search-sub-div">
-					<div class="search-item-div"><div class="search-item-text">• 제품 코드</div><input type=text list="CDList"><img class="dodbogi-img" alt="" src="/sharedone/resources/images/dodbogi.png"><img class="list-img" alt="" src="/sharedone/resources/images/list.png"> </div>
-					<div class="search-item-div each-item-div"><div class="search-item-text">• 제품명</div><input type="text" list="NMList"><img class="dodbogi-img" alt="" src="/sharedone/resources/images/dodbogi.png"><img class="list-img" alt="" src="/sharedone/resources/images/list.png"></div>
+					<div class="search-sub-div">
+						<div class="search-item-div">
+							<div class="search-item-text">• 제품 코드 / 제품명</div>
+							<input type=text id="searchCdnm" class="search" list="CDList">
+						</div>
+					</div>
+					<div class="search-item-div">
+						<div class="search-item-text">• 제품 그룹</div>
+						<select id="searchProductGroup" class="search" required="required">
+							<option value=""></option>
+							<option value="스낵류">스낵류</option>
+							<option value="초콜릿류">초콜릿류</option>
+						</select>
+					</div>	
 				</div>
-				<div class="search-item-div"><div class="search-item-text">• 제품 그룹</div><input type="text" list="pList"><img class="dodbogi-img" alt="" src="/sharedone/resources/images/dodbogi.png"><img class="list-img" alt="" src="/sharedone/resources/images/list.png"></div>	
-				</div>
-				<div class="search-box">조회</div>
+				<div class="search-box search" onclick="search()" tabIndex="0">조회</div>
 			</div>
 			
 			<div class="productList-div">
@@ -338,16 +357,16 @@
 				<div class="insert-row-div">
 					<div class="insert-sub-row-div">
 						<div class="insert-text">제품명<span class="red_warn">*</span></div>
-						<input type="text" id="productNM" required="required"/>
+						<input type="text" id="insertProductNM" class="insert" required="required"/>
 					</div>
 					<div class="insert-sub-row-div">
 						<div class="insert-text">단위<span class="red_warn">*</span></div>
-						<input type="text" id="unit" required="required"/>
+						<input type="text" id="insertUnit" class="insert" required="required"/>
 					</div>
 					<div class="insert-sub-row-div">
 						<div class="insert-text">제품 그룹<span class="red_warn">*</span></div>
-						<select id="productGroup" required="required">
-							<option value="스넥류">스넥류</option>
+						<select id="insertProductGroup" class="insert" required="required">
+							<option value="스낵류">스낵류</option>
 							<option value="초콜릿류">초콜릿류</option>
 						</select>
 					</div>
@@ -389,12 +408,7 @@
 			
 			<datalist id="CDList">
 				<c:forEach var="product" items="${productList }">
-					<option value="${product.productCD}"></option>
-				</c:forEach>
-			</datalist>
-			<datalist id="NMList">
-				<c:forEach var="product" items="${productList }">
-					<option value="${product.productNM}"></option>
+					<option value="${product.productCD}">${product.productNM}</option>
 				</c:forEach>
 			</datalist>
 		</div>

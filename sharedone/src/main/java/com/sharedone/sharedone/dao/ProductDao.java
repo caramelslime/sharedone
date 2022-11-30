@@ -6,13 +6,11 @@ import com.sharedone.sharedone.model.Product;
 
 public interface ProductDao {
 
-	List<Product> productList();
+	List<Product> productList(Product product);
 
 	Product productDetail(String productCD);
 
 	int productUpdate(Product product);
-
-	int productDelete(String productCD);
 
 	int productInsert(Product product);
 

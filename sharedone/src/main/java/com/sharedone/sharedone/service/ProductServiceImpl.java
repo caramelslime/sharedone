@@ -14,8 +14,8 @@ public class ProductServiceImpl implements ProductService {
 	private ProductDao pd;
 
 	@Override
-	public List<Product> productList() {
-		return pd.productList();
+	public List<Product> productList(Product product) {
+		return pd.productList(product);
 	}
 
 	@Override
@@ -26,11 +26,6 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public int productUpdate(Product product) {
 		return pd.productUpdate(product);
-	}
-
-	@Override
-	public int productDelete(String productCD) {
-		return pd.productDelete(productCD);
 	}
 
 	@Override

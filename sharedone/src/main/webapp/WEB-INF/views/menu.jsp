@@ -112,8 +112,8 @@
 		<div class="menu-div" id="icon-div">
 			1조
 		</div>
-		<div class="menu-div"  onclick="pageView('productList.do')">
-			<img class="menu-img" alt="이미지 없음" src="/sharedone/resources/images/product.png"/>&nbsp;제품목록
+		<div class="menu-div"  onclick="pageView('product.do')">
+			<img class="menu-img" alt="이미지 없음" src="/sharedone/resources/images/product.png"/>&nbsp;제품관리
 		</div>
 		<div class="menu-div"  onclick="pageView2('buyerManagement.do')">
 			<img class="menu-img2" alt="이미지 없음" src="/sharedone/resources/images/buyer.png"/>&nbsp;바이어관리
@@ -121,8 +121,8 @@
 		<div class="menu-div"  onclick="pageView3('priceList.do')">
 			<img class="menu-img" alt="이미지 없음" src="/sharedone/resources/images/price.png"/>&nbsp;판매가격관리
 		</div>
-		<div class="menu-div"  onclick="">
-			<img class="menu-img" alt="이미지 없음" src="/sharedone/resources/images/order.png"/>&nbsp;오더등록
+		<div class="menu-div"  onclick="pageView('order.do')">
+			<img class="menu-img" alt="이미지 없음" src="/sharedone/resources/images/order.png"/>&nbsp;오더관리
 		</div>
 		<div class="menu-div"  onclick="pageView4('orderReport.do')">
 			<img class="menu-img2" alt="이미지 없음" src="/sharedone/resources/images/dashboard.png"/>&nbsp;오더현황분석
