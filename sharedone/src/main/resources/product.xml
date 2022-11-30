@@ -3,36 +3,43 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="productns">
 
-	<select id="productList" resultType="product">
-		SELECT * FROM product WHERE del='n' ORDER BY productCD
+	<select id="productList" parameterType="product" resultType="product">
+		SELECT * FROM m_product
+		<where>
+			<if test="cdnm != null and cdnm !=''">
+				UPPER(productCD) like UPPER('%'||#{cdnm}||'%') OR
+				UPPER(productNM) like UPPER('%'||#{cdnm}||'%') AND
+			</if>
+			<if test="productGroup != null and productGroup !=''">
+				productGroup like '%'||#{productGroup}||'%' AND
+			</if>
+			del='n'
+		</where>
+		 ORDER BY productCD
 	</select>
 	
 	<select id="productDetail" parameterType="String" resultType="product">
-		SELECT * FROM product WHERE productCD = #{productCD}
+		SELECT * FROM m_product WHERE productCD = #{productCD}
 	</select>
 	
 	<update id="productUpdate" parameterType="product">
-		UPDATE product SET productNM=#{productNM}, unit=#{unit}, productGroup=#{productGroup} WHERE productCD=#{productCD}
+		UPDATE m_product SET productNM=#{productNM}, unit=#{unit}, productGroup=#{productGroup} WHERE productCD=#{productCD}
 	</update>
 	
-	<delete id="productDelete" parameterType="String">
-		DELETE product WHERE productCD = #{productCD}
-	</delete>
-	
 	<insert id="productInsert" parameterType="product">
-		INSERT INTO product VALUES (#{productCD}, #{productNM}, #{unit}, #{productGroup}, 'n')
+		INSERT INTO m_product VALUES (#{productCD}, #{productNM}, #{unit}, #{productGroup}, 'n')
 	</insert>
 	
 	<select id="totalByProductGroup" parameterType="String" resultType="int">
-		SELECT COUNT(*) FROM product WHERE productgroup=#{productGroup}
+		SELECT COUNT(*) FROM m_product WHERE productgroup=#{productGroup}
 	</select>
 	
 	<select id="delList" parameterType="string" resultType="string">
-		select del from product where productCD=#{productCD}
+		select del from m_product where productCD=#{productCD}
 	</select>
 	
 	<update id="deleteProduct" parameterType="map">
-		update product set del=#{delList} where productCD=#{productCD}
+		update m_product set del=#{delList} where productCD=#{productCD}
 	</update>
 	
 </mapper>

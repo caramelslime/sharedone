@@ -16,8 +16,8 @@ public class ProductDaoImpl implements ProductDao {
 	private SqlSessionTemplate sst;
 
 	@Override
-	public List<Product> productList() {
-		return sst.selectList("productns.productList");
+	public List<Product> productList(Product product) {
+		return sst.selectList("productns.productList", product);
 	}
 
 	@Override
@@ -28,11 +28,6 @@ public class ProductDaoImpl implements ProductDao {
 	@Override
 	public int productUpdate(Product product) {
 		return sst.update("productns.productUpdate", product);
-	}
-
-	@Override
-	public int productDelete(String productCD) {
-		return sst.delete("productns.productDelete", productCD);
 	}
 
 	@Override

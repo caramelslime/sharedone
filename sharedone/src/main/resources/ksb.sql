@@ -1,9 +1,9 @@
 
 -- 제품 테이블
 
-DROP TABLE product;
+DROP TABLE m_product;
 
-CREATE TABLE product (
+CREATE TABLE m_product (
 	productcd VARCHAR2(20) PRIMARY KEY,
 	productnm VARCHAR2(50),
 	unit VARCHAR2(10),
@@ -11,22 +11,22 @@ CREATE TABLE product (
 	del CHAR(1)
 );
 
-SELECT * FROM product;
+SELECT * FROM m_product;
 
-INSERT INTO product VALUES ( 'A00001', '새우깡', 'box', '스넥류', 'n' );
-INSERT INTO product VALUES ( 'A00002', '포카칩', 'box', '스넥류', 'n'  );
-INSERT INTO product VALUES ( 'A00003', '바나나킥', 'box', '스넥류', 'n'  );
-INSERT INTO product VALUES ( 'A00004', '꼬북칩', 'box', '스넥류', 'n'  );
-INSERT INTO product VALUES ( 'A00005', '빈츠', 'box', '스넥류', 'n'  );
-INSERT INTO product VALUES ( 'B00001', 'ABC 초콜릿', 'box', '초콜릿류', 'n'  );
-INSERT INTO product VALUES ( 'B00002', '트윅스', 'box', '초콜릿류', 'n'  );
-INSERT INTO product VALUES ( 'B00003', '스니커즈', 'box', '초콜릿류', 'n'  );
-INSERT INTO product VALUES ( 'B00004', '카카오 72', 'box', '초콜릿류', 'n'  );
-INSERT INTO product VALUES ( 'B00005', '허쉬', 'box', '초콜릿류', 'n'  );
+INSERT INTO m_product VALUES ( 'A00001', '새우깡', 'box', '스낵류', 'n' );
+INSERT INTO m_product VALUES ( 'A00002', '포카칩', 'box', '스낵류', 'n'  );
+INSERT INTO m_product VALUES ( 'A00003', '바나나킥', 'box', '스낵류', 'n'  );
+INSERT INTO m_product VALUES ( 'A00004', '꼬북칩', 'box', '스낵류', 'n'  );
+INSERT INTO m_product VALUES ( 'A00005', '빈츠', 'box', '스낵류', 'n'  );
+INSERT INTO m_product VALUES ( 'B00001', 'ABC 초콜릿', 'box', '초콜릿류', 'n'  );
+INSERT INTO m_product VALUES ( 'B00002', '트윅스', 'box', '초콜릿류', 'n'  );
+INSERT INTO m_product VALUES ( 'B00003', '스니커즈', 'box', '초콜릿류', 'n'  );
+INSERT INTO m_product VALUES ( 'B00004', '카카오 72', 'box', '초콜릿류', 'n'  );
+INSERT INTO m_product VALUES ( 'B00005', '허쉬', 'box', '초콜릿류', 'n'  );
 
-UPDATE product set del='n';
+UPDATE m_product set del='n';
 
-DELETE product;
+DELETE m_product;
 
 
 
@@ -94,7 +94,63 @@ SELECT * FROM product WHERE productCD LIKE '%A0%' AND productNM LIKE '%새우%';
 
 
 
+SELECT * FROM TABS;
+
+CREATE TABLE t_order (
+	sono VARCHAR2(20) PRIMARY KEY,
+	buyercd VARCHAR2(20),
+	souser VARCHAR2(20),
+	adddate DATE,
+	pricingdate DATE,
+	requestdate DATE,
+	status VARCHAR(20),
+	currency CHAR(3)
+);
+
+INSERT INTO t_order VALUES ('S00001', 'B00001', '아무개', TO_DATE('2022-11-01', 'YYYY--MM-DD'), TO_DATE('2022-11-01', 'YYYY--MM-DD'), TO_DATE('2022-12-04', 'YYYY--MM-DD'), '승인완료', 'KRW');
+INSERT INTO t_order VALUES ('S00002', 'B00003', '아무개', TO_DATE('2022-11-01', 'YYYY--MM-DD'), TO_DATE('2022-11-01', 'YYYY--MM-DD'), TO_DATE('2022-12-04', 'YYYY--MM-DD'), '승인완료', 'KRW');
+INSERT INTO t_order VALUES ('S00003', 'B00005', '아무개', TO_DATE('2022-11-01', 'YYYY--MM-DD'), TO_DATE('2022-11-01', 'YYYY--MM-DD'), TO_DATE('2022-11-25', 'YYYY--MM-DD'), '승인완료', 'KRW');
+INSERT INTO t_order VALUES ('S00004', 'B00007', '아무개', TO_DATE('2022-11-07', 'YYYY--MM-DD'), TO_DATE('2022-11-07', 'YYYY--MM-DD'), TO_DATE('2022-12-05', 'YYYY--MM-DD'), '승인완료', 'KRW');
+INSERT INTO t_order VALUES ('S00005', 'B00009', '아무개', TO_DATE('2022-11-09', 'YYYY--MM-DD'), TO_DATE('2022-11-09', 'YYYY--MM-DD'), TO_DATE('2022-12-10', 'YYYY--MM-DD'), '승인완료', 'KRW');
+INSERT INTO t_order VALUES ('S00006', 'B00011', '아무개', TO_DATE('2022-11-09', 'YYYY--MM-DD'), TO_DATE('2022-11-09', 'YYYY--MM-DD'), TO_DATE('2022-12-30', 'YYYY--MM-DD'), '반려', 'KRW');
+INSERT INTO t_order VALUES ('S00007', 'B00002', '아무개', TO_DATE('2022-11-16', 'YYYY--MM-DD'), TO_DATE('2022-11-16', 'YYYY--MM-DD'), TO_DATE('2022-12-15', 'YYYY--MM-DD'), '승인대기', 'KRW');
+INSERT INTO t_order VALUES ('S00008', 'B00004', '아무개', TO_DATE('2022-11-19', 'YYYY--MM-DD'), TO_DATE('2022-11-19', 'YYYY--MM-DD'), TO_DATE('2022-12-10', 'YYYY--MM-DD'), '승인대기', 'KRW');
+INSERT INTO t_order VALUES ('S00009', 'B00006', '아무개', TO_DATE('2022-11-25', 'YYYY--MM-DD'), TO_DATE('2022-11-25', 'YYYY--MM-DD'), TO_DATE('2022-12-23', 'YYYY--MM-DD'), '승인완료', 'KRW');
+INSERT INTO t_order VALUES ('S00010', 'B00008', '아무개', TO_DATE('2022-11-26', 'YYYY--MM-DD'), TO_DATE('2022-11-26', 'YYYY--MM-DD'), TO_DATE('2022-12-18', 'YYYY--MM-DD'), '입력완료', 'KRW');
+
+DROP TABLE t_order;
 
 
+CREATE TABLE t_order_detail (
+	sono VARCHAR2(20),
+	productcd VARCHAR2(20),
+	qty number(11),
+	unit VARCHAR2(10),
+	unitprice number(11),
+	CONSTRAINT t_order_detail_pk PRIMARY KEY (sono, productcd)
+);
 
+
+DROP TABLE t_order_detail;
+
+SELECT * FROM t_order;
+SELECT * FROM t_order_detail;
+
+
+INSERT INTO t_order VALUES ('SO00001', 'A00001', );
+
+
+SELECT * FROM product;
+
+SELECT * FROM product WHERE productcd = 'A00001';
+
+SELECT * FROM product WHERE productnm = '새우깡';
+
+SELECT * FROM product WHERE productgroup = '스낵류'
+
+
+SELECT * FROM product WHERE productcd = 'A00001' AND productgroup = '스낵류';
+
+SELECT * FROM product
+WHERE upper(productCD) like upper('%a00%') ORDER BY productCD;
 
