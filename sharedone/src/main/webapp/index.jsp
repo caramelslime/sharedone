@@ -8,15 +8,11 @@
 </head>
 <body>
 <script type="text/javascript">
-<<<<<<< HEAD
 	/* location.href="pendingApprovalDetail.do" */
-	location.href="empLoginForm.do";
+	 location.href="empLoginForm.do"; 
 	/* location.href="productList.do" */
-	/* location.href="main.do" */
+	/*  location.href="main.do" */
 	/* location.href="buyerManagement.do"; */
-=======
-	location.href="main.do"
->>>>>>> refs/remotes/origin/SungBeen
 </script>
 </body>
 </html>
