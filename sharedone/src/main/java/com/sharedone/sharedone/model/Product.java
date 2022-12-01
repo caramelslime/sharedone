@@ -8,4 +8,10 @@ public class Product {
 	private String productNM;
 	private String unit;
 	private String productGroup;
+	private String del;
+	
+	private String delList;
+	private String selectDelete;
+	
+	private String cdnm;
 }

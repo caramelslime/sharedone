@@ -1,0 +1,313 @@
+/* 공통속성 */
+ul{
+	display: flex;
+	list-style:none;
+	text-decoration-line: none;
+}
+
+.content{
+    position: static;
+    background-color: #e5e1dc;
+    height: 900px;
+}
+
+/* 메뉴 카테고리 박스 */
+.top-div{
+	background-color: #fff;
+}
+.top-title{
+    margin: 10px 0 0 25px;
+    font-weight: 900;
+    font-size: 20px;
+}
+.top-ul{
+	padding: 0px 0px 10px 0;
+    margin: 5px 0 0px 26px;
+    font-size: 14px;
+}
+
+.home-img{
+	width: 15px;
+}
+.home-text{
+    color: #00944e;
+}
+.s-li{
+    color: #bebebe;
+    margin: 0 10px 0 10px;
+}
+.sub-text-li{
+}
+
+
+
+/* 검색 박스 */
+.search-div{
+    width: 92%;
+    background-color: #fff;
+    margin: 23px auto 20px auto;
+    box-shadow: 2px -1px 4px #b1b1b1;
+    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+}
+.search-sub-wrap{
+    margin: 20px 0px 20px 40px;
+}
+.search-sub-div{
+    display: flex;
+    margin-bottom: 9px;
+
+}
+.search-item-div{
+    width: 325px;
+    display: flex;
+    align-items: center;
+}
+.each-item-div{
+	margin-left: 78px;
+}
+.search-item-text{
+    width: 100px;
+}
+.search-item-div>input{
+	border: none;
+    background-color: #d7d7d7;
+    height: 25px;
+    position: static;
+}
+.dodbogi-img{
+	width: 17px;
+    position: relative;
+    left: -47px;
+    cursor: pointer;
+}
+.list-img{
+	width: 17px;
+    position: relative;
+    left: -41px;
+    height: 15px;
+    cursor: pointer;
+}
+.search-box{
+    width: 106px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f0f0;
+    font-size: 15px;
+    font-weight: 400;
+    cursor: pointer;
+}
+
+
+/* 제품 리스트 */
+.productList-div{
+    background-color: #fff;
+    width: 92%;
+    overflow: hidden;
+    resize: both;
+    box-shadow: 2px -1px 4px #b1b1b1;
+    margin-left:4%;
+    overflow: scroll;
+    height: 600px;
+}
+.list-table{
+	margin: 4px 10px 0 10px;
+	border-collapse: collapse;
+	font-size: 12px;
+	width:1350px;
+}
+td{
+	border-bottom: 1px solid #444444;
+    border-left: 1px solid #444444;
+    padding: 10px;
+}
+th{
+	border-bottom: 1px solid #444444;
+    border-left: 1px solid #444444;
+    padding: 10px;
+}
+th:first-child, td:first-child {
+    border-left: none;
+  }
+.productListTr:hover {
+	background-color: #d3dfea;
+	cursor:pointer;
+}
+
+  
+ /* 신규등록과 삭제가 있는 bottom 박스*/
+.bottom-div{
+	position: fixed;
+    background-color: #fff;
+    width: 100%;
+    height: 43px;
+    margin : 23px 0 0 2px;
+    bottom: 0;
+}
+.bottom-btn-div{
+	display: flex;
+    margin: 9px 0 0 21px;
+}
+.new-input-btn{
+	border: none;
+    background-color: #00944e;
+    color: white;
+    box-shadow: 1px -1px 2px #b1b1b1;
+    margin-right: 10px;
+    height: 24px;
+    cursor: pointer;
+}
+.del-btn{
+    border: none;
+    background-color: #e5e1dc;
+    box-shadow: 1px -1px 2px #b1b1b1;
+    height: 24px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.edit-start-btn{
+    border: none;
+    background-color: #e5e1dc;
+    box-shadow: 1px -1px 2px #b1b1b1;
+    height: 24px;
+    cursor: pointer;
+}
+
+.edit-finish-btn{
+    border: none;
+    background-color: #e5e1dc;
+    box-shadow: 1px -1px 2px #b1b1b1;
+    height: 24px;
+    cursor: pointer;
+}
+
+/* insert Form */
+.insert-div{
+	background: #fff;
+    width: 860px;
+    height: 580px;
+	position: relative;
+    top: -700px;
+	box-shadow: 2px -1px 4px #b1b1b1;
+    padding: 27px 15px 15px 20px;
+	margin: auto;
+    font-size: 13px;
+    display: none;
+}
+.x-div{
+    display: flex;
+    justify-content: end;
+    margin: -9px 16px 10px 0;
+    height: 37px;
+    font-size: 15px;
+}
+.x-sub-div{
+    cursor: pointer;
+    width: 17px;
+}
+.insert-row-div{
+	display: flex;
+	flex-direction: row;
+}
+.insert-sub-row-div{
+	display: flex;
+	flex-direction: row;
+	width:250px;
+    justify-content: space-between;
+    margin-right:36px;
+}
+.insert-text{
+	width:80px;
+}
+.red_warn{
+    color: #d00000;
+    font-size: 11px;
+}
+.insert-sub-row-div>input{
+	border: none;
+    background-color: #d7d7d7;
+    height: 25px;
+    width: 140px;
+}
+
+.insert-hr{
+    border-top: 1px solid #d4d0cc;
+}
+
+.plus-img{
+	width: 17px;
+	height: 17px;
+	margin-top: 5px;
+	cursor: pointer;
+}
+.minus-img{
+	width: 17px;
+	height: 17px;
+	margin-top: 5px;
+	cursor: pointer;
+}
+
+/* 입력 리스트 */
+.insertList-div{
+    background-color: #fff;
+    width: 92%;
+    overflow: hidden;
+    resize: both;
+    box-shadow: 2px -1px 4px #b1b1b1;
+    margin-left:4%;
+    overflow: scroll;
+    height: 450px;
+    overflow-x: hidden;
+    resize: none; 
+}
+
+#insertList-table{
+	margin: 4px 10px 0 10px;
+	border-collapse: collapse;
+	font-size: 12px;
+	width:750px;
+}
+
+.insertListTr:hover{
+	background-color: #d3dfea;
+	cursor:pointer;
+}
+
+ /* 입력창 입력 완료 버튼 구역*/
+.insert-action-div{
+    background-color: #fff;
+    width: 100%;
+    height: 43px;
+    margin : 18px 0 0 2px;
+    bottom: 0;
+}
+.insert-action-btn-div{
+	display: flex;
+    margin: 0 0 0 21px;
+}
+.insert-action-btn{
+	border: none;
+    background-color: #00944e;
+    color: white;
+    box-shadow: 1px -1px 2px #b1b1b1;
+    margin-right: 10px;
+    height: 24px;
+    cursor: pointer;
+}
+
+.edit {
+	border: none;
+	outline: none;
+	background: transparent;
+}
+
+.no-border {
+	border: none;
+	background: transparent;
+}
+
+
+
