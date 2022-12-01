@@ -1,17 +1,13 @@
 
 -- 제품 테이블
 
-DROP TABLE m_product;
-
 CREATE TABLE m_product (
 	productcd VARCHAR2(20) PRIMARY KEY,
 	productnm VARCHAR2(50),
 	unit VARCHAR2(10),
 	productgroup VARCHAR2(20),
-	del CHAR(1)
+	delyn CHAR(1)
 );
-
-SELECT * FROM m_product;
 
 INSERT INTO m_product VALUES ( 'P00001', '새우깡', 'box', '스낵류', 'n' );
 INSERT INTO m_product VALUES ( 'P00002', '포카칩', 'box', '스낵류', 'n'  );
@@ -24,12 +20,44 @@ INSERT INTO m_product VALUES ( 'P00008', '스니커즈', 'box', '초콜릿류', 
 INSERT INTO m_product VALUES ( 'P00009', '카카오 72', 'box', '초콜릿류', 'n'  );
 INSERT INTO m_product VALUES ( 'P00010', '허쉬', 'box', '초콜릿류', 'n'  );
 
-UPDATE m_product set del='n';
 
-DELETE m_product;
+-- 오더 테이블
+
+CREATE TABLE t_order (
+	sono VARCHAR2(20) PRIMARY KEY,
+	buyercd VARCHAR2(20),
+	souser VARCHAR2(20),
+	adddate DATE,
+	pricingdate DATE,
+	requestdate DATE,
+	status VARCHAR(20),
+	currency CHAR(3)
+);
+
+INSERT INTO t_order VALUES ('S00001', 'B00001', '아무개', TO_DATE('2022-11-01', 'YYYY--MM-DD'), TO_DATE('2022-11-01', 'YYYY--MM-DD'), TO_DATE('2022-12-04', 'YYYY--MM-DD'), '승인완료', 'KRW');
+INSERT INTO t_order VALUES ('S00002', 'B00003', '아무개', TO_DATE('2022-11-01', 'YYYY--MM-DD'), TO_DATE('2022-11-01', 'YYYY--MM-DD'), TO_DATE('2022-12-04', 'YYYY--MM-DD'), '승인완료', 'KRW');
+INSERT INTO t_order VALUES ('S00003', 'B00005', '아무개', TO_DATE('2022-11-01', 'YYYY--MM-DD'), TO_DATE('2022-11-01', 'YYYY--MM-DD'), TO_DATE('2022-11-25', 'YYYY--MM-DD'), '승인완료', 'KRW');
+INSERT INTO t_order VALUES ('S00004', 'B00007', '아무개', TO_DATE('2022-11-07', 'YYYY--MM-DD'), TO_DATE('2022-11-07', 'YYYY--MM-DD'), TO_DATE('2022-12-05', 'YYYY--MM-DD'), '승인완료', 'KRW');
+INSERT INTO t_order VALUES ('S00005', 'B00009', '아무개', TO_DATE('2022-11-09', 'YYYY--MM-DD'), TO_DATE('2022-11-09', 'YYYY--MM-DD'), TO_DATE('2022-12-10', 'YYYY--MM-DD'), '승인완료', 'KRW');
+INSERT INTO t_order VALUES ('S00006', 'B00011', '아무개', TO_DATE('2022-11-09', 'YYYY--MM-DD'), TO_DATE('2022-11-09', 'YYYY--MM-DD'), TO_DATE('2022-12-30', 'YYYY--MM-DD'), '반려', 'KRW');
+INSERT INTO t_order VALUES ('S00007', 'B00002', '아무개', TO_DATE('2022-11-16', 'YYYY--MM-DD'), TO_DATE('2022-11-16', 'YYYY--MM-DD'), TO_DATE('2022-12-15', 'YYYY--MM-DD'), '승인대기', 'KRW');
+INSERT INTO t_order VALUES ('S00008', 'B00004', '아무개', TO_DATE('2022-11-19', 'YYYY--MM-DD'), TO_DATE('2022-11-19', 'YYYY--MM-DD'), TO_DATE('2022-12-10', 'YYYY--MM-DD'), '승인대기', 'KRW');
+INSERT INTO t_order VALUES ('S00009', 'B00006', '아무개', TO_DATE('2022-11-25', 'YYYY--MM-DD'), TO_DATE('2022-11-25', 'YYYY--MM-DD'), TO_DATE('2022-12-23', 'YYYY--MM-DD'), '승인완료', 'KRW');
+INSERT INTO t_order VALUES ('S00010', 'B00008', '아무개', TO_DATE('2022-11-26', 'YYYY--MM-DD'), TO_DATE('2022-11-26', 'YYYY--MM-DD'), TO_DATE('2022-12-18', 'YYYY--MM-DD'), '입력완료', 'KRW');
 
 
->>>>>>> SungBeen:sharedone/src/main/resources/ksb.sql
+-- 오더 디테일 테이블
+
+CREATE TABLE t_order_detail (
+	sono VARCHAR2(20),
+	productcd VARCHAR2(20),
+	qty number(11),
+	unitprice number(11)
+);
+
+INSERT INTO t_order_detail VALUES ('S00001', 'P00002', 10, 30000);
+INSERT INTO t_order_detail VALUES ('S00001', 'P00009', 5, 30000);
+INSERT INTO t_order_detail VALUES ('S00001', 'P00010', 5, 50000);
 
 INSERT INTO price VALUES ( 'A00001', 'A00011', 'A00021', '2000', '원', '2022-11-20', '2022-11-22', '30' );
 INSERT INTO price VALUES ( 'A00002', 'A00011', 'A00021', '1500', '원', '2022-11-20', '2022-11-22', '30' );
@@ -65,9 +93,6 @@ CREATE TABLE M_BUYER (
 	DELYN CHAR DEFAULT 'n' NOT NULL			--삭제여부
 );
 
---fk추가해야함
-SELECT * FROM M_BUYER;
-DROP TABLE M_BUYER;
 
 
 
@@ -136,9 +161,8 @@ CREATE TABLE t_order_detail (
 	sono VARCHAR2(20),
 	productcd VARCHAR2(20),
 	qty number(11),
-	unit VARCHAR2(10),
-	unitprice number(11),
-	CONSTRAINT t_order_detail_pk PRIMARY KEY (sono, productcd)
+	unitprice number(11)
+	--CONSTRAINT t_order_detail_pk PRIMARY KEY (sono, productcd)
 );
 
 
@@ -164,4 +188,18 @@ SELECT * FROM product WHERE productcd = 'A00001' AND productgroup = '스낵류';
 
 SELECT * FROM product
 WHERE upper(productCD) like upper('%a00%') ORDER BY productCD;
+
+
+INSERT INTO t_order_detail VALUES ('S00001', 'P00002', 10, 30000);
+INSERT INTO t_order_detail VALUES ('S00001', 'P00009', 5, 30000);
+INSERT INTO t_order_detail VALUES ('S00001', 'P00010', 5, 50000);
+
+
+
+SELECT * FROM t_order WHERE soNo = 'S00001';
+
+SELECT * FROM m_buyer;
+
+SELECT d.*, productNM, unit, productGroup  FROM t_order_detail d, m_product p WHERE d.productCD=p.productCD  AND soNo='S00001';
+
 

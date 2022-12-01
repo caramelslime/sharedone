@@ -18,4 +18,19 @@ public class OrderDaoImpl implements OrderDao {
 	public List<Order> orderList(Order order) {
 		return sst.selectList("orderns.orderList", order);
 	}
+
+	@Override
+	public Order selectOrderHeader(String soNo) {
+		return sst.selectOne("orderns.selectOrderHeader", soNo);
+	}
+
+	@Override
+	public List<Order> selectOrderItems(String soNo) {
+		return sst.selectList("orderns.selectOrderItems", soNo);
+	}
+
+	@Override
+	public Order selectByProductCD(String productCD) {
+		return sst.selectOne("orderns.selectByProductCD", productCD);
+	}
 }

@@ -18,4 +18,19 @@ public class OrderServiceImpl implements OrderService {
 	public List<Order> orderList(Order order) {
 		return od.orderList(order);
 	}
+
+	@Override
+	public Order selectOrderHeader(String soNo) {
+		return od.selectOrderHeader(soNo);
+	}
+
+	@Override
+	public List<Order> selectOrderItems(String soNo) {
+		return od.selectOrderItems(soNo);
+	}
+
+	@Override
+	public Order selectByProductCD(String productCD) {
+		return od.selectByProductCD(productCD);
+	}
 }

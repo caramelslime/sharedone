@@ -103,10 +103,9 @@
 			}
 		});
 		
-		$(document).keydown(function() { // enter키를 누르면 메세지 전송
-			//  누른 key값(asscii)  IE ?      IE의 값         IE아닌 모든 web값
+		$(document).keydown(function() { // esc키를 insert 화면에서 나오기
 			var keycode = event.keyCode ? event.keyCode : event.which;
-			if (keycode == 27) { // 13이 enter(assii값)
+			if (keycode == 27) { // 27이 esc (assii값)
 				xBack();
 			}
 		});

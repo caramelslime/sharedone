@@ -13,7 +13,7 @@
 			<if test="productGroup != null and productGroup !=''">
 				productGroup like '%'||#{productGroup}||'%' AND
 			</if>
-			del='n'
+			delyn='n'
 		</where>
 		 ORDER BY productCD
 	</select>
@@ -35,11 +35,15 @@
 	</select>
 	
 	<select id="delList" parameterType="string" resultType="string">
-		select del from m_product where productCD=#{productCD}
+		select delyn from m_product where productCD=#{productCD}
 	</select>
 	
 	<update id="deleteProduct" parameterType="map">
-		update m_product set del=#{delList} where productCD=#{productCD}
+		update m_product set delyn=#{delList} where productCD=#{productCD}
 	</update>
+	
+	<select id="productAllList" resultType="product">
+		SELECT * FROM m_product ORDER BY productCD
+	</select>
 	
 </mapper>
