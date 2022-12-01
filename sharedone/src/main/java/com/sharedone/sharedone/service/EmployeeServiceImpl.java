@@ -12,7 +12,8 @@ import com.sharedone.sharedone.model.Employee;
 public class EmployeeServiceImpl implements EmployeeService{
 	@Autowired
 	private EmployeeDao ed;
-
+	
+	//로그인
 	@Override
 	public Employee select(String empCd) {
 		// TODO Auto-generated method stub

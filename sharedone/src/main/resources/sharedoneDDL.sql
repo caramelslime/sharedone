@@ -40,3 +40,11 @@ CREATE TABLE M_BUYER (
 	ADDUSER	VARCHAR2(255) NOT NULL,			--작성자
 	DELYN CHAR DEFAULT 'n' NOT NULL			--삭제여부
 );
+--코멘트 테이블
+CREATE TABLE t_NOTICE (
+	NOTICECD	number(11)	NOT NULL,
+	CONTENT	VARCHAR(1000)	NOT NULL,
+	EMPCD	varchar(20)	NOT NULL  references m_employee(empcd),
+	SONO	VARCHAR2(20)	NOT NULL  references order(SONO),
+	registDate	date	NOT NULL
+);
