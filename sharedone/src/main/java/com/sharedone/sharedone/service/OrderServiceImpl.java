@@ -33,4 +33,14 @@ public class OrderServiceImpl implements OrderService {
 	public Order selectByProductCD(String productCD) {
 		return od.selectByProductCD(productCD);
 	}
+
+	@Override
+	public int addOrderDetail(String soNo, String productCD, int qty, int unitprice) {
+		return od.addOrderDetail(soNo, productCD, qty, unitprice);
+	}
+
+	@Override
+	public int removeOrderDetail(String soNo, String productCD) {
+		return od.removeOrderDetail(soNo, productCD);
+	}
 }

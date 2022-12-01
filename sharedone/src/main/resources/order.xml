@@ -36,5 +36,13 @@
 		SELECT * FROM m_product WHERE productCD=#{productCD}
 	</select>
 	
+	<insert id="addOrderDetail" parameterType="map">
+		INSERT INTO t_order_detail VALUES (#{soNo}, #{productCD}, #{qty}, #{unitprice})
+	</insert>
+	
+	<delete id="removeOrderDetail" parameterType="map">
+		DELETE t_order_detail WHERE soNo=#{soNo} AND productCD=#{productCD}
+	</delete>
+	
 	
 </mapper>

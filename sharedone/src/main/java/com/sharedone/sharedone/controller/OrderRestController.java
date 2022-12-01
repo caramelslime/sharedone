@@ -43,4 +43,22 @@ public class OrderRestController {
 		return product;
 	}
 	
+	@RequestMapping("/addOrderDetail")
+	@ResponseBody
+	public int addOrderDetail(String soNo, String productCD, int qty, int unitprice) {
+		int result = os.addOrderDetail(soNo, productCD, qty, unitprice);
+		System.out.println(result);
+		return result;
+	}
+	
+	
+	@RequestMapping("/removeOrderDetail")
+	@ResponseBody
+	public int removeOrderDetail(String soNo, String productCD) {
+		int result = os.removeOrderDetail(soNo, productCD);
+		System.out.println(result);
+		return result;
+	}
+	
+	
 }

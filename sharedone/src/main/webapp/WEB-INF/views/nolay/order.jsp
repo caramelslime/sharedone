@@ -49,6 +49,20 @@
 			}
 		});
 		
+		$('#detailList-table').on('keypress', '.addProductCD' ,function() {
+			var keycode = event.keyCode ? event.keyCode : event.which;
+			if (keycode == 13) { // 13이 enter(assii값)
+				loadProductData();
+			}
+		});
+		
+		$('#detailList-table').on('keypress', '.calculateTotalPrice' ,function() {
+			var keycode = event.keyCode ? event.keyCode : event.which;
+			if (keycode == 13) { // 13이 enter(assii값)
+				calculateTotalPrice();
+			}
+		});
+		
 	})
 	
 	function search() {
@@ -98,13 +112,15 @@
 				
 				$('#detailList-table').append(
 						"<tr class='detailListTr'>"
-							+"<td class='center'>-</td>"
+							+"<td class='center'>"
+							+ "<img id='productCD_"+productCD+"' class='minus-img' alt='이미지 없음' src='/sharedone/resources/images/minus.png' onclick='removeItem(this)' />"
+							+"</td>"
 							+"<td class='center'>"+num+"</td>"
-							+ "<td class='center'>"+productCD+"</td>"
+							+ "<td class='center productCDCheck'>"+productCD+"</td>"
 							+ "<td class='center'>"+productNM+"</td>"
 							+ "<td class='center'>"+productGroup+"</td>"
-							+ "<td class='center'>"+qty+"</td>"
 							+ "<td class='center'>"+unit+"</td>"
+							+ "<td class='center'>"+qty+"</td>"
 							+ "<td class='right'>"+unitprice+"</td>"
 							+ "<td class='right'>"+totalprice+"</td>"
 						+ "</tr>"
@@ -125,6 +141,7 @@
 		$('.search-div').css('opacity', '1');
 		$('.comment-return-div').hide();
 		document.querySelector('#add-finish-btn').style.display = 'none';
+		document.querySelector('#add-cancel-btn').style.display = 'none';
 		document.querySelector('#add-row-btn').style.display = 'block';
 	}
 	
@@ -138,20 +155,27 @@
 					+ "<td class='center'></td>"
 					+ "<td id='num"+rowNumber+"' class='center'>"+rowNumber+"</td>"
 					+ "<td>"
-					+ "<input type='text' id='productCD"+rowNumber+"' class='item-add-col2 addProductCD' list='productCDList'>"
-					+ "<input id='load-product-btn' type='button' onclick='loadProductData()' value='확인'>"
+					+ "<input type='text' id='productCD"+rowNumber+"' class='item-add-col addProductCD' list='productCDList'>"
+					/* + "<input id='load-product-btn' type='button' onclick='loadProductData()' value='확인'>" */
 					+ "</td>"
 					+ "<td id='productNM"+rowNumber+"' class='center'></td>"
 					+ "<td id='productGroup"+rowNumber+"' class='center'></td>"
-					+ "<td><input type='text' id='qty"+rowNumber+"' class='item-add-col'></td>"
-					+ "<td><input type='text' id='unit"+rowNumber+"' class='item-add-col'></td>"
-					+ "<td class='right'><input type='text' id='unitprice"+rowNumber+"' class='item-add-col'></td>"
+					+ "<td id='unit"+rowNumber+"' class='center'></td>"
+					+ "<td><input type='text' id='qty"+rowNumber+"' class='item-add-col calculateTotalPrice'></td>"
+					+ "<td class='right'><input type='text' id='unitprice"+rowNumber+"' class='item-add-col calculateTotalPrice'></td>"
 					+ "<td id='totalprice"+rowNumber+"' class='right'></td>"
 				+ "</tr>"
 		);
 		
+		document.querySelectorAll('.minus-img').forEach(function(el) {
+			console.log(el);
+			console.log(el.style.visibility);
+			el.style.visibility = 'hidden';
+		})
+		
 		document.querySelector('#add-row-btn').style.display = 'none';
 		document.querySelector('#add-finish-btn').style.display = 'block';
+		document.querySelector('#add-cancel-btn').style.display = 'block';
 	}
 	
 	
@@ -166,18 +190,33 @@
 		$.post('selectByProductCD.do', "productCD="+productCD, function(data) {
 			var productNM = data.productNM;
 			var productGroup = data.productGroup;
+			var unit = data.unit;
 			
-			console.log(data);
-			console.log(productNM);
-			console.log(productGroup);
 			
 			if (data == null || data == "") {
 				alert("없는 제품코드입니다");
 				document.querySelector('#productCD'+rowNumber).value="";
 				document.querySelector('#productCD'+rowNumber).focus();
 			} else if (data != null) {
-				document.querySelector('#productNM'+rowNumber).innerHTML=productNM;
-				document.querySelector('#productGroup'+rowNumber).innerHTML=productGroup;
+				
+				var count=0;
+				
+				document.querySelectorAll('.productCDCheck').forEach(function(el) {
+					if (el.innerHTML == document.querySelector('#productCD'+rowNumber).value) {
+						count += 1;
+					}
+				})
+				
+				if (count>0) {
+					alert("이미 같은 제품이 등록되어 있습니다.");
+					document.querySelector('#productCD'+rowNumber).value="";
+					document.querySelector('#productCD'+rowNumber).focus();
+				} else if (count == 0) {
+					document.querySelector('#productNM'+rowNumber).innerHTML=productNM;
+					document.querySelector('#productGroup'+rowNumber).innerHTML=productGroup;
+					document.querySelector('#unit'+rowNumber).innerHTML=unit;
+				}
+				
 			}
 		});
 		
@@ -185,10 +224,91 @@
 	
 	
 	function addItemAction() {
-		document.querySelector('#add-finish-btn').style.display = 'none';
-		document.querySelector('#add-row-btn').style.display = 'block';
+		
+		var rowNumber=document.querySelector('#detailList-table').rows.length-1;
+		
+		var productCD = document.querySelector('#productCD'+rowNumber).value;
+		var qty = document.querySelector('#qty'+rowNumber).value;
+		var unitprice = document.querySelector('#unitprice'+rowNumber).value;
+		var soNo = document.querySelector('#detailSoNo').value;
+		var totalprice = document.querySelector('#totalprice'+rowNumber).innerHTML;
+		
+		if (productCD == "") {
+			alert("제품코드를 입력해 주세요.");
+			document.querySelector('#productCD'+rowNumber).focus();
+		} else if (qty == "") {
+			alert("수량을 입력해 주세요.");
+			document.querySelector('#qty'+rowNumber).focus();
+		} else if (unitprice == "") {
+			alert("판매가를 입력해 주세요.");
+			document.querySelector('#unitprice'+rowNumber).focus();
+		} else if (totalprice == "") {
+			alert("수량 또는 판매가에서 엔터를 입력하여 합계를 먼저 구하세요.");
+			document.querySelector('#unitprice'+rowNumber).focus();
+		}else {
+			$.post('addOrderDetail.do', "soNo="+soNo+"&productCD="+productCD+"&qty="+qty+"&unitprice="+unitprice, function(data) {
+				$("#detailList-table tr:not(:first)").remove();	// 상세창 닫을 때 입력한 값 제거
+				document.querySelector('#add-finish-btn').style.display = 'none';
+				document.querySelector('#add-cancel-btn').style.display = 'none';
+				document.querySelector('#add-row-btn').style.display = 'block';
+				document.querySelectorAll('.minus-img').forEach(function(el) {
+					el.style.visibility = 'visible';
+				})
+				detail(soNo);
+			})
+		}
+	}
+		
+	function calculateTotalPrice() {
+
+		var rowNumber=document.querySelector('#detailList-table').rows.length-1;
+		var count = 0;
+		
+		var qty = document.querySelector('#qty'+rowNumber).value;
+		var unitprice = document.querySelector('#unitprice'+rowNumber).value;
+		
+		if (qty == null || qty == "" || unitprice == null || unitprice == "") {
+			alert("수량과 판매가 모두 입력하고 엔터를 눌러주세요");
+		} else {
+			var totalprice = qty*unitprice;
+			console.log(totalprice);
+			document.querySelector('#totalprice'+rowNumber).innerHTML=totalprice;
+		}
+		
 	}
 	
+	function removeItem(e) {
+
+		if (confirm("진짜로 삭제하시겠습니까?")) {
+			var split = e.getAttribute('id').split('_');
+			var productCD = split[1];
+			var soNo = document.querySelector('#detailSoNo').value;
+				
+			
+			$.post('removeOrderDetail.do', "soNo="+soNo+"&productCD="+productCD, function(result) {
+				if (result > 0) {
+					console.log("삭제성공!");
+					$("#detailList-table tr:not(:first)").remove();	// 상세창 닫을 때 입력한 값 제거
+					detail(soNo);
+				} else if (result == 0) {
+					alert("삭제가 실패하였습니다.");
+				}
+			})
+		}
+	}
+	
+	
+	function addItemCancel() {
+		var soNo = document.querySelector('#detailSoNo').value;
+		$("#detailList-table tr:not(:first)").remove();
+		document.querySelector('#add-finish-btn').style.display = 'none';
+		document.querySelector('#add-cancel-btn').style.display = 'none';
+		document.querySelector('#add-row-btn').style.display = 'block';
+		document.querySelectorAll('.minus-img').forEach(function(el) {
+			el.style.visibility = 'visible';
+		})
+		detail(soNo);
+	}
 	
 </script>
 
@@ -322,6 +442,7 @@
 				<div class="detailAddItem-div" align="right">
 					<button id="add-row-btn" class="detail-action-btn2" onclick="addItem()">제품추가</button>
 					<button id="add-finish-btn" class="detail-action-btn2" onclick="addItemAction()" style="display: none;">제품추가완료</button>
+					<button id="add-cancel-btn" class="detail-action-btn1" onclick="addItemCancel()" style="display: none;">제품추가취소</button>
 				</div>
 				
 				<div class="detailList-div">
@@ -332,8 +453,8 @@
 							<th class="detail-header-col3 center">제품코드</th>
 							<th class="detail-header-col4 center">제품명</th>
 							<th class="detail-header-col5 center">제품그룹</th>
-							<th class="detail-header-col6 center">수량</th>
-							<th class="detail-header-col7 center">단위</th>
+							<th class="detail-header-col6 center">단위</th>
+							<th class="detail-header-col7 center">수량</th>
 							<th class="detail-header-col8 center">판매가</th>
 							<th class="detail-header-col9 center">합계</th>
 						</tr>

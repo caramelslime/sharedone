@@ -45,9 +45,4 @@ public class OrderController {
 		return "/nolay/order";
 	}
 	
-	@RequestMapping("chart")
-	public String chart() {
-		return "/nolay/chart";
-	}
-	
 }

@@ -352,6 +352,9 @@ th:first-child, td:first-child {
 }
 
 
-
+.detailAddItem-div {
+	display: flex;
+	flex-direction: row-reverse;
+}
 
 

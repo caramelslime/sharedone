@@ -14,4 +14,8 @@ public interface OrderDao {
 
 	Order selectByProductCD(String productCD);
 
+	int addOrderDetail(String soNo, String productCD, int qty, int unitprice);
+
+	int removeOrderDetail(String soNo, String productCD);
+
 }

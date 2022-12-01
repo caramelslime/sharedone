@@ -1,6 +1,8 @@
 package com.sharedone.sharedone.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,5 +34,23 @@ public class OrderDaoImpl implements OrderDao {
 	@Override
 	public Order selectByProductCD(String productCD) {
 		return sst.selectOne("orderns.selectByProductCD", productCD);
+	}
+
+	@Override
+	public int addOrderDetail(String soNo, String productCD, int qty, int unitprice) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("soNo", soNo);
+		map.put("productCD", productCD);
+		map.put("qty", qty);
+		map.put("unitprice", unitprice);
+		return sst.insert("orderns.addOrderDetail", map);
+	}
+
+	@Override
+	public int removeOrderDetail(String soNo, String productCD) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("soNo", soNo);
+		map.put("productCD", productCD);
+		return sst.delete("orderns.removeOrderDetail", map);
 	}
 }

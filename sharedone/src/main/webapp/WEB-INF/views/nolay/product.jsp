@@ -26,8 +26,6 @@
 			cache : false
 		};
 		
-		console.log(addr);
-		
 		$.ajax(ajaxOption).done(function(data) {
 			$('#layout-body').children().remove();
 			$('#layout-body').html(data);
