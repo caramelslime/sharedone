@@ -9,7 +9,7 @@
 <title>Insert title here</title>
 
 <style type="text/css">@import url("/sharedone/resources/css/share.css");</style>
-<style type="text/css">@import url("/sharedone/resources/css/order.css");</style>
+<style type="text/css">@import url("/sharedone/resources/css/price.css");</style>
 
 <script type="text/javascript">
 	
@@ -301,6 +301,14 @@
 // 				}
 // 			});
 // 	})
+
+// 	function search() {
+		
+// 		var cdnm = document.querySelector('#searchCdnm').value;
+// 		var productGroup = document.querySelector('#searchProductGroup').value;
+		
+// 		pageView('priceList.do?cdnm='+cdnm+'&productGroup='+productGroup);
+// 	}
 	
 </script>
 
@@ -325,10 +333,10 @@
 				</div>
 				<div class="search-item-div"><div class="search-item-text">• 유효기간 시작일 </div><input type="date"></div>	
 				</div>
-				<div class="search-box">조회</div>
+				<div class="search-box search" onclick="search()" tabIndex="0">조회</div>
 			</div>
 			
-			<div class="productList-div">
+			<div class="priceList-div">
 				<table class="list-table">
 					<tr>
 						<th class="col1">
@@ -343,7 +351,7 @@
 					</tr>
 					<c:if test="${not empty priceList}">
 						<c:forEach var="price" items="${priceList}">
-							<tr class="productListTr">
+							<tr class="priceListTr">
 								<td class="col1">
 									<input type="checkbox" name="selectChk" value="${price.periodStart}" >
 								</td>

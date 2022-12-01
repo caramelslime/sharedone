@@ -13,16 +13,16 @@ CREATE TABLE m_product (
 
 SELECT * FROM m_product;
 
-INSERT INTO m_product VALUES ( 'A00001', '새우깡', 'box', '스낵류', 'n' );
-INSERT INTO m_product VALUES ( 'A00002', '포카칩', 'box', '스낵류', 'n'  );
-INSERT INTO m_product VALUES ( 'A00003', '바나나킥', 'box', '스낵류', 'n'  );
-INSERT INTO m_product VALUES ( 'A00004', '꼬북칩', 'box', '스낵류', 'n'  );
-INSERT INTO m_product VALUES ( 'A00005', '빈츠', 'box', '스낵류', 'n'  );
-INSERT INTO m_product VALUES ( 'B00001', 'ABC 초콜릿', 'box', '초콜릿류', 'n'  );
-INSERT INTO m_product VALUES ( 'B00002', '트윅스', 'box', '초콜릿류', 'n'  );
-INSERT INTO m_product VALUES ( 'B00003', '스니커즈', 'box', '초콜릿류', 'n'  );
-INSERT INTO m_product VALUES ( 'B00004', '카카오 72', 'box', '초콜릿류', 'n'  );
-INSERT INTO m_product VALUES ( 'B00005', '허쉬', 'box', '초콜릿류', 'n'  );
+INSERT INTO m_product VALUES ( 'P00001', '새우깡', 'box', '스낵류', 'n' );
+INSERT INTO m_product VALUES ( 'P00002', '포카칩', 'box', '스낵류', 'n'  );
+INSERT INTO m_product VALUES ( 'P00003', '바나나킥', 'box', '스낵류', 'n'  );
+INSERT INTO m_product VALUES ( 'P00004', '꼬북칩', 'box', '스낵류', 'n'  );
+INSERT INTO m_product VALUES ( 'P00005', '빈츠', 'box', '스낵류', 'n'  );
+INSERT INTO m_product VALUES ( 'P00006', 'ABC 초콜릿', 'box', '초콜릿류', 'n'  );
+INSERT INTO m_product VALUES ( 'P00007', '트윅스', 'box', '초콜릿류', 'n'  );
+INSERT INTO m_product VALUES ( 'P00008', '스니커즈', 'box', '초콜릿류', 'n'  );
+INSERT INTO m_product VALUES ( 'P00009', '카카오 72', 'box', '초콜릿류', 'n'  );
+INSERT INTO m_product VALUES ( 'P00010', '허쉬', 'box', '초콜릿류', 'n'  );
 
 UPDATE m_product set del='n';
 

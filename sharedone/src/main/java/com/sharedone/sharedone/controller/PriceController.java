@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.sharedone.sharedone.dao.ProductDao;
 import com.sharedone.sharedone.model.Buyer;
 import com.sharedone.sharedone.model.Price;
 import com.sharedone.sharedone.model.Product;
@@ -26,18 +25,21 @@ import net.sf.json.JSONArray;
 public class PriceController {
 	
 	@Autowired
-	private PriceService ps;
+	private PriceService pv;
 	@Autowired
 	private BuyerService bs;
 	@Autowired
-	private ProductService pd;
+	private ProductService ps;
 	
 	@RequestMapping("priceList")
-	public String priceList(Model model) {
+	public String priceList(Model model, Price price, Product product, String bcdnm, String pcdnm, String periodStart) {
 		
-		List<Price> priceList = ps.priceList();
+//		price.setbCdnm(bcdnm);
+//		price.setpCdnm(pcdnm);
+//		
+		List<Price> priceList = pv.priceList();
 		List<Buyer> buyerList = bs.selectBuyerList();
-		List<Product> productList = pd.productList();
+		List<Product> productList = ps.productList(product);
 		
 		model.addAttribute("priceList", priceList);
 		model.addAttribute("buyerList", buyerList);
@@ -49,7 +51,7 @@ public class PriceController {
 	@RequestMapping("priceDetail")
 	public String priceDetail(Model model, Price price, String periodStart) {
 		
-		price = ps.priceDetail(periodStart);
+		price = pv.priceDetail(periodStart);
 		
 		model.addAttribute("price", price);
 		
@@ -60,7 +62,7 @@ public class PriceController {
 	public String priceUpdate(Model model, Price price) {
 		int result = 0;
 		
-		result =ps.priceUpdate(price);
+		result =pv.priceUpdate(price);
 		
 		model.addAttribute("price", price);
 		model.addAttribute("result", result);
@@ -117,18 +119,18 @@ public class PriceController {
 		if (selectDelete[0].equals("selectAll")) {
 			for (int i = 1; i < selectDelete.length; i++) {
 				System.out.println(selectDelete[i]);
-				if (ps.delList(selectDelete[i]).equals("n")) {
+				if (pv.delList(selectDelete[i]).equals("n")) {
 					delList[i-1] = "y";
-				} else if (ps.delList(selectDelete[i]).equals("y")) {
+				} else if (pv.delList(selectDelete[i]).equals("y")) {
 					delList[i-1] = "n";
 				}
 			}
 		} else {
 			for (int i = 0; i < selectDelete.length; i++) {
-				if (ps.delList(selectDelete[i]).equals("n")) {
+				if (pv.delList(selectDelete[i]).equals("n")) {
 					System.out.println(selectDelete[i]);
 					delList[i] = "y";
-				} else if (ps.delList(selectDelete[i]).equals("y")) {
+				} else if (pv.delList(selectDelete[i]).equals("y")) {
 					delList[i] = "n";
 				}
 			}
@@ -138,11 +140,11 @@ public class PriceController {
 
 		if (selectDelete[0].equals("selectAll")) {
 			for (int i = 1; i < selectDelete.length; i++) {
-				result=ps.deletePrice(delList[i-1], selectDelete[i]);
+				result=pv.deletePrice(delList[i-1], selectDelete[i]);
 			}
 		} else { 
 			for (int i = 0; i < selectDelete.length; i++) {
-				result=ps.deletePrice(delList[i], selectDelete[i]);
+				result=pv.deletePrice(delList[i], selectDelete[i]);
 			}
 		}
 		
