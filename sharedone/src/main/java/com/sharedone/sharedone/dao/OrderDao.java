@@ -8,4 +8,10 @@ public interface OrderDao {
 
 	List<Order> orderList(Order order);
 
+	Order selectOrderHeader(String soNo);
+
+	List<Order> selectOrderItems(String soNo);
+
+	Order selectByProductCD(String productCD);
+
 }

@@ -23,4 +23,18 @@
 		 ORDER BY soNo
 	</select>
 	
+	<select id="selectOrderHeader" parameterType="string" resultType="order">
+		SELECT * FROM t_order WHERE soNo=#{soNo}
+	</select>
+	
+	<select id="selectOrderItems" parameterType="string" resultType="order">
+		SELECT d.*, productNM, unit, productGroup FROM t_order_detail d, m_product p WHERE d.productCD=p.productCD  AND soNo=#{soNo}
+	</select>
+	
+	
+	<select id="selectByProductCD" parameterType="string" resultType="order">
+		SELECT * FROM m_product WHERE productCD=#{productCD}
+	</select>
+	
+	
 </mapper>

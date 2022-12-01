@@ -20,4 +20,6 @@ public interface ProductService {
 
 	int deleteProduct(String delList, String productCD);
 
+	List<Product> productAllList();
+
 }
