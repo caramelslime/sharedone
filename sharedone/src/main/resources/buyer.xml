@@ -15,7 +15,7 @@
 		,#{rprsv_nm}
 		,#{business_status}
 		,#{event}
-		,#{receiveuserid}
+		,#{empcd}
 		,#{status}
 		,#{nationcd}
 		,#{postcode}
@@ -51,7 +51,7 @@
 		,rprsv_nm=#{rprsv_nm}
 		,business_status=#{business_status}
 		,event=#{event}
-		,receiveuserid=#{receiveuserid}
+		,empcd=#{empcd}
 		,status=#{status}
 		,nationcd=#{nationcd}
 		,postcode=#{postcode}
