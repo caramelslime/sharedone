@@ -33,4 +33,9 @@ public class OrderDaoImpl implements OrderDao {
 	public Order selectByProductCD(String productCD) {
 		return sst.selectOne("orderns.selectByProductCD", productCD);
 	}
+
+	@Override
+	public List<Order> pendingApprovalList(Order order) {
+		return sst.selectList("orderns.pendingApprovalList",order);
+	}
 }

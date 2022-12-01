@@ -40,7 +40,6 @@ ul{
 }
 
 
-
 /* 검색 박스 */
 .search-div{
     width: 92%;
@@ -52,7 +51,7 @@ ul{
     justify-content: space-between;
 }
 .search-sub-wrap{
-    margin: 20px 0px 20px 40px;
+    margin: 20px 0px 20px 20px;
 }
 .search-sub-div{
     display: flex;
@@ -60,15 +59,16 @@ ul{
 
 }
 .search-item-div{
-    width: 325px;
+    width: 280px;
     display: flex;
     align-items: center;
+    margin-left: 10px;
 }
 .each-item-div{
 	margin-left: 78px;
 }
 .search-item-text{
-    width: 100px;
+    width: 110px;
 }
 .search-item-div>input{
 	border: none;
@@ -97,41 +97,10 @@ ul{
     background-color: #f0f0f0;
     font-size: 15px;
     font-weight: 400;
+    cursor: pointer;
 }
 
 
-/* 거래처 리스트 */
-.buyerList-div{
-    background-color: #fff;
-    width: 92%;
-    overflow: hidden;
-    resize: both;
-    box-shadow: 2px -1px 4px #b1b1b1;
-    margin-left:4%;
-    overflow: scroll;
-    height: 600px;
-}
-.list-table{
-	margin: 4px 10px 0 10px;
-	border-collapse: collapse;
-	font-size: 12px;
-	width:1700px;
-}
-td{
-	border-bottom: 1px solid #444444;
-    border-left: 1px solid #444444;
-    padding: 10px;
-}
-th{
-	border-bottom: 1px solid #444444;
-    border-left: 1px solid #444444;
-    padding: 10px;
-}
-th:first-child, td:first-child {
-    border-left: none;
-  }
-  
-  
  /* 신규등록과 삭제가 있는 bottom 박스*/
 .bottom-div{
 	position: fixed;
@@ -154,16 +123,16 @@ th:first-child, td:first-child {
     height: 24px;
     cursor: pointer;
 }
-.new-input-btn2{
-	border: none;
-    background-color: #941300;
-    color: white;
+.del-btn{
+    border: none;
+    background-color: #e5e1dc;
     box-shadow: 1px -1px 2px #b1b1b1;
-    margin-right: 10px;
     height: 24px;
+    margin-right: 10px;
     cursor: pointer;
 }
-.del-btn{
+
+.edit-start-btn{
     border: none;
     background-color: #e5e1dc;
     box-shadow: 1px -1px 2px #b1b1b1;
@@ -171,18 +140,62 @@ th:first-child, td:first-child {
     cursor: pointer;
 }
 
+.edit-finish-btn{
+    border: none;
+    background-color: #e5e1dc;
+    box-shadow: 1px -1px 2px #b1b1b1;
+    height: 24px;
+    cursor: pointer;
+}
 
-/* insert Form */
-.insert-div{
+/* 제품 리스트 */
+.orderList-div{
+    background-color: #fff;
+    width: 92%;
+    overflow: hidden;
+    resize: both;
+    box-shadow: 2px -1px 4px #b1b1b1;
+    margin-left:4%;
+    overflow: scroll;
+    height: 600px;
+}
+.list-table{
+	margin: 4px 10px 0 10px;
+	border-collapse: collapse;
+	font-size: 12px;
+	width:1350px;
+}
+td{
+	border-bottom: 1px solid #444444;
+    border-left: 1px solid #444444;
+    padding: 10px;
+}
+th{
+	border-bottom: 1px solid #444444;
+    border-left: 1px solid #444444;
+    padding: 10px;
+}
+th:first-child, td:first-child {
+    border-left: none;
+  }
+.orderListTr:hover {
+	background-color: #d3dfea;
+	cursor:pointer;
+}
+
+
+/* detail Form */
+.detail-div{
 	background: #fff;
-    width: 860px;
-    height: 526px;
+    width: 1100px;
+    height: 580px;
 	position: relative;
     top: -700px;
 	box-shadow: 2px -1px 4px #b1b1b1;
     padding: 27px 15px 15px 20px;
 	margin: auto;
     font-size: 13px;
+    display: none;
 }
 .x-div{
     display: flex;
@@ -195,105 +208,89 @@ th:first-child, td:first-child {
     cursor: pointer;
     width: 17px;
 }
-.insert-row-div{
+.detail-row-div{
 	display: flex;
 	flex-direction: row;
 }
-.insert-sub-row-div{
+.detail-sub-row-div{
 	display: flex;
 	flex-direction: row;
 	width:250px;
     justify-content: space-between;
     margin-right:36px;
+    margin-bottom: 5px;
 }
-.insert-text{
-	width:105px;
+.detail-text{
+	width:80px;
 }
 .red_warn{
     color: #d00000;
     font-size: 11px;
 }
-.insert-sub-row-div>input{
+.detail-sub-row-div>input{
 	border: none;
     background-color: #d7d7d7;
     height: 25px;
     width: 140px;
 }
 
-.insert-hr{
+.detail-hr{
     border-top: 1px solid #d4d0cc;
 }
 
-/* 사업장소재지 */
-.insert-sub-row-div2{
-    display: flex;
+.plus-img{
+	width: 17px;
+	height: 17px;
+	margin-top: 5px;
+	cursor: pointer;
+}
+.minus-img{
+	width: 17px;
+	height: 17px;
+	margin-top: 5px;
+	cursor: pointer;
 }
 
-.add-div>input{
-	border:none;
-	background-color: #d7d7d7;
-    height: 25px;
+
+.detail-header-col1 {
+	width: 50px;
 }
-.address-wrap{
-	margin-bottom: 3px;
+.detail-header-col2 {
+	width: 50px;
 }
-.address-wrap>input{
-	border:none;
-	background-color: #d7d7d7;
-    height: 25px;
-   
+.detail-header-col3 {
+	width: 150px;
 }
-#address_btn_wrap{
-	display: flex;
-	align-items: center;
-    margin-bottom: 6px;
+.detail-header-col4 {
+	width: 200px;
 }
-#sample4_postcode{
-	border:none;
-	background-color: #d7d7d7;
-    height: 25px;
-	margin-right: 5px;
+.detail-header-col5 {
+	width: 150px;
 }
-#sample4_roadAddress{
-	width:400px;
+.detail-header-col6 {
+	width: 100px;
 }
-#sample4_detailAddress{
-	width:300px;
+.detail-header-col7 {
+	width: 100px;
+}
+.detail-header-col8 {
+	width: 180px;
+}
+.detail-header-col9 {
+	width: 180px;
 }
 
-.add-div{
-
-}
-.add-sub-div{
-    margin-top: 4px;
-}
-
-#addr-search-btn{
-    cursor: pointer;
+.detail-action-btn1{
     border: none;
-    height: 27px;
+    background-color: #293b4b;
+    color: #fff;
+    width: 95px;
+    height: 33px;
     cursor: pointer;
-    background-color: #b7b7b7;
-    transition: background-color 0.2s ease-out, border-color 0.2s ease-out;
-}
-#addr-search-btn:hover{
-	background-color: #848484;
+    margin-right: 5px;
 }
 
-.remark-textarea{
-	border:none;
-	background-color: #d7d7d7;
-	resize: none;
-	width: 711px;
-}
-
-
-.insert-submit-div{
-    display: flex;
-    justify-content: center;
-    margin-top: 33px;
-}
-#insertSubmit{
+.detail-action-btn2{
     border: none;
     background-color: #293b4b;
     color: #fff;
@@ -301,31 +298,60 @@ th:first-child, td:first-child {
     height: 33px;
     cursor: pointer;
 }
-.warn-div{
-    margin-top: 19px;
+
+
+.detail-action-btn-div {
+	display: flex;
+    justify-content: center;
+    margin-top: 33px;
+}
+
+.center {
+	text-align: center;
+}
+
+.right {
+	text-align: right;
+}
+
+.no-border {
+	border: none;
+	background: transparent;
+	padding-left: 5px;
+}
+
+.item-add-col {
+	width: 90%;
+}
+.item-add-col2 {
+	width: 73px;
 }
 
 
-/* update div */
-.update-div{
-	background: #fff;
-    width: 860px;
-    height: 526px;
-	position: relative;
-    top: -700px;
-	box-shadow: 2px -1px 4px #b1b1b1;
-    padding: 27px 15px 15px 20px;
-	margin: auto;
-    font-size: 13px;
+/* comment */
+#comment-input {
+	width: 100%;
+	height:  80px;
+	resize: none;
 }
 
-.buyercdText{
-	color:gray;
+#load-product-btn {
+	margin-left: 5px;
+    border: none;
+    background-color: #293b4b;
+    color: #fff;
+    width: 43px;
+    height: 20.51px;
+    cursor: pointer;	
 }
-.buyercdText:focus{
-	outline : none;
+
+#comment-return-input {
+	width: 100%;
+	height:  80px;
+	resize: none;
 }
-.buyerListTr:hover{
-	background-color: #d3dfea;
-	cursor:pointer;
-}
+
+
+
+
+

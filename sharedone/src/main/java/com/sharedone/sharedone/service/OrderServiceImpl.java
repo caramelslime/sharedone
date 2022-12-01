@@ -33,4 +33,10 @@ public class OrderServiceImpl implements OrderService {
 	public Order selectByProductCD(String productCD) {
 		return od.selectByProductCD(productCD);
 	}
+
+	@Override
+	public List<Order> pendingApprovalList(Order order) {
+		// TODO Auto-generated method stub
+		return od.pendingApprovalList(order);
+	}
 }

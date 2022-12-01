@@ -35,6 +35,8 @@
 	<select id="selectByProductCD" parameterType="string" resultType="order">
 		SELECT * FROM m_product WHERE productCD=#{productCD}
 	</select>
-	
+	<select id="pendingApprovalList" parameterType="order" resultType="order">
+		select * from t_order where souser in (select empCd from employee where dept = (select dept from employee where empCd = #{soUser})) ORDER BY soNo
+	</select>
 	
 </mapper>

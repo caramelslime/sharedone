@@ -14,4 +14,7 @@ public interface OrderService {
 
 	Order selectByProductCD(String productCD);
 
+//	같은 팀의 승인 요청 리스트 불러오기
+	List<Order> pendingApprovalList(Order order);
+
 }

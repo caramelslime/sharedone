@@ -70,7 +70,6 @@ CREATE TABLE t_order_detail (
 	sono VARCHAR2(20),
 	productcd VARCHAR2(20),
 	qty number(11),
-	unit VARCHAR2(10),
 	unitprice number(11),
 	CONSTRAINT t_order_detail_pk PRIMARY KEY (sono, productcd)
 );

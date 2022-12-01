@@ -14,4 +14,6 @@ public interface OrderDao {
 
 	Order selectByProductCD(String productCD);
 
+	List<Order> pendingApprovalList(Order order);
+
 }
