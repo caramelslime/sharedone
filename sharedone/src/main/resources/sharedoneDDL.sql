@@ -19,9 +19,10 @@ CREATE TABLE m_employee (
 -- 판매부번 테이블
 CREATE TABLE m_product (
 	productcd VARCHAR2(20) PRIMARY KEY,
-	productnm VARCHAR2(50) NOT NULL,
-	unit VARCHAR2(10) NOT NULL,
-	productgroup VARCHAR2(20) NOT NULL
+	productnm VARCHAR2(50),
+	unit VARCHAR2(10),
+	productgroup VARCHAR2(20),
+	delyn CHAR(1)
 );
 --거래처 테이블
 CREATE TABLE M_BUYER (

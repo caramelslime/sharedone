@@ -16,26 +16,26 @@ insert into m_employee values('E00014', '1', '01000000000', '이우진', 'test@t
 insert into m_employee values('E00015', '1', '01000000000', '양다은', 'test@test.com', TO_DATE('2022-11-01', 'YYYY--MM-DD'), '영업3팀', '팀원');
 
 --제품 데이터
-insert into m_product values('P00001', '새우깡' , '스낵류', 'n') ;
-insert into m_product values('P00002', '야채타임' , '스낵류', 'n') ;
-insert into m_product values('P00003', '촉촉한초코칩' , '스낵류', 'n') ;
-insert into m_product values('P00004', '맛동산' , '스낵류', 'n') ;
-insert into m_product values('P00005', '꼬깔콘' , '스낵류', 'n') ;
-insert into m_product values('P00006', '오!감자' , '스낵류', 'n') ;
-insert into m_product values('P00007', '꼬북칩' , '스낵류', 'n') ;
-insert into m_product values('P00008', '몽쉘' , '스낵류', 'n') ;
-insert into m_product values('P00009', '빠새' , '스낵류', 'n') ;
-insert into m_product values('P00010', '죠리퐁' , '스낵류', 'n') ;
-insert into m_product values('P00011', '바나나킥' , '스낵류', 'n') ;
-insert into m_product values('P00012', '롯데샌드' , '스낵류', 'n') ;
-insert into m_product values('P00013', '말랑카우' , '스낵류', 'n') ;
-insert into m_product values('P00014', '인디안밥' , '스낵류', 'n') ;
-insert into m_product values('P00015', '포스틱' , '스낵류', 'n') ;
-insert into m_product values('P00016', '칸쵸' , '스낵류', 'n') ;
-insert into m_product values('P00017', '쫄병스낵' , '스낵류', 'n') ;
-insert into m_product values('P00018', '자갈치' , '스낵류', 'n') ;
-insert into m_product values('P00019', '벌집핏자' , '스낵류', 'n') ;
-insert into m_product values('P00020', '고래밥' , '스낵류', 'n') ;
+insert into m_product values('P00001', '새우깡' , 'box', '스낵류', 'n') ;
+insert into m_product values('P00002', '야채타임' , 'box', '스낵류', 'n') ;
+insert into m_product values('P00003', '촉촉한초코칩' , 'box', '스낵류', 'n') ;
+insert into m_product values('P00004', '맛동산' , 'box', '스낵류', 'n') ;
+insert into m_product values('P00005', '꼬깔콘' , 'box', '스낵류', 'n') ;
+insert into m_product values('P00006', '오!감자' , 'box', '스낵류', 'n') ;
+insert into m_product values('P00007', '꼬북칩' , 'box', '스낵류', 'n') ;
+insert into m_product values('P00008', '몽쉘' , 'box', '스낵류', 'n') ;
+insert into m_product values('P00009', '빠새' , 'box', '스낵류', 'n') ;
+insert into m_product values('P00010', '죠리퐁' , 'box', '스낵류', 'n') ;
+insert into m_product values('P00011', '바나나킥' , 'box', '스낵류', 'n') ;
+insert into m_product values('P00012', '롯데샌드' , 'box', '스낵류', 'n') ;
+insert into m_product values('P00013', '말랑카우' , 'box', '스낵류', 'n') ;
+insert into m_product values('P00014', '인디안밥' , 'box', '스낵류', 'n') ;
+insert into m_product values('P00015', '포스틱' , 'box', '스낵류', 'n') ;
+insert into m_product values('P00016', '칸쵸' , 'box', '스낵류', 'n') ;
+insert into m_product values('P00017', '쫄병스낵' , 'box', '스낵류', 'n') ;
+insert into m_product values('P00018', '자갈치' , 'box', '스낵류', 'n') ;
+insert into m_product values('P00019', '벌집핏자' , 'box', '스낵류', 'n') ;
+insert into m_product values('P00020', '고래밥' , 'box', '스낵류', 'n') ;
 --거래처 데이터
 --영업1팀
 --E00001의 거래처
@@ -534,20 +534,20 @@ insert into t_order_detail values('S00020', 'P00011', 200 , 2000);
 
 --상세사유
 insert into t_notice values(1,'승인좀요.
- 확인하고 승인 부탁드립니다.','E0001','S00001',sysdate,'승인요청');
+ 확인하고 승인 부탁드립니다.','E00002','S00001',sysdate,'승인요청');
 insert into t_notice values(2,'수량이 일치하지 않습니다.
-다시 확인하고 승인 요청 부탁드립니다.','E0001','S00001',sysdate,'반려');
+다시 확인하고 승인 요청 부탁드립니다.','E00002','S00001',sysdate,'반려');
 insert into t_notice values(3,'수량이 일치하지 않습니다.
-다시 확인하고 승인 요청 부탁드립니다.','E0001','S00001',sysdate,'승인');--상태로는 승인,반려,승인요청이 있을거 같습니다.
+다시 확인하고 승인 요청 부탁드립니다.','E00002','S00001',sysdate,'승인');--상태로는 승인,반려,승인요청이 있을거 같습니다.
 insert into t_notice values(4,'승인요청부탁드려용.
-다시 확인하고 승인 요청 부탁드립니다.','E0001','S00008',sysdate,'승인');
+다시 확인하고 승인 요청 부탁드립니다.','E00002','S00008',sysdate,'승인');
 insert into t_notice values(5,'승인요청부탁드려용.
-다시 확인하고 승인 요청 부탁드립니다.','E0001','S00008',sysdate,'승인요청');
+다시 확인하고 승인 요청 부탁드립니다.','E00002','S00008',sysdate,'승인요청');
 insert into t_notice values(6,'승인요청부탁드려용.
-다시 확인하고 승인 요청 부탁드립니다.','E0001','S00007',sysdate,'승인요청');
+다시 확인하고 승인 요청 부탁드립니다.','E00002','S00007',sysdate,'승인요청');
 insert into t_notice values(7,'재승인부탁드려용.
-다시 확인하고 승인 부탁드립니다.','E0001','S00001',sysdate,'승인');
+다시 확인하고 승인 부탁드립니다.','E00002','S00001',sysdate,'승인');
 insert into t_notice values(8,'승인요청부탁드려용.
-다시 확인하고 승인 부탁드립니다.','E0001','S00008',sysdate,'승인요청');
+다시 확인하고 승인 부탁드립니다.','E00002','S00008',sysdate,'승인요청');
 insert into t_notice values(9,'승인부탁드려용.
-다시 확인하고 승인  부탁드립니다.','E0001','S00009',sysdate,'승인요청');
+다시 확인하고 승인  부탁드립니다.','E00002','S00009',sysdate,'승인요청');

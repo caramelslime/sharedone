@@ -4,7 +4,7 @@
 <mapper namespace="pricens">
 
 	<select id="priceList" resultType="price" parameterType="price">
-		SELECT pc.*,b.buyerNM,pd.productNM FROM price pc, M_buyer b, m_product pd
+		SELECT pc.*,b.buyerNM,pd.productNM FROM m_price pc, M_buyer b, m_product pd
 		<where>
 			<if test="bcdnm != null and bcdnm !=''">
 				UPPER(b.buyerCD) like UPPER('%'||#{bcdnm}||'%') OR
@@ -23,27 +23,27 @@
 	</select>
 	
 	<select id="priceDetail" parameterType="String" resultType="price">
-		SELECT pc.*,b.buyerNM,pd.productNM FROM price pc, M_buyer b, m_product pd WHERE pc.buyerCD=b.buyerCD and pc.productCd=pd.productCd and buyerCD = #{buyerCD} and productCD = #{productCD} and periodStart = #{periodStart}
+		SELECT pc.*,b.buyerNM,pd.productNM FROM m_price pc, M_buyer b, m_product pd WHERE pc.buyerCD=b.buyerCD and pc.productCd=pd.productCd and buyerCD = #{buyerCD} and productCD = #{productCD} and periodStart = #{periodStart}
 	</select>
 	
 	<update id="pricetUpdate" parameterType="price">
-		UPDATE price SET buyerNM=#{buyerNM} and productNM=#{productNM} and periodStart=#{periodStart} and listPrice=#{listPrice} and currency=#{currency} FROM price pc, M_buyer b, m_product pd WHERE pc.buyerCD=b.buyerCD and pc.productCd=pd.productCd and buyerCD = #{buyerCD} and productCD = #{productCD} and periodStart = #{periodStart}
+		UPDATE m_price SET buyerNM=#{buyerNM} and productNM=#{productNM} and periodStart=#{periodStart} and listPrice=#{listPrice} and currency=#{currency} FROM price pc, M_buyer b, m_product pd WHERE pc.buyerCD=b.buyerCD and pc.productCd=pd.productCd and buyerCD = #{buyerCD} and productCD = #{productCD} and periodStart = #{periodStart}
 	</update>
 	
 	<delete id="priceDelete" parameterType="map">
-		DELETE price WHERE buyerCD=#{buyerCD} and productCD=#{productCD} and periodStart=#{periodStart}
+		DELETE m_price WHERE buyerCD=#{buyerCD} and productCD=#{productCD} and periodStart=#{periodStart}
 	</delete>
 	
 	<insert id="priceInsert" parameterType="price">
-		INSERT INTO price VALUES (#{buyerCD}, #{productCD}, #{periodStart}, #{periodStart}, #{listPrice}, #{currency}, 'n')
+		INSERT INTO m_price VALUES (#{buyerCD}, #{productCD}, #{periodStart}, #{periodStart}, #{listPrice}, #{currency}, 'n')
 	</insert>
 	
 	<select id="delList" parameterType="string" resultType="string">
-		select del from price where buyerCD=#{buyerCD} and productCD=#{productCD} and periodStart=#{periodStart}
+		select del from m_price where buyerCD=#{buyerCD} and productCD=#{productCD} and periodStart=#{periodStart}
 	</select>
 	
 	<update id="deletePrice" parameterType="map">
-		update price set del=#{delList} where buyerCD=#{buyerCD} and productCD=#{productCD} and periodStart=#{periodStart}
+		update m_price set del=#{delList} where buyerCD=#{buyerCD} and productCD=#{productCD} and periodStart=#{periodStart}
 	</update>
 	
 </mapper>
