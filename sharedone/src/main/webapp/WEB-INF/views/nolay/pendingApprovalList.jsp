@@ -172,7 +172,7 @@
 				</ul>
 			</div>
 			
-			<div class="orderList-div">
+			<div class="orderList-div" style="margin-top: 50px;">
 				<table class="list-table">
 					<tr>
 						<th class="col1">오더번호</th>
