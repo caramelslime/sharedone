@@ -1,5 +1,6 @@
 package com.sharedone.sharedone.service;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,12 +40,18 @@ public class PriceServiceImpl implements PriceService {
 	}
 	
 	@Override
-	public String delList(String periodStart) {
-		return pd.delList(periodStart);
+	public String delList(Price price) {
+		return pd.delList(price);
 	}
 
 	@Override
-	public int deletePrice(String delList, String periodStart) {
-		return pd.deleteProduct(delList, periodStart);
+	public int deletePrice(Price price) {
+		return pd.deleteProduct(price);
+	}
+
+	@Override
+	public List<Price> findDate(Price price) {
+		// TODO Auto-generated method stub
+		return pd.findDate(price);
 	}
 }

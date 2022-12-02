@@ -1,5 +1,6 @@
 package com.sharedone.sharedone.service;
 
+import java.sql.Date;
 import java.util.List;
 
 import com.sharedone.sharedone.model.Buyer;
@@ -17,9 +18,11 @@ public interface PriceService {
 
 	int priceInsert(Price price);
 
-	String delList(String periodStart);
+	String delList(Price price);
 
-	int deletePrice(String delList, String periodStart);
+	int deletePrice(Price price);
+
+	List<Price> findDate(Price price);
 
 
 

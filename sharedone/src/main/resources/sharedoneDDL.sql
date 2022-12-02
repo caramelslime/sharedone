@@ -64,7 +64,7 @@ CREATE TABLE t_order (
 	adddate DATE NOT NULL,
 	pricingdate DATE NOT NULL,
 	requestdate DATE NOT NULL,
-	status VARCHAR(20) NOT NULL, -- 입력완료,승인대기,승인완료,반려,종결
+	status VARCHAR(20) NOT NULL, -- 임시저장,승인대기,승인완료,반려,종결
 	currency CHAR(3) NOT NULL
 );
 --오더 아이템 테이블

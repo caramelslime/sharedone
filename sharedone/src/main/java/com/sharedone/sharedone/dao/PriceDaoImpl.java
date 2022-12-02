@@ -1,5 +1,6 @@
 package com.sharedone.sharedone.dao;
 
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,17 +42,18 @@ public class PriceDaoImpl implements PriceDao {
 	}
 
 	@Override
-	public String delList(String periodStart) {
-		return sst.selectOne("pricens.delList", periodStart);
+	public String delList(Price price) {
+		return sst.selectOne("pricens.delList", price);
 	}
 
 	@Override
-	public int deleteProduct(String delList, String periodStart) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("delList", delList);
-		map.put("buyerCD", delList);
-		map.put("delList", delList);
-		map.put("periodStart", periodStart);
-		return sst.update("pricens.deletePrice", map);
+	public int deleteProduct(Price price) {
+		return sst.update("pricens.deletePrice", price);
+	}
+
+	@Override
+	public List<Price> findDate(Price price) {
+		// TODO Auto-generated method stub
+		return sst.selectList("pricens.findDate",price);
 	}
 }

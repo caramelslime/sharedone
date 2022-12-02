@@ -6,16 +6,11 @@
 	<select id="priceList" resultType="price" parameterType="price">
 		SELECT pc.*,b.buyerNM,pd.productNM FROM m_price pc, M_buyer b, m_product pd
 		<where>
-			<if test="bcdnm != null and bcdnm !=''">
-				UPPER(b.buyerCD) like UPPER('%'||#{bcdnm}||'%') OR
-				UPPER(buyerNM) like UPPER('%'||#{bcdnm}||'%') AND
+			<if test="buyerCD != null and buyerCD  !=''">
+				pc.buyerCD like '%'||#{buyerCD}||'%' AND
 			</if>
-			<if test="pcdnm != null and pcdnm !=''">
-				UPPER(pc.productCD) like UPPER('%'||#{pcdnm}||'%') OR
-				UPPER(productNM) like UPPER('%'||#{pcdnm}||'%') AND
-			</if>
-			<if test="periodStart != null">
-				periodStart like '%'||#{periodStart}||'%' AND
+			<if test="productCD != null and productCD !=''">
+				pc.productCD like '%'||#{productCD}||'%' AND
 			</if>
 			 pc.del='n' and pc.buyerCD=b.buyerCD and pc.productCD=pd.productCD 
 		</where>
@@ -38,12 +33,15 @@
 		INSERT INTO m_price VALUES (#{buyerCD}, #{productCD}, #{periodStart}, #{periodStart}, #{listPrice}, #{currency}, 'n')
 	</insert>
 	
-	<select id="delList" parameterType="string" resultType="string">
+	<select id="delList" parameterType="price" resultType="string">
 		select del from m_price where buyerCD=#{buyerCD} and productCD=#{productCD} and periodStart=#{periodStart}
 	</select>
 	
-	<update id="deletePrice" parameterType="map">
-		update m_price set del=#{delList} where buyerCD=#{buyerCD} and productCD=#{productCD} and periodStart=#{periodStart}
+	<update id="deletePrice" parameterType="price">
+		update m_price set del=#{del} where buyerCD=#{buyerCD} and productCD=#{productCD} and periodStart=#{periodStart}
 	</update>
+	<select id="findDate" parameterType="price" resultType="price">
+		select * from price where buyerCD=#{buyerCD} and productCD=#{productCD} and periodStart between #{periodStart} and #{periodStart}+30 or periodEnd between #{periodStart} and #{periodStart}+30
+	</select>
 	
 </mapper>

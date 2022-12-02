@@ -123,7 +123,7 @@ public class ApprovalController {
 
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			result.put("result", false);
+			result.put("result", e.getMessage());
 		}
 
 		return result;

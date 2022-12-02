@@ -1,5 +1,6 @@
 package com.sharedone.sharedone.dao;
 
+import java.sql.Date;
 import java.util.List;
 
 import com.sharedone.sharedone.model.Price;
@@ -16,9 +17,11 @@ public interface PriceDao {
 
 	int priceInsert(Price price);
 	
-	String delList(String periodStart);
+	String delList(Price price);
 
-	int deleteProduct(String delList, String periodStart);
+	int deleteProduct(Price price);
+
+	List<Price> findDate(Price price);
 
 	
 
