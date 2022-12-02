@@ -13,9 +13,15 @@ public class BuyerServiceImpl implements BuyerService{
 	@Autowired
 	private BuyerDao bd;
 
+
 	//buyer정보 전체 리스트 불러오기
-	public List<Buyer> selectBuyerList() {
-		return bd.selectBuyerList();
+	public List<Buyer> selectBuyerAllList() {
+		return bd.selectBuyerAllList();
+	}
+	
+	//buyer정보 전체 리스트 불러오기(검색용)
+	public List<Buyer> selectBuyerList(Buyer buyer) {
+		return bd.selectBuyerList(buyer);
 	}
 
 	//buyer정보 insert
@@ -47,4 +53,5 @@ public class BuyerServiceImpl implements BuyerService{
 	public int deleteBuyer(String delList, String buyercd) {
 		return bd.deleteBuyer(delList, buyercd);
 	}
+
 }

@@ -16,8 +16,13 @@ public class BuyerDaoImpl implements BuyerDao {
 	private SqlSessionTemplate sst;
 
 	//buyer정보 전체 리스트 불러오기
-	public List<Buyer> selectBuyerList() {
-		return sst.selectList("buyerns.selectBuyerList");
+	public List<Buyer> selectBuyerAllList() {
+		return sst.selectList("buyerns.selectBuyerAllList");
+	}
+	
+	//buyer정보 전체 리스트 불러오기(검색용)
+	public List<Buyer> selectBuyerList(Buyer buyer) {
+		return sst.selectList("buyerns.selectBuyerList", buyer);
 	}
 
 	//buyer정보 insert
@@ -52,4 +57,6 @@ public class BuyerDaoImpl implements BuyerDao {
 		map.put("buyercd", buyercd);
 		return sst.update("buyerns.deleteBuyer", map);
 	}
+
+
 }

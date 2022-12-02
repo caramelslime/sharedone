@@ -7,12 +7,14 @@
 		<typeAlias alias="order" type="com.sharedone.sharedone.model.Order" />
 		<typeAlias alias="buyer" type="com.sharedone.sharedone.model.Buyer" />
 		<typeAlias alias="employee" type="com.sharedone.sharedone.model.Employee" />
+		<typeAlias alias="report" type="com.sharedone.sharedone.model.Report" />
 	</typeAliases>
 	<mappers>
 		<mapper resource="product.xml" />
 		<mapper resource="order.xml" />
 		<mapper resource="buyer.xml" />
 		<mapper resource="employee.xml" />
+		<mapper resource="report.xml" />
 	</mappers>
 </configuration>
 

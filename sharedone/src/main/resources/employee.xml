@@ -11,6 +11,6 @@
 	</select> -->
 	<!-- 직원 정보 전체 리스트 불러오기 -->
 	<select id="selectEmployeeList" resultType="employee">
-		SELECT * FROM employee
+		SELECT * FROM m_employee
 	</select>
 </mapper>

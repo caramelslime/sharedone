@@ -1,6 +1,9 @@
 package com.sharedone.sharedone.controller;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,24 +31,23 @@ public class BuyerController {
 	private EmployeeService es;
 	
 	@RequestMapping("buyerManagement")
-	public String buyerManagement(Model model, Buyer buyer, Employee employee) {
-		//buyer정보 전체 리스트 불러오기
-		List<Buyer> buyer_list = bs.selectBuyerList();
+	public String buyerManagement(Model model, Buyer buyer, Employee employee, String buyercd, String empcd, String status) {
+
+		buyer.setBuyerCd(buyercd);
+		buyer.setEmpCd(empcd);
+		buyer.setStatus(status);
 		
+		//buyer정보 전체 리스트 불러오기
+		List<Buyer> buyerAllList = bs.selectBuyerAllList();
+		//buyer정보 전체 리스트 불러오기(검색용)
+		List<Buyer> buyer_list = bs.selectBuyerList(buyer);
 		//employee정보 전체 리스트 불러오기(검색용)
 		List<Employee> employee_list = es.selectEmployeeList();
-		
-//		//거래처 코드 지정을 위한 거래처 리스트 count
-//		int buyer_count = bs.buyerCount();
-//		System.out.println(buyer_count);
-//		String buyerCD;
-//		buyerCD = "BA"+String.format("%04d",buyer_count+1);
-//    	System.out.println(buyerCD);
-		
+
+		model.addAttribute("buyerAllList", buyerAllList);
 		model.addAttribute("buyer_list", buyer_list);
 		model.addAttribute("employee_list", employee_list);
 		
-//		model.addAttribute("buyerCD", buyerCD);
 		return "/nolay/buyerManagement";
 	}
 
@@ -83,48 +85,50 @@ public class BuyerController {
 	@RequestMapping(path = "buyerInsert")
 	@ResponseBody
 	public Map<String, Object> buyerInsert(@RequestParam String data, Model model, Buyer buyer) {
-		System.out.println("왔다!");
 		Map<String, Object> result = new HashMap<String, Object>();
 		try {
 			List<Map<String,Object>> info = new ArrayList<Map<String,Object>>();
 		    info = JSONArray.fromObject(data);
 		    System.out.println(info);
 		    for (Map<String, Object> buyerInfo : info) {
-		    	System.out.println("buyerInfo.get(\"buyerNM\")" + buyerInfo.get("buyerNM"));
-		    	String buyerName = (String) buyerInfo.get("buyerNM");
+		    	System.out.println("buyerInfo.get(\"buyerNm\")" + buyerInfo.get("buyerNm"));
+		    	String buyerName = (String) buyerInfo.get("buyerNm");
 		    	System.out.println("buyerName"  + buyerName);
 		        String brno = (String) buyerInfo.get("brno");
-		        String rprsv_nm = (String) buyerInfo.get("rprsv_nm");
-		        String business_status = (String) buyerInfo.get("business_status");
+		        String rprsvNm = (String) buyerInfo.get("rprsvNm");
+		        String businessStatus = (String) buyerInfo.get("businessStatus");
 		        String event = (String) buyerInfo.get("event");
-		        String empcd = (String) buyerInfo.get("empcd");
+		        String empCd = (String) buyerInfo.get("empCd");
 		        String status = (String) buyerInfo.get("status");
-		        String nationcd = (String) buyerInfo.get("nationcd");
+		        String nationCd = (String) buyerInfo.get("nationCd");
 		        String postcode = (String) buyerInfo.get("postcode");
 		        String address = (String) buyerInfo.get("address");
-		        String address_detail = (String) buyerInfo.get("address_detail");
+		        String addressDetail = (String) buyerInfo.get("addressDetail");
 		        String tel = (String) buyerInfo.get("tel");
 		        String email = (String) buyerInfo.get("email");
 		        String remark = (String) buyerInfo.get("remark");
-		        String adddate = (String) buyerInfo.get("adddate");
-		        String adduser = (String) buyerInfo.get("adduser");
+		        String addDate = (String) buyerInfo.get("addDate");
+		        String addUser = (String) buyerInfo.get("addUser");
 		        
-		        buyer.setBuyernm(buyerName);
+		        SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		        Date adddate1 = fm.parse(addDate);
+		        
+		        buyer.setBuyerNm(buyerName);
 		        buyer.setBrno(brno);
-		        buyer.setRprsv_nm(rprsv_nm);
-		        buyer.setBusiness_status(business_status);
+		        buyer.setRprsvNm(rprsvNm);
+		        buyer.setBusinessStatus(businessStatus);
 		        buyer.setEvent(event);
-		        buyer.setEmpcd(empcd);
+		        buyer.setEmpCd(empCd);
 		        buyer.setStatus(status);
-		        buyer.setNationcd(nationcd);
+		        buyer.setNationCd(nationCd);
 		        buyer.setPostcode(postcode);
 		        buyer.setAddress(address);
-		        buyer.setAddress_detail(address_detail);
+		        buyer.setAddressDetail(addressDetail);
 		        buyer.setTel(tel);
 		        buyer.setEmail(email);
 		        buyer.setRemark(remark);
-		        buyer.setAdddate(adddate);
-		        buyer.setAdduser(adduser);
+		        buyer.setAddDate((java.sql.Date) adddate1);
+		        buyer.setAddUser(addUser);
 		        
 		        System.out.println("buyer.getAddress()"+buyer.getAddress());
 		        
@@ -133,7 +137,7 @@ public class BuyerController {
 				System.out.println(buyer_count);
 				String buyerCD;
 				buyerCD = "B"+String.format("%05d",buyer_count+1);
-				buyer.setBuyercd(buyerCD);
+				buyer.setBuyerCd(buyerCD);
 		    	System.out.println(buyerCD);
 		        
 		        int Buyerresult = bs.buyerInsert(buyer);
