@@ -7,7 +7,10 @@ import com.sharedone.sharedone.model.Buyer;
 public interface BuyerService {
 	
 	//buyer정보 전체 리스트 불러오기
-	List<Buyer> selectBuyerList();
+	List<Buyer> selectBuyerAllList();
+	
+	//buyer정보 전체 리스트 불러오기(검색용)
+	List<Buyer> selectBuyerList(Buyer buyer);
 
 	//buyer정보 insert
 	int buyerInsert(Buyer buyer);

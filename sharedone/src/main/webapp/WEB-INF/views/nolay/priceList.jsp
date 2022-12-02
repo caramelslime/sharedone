@@ -75,11 +75,6 @@
 						+ "</td>"	
 					+ "</tr>"		
 			);
-			document.querySelector('#buyerNM').value="";
-			document.querySelector('#productNM').value="";
-			document.querySelector('#periodStart').value="";
-			document.querySelector('#listPrice').value="";
-			document.querySelector('#currency').value="";
 			document.querySelector('#buyerNM').focus();
 		}
 		

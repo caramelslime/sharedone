@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="reportns">
+
+	<select id="selectReport" parameterType="map" resultType="report">
+		<if test="empcd != null and empcd !=''">
+			<![CDATA[
+			SELECT pricingdate, sum(qty*unitprice) amount 
+			FROM t_order o 
+			LEFT OUTER JOIN t_order_detail od 
+			ON o.sono=od.sono 
+			WHERE o.souser='${empcd}' 
+				AND o.pricingdate >= TO_DATE('${year}-${month}','YYYY-MM') 
+				AND o.pricingdate < ADD_MONTHS(TO_DATE('${year}-${month}','YYYY-MM'), 1)
+			GROUP BY pricingdate
+			ORDER BY pricingdate
+			]]> 
+		</if>
+		<if test="dept != null and dept !=''">
+			<![CDATA[
+			SELECT pricingdate, sum(qty*unitprice) amount 
+			FROM t_order o 
+			LEFT OUTER JOIN t_order_detail od 
+			ON o.sono=od.sono 
+			WHERE o.souser='${empcd}' 
+				AND o.pricingdate >= TO_DATE('${year}-${month}','YYYY-MM') 
+				AND o.pricingdate < ADD_MONTHS(TO_DATE('${year}-${month}','YYYY-MM'), 1)
+			GROUP BY pricingdate
+			ORDER BY pricingdate
+			]]> 
+		</if>
+		<if test="buyercd != null and buyercd !=''">
+			<![CDATA[
+			SELECT pricingdate, sum(qty*unitprice) amount 
+			FROM t_order o 
+			LEFT OUTER JOIN t_order_detail od 
+			ON o.sono=od.sono 
+			WHERE o.souser='${buyercd}' 
+				AND o.pricingdate >= TO_DATE('${year}-${month}','YYYY-MM') 
+				AND o.pricingdate < ADD_MONTHS(TO_DATE('${year}-${month}','YYYY-MM'), 1)
+			GROUP BY pricingdate
+			ORDER BY pricingdate
+			]]> 
+		</if>
+		<if test="orderStatus != null and orderStatus !=''">
+			<![CDATA[
+			SELECT pricingdate, sum(qty*unitprice) amount 
+			FROM t_order o 
+			LEFT OUTER JOIN t_order_detail od 
+			ON o.sono=od.sono 
+			WHERE o.souser='${empcd}' 
+				AND o.pricingdate >= TO_DATE('${year}-${month}','YYYY-MM') 
+				AND o.pricingdate < ADD_MONTHS(TO_DATE('${year}-${month}','YYYY-MM'), 1)
+			GROUP BY pricingdate
+			ORDER BY pricingdate
+			]]> 
+		</if>
+	</select>
+
+
+</mapper>
