@@ -78,7 +78,7 @@
 			document.querySelector('#buyerNM').value="";
 			document.querySelector('#productNM').value="";
 			document.querySelector('#periodStart').value="";
-			document.querySelector('#listPprice').value="";
+			document.querySelector('#listPrice').value="";
 			document.querySelector('#currency').value="";
 			document.querySelector('#buyerNM').focus();
 		}
@@ -146,7 +146,7 @@
 		for (var i = 0; i < table.rows.length-1; i++) {
 			var cells = rows[i+1].getElementsByTagName("td");
 			
-			insertArray[i] = { buyerNM: cells[0].firstChild.data, productNM: cells[1].firstChild.data, periodStart: cells[2].firstChild.data, price: cells[3].firstChild.data, currency: cells[4].firstChild.data};
+			insertArray[i] = { buyerNM: cells[0].firstChild.data, productNM: cells[1].firstChild.data, periodStart: cells[2].firstChild.data, listPrice: cells[3].firstChild.data, currency: cells[4].firstChild.data};
 			console.log(insertArray[i]);
 		};
 		
@@ -302,13 +302,14 @@
 // 			});
 // 	})
 
-// 	function search() {
+	function search() {
 		
-// 		var cdnm = document.querySelector('#searchCdnm').value;
-// 		var productGroup = document.querySelector('#searchProductGroup').value;
+		var bcdnm = document.querySelector('#searchBcdnm').value;
+		var pcdnm = document.querySelector('#searchPcdnm').value;
+		var periodStart = document.querySelector('#searchPeriodStart').value;
 		
-// 		pageView('priceList.do?cdnm='+cdnm+'&productGroup='+productGroup);
-// 	}
+		pageView('priceList.do?bcdnm='+bcdnm+'&pcdnm='+pcdnm+'&periodStart='+periodStart);
+	}
 	
 </script>
 
@@ -328,10 +329,10 @@
 			<div class="search-div">
 				<div class="search-sub-wrap">
 				<div class="search-sub-div">
-					<div class="search-item-div"><div class="search-item-text">• 거래처명/코드</div><input type=text list="buyerList"></div>
-					<div class="search-item-div each-item-div"><div class="search-item-text">• 제품명/코드</div><input type="text" list="productList"></div>
+					<div class="search-item-div"><div class="search-item-text">• 거래처명/코드</div><input type=text id="searchBcdnm" class="search" list="buyerList"></div>
+					<div class="search-item-div each-item-div"><div class="search-item-text">• 제품명/코드</div><input type="text" id="searchPcdnm" class="search" list="productList"></div>
 				</div>
-				<div class="search-item-div"><div class="search-item-text">• 유효기간 시작일 </div><input type="date"></div>	
+				<div class="search-item-div"><div class="search-item-text">• 유효기간 시작일 </div><input type="date" id="searchPeriodStart" class="search" ></div>	
 				</div>
 				<div class="search-box search" onclick="search()" tabIndex="0">조회</div>
 			</div>
@@ -353,7 +354,7 @@
 						<c:forEach var="price" items="${priceList}">
 							<tr class="priceListTr">
 								<td class="col1">
-									<input type="checkbox" name="selectChk" value="${price.periodStart}" >
+									<input type="checkbox" name="selectChk" value="${price.buyerCD},${price.productCD},${price.periodStart}" >
 								</td>
 								<td class="col2">${price.buyerCD}</td>
 								<td class="col3">${price.productCD}</td>
@@ -383,6 +384,8 @@
 						<div class="insert-text">유효기간 시작일<span class="red_warn">*</span></div>
 						<input type="date" id="periodStart" required="required">
 					</div>
+				</div>
+				<div class="insert-row-div">
 					<div class="insert-sub-row-div">
 						<div class="insert-text">판매가<span class="red_warn">*</span></div>
 						<input type="text" id="listPrice" required="required"/>

@@ -1,14 +1,16 @@
 package com.sharedone.sharedone.model;
 
+import java.sql.Date;
+
 import lombok.Data;
 
 @Data
 public class Price {
 	private String buyerCD;
 	private String productCD;
-	private String periodStart;
+	private Date periodStart;
 	private String periodEnd;
-	private String listPrice;
+	private int listPrice;
 	private String currency;
 	private String del;
 	
@@ -17,4 +19,7 @@ public class Price {
 	// 조인한 데이터
 	private String buyerNM;
 	private String productNM;
+	
+	public String bcdnm;
+	public String pcdnm;
 }

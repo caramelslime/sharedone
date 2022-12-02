@@ -47,4 +47,9 @@ public class BuyerServiceImpl implements BuyerService{
 	public int deleteBuyer(String delList, String buyercd) {
 		return bd.deleteBuyer(delList, buyercd);
 	}
+
+	//이름으로 찾기
+	public String selectByNm(String buyerNM) {
+		return bd.selectByNm(buyerNM);
+	}
 }

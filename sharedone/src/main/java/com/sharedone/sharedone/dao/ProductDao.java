@@ -21,5 +21,7 @@ public interface ProductDao {
 	int deleteProduct(String delList, String productCD);
 
 	List<Product> productAllList();
+	
+	String selectByNm(String productNM);
 
 }

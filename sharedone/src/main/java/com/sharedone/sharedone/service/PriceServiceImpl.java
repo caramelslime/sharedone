@@ -14,8 +14,8 @@ public class PriceServiceImpl implements PriceService {
 	private PriceDao pd;
 
 	@Override
-	public List<Price> priceList() {
-		return pd.priceList();
+	public List<Price> priceList(Price price) {
+		return pd.priceList(price);
 	}
 
 	@Override
