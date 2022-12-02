@@ -14,7 +14,7 @@ public interface ProductService {
 
 	int productInsert(Product product);
 
-	int totalByProductGroup(String productGroup);
+	int totalProduct();
 
 	String delList(String productCD);
 

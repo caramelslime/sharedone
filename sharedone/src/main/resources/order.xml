@@ -20,7 +20,7 @@
 			</if>
 			currency IS NOT NULL
 		</where>
-		 ORDER BY soNo
+		 ORDER BY soNo DESC
 	</select>
 	
 	<select id="selectOrderHeader" parameterType="string" resultType="order">
@@ -37,12 +37,23 @@
 	</select>
 	
 	<insert id="addOrderDetail" parameterType="map">
-		INSERT INTO t_order_detail VALUES (#{soNo}, #{productCD}, #{qty}, #{unitprice})
+		INSERT INTO t_order_detail VALUES (#{soNo}, #{productCD}, #{qty}, #{unitPrice})
 	</insert>
 	
 	<delete id="removeOrderDetail" parameterType="map">
 		DELETE t_order_detail WHERE soNo=#{soNo} AND productCD=#{productCD}
 	</delete>
+	
+	<insert id="addOrder" parameterType="map">
+		INSERT INTO t_order VALUES (#{soNo}, #{buyerCD}, #{soUser}, sysdate, sysdate, #{requestDate}, '임시저장', #{currency})
+	</insert>
+	
+	<select id="totalOrder" resultType="int">
+		SELECT COUNT(*) FROM t_order
+	</select>
+	
+	
+	
 	
 	
 </mapper>

@@ -30,8 +30,8 @@
 		INSERT INTO m_product VALUES (#{productCD}, #{productNM}, #{unit}, #{productGroup}, 'n')
 	</insert>
 	
-	<select id="totalByProductGroup" parameterType="String" resultType="int">
-		SELECT COUNT(*) FROM m_product WHERE productgroup=#{productGroup}
+	<select id="totalProduct" resultType="int">
+		SELECT COUNT(*) FROM m_product
 	</select>
 	
 	<select id="delList" parameterType="string" resultType="string">

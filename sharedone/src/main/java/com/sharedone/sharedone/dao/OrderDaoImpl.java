@@ -1,5 +1,6 @@
 package com.sharedone.sharedone.dao;
 
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,12 +38,12 @@ public class OrderDaoImpl implements OrderDao {
 	}
 
 	@Override
-	public int addOrderDetail(String soNo, String productCD, int qty, int unitprice) {
+	public int addOrderDetail(String soNo, String productCD, int qty, int unitPrice) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("soNo", soNo);
 		map.put("productCD", productCD);
 		map.put("qty", qty);
-		map.put("unitprice", unitprice);
+		map.put("unitPrice", unitPrice);
 		return sst.insert("orderns.addOrderDetail", map);
 	}
 
@@ -52,5 +53,21 @@ public class OrderDaoImpl implements OrderDao {
 		map.put("soNo", soNo);
 		map.put("productCD", productCD);
 		return sst.delete("orderns.removeOrderDetail", map);
+	}
+
+	@Override
+	public int addOrder(String soNo, String buyerCD, String soUser, Date requestDate, String currency) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("soNo", soNo);
+		map.put("buyerCD", buyerCD);
+		map.put("soUser", soUser);
+		map.put("requestDate", requestDate);
+		map.put("currency", currency);
+		return sst.insert("orderns.addOrder", map);
+	}
+
+	@Override
+	public int totalOrder() {
+		return sst.selectOne("orderns.totalOrder");
 	}
 }

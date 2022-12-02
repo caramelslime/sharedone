@@ -36,7 +36,10 @@ public class ProductController {
 		
 		List<Product> productList = ps.productList(product);
 		
+		List<Product> productAllList = ps.productAllList();
+		
 		model.addAttribute("productList", productList);
+		model.addAttribute("productAllList", productAllList);
 		
 		return "/nolay/product";
 	}
@@ -61,28 +64,16 @@ public class ProductController {
 		        product.setUnit(unit);
 		        product.setProductGroup(productGroup);
 		        
-		        System.out.println(productGroup);
 		        
-		        int totalByProductGroup = ps.totalByProductGroup(product.getProductGroup());
+		        int totalProduct = ps.totalProduct();
 		  	  	
-		        System.out.println(totalByProductGroup);
 		        
 		        String productCD = "";
 		  	  	
-		        System.out.println(productGroup);
+	        	productCD = "P"+String.format("%05d",totalProduct+1);
+	        	product.setProductCD(productCD);
 		        
-		        if ("스넥류".equals(productGroup)) {
-		        	productCD = "A"+String.format("%05d",totalByProductGroup+1);
-		        	System.out.println(productCD);
-		        	product.setProductCD(productCD);
-		        } else if ("초콜릿류".equals(productGroup)) {
-		        	productCD = "B"+String.format("%05d",totalByProductGroup+1);
-		        	System.out.println(productCD); 
-		        	product.setProductCD(productCD);
-		        }
-		        
-		        int insertResult = ps.productInsert(product);
-		        System.out.println(insertResult);
+		        ps.productInsert(product);
 		        
 		    }  
 		     result.put("result", true);

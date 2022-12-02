@@ -193,3 +193,18 @@ SELECT * FROM m_buyer;
 SELECT d.*, productNM, unit, productGroup  FROM t_order_detail d, m_product p WHERE d.productCD=p.productCD  AND soNo='S00001';
 
 DELETE t_order_detail WHERE soNo='S00001' AND productCD='P00003';
+
+
+SELECT * FROM t_order;
+SELECT * FROM t_order_detail;
+
+INSERT INTO t_order VALUES (#{soNo}, #{buyerCD}, #{soUser}, sysdate, sysdate, #{requestDate}, '임시저장', #{currency})
+
+DELETE FROM t_order WHERE soNo = 'P00021';
+
+
+
+
+
+
+

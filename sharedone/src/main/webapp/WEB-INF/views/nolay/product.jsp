@@ -11,9 +11,12 @@
 <style type="text/css">@import url("/sharedone/resources/css/share.css");</style>
 <style type="text/css">@import url("/sharedone/resources/css/product.css");</style>
 
+<style type="text/css">@import url("/sharedone/resources/css/sumoselect.min.css");</style>
+<script src="/sharedone/resources/js/jquery.sumoselect.min.js"></script>
+
 <script type="text/javascript">
 	
-	document.querySelector('#searchCdnm').focus();
+//	document.querySelector('#searchCdnm').focus();
 	
 	function pageView(data) {
 		var addr = data;
@@ -37,11 +40,11 @@
 		$('.productList-div').css('opacity', '1');
 		$('.search-div').css('opacity', '1');
 		$("#insertList-table tr:not(:first)").remove();	// 입력창 닫을 때 입력한 값 제거
-		document.querySelector('#unit').value="";
+		document.querySelector('#insertUnit').value="";
 		document.querySelector('#insertProductNM').value="";
 	}
 	
-	function newInputView() {
+	function newProductInputView() {
 		 $('.insert-div').show();
 		 $('.productList-div').css('opacity', '0.3');
 		 $('.search-div').css('opacity', '0.3');
@@ -94,6 +97,14 @@
 		});
 		
 		$('.search').keypress(function() { // enter키를 누르면 메세지 전송
+			//  누른 key값(asscii)  IE ?      IE의 값         IE아닌 모든 web값
+			var keycode = event.keyCode ? event.keyCode : event.which;
+			if (keycode == 13) { // 13이 enter(assii값)
+				search();
+			}
+		});
+		
+		$('.search-text').keypress(function() { // enter키를 누르면 메세지 전송
 			//  누른 key값(asscii)  IE ?      IE의 값         IE아닌 모든 web값
 			var keycode = event.keyCode ? event.keyCode : event.which;
 			if (keycode == 13) { // 13이 enter(assii값)
@@ -284,6 +295,13 @@
 	}
 	
 	
+	/* sumoselect */
+	$('#searchCdnm').SumoSelect({
+		search: true, searchText: '코드 / 제품명',
+		noMatch : '"{0}"가 없습니다',
+		placeholder: ' '
+		});
+	
 	
 </script>
 
@@ -305,7 +323,14 @@
 					<div class="search-sub-div">
 						<div class="search-item-div">
 							<div class="search-item-text">• 제품 코드 / 제품명</div>
-							<input type=text id="searchCdnm" class="search" list="CDList">
+							<select id="searchCdnm" class="search" name="productSelect">
+								<option value=""></option>
+								<c:forEach var="product" items="${productAllList }">
+									<option value="${product.productCD }">${product.productNM }</option>
+								</c:forEach>
+							</select>
+							
+							<!-- <input type=text id="searchCdnm" class="search" list="CDList"> -->
 						</div>
 					</div>
 					<div class="search-item-div">
@@ -394,7 +419,7 @@
 			<div class="bottom-div">
 				<div class="bottom-btn-div">
 					<c:set var="editable" value="a"></c:set>
-					<button class="new-input-btn" onclick="newInputView()">제품등록</button>
+					<button class="new-product-input-btn" onclick="newProductInputView()">제품등록</button>
 					<button class="del-btn" onclick="check()">삭제</button>
 					<button class="edit-start-btn" onclick="editStart()" style="display: block;">수정하기</button>
 					<button class="edit-finish-btn" onclick="editFinish()" style="display: none;">수정 완료</button>

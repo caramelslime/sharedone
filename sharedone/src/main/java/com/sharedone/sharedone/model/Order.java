@@ -24,7 +24,7 @@ public class Order {
 	private String productCD;
 	private String qty;
 	private String unit;
-	private String unitprice;
+	private String unitPrice;
 	private String productNM;
 	private String productGroup;
 	
