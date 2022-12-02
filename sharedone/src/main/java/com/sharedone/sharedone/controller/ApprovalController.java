@@ -76,7 +76,7 @@ public class ApprovalController {
 //		 model.addAttribute("pb",pb);
 		 
 	 
-		return "/pendingApprovalList";
+		return "/nolay/pendingApprovalList";
 	}
 	@RequestMapping("pendingApprovalDetail")
 	public String view(String sono, String pageNum, Model model, HttpSession session) {
@@ -85,7 +85,7 @@ public class ApprovalController {
 //		model.addAttribute("list",odlist);
 //		model.addAttribute("sono",sono);
 //		model.addAttribute("pageNum",pageNum);
-		return "/pendingApprovalDetail";
+		return "/nolay/pendingApprovalDetail";
 	}
 	
 	@SuppressWarnings("unchecked")
