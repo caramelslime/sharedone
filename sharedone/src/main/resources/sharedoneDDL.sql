@@ -76,7 +76,7 @@ CREATE TABLE t_order_detail (
 );
 --코멘트 테이블
 CREATE TABLE t_NOTICE (
-	NOTICECD	number(11)	NOT NULL,
+	NOTICECD	number(11)	NOT NULL PRIMARY KEY,
 	CONTENT	VARCHAR(1000)	NOT NULL,
 	EMPCD	varchar(20)	NOT NULL references M_EMPLOYEE(empcd),
 	SONO	VARCHAR2(20)	NOT NULL references T_ORDER(sono),
