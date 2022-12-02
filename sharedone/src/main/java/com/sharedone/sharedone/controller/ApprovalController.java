@@ -1,6 +1,9 @@
 package com.sharedone.sharedone.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -8,13 +11,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 //import com.sharedone.sharedone.service.PagingBean;
 import com.sharedone.sharedone.model.Employee;
+import com.sharedone.sharedone.model.Notice;
 import com.sharedone.sharedone.model.Order;
 import com.sharedone.sharedone.service.EmployeeService;
+import com.sharedone.sharedone.service.NoticeService;
 import com.sharedone.sharedone.service.OrderService;
+
+import net.sf.json.JSONArray;
 
 @Controller
 public class ApprovalController {
@@ -24,6 +32,8 @@ public class ApprovalController {
 	private OrderService os;
 //	@Autowired
 //	private OrderDetailService ods;
+	@Autowired
+	private NoticeService ns;
 	 
 	
 	@RequestMapping("empLoginForm")
@@ -77,16 +87,45 @@ public class ApprovalController {
 //		model.addAttribute("pageNum",pageNum);
 		return "/pendingApprovalDetail";
 	}
+	
+	@SuppressWarnings("unchecked")
 	@RequestMapping(path = "approveOrRefer.do")
 	@ResponseBody
-	public String approve(int sono,Model model,HttpSession session,String content,int check) {
-//		String empCd = (String)session.getAttribute("empCd");
-//		int result =-1;
-//		result = os.approve(sono,check);
-//		if(result>0) {result=cs.insert(empCd,content);}
-//		model.addAttribute("result",result);
-//		model.addAttribute("pageNum",pageNum);
-//		model.addAttribute("check",check);
-		return "/pendingApprovalDetail";
+	public Map<String, Object> approve(@RequestParam String data, Model model, HttpSession session, Notice notice) {
+		String empCd = (String) session.getAttribute("empCd");
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		try {
+			List<Map<String, Object>> info = new ArrayList<Map<String, Object>>();
+			info = JSONArray.fromObject(data);
+
+			for (Map<String, Object> noticeInfo : info) {
+				System.out.println(noticeInfo.get("soNo"));
+				String soNo = (String) noticeInfo.get("soNo");
+				String content = (String) noticeInfo.get("content");
+				String check = (String) noticeInfo.get("check");
+				int noticeCd = ns.getMax();
+				if(content == null || content.equals(""))content=" ";
+				notice.setSoNo(soNo);
+				notice.setContent(content);
+				notice.setCheck(check);
+				notice.setNoticeCd(noticeCd);
+				notice.setEmpCd("E0005");
+				System.out.println(content);
+
+				
+				int nInsertResult = ns.insertApproveOrRefer(notice);
+				System.out.println(nInsertResult);
+				int oInsertResult = os.updateApproveOrRefer(notice);
+				System.out.println(oInsertResult);
+			}
+			result.put("result", true);
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			result.put("result", false);
+		}
+
+		return result;
 	}
 }

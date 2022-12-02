@@ -16,4 +16,16 @@ public class NoticeDaoImpl implements NoticeDao{
 		return sst.selectOne("noticens.selectLastRequest",soNo);
 	}
 
+	@Override
+	public int insertApproveOrRefer(Notice notice) {
+		// TODO Auto-generated method stub
+		return sst.insert("noticens.insertApproveOrRefer",notice);
+	}
+
+	@Override
+	public int getMax() {
+		// TODO Auto-generated method stub
+		return sst.selectOne("noticens.getMax");
+	}
+
 }

@@ -1,6 +1,7 @@
 drop table m_employee cascade constraint;
 drop table m_product cascade constraint;
 drop table M_BUYER cascade constraint;
+drop table m_price cascade constraint;
 drop table t_order cascade constraint;
 drop table t_order_detail cascade constraint;
 drop table t_notice cascade constraint;
@@ -18,9 +19,9 @@ CREATE TABLE m_employee (
 -- 판매부번 테이블
 CREATE TABLE m_product (
 	productcd VARCHAR2(20) PRIMARY KEY,
-	productnm VARCHAR2(50),
-	unit VARCHAR2(10),
-	productgroup VARCHAR2(20)
+	productnm VARCHAR2(50) NOT NULL,
+	unit VARCHAR2(10) NOT NULL,
+	productgroup VARCHAR2(20) NOT NULL
 );
 --거래처 테이블
 CREATE TABLE M_BUYER (
@@ -40,45 +41,45 @@ CREATE TABLE M_BUYER (
 	EMAIL VARCHAR2(320)	NULL,				--이메일
 	REMARK VARCHAR2(1000) NULL,				--참고사항
 	ADDDATE	DATE NOT NULL,					--등록일시
-	ADDUSER	VARCHAR2(255) NOT NULL,			--작성자
+	ADDUSER	VARCHAR2(255) NOT NULL references M_EMPLOYEE(empcd),			--작성자
 	DELYN CHAR DEFAULT 'n' NOT NULL			--삭제여부
 );
 --판매가격 테이블
-CREATE TABLE price (
-	buyercd	VARCHAR2(20)	NOT NULL,
-	productcd	VARCHAR2(20)	NOT NULL,
+CREATE TABLE m_price (
+	buyercd	VARCHAR2(20)	NOT NULL references M_BUYER(buyercd),
+	productcd	VARCHAR2(20)	NOT NULL references M_PRODUCT(productcd),
 	periodstart	date	NOT NULL,
 	periodend	date	NOT NULL,
     listPrice NUMBER(11) NOT NULL,
 	currency	VARCHAR2(10)	NOT NULL,
-	del CHAR(1),
+	del CHAR(1) NOT NULL,
 	PRIMARY KEY (buyercd, productcd, periodstart)
 );
 --오더 헤더 테이블
 CREATE TABLE t_order (
 	sono VARCHAR2(20) PRIMARY KEY,
-	buyercd VARCHAR2(20),
-	souser VARCHAR2(20),
-	adddate DATE,
-	pricingdate DATE,
-	requestdate DATE,
-	status VARCHAR(20),
-	currency CHAR(3)
+	buyercd VARCHAR2(20) NOT NULL references M_BUYER(buyercd),
+	souser VARCHAR2(20) NOT NULL references M_EMPLOYEE(empcd),
+	adddate DATE NOT NULL,
+	pricingdate DATE NOT NULL,
+	requestdate DATE NOT NULL,
+	status VARCHAR(20) NOT NULL, -- 입력완료,승인대기,승인완료,반려,종결
+	currency CHAR(3) NOT NULL
 );
 --오더 아이템 테이블
 CREATE TABLE t_order_detail (
-	sono VARCHAR2(20),
-	productcd VARCHAR2(20),
-	qty number(11),
-	unitprice number(11),
+	sono VARCHAR2(20) NOT NULL,
+	productcd VARCHAR2(20) NOT NULL references M_PRODUCT(productcd),
+	qty number(11) NOT NULL,
+	unitprice number(11) NOT NULL,
 	CONSTRAINT t_order_detail_pk PRIMARY KEY (sono, productcd)
 );
 --코멘트 테이블
 CREATE TABLE t_NOTICE (
 	NOTICECD	number(11)	NOT NULL,
 	CONTENT	VARCHAR(1000)	NOT NULL,
-	EMPCD	varchar(20)	NOT NULL,
-	SONO	VARCHAR2(20)	NOT NULL,
+	EMPCD	varchar(20)	NOT NULL references M_EMPLOYEE(empcd),
+	SONO	VARCHAR2(20)	NOT NULL references T_ORDER(sono),
 	registDate	date	NOT NULL,
 	status varchar(20) not null--상태로는 승인,반려,승인요청이 있을거 같습니다.
 );

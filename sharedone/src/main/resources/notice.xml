@@ -2,7 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="noticens">
+	<!-- 최신의 승인요청 코멘트 추출 -->
 	<select id="selectLastRequest" parameterType="String" resultType="notice">
-		select * from t_notice where soNo=#{soNo} and status='승인요청' and noticecd=(select max(noticecd) from t_notice)	
+		select * from t_notice where soNo=#{soNo} and status='승인요청' and noticecd=(select max(noticecd) from t_notice where status = '승인요청')	
 	</select>
+	<select id="getMax" resultType="integer">
+		select max(noticecd)+1 from t_notice
+	</select>
+	<!-- 승인인지 반려인지 체크하여 코멘트 입력 -->
+	<insert id="insertApproveOrRefer" parameterType="notice">
+		<if test="check==1">
+			insert into t_notice values(#{noticeCd},#{content},#{empCd},#{soNo},sysdate,'승인')
+		</if>
+		<if test="check==2">
+			insert into t_notice values(#{noticeCd},#{content},#{empCd},#{soNo},sysdate,'반려')
+		</if>
+	</insert>
+	
 </mapper>

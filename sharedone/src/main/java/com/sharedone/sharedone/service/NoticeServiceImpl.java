@@ -16,4 +16,16 @@ public class NoticeServiceImpl implements NoticeService{
 		return nd.selectLastRequest(soNo);
 	}
 
+	@Override
+	public int insertApproveOrRefer(Notice notice) {
+		// TODO Auto-generated method stub
+		return nd.insertApproveOrRefer(notice);
+	}
+
+	@Override
+	public int getMax() {
+		// TODO Auto-generated method stub
+		return nd.getMax();
+	}
+
 }

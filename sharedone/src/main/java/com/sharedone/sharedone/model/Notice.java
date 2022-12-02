@@ -11,4 +11,7 @@ public class Notice {
 	private String soNo;
 	private Date registDate;
 	private String status;
+//	승인/반려 체크용
+	private String check;
+	
 }

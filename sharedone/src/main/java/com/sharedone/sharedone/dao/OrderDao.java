@@ -2,6 +2,7 @@ package com.sharedone.sharedone.dao;
 
 import java.util.List;
 
+import com.sharedone.sharedone.model.Notice;
 import com.sharedone.sharedone.model.Order;
 
 public interface OrderDao {
@@ -15,5 +16,7 @@ public interface OrderDao {
 	Order selectByProductCD(String productCD);
 
 	List<Order> pendingApprovalList(Order order);
+
+	int updateApproveOrRefer(Notice notice);
 
 }

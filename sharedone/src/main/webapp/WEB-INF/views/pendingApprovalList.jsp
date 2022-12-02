@@ -31,22 +31,23 @@
 		});
 	}
 	function approve() {
-		var content = document.getElementById("content-insert");
-		console.log(content);
+		var sono = document.getElementById("detailSoNo");
+		var comm = document.getElementById("comment-input");
+		var insertArray = new Array(1);
+		console.log(sono);
+		console.log(comm);
+		if(comm.value==null){
+			comm="";
+		}
 		
 		
-		for (var i = 0; i < table.rows.length-1; i++) {
-			var cells = rows[i+1].getElementsByTagName("td");
-			
-			insertArray[i] = { productNM: cells[0].firstChild.data, unit: cells[1].firstChild.data, productGroup: cells[2].firstChild.data};
-			console.log(insertArray[i]);
-		};
+		insertArray[0] = { soNo: sono.value, content: comm.value, check:"1"};
 		
 		console.log(insertArray);
 		
 		$.ajax({
 		     method: 'post',
-		     url: 'productInsert.do',
+		     url: 'approveOrRefer.do',
 		     traditional: true,
 		     data: {
 		       data: JSON.stringify(insertArray)
@@ -54,25 +55,40 @@
 		     dataType: 'json',
 		     success: function (res) {
 		        if (res.result) {
-					pageView('product.do');
+					pageView('pendingApprovalList.do');
 		        }
 			}
-	   });
+	   }); 
 	}
 	function refer() {
+		var sono = document.getElementById("detailSoNo");
+		var comm = document.getElementById("comment-input");
+		var insertArray = new Array(1);
+		console.log(sono);
+		console.log(comm);
+		if(comm.value==null){
+			comm.value="";
+		}
+		
+		
+		insertArray[0] = { soNo: sono.value, content: comm.value, check:"2"};
+		
+		console.log(insertArray);
 		
 		$.ajax({
 		     method: 'post',
 		     url: 'approveOrRefer.do',
 		     traditional: true,
-		     data: {'chk':2},
+		     data: {
+		       data: JSON.stringify(insertArray)
+		     },
+		     dataType: 'json',
 		     success: function (res) {
 		        if (res.result) {
 					pageView('pendingApprovalList.do');
 		        }
 			}
-	   });
-		
+	   }); 
 	}
 	
 	
@@ -136,8 +152,8 @@
 		$('.orderList-div').css('opacity', '1');
 		$('.search-div').css('opacity', '1');
 		$('.comment-return-div').hide();
-		document.querySelector('#add-finish-btn').style.display = 'none';
-		document.querySelector('#add-row-btn').style.display = 'block';
+		document.querySelector('#comment-return-input').value="";
+		document.querySelector('#comment-input').value="";
 	}
 	
 	

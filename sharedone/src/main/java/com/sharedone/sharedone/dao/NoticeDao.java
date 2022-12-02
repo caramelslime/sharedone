@@ -6,4 +6,8 @@ public interface NoticeDao {
 
 	Notice selectLastRequest(String soNo);
 
+	int insertApproveOrRefer(Notice notice);
+
+	int getMax();
+
 }
