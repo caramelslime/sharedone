@@ -40,7 +40,7 @@ public class PriceController {
 		price.setPcdnm(pcdnm);
 		
 		List<Price> priceList = pv.priceList(price);
-		List<Buyer> buyerList = bs.selectBuyerList();
+		List<Buyer> buyerList = bs.selectBuyerAllList();
 		List<Product> productList = ps.productList(product);
 		
 		model.addAttribute("priceList", priceList);

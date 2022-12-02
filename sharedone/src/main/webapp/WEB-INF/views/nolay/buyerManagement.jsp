@@ -13,6 +13,9 @@
 
 <style type="text/css">@import url("/sharedone/resources/css/share.css");</style>
 <style type="text/css">@import url("/sharedone/resources/css/buyerManagement.css");</style>
+
+<script src="/sharedone/resources/js/jquery.sumoselect.min.js"></script>
+<style type="text/css">@import url("/sharedone/resources/css/sumoselect.min.css");</style>
 <style type="text/css">
 
 .search-item-div {
@@ -31,7 +34,7 @@
 .insert-div{
 	background: #fff;
     width: 860px;
-    height: 720px;
+    height: 746px;
 	position: relative;
     top: -700px;
 	box-shadow: 2px -1px 4px #b1b1b1;
@@ -74,6 +77,7 @@
 	display: flex;
     margin: 0 0 0 21px;
 }
+
 .insert-action-btn{
 	border: none;
     background-color: #00944e;
@@ -109,6 +113,89 @@
 .insert-buyerCd{
 	font-size: 12px;
     font-style: italic;
+}
+
+/*  */
+.edit-start-btn{
+    border: none;
+    background-color: #e5e1dc;
+    box-shadow: 1px -1px 2px #b1b1b1;
+    height: 24px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.edit-finish-btn{
+    border: none;
+    background-color: #e5e1dc;
+    box-shadow: 1px -1px 2px #b1b1b1;
+    height: 24px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+.edit {
+	border: none;
+	outline: none;
+}
+.no-border {
+	border: none;
+}
+
+.list-input{
+	border: none;
+    background: transparent;
+    width: 55px;
+}
+.list-input2{
+	border: none;
+    background: transparent;
+    width: 110px;
+}
+.list-input3{
+	border: none;
+    background: transparent;
+    width: 139px;
+}
+.list-input4{
+	border: none;
+    background: transparent;
+	width: 79px;
+}
+
+.insert-action-btn {
+    border: none;
+    background-color: #293b4b;
+    color: white;
+    box-shadow: 1px -1px 2px #b1b1b1;
+    cursor: pointer;
+    width: 110px;
+    height: 39px;
+    margin: 10px auto 0 auto;
+}
+
+/*  */
+#status-select{
+    width: 98px;
+    height: 26px;
+    background-color: #d7d7d7;
+    border: none;
+}
+.insert-select{
+	height: 25px;
+    width: 144px;
+    border:none;
+    background-color: #d7d7d7;
+}
+
+
+/* semoselect */
+
+.SumoSelect>.CaptionCont {
+    background-color: #d7d7d7;
+    border: none;
+}
+.SumoSelect.open .search-txt{
+	background-color: #d7d7d7;
 }
 </style>
 <script type="text/javascript">
@@ -156,11 +243,7 @@
 			updateFrm.rprsvNm.value = data.rprsvNm;
 			updateFrm.businessStatus.value = data.businessStatus;
 			updateFrm.event.value = data.event;
-<<<<<<< HEAD
-			updateFrm.receiveuserid.value = data.receiveuserid;
-=======
 			updateFrm.empCd.value = data.empCd;
->>>>>>> refs/remotes/origin/lhj's_branch
 			updateFrm.status.value = data.status;
 			updateFrm.nationCd.value = data.nationCd;
 			updateFrm.postcode.value = data.postcode;
@@ -192,6 +275,8 @@
  			$('.update-div').hide();
  			$('.buyerList-div').css('opacity', '1');
  			$('.search-div').css('opacity', '1');
+		
+ 			
 			}else if(data == "n"){
 				alert("거래처 수정에 실패했습니다");
 			}
@@ -206,11 +291,7 @@
 		var rprsvNm = insertFrm.rprsvNm.value;
 		var businessStatus = insertFrm.businessStatus.value;
 		var event = insertFrm.event.value;
-<<<<<<< HEAD
-		var receiveuserid = insertFrm.receiveuserid.value;
-=======
 		var empCd = insertFrm.empCd.value;
->>>>>>> refs/remotes/origin/lhj's_branch
 		var status = insertFrm.status.value;
 		var nationCd = insertFrm.nationCd.value;
 		var postcode = insertFrm.postcode.value;
@@ -226,11 +307,7 @@
 		
 		
 		
-<<<<<<< HEAD
-		if (buyerNM == "" || brno == "" || rprsv_nm == "" || business_status == "" || event == "" || receiveuserid == "" || status == "" || nationcd == "" || postcode == "" || address == "" || address_detail == "" || tel == "" || email == "" || adddate == "" || adduser == "" ) {
-=======
 		if (buyerNm == "" || brno == "" || rprsvNm == "" || businessStatus == "" || event == "" || empCd == "" || status == "" || nationCd == "" || postcode == "" || address == "" || addressDetail == "" || tel == "" || email == "" || addDate == "" || addUser == "" ) {
->>>>>>> refs/remotes/origin/lhj's_branch
 			alert("값을 입력하세요");
 		} else {
 			$('#insertList-table').append(
@@ -243,11 +320,7 @@
 						+ "<td>"+rprsvNm+"</td>"
 						+ "<td>"+businessStatus+"</td>"
 						+ "<td>"+event+"</td>"
-<<<<<<< HEAD
-						+ "<td>"+receiveuserid+"</td>"
-=======
 						+ "<td>"+empCd+"</td>"
->>>>>>> refs/remotes/origin/lhj's_branch
 						+ "<td>"+status+"</td>"
 						+ "<td>"+nationCd+"</td>"
 						+ "<td>"+postcode+"</td>"
@@ -266,13 +339,8 @@
 			insertFrm.rprsvNm.value="";
 			insertFrm.businessStatus.value="";
 			insertFrm.event.value="";
-<<<<<<< HEAD
-			insertFrm.receiveuserid.value="";
-			insertFrm.nationcd.value="";
-=======
 			insertFrm.empCd.value="";
 			insertFrm.nationCd.value="";
->>>>>>> refs/remotes/origin/lhj's_branch
 			insertFrm.postcode.value="";
 			insertFrm.address.value="";
 			insertFrm.addressDetail.value="";
@@ -308,11 +376,7 @@
 					rprsvNm: cells[3].firstChild.data, 
 					businessStatus: cells[4].firstChild.data, 
 					event: cells[5].firstChild.data, 
-<<<<<<< HEAD
-					receiveuserid: cells[6].firstChild.data, 
-=======
 					empCd: cells[6].firstChild.data, 
->>>>>>> refs/remotes/origin/lhj's_branch
 					status: cells[7].firstChild.data, 
 					nationCd: cells[8].firstChild.data, 
 					postcode: cells[9].firstChild.data, 
@@ -395,8 +459,6 @@
 	    }, 200);
 	}
 
-<<<<<<< HEAD
-=======
 	var editable = 0;
 	
 	function editStart() {
@@ -486,7 +548,6 @@ $('.employeeList').SumoSelect({
 /* 거래처상태리스트 */
 $('.statusList').SumoSelect({
 });
->>>>>>> refs/remotes/origin/lhj's_branch
 </script>
 </head>
 <body>
@@ -525,12 +586,14 @@ $('.statusList').SumoSelect({
 				</div>
 				<div class="search-item-div">
 					<div class="search-item-text">• 거래처상태</div>
-					<select name="status">
+					<select class="statusList" name="statusSelect">
+						<option value="">선택안함</option>
 						<option value="활성">활성</option>
-						<option value="활성">비활성</option>
+						<option value="비활성">비활성</option>
 					</select>
 				</div>
 			</div>
+
 			</div>
 			<div class="search-box search" onclick="search()">조회</div>
 		</div>
@@ -598,7 +661,7 @@ $('.statusList').SumoSelect({
 				</div> 
 				<div class="insert-sub-row-div">
 					<div class="insert-text">거래처상태<span class="red_warn">*</span></div>
-					<select name="status">
+					<select name="status" class="insert-select">
 						<option value="활성">활성</option>
 						<option value="비활성">비활성</option>
 					</select>
@@ -924,6 +987,8 @@ $('.statusList').SumoSelect({
 			<div class="bottom-btn-div">
 				<button class="new-input-btn" onclick="newInputView()">신규등록</button>
 				<button class="del-btn" onclick="check()">삭제</button>
+				<button class="edit-start-btn" onclick="editStart()" style="display: block;">수정하기</button>
+				<button class="edit-finish-btn" onclick="editFinish()" style="display: none;">수정완료</button>
 			</div>
 		</div>
 		
