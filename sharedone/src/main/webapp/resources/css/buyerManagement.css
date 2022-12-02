@@ -52,7 +52,7 @@ ul{
     justify-content: space-between;
 }
 .search-sub-wrap{
-    margin: 20px 0px 20px 40px;
+       margin: 26px 0px 20px 60px;
 }
 .search-sub-div{
     display: flex;
@@ -97,6 +97,7 @@ ul{
     background-color: #f0f0f0;
     font-size: 15px;
     font-weight: 400;
+    cursor: pointer;
 }
 
 
@@ -117,6 +118,7 @@ ul{
 	font-size: 12px;
 	width:1700px;
 }
+
 td{
 	border-bottom: 1px solid #444444;
     border-left: 1px solid #444444;
@@ -167,7 +169,7 @@ th:first-child, td:first-child {
 .insert-div{
 	background: #fff;
     width: 860px;
-    height: 526px;
+    height: 700px;
 	position: relative;
     top: -700px;
 	box-shadow: 2px -1px 4px #b1b1b1;
@@ -214,6 +216,9 @@ th:first-child, td:first-child {
 .insert-hr{
     border-top: 1px solid #d4d0cc;
 }
+
+
+
 
 /* 사업장소재지 */
 .insert-sub-row-div2{
@@ -318,5 +323,4 @@ th:first-child, td:first-child {
 }
 .buyerListTr:hover{
 	background-color: #d3dfea;
-	cursor:pointer;
 }
