@@ -7,7 +7,7 @@ import com.sharedone.sharedone.model.Price;
 
 public interface PriceService {
 
-	List<Price> priceList();
+	List<Price> priceList(Price price);
 
 	Price priceDetail(String periodStart);
 

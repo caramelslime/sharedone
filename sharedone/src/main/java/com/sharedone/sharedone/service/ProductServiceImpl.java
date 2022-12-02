@@ -47,4 +47,9 @@ public class ProductServiceImpl implements ProductService {
 	public int deleteProduct(String delList, String productCD) {
 		return pd.deleteProduct(delList, productCD);
 	}
+
+	@Override
+	public String selectByNm(String productNM) {
+		return pd.selectByNm(productNM);
+	}
 }

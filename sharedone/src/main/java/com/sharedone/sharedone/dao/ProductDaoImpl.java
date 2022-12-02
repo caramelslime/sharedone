@@ -52,4 +52,9 @@ public class ProductDaoImpl implements ProductDao {
 		map.put("productCD", productCD);
 		return sst.update("productns.deleteProduct", map);
 	}
+
+	@Override
+	public String selectByNm(String productNM) {
+		return sst.selectOne("productns.selectByNm", productNM);
+	}
 }

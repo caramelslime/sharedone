@@ -1,5 +1,7 @@
 package com.sharedone.sharedone.controller;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,12 +34,12 @@ public class PriceController {
 	private ProductService ps;
 	
 	@RequestMapping("priceList")
-	public String priceList(Model model, Price price, Product product, String bcdnm, String pcdnm, String periodStart) {
+	public String priceList(Model model, Price price, Product product, String bcdnm, String pcdnm) {
 		
-//		price.setbCdnm(bcdnm);
-//		price.setpCdnm(pcdnm);
-//		
-		List<Price> priceList = pv.priceList();
+		price.setBcdnm(bcdnm);
+		price.setPcdnm(pcdnm);
+		
+		List<Price> priceList = pv.priceList(price);
 		List<Buyer> buyerList = bs.selectBuyerList();
 		List<Product> productList = ps.productList(product);
 		
@@ -86,22 +88,28 @@ public class PriceController {
 			info = JSONArray.fromObject(data);
 			
 			for (Map<String, Object> priceInfo : info) {
-				System.out.println(priceInfo.get("periodStart"));
 				String buyerNM = (String) priceInfo.get("buyerNM");
 				String productNM = (String) priceInfo.get("productNM");
-				String periodStart = (String) priceInfo.get("periodStart");
-				String listPrice = (String) priceInfo.get("listPrice");
+				String date = (String) priceInfo.get("periodStart");
+				int listPrice = Integer.parseInt((String)priceInfo.get("listPrice")) ;
 				String currency = (String) priceInfo.get("currency");
+	            Date periodStart = Date.valueOf(date);
+				String buyerCD = bs.selectByNm(buyerNM);
+				String productCD = ps.selectByNm(productNM);
 				
-				buyer.setBuyernm(buyerNM);
-				product.setProductNM(productNM);
+				price.setBuyerCD(buyerCD);
+				price.setProductCD(productCD);
 				price.setPeriodStart(periodStart);
+				System.out.println(price.getPeriodStart());
 				price.setListPrice(listPrice);
 				price.setCurrency(currency);
+				int insertResult = pv.priceInsert(price);
+		        System.out.println(insertResult);
 		    }  
 		     result.put("result", true);
 		    
 		} catch (Exception e) {
+			System.out.println(e.getMessage());
 			result.put("result", false);
 		}
 		

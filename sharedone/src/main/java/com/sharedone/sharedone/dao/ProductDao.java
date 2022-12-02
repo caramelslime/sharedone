@@ -20,4 +20,6 @@ public interface ProductDao {
 
 	int deleteProduct(String delList, String productCD);
 
+	String selectByNm(String productNM);
+
 }

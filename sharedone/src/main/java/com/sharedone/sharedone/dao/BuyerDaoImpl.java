@@ -52,4 +52,9 @@ public class BuyerDaoImpl implements BuyerDao {
 		map.put("buyercd", buyercd);
 		return sst.update("buyerns.deleteBuyer", map);
 	}
+
+	@Override
+	public String selectByNm(String buyerNM) {
+		return sst.selectOne("buyerns.selectByNm", buyerNM);
+	}
 }
