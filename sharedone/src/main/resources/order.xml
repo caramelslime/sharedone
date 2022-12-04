@@ -52,7 +52,9 @@
 		SELECT COUNT(*) FROM t_order
 	</select>
 	
-	
+	<update id="approvalUpdate" parameterType="map">
+		UPDATE t_order SET status=#{status} WHERE soNo=#{soNo}
+	</update>
 	
 	
 	

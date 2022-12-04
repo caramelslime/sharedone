@@ -23,4 +23,6 @@ public interface OrderService {
 
 	int totalOrder();
 
+	int approvalUpdate(String soNo, String status);
+
 }

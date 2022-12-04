@@ -87,26 +87,15 @@
 		pageView('order.do?soNo='+soNo+'&buyerCD='+buyerCD+'&soUser='+soUser+'&addDate='+addDate+'&pricingDate='+pricingDate+'&requestDate='+requestDate+'&status='+status);
 	}
 	
+	var status = "";
+	
 	function detail(soNo) {
 		
 		console.log(soNo);
 		
-		$.post('orderHeader.do', "soNo="+soNo, function(data) {
-			document.querySelector('#detailSoNo').value = data.soNo;
-			document.querySelector('#detailBuyerCD').value = data.buyerCD;
-			document.querySelector('#detailSoUser').value = data.soUser;
-			document.querySelector('#detailAddDate').value = data.addDate;
-			document.querySelector('#detailPricingDate').value = data.pricingDate;
-			document.querySelector('#detailRequestDate').value = data.requestDate;
-			document.querySelector('#detailStatus').value = data.status;
-			document.querySelector('#detailCurrency').value = data.currency;
-			
-			if (data.status == '반려') {
-				document.querySelector('.comment-return-div').style.display = 'block';
-			}
-		});
-		
 		$.post('orderItems.do', "soNo="+soNo, function(data) {
+			
+			console.log("순서1");
 			
 			for (var i = 0; i < data.length; i++) {
 				
@@ -119,41 +108,95 @@
 				var unitPrice = data[i].unitPrice;
 				var totalPrice = qty * unitPrice;
 				
-				$('#detailList-table').append(
-						"<tr class='detailListTr'>"
-							+"<td class='center'>"
-							+ "<img id='productCD_"+productCD+"' class='minus-img' alt='이미지 없음' src='/sharedone/resources/images/minus.png' onclick='removeItem(this)' />"
-							+"</td>"
-							+"<td class='center'>"+num+"</td>"
-							+ "<td class='center productCDCheck'>"+productCD+"</td>"
-							+ "<td class='center'>"+productNM+"</td>"
-							+ "<td class='center'>"+productGroup+"</td>"
-							+ "<td class='center'>"+unit+"</td>"
-							+ "<td class='center'>"+qty+"</td>"
-							+ "<td class='right'>"+unitPrice+"</td>"
-							+ "<td class='right'>"+totalPrice+"</td>"
-						+ "</tr>"
-				);
+				var status = document.querySelector('#detailStatus').value;
+				
+				if (status == '승인완료' || status == '승인대기' || status == '종결') {
+					$('#detailList-table').append(
+							"<tr class='detailListTr'>"
+								+"<td class='center'>"
+								+"</td>"
+								+"<td class='center'>"+num+"</td>"
+								+ "<td class='center productCDCheck'>"+productCD+"</td>"
+								+ "<td class='center'>"+productNM+"</td>"
+								+ "<td class='center'>"+productGroup+"</td>"
+								+ "<td class='center'>"+unit+"</td>"
+								+ "<td class='center'>"+qty+"</td>"
+								+ "<td class='right'>"+unitPrice+"</td>"
+								+ "<td class='right'>"+totalPrice+"</td>"
+							+ "</tr>"
+					);
+				} else {
+					$('#detailList-table').append(
+							"<tr class='detailListTr'>"
+								+"<td class='center'>"
+								+ "<img id='productCD_"+productCD+"' class='minus-img' alt='이미지 없음' src='/sharedone/resources/images/minus.png' onclick='removeItem(this)' />"
+								+"</td>"
+								+"<td class='center'>"+num+"</td>"
+								+ "<td class='center productCDCheck'>"+productCD+"</td>"
+								+ "<td class='center'>"+productNM+"</td>"
+								+ "<td class='center'>"+productGroup+"</td>"
+								+ "<td class='center'>"+unit+"</td>"
+								+ "<td class='center'>"+qty+"</td>"
+								+ "<td class='right'>"+unitPrice+"</td>"
+								+ "<td class='right'>"+totalPrice+"</td>"
+							+ "</tr>"
+					);
+				}
+			}
+			
+			
+			
+			
+		});
+		
+		$.post('orderHeader.do', "soNo="+soNo, function(data) {
+			
+			console.log("순서2");
+			
+			document.querySelector('#detailSoNo').value = data.soNo;
+			document.querySelector('#detailBuyerCD').value = data.buyerCD;
+			document.querySelector('#detailSoUser').value = data.soUser;
+			document.querySelector('#detailAddDate').value = data.addDate;
+			document.querySelector('#detailPricingDate').value = data.pricingDate;
+			document.querySelector('#detailRequestDate').value = data.requestDate;
+			document.querySelector('#detailStatus').value = data.status;
+			document.querySelector('#detailCurrency').value = data.currency;
+			
+			var status = document.querySelector('#detailStatus').value;
+			
+			if (status == '반려') {
+				document.querySelector('.comment-return-div').style.visibility = 'hidden';
+			} else if (status == '승인완료' || status == '승인대기' || status == '종결') {
+				document.querySelector('.detail-action-btn-div').style.visibility = 'hidden';
+				document.querySelector('.detailAddItem-div').style.visibility = 'hidden';
+				document.querySelector('#comment-input').readOnly=true;
 			}
 		});
 		
-		
-		$('.orderList-div').css('opacity', '0.3');
-		$('.search-div').css('opacity', '0.3');
-		$('.detail-div').show();
+		setTimeout(function() {
+			$('.orderList-div').css('opacity', '0.3');
+			$('.search-div').css('opacity', '0.3');
+			$('.detail-div').show();
+		}, 200);
 	}
 	
 	function xBack(){
 		$("#detailList-table tr:not(:first)").remove();	// 상세창 닫을 때 입력한 값 제거
 		$("#newList-table tr:not(:first)").remove();	// 상세창 닫을 때 입력한 값 제거
+		document.querySelector('#comment-input').value=""; // 상세창 닫을 때 코멘트 입력한 값 제거
+		document.querySelector('#comment-input').readOnly=false;
 		$('.detail-div').hide();
 		$('.new-div').hide();
 		$('.orderList-div').css('opacity', '1');
 		$('.search-div').css('opacity', '1');
-		$('.comment-return-div').hide();
+		document.querySelector('.comment-return-div').style.display = 'none';
 		document.querySelector('#add-finish-btn').style.display = 'none';
 		document.querySelector('#add-cancel-btn').style.display = 'none';
 		document.querySelector('#add-row-btn').style.display = 'block';
+		document.querySelector('.detailAddItem-div').style.visibility = 'visible';
+		document.querySelector('.detail-action-btn-div').style.visibility = 'visible';
+		console.log("back()-display: "+document.querySelector('.comment-return-div').style.display);
+		console.log("back()-readonly: "+document.querySelector('#comment-input').readOnly);
 	}
 	
 	function addItem() {
@@ -479,6 +522,25 @@ function loadNewProductData() {
 			
 		}
 		
+	}
+	
+	function requestApproval() {
+		
+		var soNo = document.querySelector('#detailSoNo').value;
+		var msg = document.querySelector('#comment-input').value;
+		
+		console.log("soNo: "+soNo+", msg : "+msg);
+		var encodeMsg = encodeURIComponent(msg);
+		console.log("encodeMsg: "+encodeMsg);
+		
+		
+		$.post('requestApproval.do', "soNo="+soNo+"&content="+content, function(result) {
+			if (result > 0) {
+				pageView('order.do');
+			}
+		});
+		
+		pageView('order.do');
 	}
 	
 	

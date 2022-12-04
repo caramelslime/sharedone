@@ -306,6 +306,7 @@ th:first-child, td:first-child {
 
 .no-border {
 	border: none;
+	outline: none;
 	background: transparent;
 }
 

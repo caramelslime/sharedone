@@ -203,7 +203,7 @@ INSERT INTO t_order VALUES (#{soNo}, #{buyerCD}, #{soUser}, sysdate, sysdate, #{
 DELETE FROM t_order WHERE soNo = 'P00021';
 
 
-
+UPDATE m_product SET productNM = #{productNM} WHERE productCD = #{productCD}
 
 
 

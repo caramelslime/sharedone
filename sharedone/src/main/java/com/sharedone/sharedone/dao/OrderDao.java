@@ -23,4 +23,6 @@ public interface OrderDao {
 
 	int totalOrder();
 
+	int approvalUpdate(String soNo, String status);
+
 }

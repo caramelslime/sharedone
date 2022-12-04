@@ -133,4 +133,35 @@ public class ProductController {
 	}
 	
 	
+	@RequestMapping("productUpdate")
+	public String productUpdate(Product product, Model model, String productCD, String type, String value) {
+		
+		System.out.println(productCD);
+		System.out.println(type);
+		System.out.println(value);
+		
+		if (type.equals("productNM")) {
+			System.out.println("productNM");
+			product.setProductNM(value);
+		} else if (type.equals("unit")) {
+			product.setUnit(value);
+		} else if (type.equals("productGroup")) {
+			product.setProductGroup(value);
+		}
+		
+		product.setProductCD(productCD);
+		
+		System.out.println(product);
+		
+		String result = String.valueOf(ps.productUpdate(product));
+		
+		return "/nolay/product";
+	}
+	
+	
+	
+	
+	
+	
+	
 }

@@ -23,17 +23,17 @@ import net.sf.json.JSONArray;
 
 @RestController
 public class OrderRestController {
-	
+
 	@Autowired
 	private OrderService os;
-	
+
 	@RequestMapping("/orderHeader")
 	@ResponseBody
 	public Order orderHeader(String soNo) {
 		Order orderHeader = os.selectOrderHeader(soNo);
 		return orderHeader;
 	}
-	
+
 	@RequestMapping("/orderItems")
 	@ResponseBody
 	public List<Order> orderItems(String soNo) {
@@ -41,8 +41,7 @@ public class OrderRestController {
 		System.out.println(orderItems);
 		return orderItems;
 	}
-	
-	
+
 	@RequestMapping("/selectByProductCD")
 	@ResponseBody
 	public Order selectByProductCD(String productCD) {
@@ -50,7 +49,7 @@ public class OrderRestController {
 		System.out.println(product);
 		return product;
 	}
-	
+
 	@RequestMapping("/addOrderDetail")
 	@ResponseBody
 	public int addOrderDetail(String soNo, String productCD, int qty, int unitPrice) {
@@ -58,8 +57,7 @@ public class OrderRestController {
 		System.out.println(result);
 		return result;
 	}
-	
-	
+
 	@RequestMapping("/removeOrderDetail")
 	@ResponseBody
 	public int removeOrderDetail(String soNo, String productCD) {
@@ -67,56 +65,71 @@ public class OrderRestController {
 		System.out.println(result);
 		return result;
 	}
-	
+
 	@RequestMapping("/orderInsert")
 	@ResponseBody
 	public String orderInsert(String buyerCD, String soUser, Date requestDate, String currency) {
-		
+
 		int totalOrder = os.totalOrder();
-		
-		System.out.println("totalOrder : "+totalOrder);
-		
+
+		System.out.println("totalOrder : " + totalOrder);
+
 		String soNo = "";
-		soNo = "S"+String.format("%05d",totalOrder+1);
-		
+		soNo = "S" + String.format("%05d", totalOrder + 1);
+
 		int result = os.addOrder(soNo, buyerCD, soUser, requestDate, currency);
-		System.out.println("result : "+result);
+		System.out.println("result : " + result);
 		return soNo;
 	}
-	
-	
+
 	@SuppressWarnings("unchecked")
 	@RequestMapping(path = "orderDetailInsert")
 	@ResponseBody
 	public Map<String, Object> orderDetailInsert(@RequestParam String data, Model model, Order order) {
-		
+
 		Map<String, Object> result = new HashMap<String, Object>();
 		try {
-			List<Map<String,Object>> info = new ArrayList<Map<String,Object>>();
-		    info = JSONArray.fromObject(data);
-		    
-		    for (Map<String, Object> orderInfo : info) {
-		    	System.out.println(orderInfo.get("soNo"));
-		    	String soNo = (String) orderInfo.get("soNo");
-		        String productCD = (String) orderInfo.get("productCD");
-		        String strQty = (String) orderInfo.get("qty");
-		        String strUnitPrice = (String) orderInfo.get("unitPrice");
-		        
-		        int qty = Integer.parseInt(strQty);
-		        int unitPrice = Integer.parseInt(strUnitPrice);
-		        
-		        os.addOrderDetail(soNo, productCD, qty, unitPrice);
-		        
-		    }  
-		     result.put("result", true);
-		    
+			List<Map<String, Object>> info = new ArrayList<Map<String, Object>>();
+			info = JSONArray.fromObject(data);
+
+			for (Map<String, Object> orderInfo : info) {
+				System.out.println(orderInfo.get("soNo"));
+				String soNo = (String) orderInfo.get("soNo");
+				String productCD = (String) orderInfo.get("productCD");
+				String strQty = (String) orderInfo.get("qty");
+				String strUnitPrice = (String) orderInfo.get("unitPrice");
+
+				int qty = Integer.parseInt(strQty);
+				int unitPrice = Integer.parseInt(strUnitPrice);
+
+				os.addOrderDetail(soNo, productCD, qty, unitPrice);
+
+			}
+			result.put("result", true);
+
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			result.put("result", false);
 		}
-		
+
 		return result;
 	}
+
 	
+//	@RequestMapping("requestApproval")
+//	public int requestApproval(Order order, Model model, String soNo, String content) {
+//	
+//		String status = "승인대기";
+//		
+//		int approvalUpdateResult = os.approvalUpdate(soNo, status);
+//		int result=0;
+//		if (approvalUpdateResult > 0) {
+//			result = ns.addComment(soNo, content);
+//		}
+//		
+//		return result;
+//		
+//	}
 	
+
 }

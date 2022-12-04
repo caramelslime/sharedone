@@ -70,4 +70,12 @@ public class OrderDaoImpl implements OrderDao {
 	public int totalOrder() {
 		return sst.selectOne("orderns.totalOrder");
 	}
+
+	@Override
+	public int approvalUpdate(String soNo, String status) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("soNo", soNo);
+		map.put("status", status);
+		return sst.update("orderns.approvalUpdate", map);
+	}
 }

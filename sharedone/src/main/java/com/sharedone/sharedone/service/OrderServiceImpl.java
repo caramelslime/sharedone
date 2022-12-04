@@ -54,4 +54,9 @@ public class OrderServiceImpl implements OrderService {
 	public int totalOrder() {
 		return od.totalOrder();
 	}
+
+	@Override
+	public int approvalUpdate(String soNo, String status) {
+		return od.approvalUpdate(soNo, status);
+	}
 }
