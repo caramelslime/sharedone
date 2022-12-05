@@ -116,20 +116,21 @@ public class OrderRestController {
 	}
 
 	
-//	@RequestMapping("requestApproval")
-//	public int requestApproval(Order order, Model model, String soNo, String content) {
-//	
-//		String status = "승인대기";
-//		
-//		int approvalUpdateResult = os.approvalUpdate(soNo, status);
-//		int result=0;
-//		if (approvalUpdateResult > 0) {
-//			result = ns.addComment(soNo, content);
-//		}
-//		
-//		return result;
-//		
-//	}
+	/*
+	 * @RequestMapping("requestApproval") public int requestApproval(Order order,
+	 * Model model, String soNo, String content, String status) {
+	 * 
+	 * String previousStatus = status; status = "승인대기";
+	 * 
+	 * int approvalUpdateResult = os.approvalUpdate(soNo, status); int result=0; if
+	 * (approvalUpdateResult > 0) { result = ns.addComment(soNo, content); if
+	 * (result == 0) { status = previousStatus; os.approvalUpdate(soNo, status); } }
+	 * else if (approvalUpdateResult == 0) { result = -1; }
+	 * 
+	 * return result;
+	 * 
+	 * }
+	 */
 	
 
 }

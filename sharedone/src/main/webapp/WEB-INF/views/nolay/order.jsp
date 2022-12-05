@@ -95,8 +95,6 @@
 		
 		$.post('orderItems.do', "soNo="+soNo, function(data) {
 			
-			console.log("순서1");
-			
 			for (var i = 0; i < data.length; i++) {
 				
 				var num = i+1;
@@ -109,6 +107,8 @@
 				var totalPrice = qty * unitPrice;
 				
 				var status = document.querySelector('#detailStatus').value;
+				
+				
 				
 				if (status == '승인완료' || status == '승인대기' || status == '종결') {
 					$('#detailList-table').append(
@@ -150,8 +150,6 @@
 		});
 		
 		$.post('orderHeader.do', "soNo="+soNo, function(data) {
-			
-			console.log("순서2");
 			
 			document.querySelector('#detailSoNo').value = data.soNo;
 			document.querySelector('#detailBuyerCD').value = data.buyerCD;
@@ -528,19 +526,23 @@ function loadNewProductData() {
 		
 		var soNo = document.querySelector('#detailSoNo').value;
 		var msg = document.querySelector('#comment-input').value;
+		var status = document.querySelector('#detailStatus').value;
 		
 		console.log("soNo: "+soNo+", msg : "+msg);
 		var encodeMsg = encodeURIComponent(msg);
 		console.log("encodeMsg: "+encodeMsg);
 		
 		
-		$.post('requestApproval.do', "soNo="+soNo+"&content="+content, function(result) {
+		$.post('requestApproval.do', "soNo="+soNo+"&content="+content+"&status="+status, function(result) {
 			if (result > 0) {
 				pageView('order.do');
+			} else if (result < 0) {
+				alert("오더상태 변경 실패");
+			} else if (result == 0) {
+				alert("코멘트 저장 실패");
 			}
 		});
 		
-		pageView('order.do');
 	}
 	
 	
