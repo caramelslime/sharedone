@@ -9,7 +9,7 @@
 <title>Insert title here</title>
 
 <style type="text/css">@import url("/sharedone/resources/css/share.css");</style>
-<style type="text/css">@import url("/sharedone/resources/css/price.css");</style>
+<style type="text/css">@import url("/sharedone/resources/css/price.css?1");</style>
 
 <script src="/sharedone/resources/js/jquery.sumoselect.min.js"></script>
 <style type="text/css">@import url("/sharedone/resources/css/sumoselect.min.css");</style>
@@ -274,7 +274,6 @@
  		document.querySelector('.edit-finish-btn').style.display = 'block';
  		editable = 1;
  		console.log(editable);
- 		document.getElementsByClassName('sel').disabled = false; 
  	}
 	
  	function editFinish() {
