@@ -274,6 +274,7 @@
  		document.querySelector('.edit-finish-btn').style.display = 'block';
  		editable = 1;
  		console.log(editable);
+ 		document.getElementsByClassName('sel').disabled = false; 
  	}
 	
  	function editFinish() {
@@ -401,7 +402,34 @@ $('.statusList').SumoSelect({
 								<td class="col4"><input type="text" class="no-border" value="${price.periodStart}" readonly="readonly"></td>
 								<td class="col5"><input type="text" class="no-border" value="${price.periodEnd}" readonly="readonly"></td>
 								<td class="col6"><input type="number" id="${price.buyerCD}+${price.productCD}+${price.periodStart}_listPrice" class="edit" value="${price.listPrice}" readonly="readonly"></td>
-								<td class="col7"><input type="text" id="${price.buyerCD}+${price.productCD}+${price.periodStart}_currency" class="edit" value="${price.currency}" readonly="readonly"></td>
+								<td class="col7">
+									<select id="${price.buyerCD}+${price.productCD}+${price.periodStart}_currency" class="edit" style="width: 146px;">
+										<c:if test="${price.currency == 'KRW' }">
+											<option value="KRW" selected="selected">KRW</option>
+										</c:if>
+										<c:if test="${price.currency != 'KRW' }">
+											<option value="KRW">KRW</option>
+										</c:if>
+										<c:if test="${price.currency == 'USD' }">
+											<option value="USD" selected="selected">USD</option>
+										</c:if>
+										<c:if test="${price.currency != 'USD' }">
+											<option value="USD">USD</option>
+										</c:if>
+										<c:if test="${price.currency == 'EUR' }">
+											<option value="EUR" selected="selected">EUR</option>
+										</c:if>
+										<c:if test="${price.currency != 'EUR' }">
+											<option value="EUR">EUR</option>
+										</c:if>
+										<c:if test="${price.currency == 'JPY' }">
+											<option value="JPY" selected="selected">JPY</option>
+										</c:if>
+										<c:if test="${price.currency != 'JPY' }">
+											<option value="JPY">JPY</option>
+										</c:if>
+									</select>
+								</td>
 							</tr>
 						</c:forEach>
 					</c:if>
@@ -443,7 +471,12 @@ $('.statusList').SumoSelect({
 					</div>
 					<div class="insert-sub-row-div">
 						<div class="insert-text">통화<span class="red_warn">*</span></div>
-						<input type="text" id="currency" required="required"/>
+						<select id="currency" class="" style="width: 146px;">
+							<option value="KRW">KRW</option>
+							<option value="USD">USD</option>
+							<option value="EUR">EUR</option>
+							<option value="JPY">JPY</option>
+						</select>
 					</div>
 					<div class="insert-sub-row-div">
 						<img class="plus-img" alt="이미지 없음" src="/sharedone/resources/images/plus.png" onclick="addInsert()" />
