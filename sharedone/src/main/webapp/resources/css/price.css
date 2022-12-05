@@ -133,7 +133,6 @@ th:first-child, td:first-child {
   }
 .priceListTr:hover {
 	background-color: #d3dfea;
-	cursor:pointer;
 }
 
   
