@@ -3,6 +3,7 @@ package com.sharedone.sharedone.service;
 import java.sql.Date;
 import java.util.List;
 
+import com.sharedone.sharedone.model.Notice;
 import com.sharedone.sharedone.model.Order;
 
 public interface OrderService {
@@ -24,5 +25,11 @@ public interface OrderService {
 	int totalOrder();
 
 	int approvalUpdate(String soNo, String status);
+	
+//	khs 같은 팀의 승인 요청 리스트 불러오기
+	List<Order> pendingApprovalList(Order order);
+
+//	khs 승인/반려시 상태 업데이트
+	int updateApproveOrRefer(Notice notice);
 
 }

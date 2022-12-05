@@ -57,4 +57,8 @@ public class ProductDaoImpl implements ProductDao {
 	public List<Product> productAllList() {
 		return sst.selectList("productns.productAllList");
 	}
+	
+	public String selectByNm(String productNM) {
+		return sst.selectOne("productns.selectByNm", productNM);
+	}
 }

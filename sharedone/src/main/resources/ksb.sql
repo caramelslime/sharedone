@@ -59,6 +59,16 @@ INSERT INTO t_order_detail VALUES ('S00001', 'P00002', 10, 30000);
 INSERT INTO t_order_detail VALUES ('S00001', 'P00009', 5, 30000);
 INSERT INTO t_order_detail VALUES ('S00001', 'P00010', 5, 50000);
 
+INSERT INTO price VALUES ( 'A00001', 'A00011', 'A00021', '2000', '원', '2022-11-20', '2022-11-22', '30' );
+INSERT INTO price VALUES ( 'A00002', 'A00011', 'A00021', '1500', '원', '2022-11-20', '2022-11-22', '30' );
+INSERT INTO price VALUES ( 'A00003', 'A00011', 'A00021', '3000', '원', '2022-11-20', '2022-11-22', '30' );
+INSERT INTO price VALUES ( 'A00004', 'A00011', 'A00021', '2000', '원', '2022-11-20', '2022-11-22', '30' );
+INSERT INTO price VALUES ( 'A00005', 'A00011', 'A00021', '1200', '원', '2022-11-20', '2022-11-22', '30' );
+INSERT INTO price VALUES ( 'B00001', 'A00011', 'A00021', '1800', '원', '2022-11-20', '2022-11-22', '30' );
+INSERT INTO price VALUES ( 'B00002', 'A00011', 'A00021', '1900', '원', '2022-11-20', '2022-11-22', '30' );
+INSERT INTO price VALUES ( 'B00003', 'A00011', 'A00021', '2000', '원', '2022-11-20', '2022-11-22', '30' );
+INSERT INTO price VALUES ( 'B00004', 'A00011', 'A00021', '2400', '원', '2022-11-20', '2022-11-22', '30' );
+INSERT INTO price VALUES ( 'B00005', 'A00011', 'A00021', '5500', '원', '2022-11-20', '2022-11-22', '30' );
 
 --거래처 마스터 테이블
 
@@ -204,6 +214,20 @@ DELETE FROM t_order WHERE soNo = 'P00021';
 
 
 UPDATE m_product SET productNM = #{productNM} WHERE productCD = #{productCD}
+
+
+SELECT * FROM t_notice;
+
+SELECT content FROM t_notice WHERE noticeCd = (SELECT MAX(noticeCd) FROM t_notice WHERE empCd='E00004' AND soNo='S00033');
+
+SELECT content FROM t_notice WHERE noticeCd = (SELECT MAX(noticeCd) FROM t_notice WHERE empCd=#{empCd} AND soNo=#{soNo})
+
+SELECT COUNT(*) FROM t_notice WHERE empCd='E00004' AND soNo='S00033';
+
+SELECT COUNT(*) FROM t_notice WHERE empCD='E00004' AND soNo='S00034';
+SELECT COUNT(*) FROM t_notice WHERE empCd=#{empCd} AND soNo=#{soNo}
+
+
 
 
 

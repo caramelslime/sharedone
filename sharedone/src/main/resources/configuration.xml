@@ -4,16 +4,22 @@
 <configuration>
 	<typeAliases>
 		<typeAlias alias="product" type="com.sharedone.sharedone.model.Product" />
+		<typeAlias alias="emp" type="com.sharedone.sharedone.model.Employee" />
+		<typeAlias alias="price" type="com.sharedone.sharedone.model.Price" />
 		<typeAlias alias="order" type="com.sharedone.sharedone.model.Order" />
 		<typeAlias alias="buyer" type="com.sharedone.sharedone.model.Buyer" />
 		<typeAlias alias="employee" type="com.sharedone.sharedone.model.Employee" />
+		<typeAlias alias="notice" type="com.sharedone.sharedone.model.Notice" />
 		<typeAlias alias="report" type="com.sharedone.sharedone.model.Report" />
 	</typeAliases>
 	<mappers>
 		<mapper resource="product.xml" />
+		<mapper resource="employee.xml" />
+		<mapper resource="price.xml" />
 		<mapper resource="order.xml" />
 		<mapper resource="buyer.xml" />
 		<mapper resource="employee.xml" />
+		<mapper resource="notice.xml" />
 		<mapper resource="report.xml" />
 	</mappers>
 </configuration>

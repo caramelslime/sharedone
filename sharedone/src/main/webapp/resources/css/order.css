@@ -196,6 +196,7 @@ th:first-child, td:first-child {
 	margin: auto;
     font-size: 13px;
     display: none;
+    overflow: scroll;
 }
 .x-div{
     display: flex;

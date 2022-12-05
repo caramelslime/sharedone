@@ -95,57 +95,61 @@
 		
 		$.post('orderItems.do', "soNo="+soNo, function(data) {
 			
-			for (var i = 0; i < data.length; i++) {
-				
-				var num = i+1;
-				var productCD = data[i].productCD;
-				var productNM = data[i].productNM;
-				var productGroup = data[i].productGroup;
-				var qty = data[i].qty;
-				var unit = data[i].unit;
-				var unitPrice = data[i].unitPrice;
-				var totalPrice = qty * unitPrice;
-				
-				var status = document.querySelector('#detailStatus').value;
-				
-				
-				
-				if (status == '승인완료' || status == '승인대기' || status == '종결') {
-					$('#detailList-table').append(
-							"<tr class='detailListTr'>"
-								+"<td class='center'>"
-								+"</td>"
-								+"<td class='center'>"+num+"</td>"
-								+ "<td class='center productCDCheck'>"+productCD+"</td>"
-								+ "<td class='center'>"+productNM+"</td>"
-								+ "<td class='center'>"+productGroup+"</td>"
-								+ "<td class='center'>"+unit+"</td>"
-								+ "<td class='center'>"+qty+"</td>"
-								+ "<td class='right'>"+unitPrice+"</td>"
-								+ "<td class='right'>"+totalPrice+"</td>"
-							+ "</tr>"
-					);
-				} else {
-					$('#detailList-table').append(
-							"<tr class='detailListTr'>"
-								+"<td class='center'>"
-								+ "<img id='productCD_"+productCD+"' class='minus-img' alt='이미지 없음' src='/sharedone/resources/images/minus.png' onclick='removeItem(this)' />"
-								+"</td>"
-								+"<td class='center'>"+num+"</td>"
-								+ "<td class='center productCDCheck'>"+productCD+"</td>"
-								+ "<td class='center'>"+productNM+"</td>"
-								+ "<td class='center'>"+productGroup+"</td>"
-								+ "<td class='center'>"+unit+"</td>"
-								+ "<td class='center'>"+qty+"</td>"
-								+ "<td class='right'>"+unitPrice+"</td>"
-								+ "<td class='right'>"+totalPrice+"</td>"
-							+ "</tr>"
-					);
+			setTimeout(function() {
+				for (var i = 0; i < data.length; i++) {
+					
+					var num = i+1;
+					var productCD = data[i].productCD;
+					var productNM = data[i].productNM;
+					var productGroup = data[i].productGroup;
+					var qty = data[i].qty;
+					var unit = data[i].unit;
+					var unitPrice = data[i].unitPrice;
+					var totalPrice = qty * unitPrice;
+					
+					var status = document.querySelector('#detailStatus').value;
+					
+					console.log("status : "+status);
+					
+					
+					loadComment();
+					
+					if (status == '승인완료' || status == '승인대기' || status == '종결') {
+						$('#detailList-table').append(
+								"<tr class='detailListTr'>"
+									+"<td class='center'>"
+									+"</td>"
+									+"<td class='center'>"+num+"</td>"
+									+ "<td class='center productCDCheck'>"+productCD+"</td>"
+									+ "<td class='center'>"+productNM+"</td>"
+									+ "<td class='center'>"+productGroup+"</td>"
+									+ "<td class='center'>"+unit+"</td>"
+									+ "<td class='center'>"+qty+"</td>"
+									+ "<td class='right'>"+unitPrice+"</td>"
+									+ "<td class='right'>"+totalPrice+"</td>"
+								+ "</tr>"
+						);
+						
+						
+					} else {
+						$('#detailList-table').append(
+								"<tr class='detailListTr'>"
+									+"<td class='center'>"
+									+ "<img id='productCD_"+productCD+"' class='minus-img' alt='이미지 없음' src='/sharedone/resources/images/minus.png' onclick='removeItem(this)' />"
+									+"</td>"
+									+"<td class='center'>"+num+"</td>"
+									+ "<td class='center productCDCheck'>"+productCD+"</td>"
+									+ "<td class='center'>"+productNM+"</td>"
+									+ "<td class='center'>"+productGroup+"</td>"
+									+ "<td class='center'>"+unit+"</td>"
+									+ "<td class='center'>"+qty+"</td>"
+									+ "<td class='right'>"+unitPrice+"</td>"
+									+ "<td class='right'>"+totalPrice+"</td>"
+								+ "</tr>"
+						);
+					}
 				}
-			}
-			
-			
-			
+			}, 200);
 			
 		});
 		
@@ -163,7 +167,7 @@
 			var status = document.querySelector('#detailStatus').value;
 			
 			if (status == '반려') {
-				document.querySelector('.comment-return-div').style.visibility = 'hidden';
+				document.querySelector('.comment-return-div').style.visibility = 'visible';
 			} else if (status == '승인완료' || status == '승인대기' || status == '종결') {
 				document.querySelector('.detail-action-btn-div').style.visibility = 'hidden';
 				document.querySelector('.detailAddItem-div').style.visibility = 'hidden';
@@ -179,22 +183,26 @@
 	}
 	
 	function xBack(){
-		$("#detailList-table tr:not(:first)").remove();	// 상세창 닫을 때 입력한 값 제거
-		$("#newList-table tr:not(:first)").remove();	// 상세창 닫을 때 입력한 값 제거
 		document.querySelector('#comment-input').value=""; // 상세창 닫을 때 코멘트 입력한 값 제거
 		document.querySelector('#comment-input').readOnly=false;
-		$('.detail-div').hide();
-		$('.new-div').hide();
-		$('.orderList-div').css('opacity', '1');
-		$('.search-div').css('opacity', '1');
-		document.querySelector('.comment-return-div').style.display = 'none';
+		$("#detailList-table tr:not(:first)").remove();	// 상세창 닫을 때 입력한 값 제거
+		$("#newList-table tr:not(:first)").remove();	// 상세창 닫을 때 입력한 값 제거
+		document.querySelector('.comment-return-div').style.visibility = 'hidden';
 		document.querySelector('#add-finish-btn').style.display = 'none';
 		document.querySelector('#add-cancel-btn').style.display = 'none';
 		document.querySelector('#add-row-btn').style.display = 'block';
 		document.querySelector('.detailAddItem-div').style.visibility = 'visible';
 		document.querySelector('.detail-action-btn-div').style.visibility = 'visible';
-		console.log("back()-display: "+document.querySelector('.comment-return-div').style.display);
-		console.log("back()-readonly: "+document.querySelector('#comment-input').readOnly);
+		document.querySelectorAll('.newInput').forEach(function(el) {
+			el.value="";
+		})
+		document.querySelectorAll('.newInput2').forEach(function(el) {
+			el.value="";
+		})
+		$('.detail-div').hide();
+		$('.new-div').hide();
+		$('.orderList-div').css('opacity', '1');
+		$('.search-div').css('opacity', '1');
 	}
 	
 	function addItem() {
@@ -366,37 +374,7 @@
 		$('.new-div').show();
 	}
 	
-	/* function newAddItem() {
-		
-		var rowNumber=document.querySelector('#newList-table').rows.length;
-		console.log(rowNumber);		
-		
-		$('#newList-table').append(
-				"<tr class='newListTr'>"
-					+ "<td class='center'></td>"
-					+ "<td id='newNum"+rowNumber+"' class='center'>"+rowNumber+"</td>"
-					+ "<td>"
-					+ "<input type='text' id='newProductCD"+rowNumber+"' class='item-add-col addProductCD' list='productAllList'>"
-					+ "</td>"
-					+ "<td id='newProductNM"+rowNumber+"' class='center'></td>"
-					+ "<td id='newProductGroup"+rowNumber+"' class='center'></td>"
-					+ "<td id='newUnit"+rowNumber+"' class='center'></td>"
-					+ "<td><input type='text' id='newQty"+rowNumber+"' class='item-add-col calculateTotalPrice'></td>"
-					+ "<td class='right'><input type='text' id='newUnitPrice"+rowNumber+"' class='item-add-col calculateTotalPrice'></td>"
-					+ "<td id='newTotalPrice"+rowNumber+"' class='right'></td>"
-				+ "</tr>"
-		);
-		
-		document.querySelectorAll('.newMinus-img').forEach(function(el) {
-			el.style.visibility = 'hidden';
-		})
-		
-		document.querySelector('#new-add-row-btn').style.display = 'none';
-		document.querySelector('#new-add-finish-btn').style.display = 'block';
-		document.querySelector('#new-add-cancel-btn').style.display = 'block';
-	} */
-	
-function loadNewProductData() {
+	function loadNewProductData() {
 		
 		var rowNumber=document.querySelector('#detailList-table').rows.length-1;
 	
@@ -527,13 +505,14 @@ function loadNewProductData() {
 		var soNo = document.querySelector('#detailSoNo').value;
 		var msg = document.querySelector('#comment-input').value;
 		var status = document.querySelector('#detailStatus').value;
+		var empCd = document.querySelector('#detailSoUser').value;
 		
 		console.log("soNo: "+soNo+", msg : "+msg);
 		var encodeMsg = encodeURIComponent(msg);
 		console.log("encodeMsg: "+encodeMsg);
 		
 		
-		$.post('requestApproval.do', "soNo="+soNo+"&content="+content+"&status="+status, function(result) {
+		$.post('requestApproval.do', "soNo="+soNo+"&content="+encodeMsg+"&status="+status+"&empCd="+empCd, function(result) {
 			if (result > 0) {
 				pageView('order.do');
 			} else if (result < 0) {
@@ -545,6 +524,31 @@ function loadNewProductData() {
 		
 	}
 	
+	function loadComment() {
+		
+		var content = "";
+		
+		var soNo = document.querySelector('#detailSoNo').value;
+		var empCd = document.querySelector('#detailSoUser').value;
+		
+		console.log("커멘트 불러오기 시작");
+		
+		$.post('checkComment.do', "soNo="+soNo+"&empCd="+empCd, function(result) {
+			if (result == 0) {
+				console.log("커멘트가 없다");
+				content = " ";
+				document.querySelector('#comment-input').value=content;
+			} else if (result > 0) {
+				$.post('loadComment.do', "soNo="+soNo+"&empCd="+empCd, function(result) {
+					
+					content=decodeURIComponent(result);
+					console.log("커멘트가 있어서 불러옴 : "+content);
+					document.querySelector('#comment-input').value=content;
+				});
+			}
+			
+		});	
+	}
 	
 </script>
 
@@ -637,15 +641,15 @@ function loadNewProductData() {
 				<div class="new-row-div">
 					<div class="new-sub-row-div">
 						<div class="new-text">거래처 코드<span class="red_warn">*</span></div>
-						<input type="text" id="newBuyerCD" class="no-border" list="buyerAllList" size="5" autocomplete="off">
+						<input type="text" id="newBuyerCD" class="no-border newInput2" list="buyerAllList" size="5" autocomplete="off">
 					</div>
 					<div class="new-sub-row-div">
 						<div class="new-text">영업담당자<span class="red_warn">*</span></div>
-						<input type="text" id="newSoUser" class="no-border" list="employee_list">
+						<input type="text" id="newSoUser" class="no-border newInput2" list="employee_list">
 					</div>
 					<div class="new-sub-row-div">
 						<div class="new-text">납품요청일<span class="red_warn">*</span></div>
-						<input type="date" id="newRequestDate" class="no-border" value="">
+						<input type="date" id="newRequestDate" class="no-border newInput2" value="">
 					</div>
 					<div class="new-sub-row-div">
 						<div class="new-text">통화<span class="red_warn">*</span></div>
@@ -780,7 +784,7 @@ function loadNewProductData() {
 						</tr>
 					</table>
 				</div>
-				<div class="comment-return-div" style="display: none;">
+				<div class="comment-return-div" style="visibility: hidden;">
 					<div>
 						반려 코멘트
 					</div>

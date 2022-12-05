@@ -30,6 +30,7 @@ public interface BuyerDao {
 	//거래처 삭제(update)
 	int deleteBuyer(String delList, String buyercd);
 
-	
+	//이름으로 찾기
+	String selectByNm(String buyerNM);
 
 }

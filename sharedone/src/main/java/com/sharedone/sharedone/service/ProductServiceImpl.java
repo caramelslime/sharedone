@@ -52,4 +52,8 @@ public class ProductServiceImpl implements ProductService {
 	public List<Product> productAllList() {
 		return pd.productAllList();
 	}
+	
+	public String selectByNm(String productNM) {
+		return pd.selectByNm(productNM);
+	}
 }

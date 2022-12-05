@@ -17,6 +17,7 @@ import com.sharedone.sharedone.model.Buyer;
 import com.sharedone.sharedone.model.Order;
 import com.sharedone.sharedone.model.Product;
 import com.sharedone.sharedone.service.BuyerService;
+import com.sharedone.sharedone.service.NoticeService;
 import com.sharedone.sharedone.service.OrderService;
 
 import net.sf.json.JSONArray;
@@ -26,6 +27,9 @@ public class OrderRestController {
 
 	@Autowired
 	private OrderService os;
+	
+	@Autowired
+	private NoticeService ns;
 
 	@RequestMapping("/orderHeader")
 	@ResponseBody
@@ -116,21 +120,54 @@ public class OrderRestController {
 	}
 
 	
-	/*
-	 * @RequestMapping("requestApproval") public int requestApproval(Order order,
-	 * Model model, String soNo, String content, String status) {
-	 * 
-	 * String previousStatus = status; status = "승인대기";
-	 * 
-	 * int approvalUpdateResult = os.approvalUpdate(soNo, status); int result=0; if
-	 * (approvalUpdateResult > 0) { result = ns.addComment(soNo, content); if
-	 * (result == 0) { status = previousStatus; os.approvalUpdate(soNo, status); } }
-	 * else if (approvalUpdateResult == 0) { result = -1; }
-	 * 
-	 * return result;
-	 * 
-	 * }
-	 */
-	
 
+	@RequestMapping("requestApproval")
+	public int requestApproval(Order order, Model model, String soNo, String content, String status, String empCd) {
+	
+	String previousStatus = status;
+	status = "승인대기";
+	
+	System.out.println("soNo: "+soNo);
+	System.out.println("content: "+content);
+	System.out.println("status: "+status);
+	System.out.println("empCd: "+empCd);
+	
+	int noticeCd = ns.getMax();
+	
+	int approvalUpdateResult = os.approvalUpdate(soNo, status);
+	int result=0;
+	if (approvalUpdateResult > 0) {
+		
+		result = ns.addComment(soNo, content, noticeCd, empCd);
+		if 	(result == 0) {
+			status = previousStatus; os.approvalUpdate(soNo, status);
+		}
+	} else if (approvalUpdateResult == 0) {
+		result = -1;
+	}
+	
+	return result;
+	
+	}
+	
+	
+	
+	@RequestMapping("checkComment")
+	public int checkComment(Model model, String soNo, String empCd) {
+		int count = 0;
+		count = ns.checkComment(soNo, empCd);
+		System.out.println("soNo: "+soNo+"empCd: "+empCd);
+		System.out.println(count);
+		return count;
+	}
+	
+	
+	@RequestMapping(value = "loadComment", produces = "text/html;charset=utf-8")
+	public String loadComment(Model model, String soNo, String empCd, String content) {
+		content ="";
+		content = ns.loadComment(soNo, empCd);
+		System.out.println(content);
+		return content;
+	}
+	
 }

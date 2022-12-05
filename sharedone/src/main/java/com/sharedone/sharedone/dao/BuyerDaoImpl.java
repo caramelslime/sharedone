@@ -58,5 +58,8 @@ public class BuyerDaoImpl implements BuyerDao {
 		return sst.update("buyerns.deleteBuyer", map);
 	}
 
-
+	@Override
+	public String selectByNm(String buyerNM) {
+		return sst.selectOne("buyerns.selectByNm", buyerNM);
+	}
 }

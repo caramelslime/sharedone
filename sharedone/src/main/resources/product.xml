@@ -50,6 +50,10 @@
 	
 	<select id="productAllList" resultType="product">
 		SELECT * FROM m_product ORDER BY productCD
+    </select>
+    
+	<select id="selectByNm" parameterType="string" resultType="String">
+		SELECT productCD FROM m_product WHERE productNM=#{productNM}
 	</select>
 	
 </mapper>

@@ -101,4 +101,8 @@
 	<update id="deleteBuyer" parameterType="map">
 		UPDATE m_buyer SET delyn=#{delList} WHERE buyerCd=#{buyerCd}
 	</update>
+	
+	<select id="selectByNm" parameterType="string" resultType="string">
+		SELECT buyercd from m_buyer where buyerNM=#{buyerNM}
+	</select>	
 </mapper>
