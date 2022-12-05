@@ -38,7 +38,7 @@
 	
 	<!-- khs 승인요청중인 오더리스트 불러오기 -->
 	<select id="pendingApprovalList" parameterType="order" resultType="order">
-		select * from t_order where souser in (select empCd from employee where dept = (select dept from employee where empCd = #{soUser})) and status = '승인대기' ORDER BY soNo
+		select * from t_order where souser in (select empCd from m_employee where dept = (select dept from m_employee where empCd = #{soUser})) and status = '승인대기' ORDER BY soNo
 	</select>
 	
 	<!-- khs 승인/반려 시 상태 업데이트 -->

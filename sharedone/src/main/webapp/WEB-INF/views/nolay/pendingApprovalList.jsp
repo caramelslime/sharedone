@@ -118,8 +118,8 @@
 				var productGroup = data[i].productGroup;
 				var qty = data[i].qty;
 				var unit = data[i].unit;
-				var unitprice = data[i].unitprice;
-				var totalprice = qty * unitprice;
+				var unitPrice = data[i].unitPrice;
+				var totalPrice = qty * unitPrice;
 				
 				$('#detailList-table').append(
 						"<tr class='detailListTr'>"
@@ -130,8 +130,8 @@
 							+ "<td class='center'>"+productGroup+"</td>"
 							+ "<td class='center'>"+qty+"</td>"
 							+ "<td class='center'>"+unit+"</td>"
-							+ "<td class='right'>"+unitprice+"</td>"
-							+ "<td class='right'>"+totalprice+"</td>"
+							+ "<td class='right'>"+unitPrice+"</td>"
+							+ "<td class='right'>"+totalPrice+"</td>"
 						+ "</tr>"
 				);
 			}
