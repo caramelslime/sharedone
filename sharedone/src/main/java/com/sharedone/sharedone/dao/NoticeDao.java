@@ -10,4 +10,10 @@ public interface NoticeDao {
 
 	int getMax();
 
+	int addComment(String soNo, String content, int noticeCd, String empCd);
+
+	int checkComment(String soNo, String empCd);
+
+	String loadComment(String soNo, String empCd);
+
 }

@@ -1,5 +1,8 @@
 package com.sharedone.sharedone.dao;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -26,6 +29,32 @@ public class NoticeDaoImpl implements NoticeDao{
 	public int getMax() {
 		// TODO Auto-generated method stub
 		return sst.selectOne("noticens.getMax");
+	}
+
+	@Override
+	public int addComment(String soNo, String content, int noticeCd, String empCd) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("soNo", soNo);
+		map.put("content", content);
+		map.put("noticeCd", noticeCd);
+		map.put("empCd", empCd);
+		return sst.insert("noticens.addComment", map);
+	}
+
+	@Override
+	public int checkComment(String soNo, String empCd) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("soNo", soNo);
+		map.put("empCd", empCd);
+		return sst.selectOne("noticens.checkComment", map);
+	}
+
+	@Override
+	public String loadComment(String soNo, String empCd) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("soNo", soNo);
+		map.put("empCd", empCd);
+		return sst.selectOne("noticens.loadComment", map);
 	}
 
 }

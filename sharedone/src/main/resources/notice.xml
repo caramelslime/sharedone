@@ -6,8 +6,9 @@
 	<select id="selectLastRequest" parameterType="String" resultType="notice">
 		select * from t_notice where soNo=#{soNo} and status='승인요청' and noticecd=(select max(noticecd) from t_notice where status = '승인요청' and soNo=#{soNo})	
 	</select>
+	
 	<select id="getMax" resultType="integer">
-		select max(noticecd)+1 from t_notice
+		select NVL(max(noticecd),0)+1 from t_notice
 	</select>
 	<!-- 승인인지 반려인지 체크하여 코멘트 입력 -->
 	<insert id="insertApproveOrRefer" parameterType="notice">
@@ -18,5 +19,20 @@
 			insert into t_notice values(#{noticeCd},#{content},#{empCd},#{soNo},sysdate,'반려')
 		</if>
 	</insert>
+	
+	<insert id="addComment" parameterType="map">
+		INSERT INTO t_notice VALUES (#{noticeCd},#{content},#{empCd},#{soNo},sysdate,'승인요청')
+	</insert>
+	
+	
+	<select id="checkComment" parameterType="map" resultType="int">
+		SELECT COUNT(*) FROM t_notice WHERE empCd=#{empCd} AND soNo=#{soNo}
+	</select>
+	
+	<select id="loadComment" parameterType="map" resultType="String">
+		SELECT content FROM t_notice WHERE noticeCd = (SELECT MAX(noticeCd) FROM t_notice WHERE empCd=#{empCd} AND soNo=#{soNo})
+	</select>
+	
+	
 	
 </mapper>

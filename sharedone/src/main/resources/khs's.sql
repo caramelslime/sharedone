@@ -1,6 +1,6 @@
-drop table employee;
+drop table m_employee;
 --직원 테이블
-CREATE TABLE employee (
+CREATE TABLE m_employee (
 	EMPCD	varchar(20)	NOT NULL PRIMARY KEY,
 	PW	varchar(40)	NOT NULL,
 	PHONE_NO	VARCHAR(20)	NOT NULL,
@@ -17,14 +17,19 @@ CREATE TABLE product (
 	unit VARCHAR2(10),
 	productgroup VARCHAR2(20)
 );
-CREATE TABLE NOTICE (
+
+DROP TABLE t_notice;
+DROP TABLE m_employee;
+
+CREATE TABLE t_notice (
 	NOTICECD	number(11)	NOT NULL,
 	CONTENT	VARCHAR(1000)	NOT NULL,
-	EMPCD	varchar(20)	NOT NULL  references m_employee(empcd),
-	SONO	VARCHAR2(20)	NOT NULL  references order(SONO),
-	registDate	date	NOT NULL
+	EMPCD	varchar(20)	NOT NULL,
+	SONO	VARCHAR2(20)	NOT NULL,
+	registDate	date	NOT NULL,
+	status VARCHAR2(20)
 );
-SELECT * FROM product;
+SELECT * FROM t_notice;
 
 INSERT INTO product VALUES ( 'A00001', '새우깡', 'box', '스넥류' );
 INSERT INTO product VALUES ( 'A00002', '포카칩', 'box', '스넥류' );
@@ -37,10 +42,21 @@ INSERT INTO product VALUES ( 'B00003', '스니커즈', 'box', '초콜릿류' );
 INSERT INTO product VALUES ( 'B00004', '카카오 72', 'box', '초콜릿류' );
 INSERT INTO product VALUES ( 'B00005', '허쉬', 'box', '초콜릿류' );
 
-delete from employee;
-insert into employee values('E0001','1234','010-8838-0247','김현서','ksh98520@naver.com','1998-07-13','영업1','staff');
-insert into employee values('E0002','1234','010-8838-0245','엄준식','ksh624@naver.com','1998-07-05','영업1','staff');
-insert into employee values('E0003','1234','010-2634-0247','하인호','ksh5325@naver.com','1995-03-24','영업1','staff');
-insert into employee values('E0004','1234','010-7457-0247','최인석','ksh93250@naver.com','1990-06-22','영업1','staff');
-insert into employee values('E0005','1234','010-3067-4088','강병준','kbj010@naver.com','2002-03-29','영업1','manager');
-select * from employee;
+delete from m_employee;
+insert into m_employee values('E00001','1234','010-8838-0247','김현서','ksh98520@naver.com','1998-07-13','영업1','staff');
+insert into m_employee values('E00002','1234','010-8838-0245','엄준식','ksh624@naver.com','1998-07-05','영업1','staff');
+insert into m_employee values('E00003','1234','010-2634-0247','하인호','ksh5325@naver.com','1995-03-24','영업1','staff');
+insert into m_employee values('E00004','1234','010-7457-0247','최인석','ksh93250@naver.com','1990-06-22','영업1','staff');
+insert into m_employee values('E00005','1234','010-3067-4088','강병준','kbj010@naver.com','2002-03-29','영업1','manager');
+select * from m_employee;
+
+select NVL(max(noticecd),0)+1 from t_notice;
+
+SELECT * FROM t_order;
+
+UPDATE t_order SET status='임시저장' WHERE sono='S00031';
+
+
+
+
+

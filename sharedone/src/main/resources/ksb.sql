@@ -216,5 +216,19 @@ DELETE FROM t_order WHERE soNo = 'P00021';
 UPDATE m_product SET productNM = #{productNM} WHERE productCD = #{productCD}
 
 
+SELECT * FROM t_notice;
+
+SELECT content FROM t_notice WHERE noticeCd = (SELECT MAX(noticeCd) FROM t_notice WHERE empCd='E00004' AND soNo='S00033');
+
+SELECT content FROM t_notice WHERE noticeCd = (SELECT MAX(noticeCd) FROM t_notice WHERE empCd=#{empCd} AND soNo=#{soNo})
+
+SELECT COUNT(*) FROM t_notice WHERE empCd='E00004' AND soNo='S00033';
+
+SELECT COUNT(*) FROM t_notice WHERE empCD='E00004' AND soNo='S00034';
+SELECT COUNT(*) FROM t_notice WHERE empCd=#{empCd} AND soNo=#{soNo}
+
+
+
+
 
 

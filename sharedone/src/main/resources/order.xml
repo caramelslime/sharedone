@@ -36,21 +36,6 @@
 		SELECT * FROM m_product WHERE productCD=#{productCD}
 	</select>
 	
-	<!-- khs 승인요청중인 오더리스트 불러오기 -->
-	<select id="pendingApprovalList" parameterType="order" resultType="order">
-		select * from t_order where souser in (select empCd from m_employee where dept = (select dept from m_employee where empCd = #{soUser})) and status = '승인대기' ORDER BY soNo
-	</select>
-	
-	<!-- khs 승인/반려 시 상태 업데이트 -->
-	<update id="updateApproveOrRefer" parameterType="notice">
-		<if test="check==1">
-			update t_order set status = '승인완료' where sono = #{soNo}
-		</if>
-		<if test="check==2">
-			update t_order set status = '반려' where sono = #{soNo}
-		</if>
-	</update>
-	
 	<insert id="addOrderDetail" parameterType="map">
 		INSERT INTO t_order_detail VALUES (#{soNo}, #{productCD}, #{qty}, #{unitPrice})
 	</insert>
@@ -69,6 +54,21 @@
 	
 	<update id="approvalUpdate" parameterType="map">
 		UPDATE t_order SET status=#{status} WHERE soNo=#{soNo}
+	</update>
+	
+	<!-- khs 승인요청중인 오더리스트 불러오기 -->
+	<select id="pendingApprovalList" parameterType="order" resultType="order">
+		select * from t_order where souser in (select empCd from m_employee where dept = (select dept from m_employee where empCd = #{soUser})) and status = '승인대기' ORDER BY soNo
+	</select>
+	
+	<!-- khs 승인/반려 시 상태 업데이트 -->
+	<update id="updateApproveOrRefer" parameterType="notice">
+		<if test="check==1">
+			update t_order set status = '승인완료' where sono = #{soNo}
+		</if>
+		<if test="check==2">
+			update t_order set status = '반려' where sono = #{soNo}
+		</if>
 	</update>
 	
 </mapper>

@@ -54,7 +54,7 @@ public class ApprovalController {
 		return "empLogin";
 	}
 	@RequestMapping("pendingApprovalList")
-	public String pendingApprovalList(String pageNum, Model model,Order order,HttpSession session) {
+	public String pendingApprovalList(String pageNum, Model model, Order order, HttpSession session) {
 		
 //		 String empCd=(String) session.getAttribute("empCd");
 		 order.setSoUser("E00006");

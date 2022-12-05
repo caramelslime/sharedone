@@ -12,6 +12,7 @@ CREATE TABLE m_employee (
 	JOB	VARCHAR(10)	NOT NULL
 );
 
+DROP TABLE m_employee;
 
 insert into m_employee values('E00001', '1', '01000000000', '이서연', 'test@test.com', TO_DATE('2022-11-01', 'YYYY--MM-DD'), '영업1팀', '팀장');
 insert into m_employee values('E00002', '1', '01000000000', '김민준', 'test@test.com', TO_DATE('2022-11-01', 'YYYY--MM-DD'), '영업1팀', '팀원');

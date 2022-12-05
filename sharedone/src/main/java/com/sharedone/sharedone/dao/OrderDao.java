@@ -16,10 +16,6 @@ public interface OrderDao {
 
 	Order selectByProductCD(String productCD);
 
-	List<Order> pendingApprovalList(Order order);
-
-	int updateApproveOrRefer(Notice notice);
-
 	int addOrderDetail(String soNo, String productCD, int qty, int unitPrice);
 
 	int removeOrderDetail(String soNo, String productCD);
@@ -29,5 +25,9 @@ public interface OrderDao {
 	int totalOrder();
 
 	int approvalUpdate(String soNo, String status);
+	
+	List<Order> pendingApprovalList(Order order);
+
+	int updateApproveOrRefer(Notice notice);
 
 }

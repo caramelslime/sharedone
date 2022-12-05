@@ -37,16 +37,6 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List<Order> pendingApprovalList(Order order) {
-		// TODO Auto-generated method stub
-		return od.pendingApprovalList(order);
-	}
-
-	@Override
-	public int updateApproveOrRefer(Notice notice) {
-		// TODO Auto-generated method stub
-		return od.updateApproveOrRefer(notice);
-	}
 	public int addOrderDetail(String soNo, String productCD, int qty, int unitPrice) {
 		return od.addOrderDetail(soNo, productCD, qty, unitPrice);
 	}
@@ -69,5 +59,17 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public int approvalUpdate(String soNo, String status) {
 		return od.approvalUpdate(soNo, status);
+	}
+	
+	@Override
+	public List<Order> pendingApprovalList(Order order) {
+		// TODO Auto-generated method stub
+		return od.pendingApprovalList(order);
+	}
+
+	@Override
+	public int updateApproveOrRefer(Notice notice) {
+		// TODO Auto-generated method stub
+		return od.updateApproveOrRefer(notice);
 	}
 }

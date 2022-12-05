@@ -39,15 +39,6 @@ public class OrderDaoImpl implements OrderDao {
 	}
 
 	@Override
-	public List<Order> pendingApprovalList(Order order) {
-		return sst.selectList("orderns.pendingApprovalList",order);
-	}
-
-	@Override
-	public int updateApproveOrRefer(Notice notice) {
-		// TODO Auto-generated method stub
-		return sst.update("orderns.updateApproveOrRefer",notice);
-	}
 	public int addOrderDetail(String soNo, String productCD, int qty, int unitPrice) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("soNo", soNo);
@@ -87,5 +78,15 @@ public class OrderDaoImpl implements OrderDao {
 		map.put("soNo", soNo);
 		map.put("status", status);
 		return sst.update("orderns.approvalUpdate", map);
+	}
+	
+	public List<Order> pendingApprovalList(Order order) {
+		return sst.selectList("orderns.pendingApprovalList",order);
+	}
+
+	@Override
+	public int updateApproveOrRefer(Notice notice) {
+		// TODO Auto-generated method stub
+		return sst.update("orderns.updateApproveOrRefer",notice);
 	}
 }
