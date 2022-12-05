@@ -1,5 +1,6 @@
 package com.sharedone.sharedone.dao;
 
+import java.sql.Date;
 import java.util.List;
 
 import com.sharedone.sharedone.model.Notice;
@@ -18,5 +19,15 @@ public interface OrderDao {
 	List<Order> pendingApprovalList(Order order);
 
 	int updateApproveOrRefer(Notice notice);
+
+	int addOrderDetail(String soNo, String productCD, int qty, int unitPrice);
+
+	int removeOrderDetail(String soNo, String productCD);
+
+	int addOrder(String soNo, String buyerCD, String soUser, Date requestDate, String currency);
+
+	int totalOrder();
+
+	int approvalUpdate(String soNo, String status);
 
 }

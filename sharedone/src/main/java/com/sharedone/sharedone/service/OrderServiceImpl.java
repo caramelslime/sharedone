@@ -1,5 +1,6 @@
 package com.sharedone.sharedone.service;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,5 +46,28 @@ public class OrderServiceImpl implements OrderService {
 	public int updateApproveOrRefer(Notice notice) {
 		// TODO Auto-generated method stub
 		return od.updateApproveOrRefer(notice);
+	}
+	public int addOrderDetail(String soNo, String productCD, int qty, int unitPrice) {
+		return od.addOrderDetail(soNo, productCD, qty, unitPrice);
+	}
+
+	@Override
+	public int removeOrderDetail(String soNo, String productCD) {
+		return od.removeOrderDetail(soNo, productCD);
+	}
+
+	@Override
+	public int addOrder(String soNo, String buyerCD, String soUser, Date requestDate, String currency) {
+		return od.addOrder(soNo, buyerCD, soUser, requestDate, currency);
+	}
+
+	@Override
+	public int totalOrder() {
+		return od.totalOrder();
+	}
+
+	@Override
+	public int approvalUpdate(String soNo, String status) {
+		return od.approvalUpdate(soNo, status);
 	}
 }

@@ -130,9 +130,6 @@
 		<div class="menu-div"  onclick="pageView('pendingApprovalList.do')">
 			<img class="menu-img" alt="이미지 없음" src="/sharedone/resources/images/confirm.png"/>&nbsp;오더승인
 		</div>
-		<div class="menu-div"  onclick="pageView('chart.do')">
-			<img class="menu-img" alt="이미지 없음" src="/sharedone/resources/images/dashboard.png"/>&nbsp;차트
-		</div>
 	</div>
 </body>
 

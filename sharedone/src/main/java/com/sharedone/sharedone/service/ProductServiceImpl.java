@@ -34,8 +34,8 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public int totalByProductGroup(String productGroup) {
-		return pd.totalByProductGroup(productGroup);
+	public int totalProduct() {
+		return pd.totalProduct();
 	}
 
 	@Override

@@ -49,6 +49,29 @@
 			}
 		});
 		
+		$('#detailList-table').on('keypress', '.addProductCD' ,function() {
+			$(this).val($(this).val().toUpperCase());
+			var keycode = event.keyCode ? event.keyCode : event.which;
+			if (keycode == 13) { // 13이 enter(assii값)
+				loadProductData();
+			}
+		});
+		
+		$(document).on('keypress', '.addNewProductCD' ,function() {
+			$(this).val($(this).val().toUpperCase());
+			var keycode = event.keyCode ? event.keyCode : event.which;
+			if (keycode == 13) { // 13이 enter(assii값)
+				loadNewProductData();
+			}
+		});
+		
+		$('#detailList-table').on('keypress', '.calculateTotalPrice' ,function() {
+			var keycode = event.keyCode ? event.keyCode : event.which;
+			if (keycode == 13) { // 13이 enter(assii값)
+				calculateTotalPrice();
+			}
+		});
+		
 	})
 	
 	function search() {
@@ -64,24 +87,11 @@
 		pageView('order.do?soNo='+soNo+'&buyerCD='+buyerCD+'&soUser='+soUser+'&addDate='+addDate+'&pricingDate='+pricingDate+'&requestDate='+requestDate+'&status='+status);
 	}
 	
+	var status = "";
+	
 	function detail(soNo) {
 		
 		console.log(soNo);
-		
-		$.post('orderHeader.do', "soNo="+soNo, function(data) {
-			document.querySelector('#detailSoNo').value = data.soNo;
-			document.querySelector('#detailBuyerCD').value = data.buyerCD;
-			document.querySelector('#detailSoUser').value = data.soUser;
-			document.querySelector('#detailAddDate').value = data.addDate;
-			document.querySelector('#detailPricingDate').value = data.pricingDate;
-			document.querySelector('#detailRequestDate').value = data.requestDate;
-			document.querySelector('#detailStatus').value = data.status;
-			document.querySelector('#detailCurrency').value = data.currency;
-			
-			if (data.status == '반려') {
-				document.querySelector('.comment-return-div').style.display = 'block';
-			}
-		});
 		
 		$.post('orderItems.do', "soNo="+soNo, function(data) {
 			
@@ -93,39 +103,98 @@
 				var productGroup = data[i].productGroup;
 				var qty = data[i].qty;
 				var unit = data[i].unit;
-				var unitprice = data[i].unitprice;
-				var totalprice = qty * unitprice;
+				var unitPrice = data[i].unitPrice;
+				var totalPrice = qty * unitPrice;
 				
-				$('#detailList-table').append(
-						"<tr class='detailListTr'>"
-							+"<td class='center'>-</td>"
-							+"<td class='center'>"+num+"</td>"
-							+ "<td class='center'>"+productCD+"</td>"
-							+ "<td class='center'>"+productNM+"</td>"
-							+ "<td class='center'>"+productGroup+"</td>"
-							+ "<td class='center'>"+qty+"</td>"
-							+ "<td class='center'>"+unit+"</td>"
-							+ "<td class='right'>"+unitprice+"</td>"
-							+ "<td class='right'>"+totalprice+"</td>"
-						+ "</tr>"
-				);
+				var status = document.querySelector('#detailStatus').value;
+				
+				
+				
+				if (status == '승인완료' || status == '승인대기' || status == '종결') {
+					$('#detailList-table').append(
+							"<tr class='detailListTr'>"
+								+"<td class='center'>"
+								+"</td>"
+								+"<td class='center'>"+num+"</td>"
+								+ "<td class='center productCDCheck'>"+productCD+"</td>"
+								+ "<td class='center'>"+productNM+"</td>"
+								+ "<td class='center'>"+productGroup+"</td>"
+								+ "<td class='center'>"+unit+"</td>"
+								+ "<td class='center'>"+qty+"</td>"
+								+ "<td class='right'>"+unitPrice+"</td>"
+								+ "<td class='right'>"+totalPrice+"</td>"
+							+ "</tr>"
+					);
+				} else {
+					$('#detailList-table').append(
+							"<tr class='detailListTr'>"
+								+"<td class='center'>"
+								+ "<img id='productCD_"+productCD+"' class='minus-img' alt='이미지 없음' src='/sharedone/resources/images/minus.png' onclick='removeItem(this)' />"
+								+"</td>"
+								+"<td class='center'>"+num+"</td>"
+								+ "<td class='center productCDCheck'>"+productCD+"</td>"
+								+ "<td class='center'>"+productNM+"</td>"
+								+ "<td class='center'>"+productGroup+"</td>"
+								+ "<td class='center'>"+unit+"</td>"
+								+ "<td class='center'>"+qty+"</td>"
+								+ "<td class='right'>"+unitPrice+"</td>"
+								+ "<td class='right'>"+totalPrice+"</td>"
+							+ "</tr>"
+					);
+				}
+			}
+			
+			
+			
+			
+		});
+		
+		$.post('orderHeader.do', "soNo="+soNo, function(data) {
+			
+			document.querySelector('#detailSoNo').value = data.soNo;
+			document.querySelector('#detailBuyerCD').value = data.buyerCD;
+			document.querySelector('#detailSoUser').value = data.soUser;
+			document.querySelector('#detailAddDate').value = data.addDate;
+			document.querySelector('#detailPricingDate').value = data.pricingDate;
+			document.querySelector('#detailRequestDate').value = data.requestDate;
+			document.querySelector('#detailStatus').value = data.status;
+			document.querySelector('#detailCurrency').value = data.currency;
+			
+			var status = document.querySelector('#detailStatus').value;
+			
+			if (status == '반려') {
+				document.querySelector('.comment-return-div').style.visibility = 'hidden';
+			} else if (status == '승인완료' || status == '승인대기' || status == '종결') {
+				document.querySelector('.detail-action-btn-div').style.visibility = 'hidden';
+				document.querySelector('.detailAddItem-div').style.visibility = 'hidden';
+				document.querySelector('#comment-input').readOnly=true;
 			}
 		});
 		
-		
-		$('.orderList-div').css('opacity', '0.3');
-		$('.search-div').css('opacity', '0.3');
-		$('.detail-div').show();
+		setTimeout(function() {
+			$('.orderList-div').css('opacity', '0.3');
+			$('.search-div').css('opacity', '0.3');
+			$('.detail-div').show();
+		}, 200);
 	}
 	
 	function xBack(){
 		$("#detailList-table tr:not(:first)").remove();	// 상세창 닫을 때 입력한 값 제거
+		$("#newList-table tr:not(:first)").remove();	// 상세창 닫을 때 입력한 값 제거
+		document.querySelector('#comment-input').value=""; // 상세창 닫을 때 코멘트 입력한 값 제거
+		document.querySelector('#comment-input').readOnly=false;
 		$('.detail-div').hide();
+		$('.new-div').hide();
 		$('.orderList-div').css('opacity', '1');
 		$('.search-div').css('opacity', '1');
-		$('.comment-return-div').hide();
+		document.querySelector('.comment-return-div').style.display = 'none';
 		document.querySelector('#add-finish-btn').style.display = 'none';
+		document.querySelector('#add-cancel-btn').style.display = 'none';
 		document.querySelector('#add-row-btn').style.display = 'block';
+		document.querySelector('.detailAddItem-div').style.visibility = 'visible';
+		document.querySelector('.detail-action-btn-div').style.visibility = 'visible';
+		console.log("back()-display: "+document.querySelector('.comment-return-div').style.display);
+		console.log("back()-readonly: "+document.querySelector('#comment-input').readOnly);
 	}
 	
 	function addItem() {
@@ -138,20 +207,25 @@
 					+ "<td class='center'></td>"
 					+ "<td id='num"+rowNumber+"' class='center'>"+rowNumber+"</td>"
 					+ "<td>"
-					+ "<input type='text' id='productCD"+rowNumber+"' class='item-add-col2 addProductCD' list='productCDList'>"
-					+ "<input id='load-product-btn' type='button' onclick='loadProductData()' value='확인'>"
+					+ "<input type='text' id='productCD"+rowNumber+"' class='item-add-col addProductCD' list='productAllList'>"
+					/* + "<input id='load-product-btn' type='button' onclick='loadProductData()' value='확인'>" */
 					+ "</td>"
 					+ "<td id='productNM"+rowNumber+"' class='center'></td>"
 					+ "<td id='productGroup"+rowNumber+"' class='center'></td>"
-					+ "<td><input type='text' id='qty"+rowNumber+"' class='item-add-col'></td>"
-					+ "<td><input type='text' id='unit"+rowNumber+"' class='item-add-col'></td>"
-					+ "<td class='right'><input type='text' id='unitprice"+rowNumber+"' class='item-add-col'></td>"
-					+ "<td id='totalprice"+rowNumber+"' class='right'></td>"
+					+ "<td id='unit"+rowNumber+"' class='center'></td>"
+					+ "<td><input type='text' id='qty"+rowNumber+"' class='item-add-col calculateTotalPrice'></td>"
+					+ "<td class='right'><input type='text' id='unitPrice"+rowNumber+"' class='item-add-col calculateTotalPrice'></td>"
+					+ "<td id='totalPrice"+rowNumber+"' class='right'></td>"
 				+ "</tr>"
 		);
 		
+		document.querySelectorAll('.minus-img').forEach(function(el) {
+			el.style.visibility = 'hidden';
+		})
+		
 		document.querySelector('#add-row-btn').style.display = 'none';
 		document.querySelector('#add-finish-btn').style.display = 'block';
+		document.querySelector('#add-cancel-btn').style.display = 'block';
 	}
 	
 	
@@ -166,18 +240,33 @@
 		$.post('selectByProductCD.do', "productCD="+productCD, function(data) {
 			var productNM = data.productNM;
 			var productGroup = data.productGroup;
+			var unit = data.unit;
 			
-			console.log(data);
-			console.log(productNM);
-			console.log(productGroup);
 			
 			if (data == null || data == "") {
 				alert("없는 제품코드입니다");
 				document.querySelector('#productCD'+rowNumber).value="";
 				document.querySelector('#productCD'+rowNumber).focus();
 			} else if (data != null) {
-				document.querySelector('#productNM'+rowNumber).innerHTML=productNM;
-				document.querySelector('#productGroup'+rowNumber).innerHTML=productGroup;
+				
+				var count=0;
+				
+				document.querySelectorAll('.productCDCheck').forEach(function(el) {
+					if (el.innerHTML == document.querySelector('#productCD'+rowNumber).value) {
+						count += 1;
+					}
+				})
+				
+				if (count>0) {
+					alert("이미 같은 제품이 등록되어 있습니다.");
+					document.querySelector('#productCD'+rowNumber).value="";
+					document.querySelector('#productCD'+rowNumber).focus();
+				} else if (count == 0) {
+					document.querySelector('#productNM'+rowNumber).innerHTML=productNM;
+					document.querySelector('#productGroup'+rowNumber).innerHTML=productGroup;
+					document.querySelector('#unit'+rowNumber).innerHTML=unit;
+				}
+				
 			}
 		});
 		
@@ -185,8 +274,275 @@
 	
 	
 	function addItemAction() {
+		
+		var rowNumber=document.querySelector('#detailList-table').rows.length-1;
+		
+		var productCD = document.querySelector('#productCD'+rowNumber).value;
+		var qty = document.querySelector('#qty'+rowNumber).value;
+		var unitPrice = document.querySelector('#unitPrice'+rowNumber).value;
+		var soNo = document.querySelector('#detailSoNo').value;
+		var totalPrice = document.querySelector('#totalPrice'+rowNumber).innerHTML;
+		
+		if (productCD == "") {
+			alert("제품코드를 입력해 주세요.");
+			document.querySelector('#productCD'+rowNumber).focus();
+		} else if (qty == "") {
+			alert("수량을 입력해 주세요.");
+			document.querySelector('#qty'+rowNumber).focus();
+		} else if (unitPrice == "") {
+			alert("판매가를 입력해 주세요.");
+			document.querySelector('#unitPrice'+rowNumber).focus();
+		} else if (totalPrice == "") {
+			alert("수량 또는 판매가에서 엔터를 입력하여 합계를 먼저 구하세요.");
+			document.querySelector('#unitPrice'+rowNumber).focus();
+		}else {
+			$.post('addOrderDetail.do', "soNo="+soNo+"&productCD="+productCD+"&qty="+qty+"&unitPrice="+unitPrice, function(data) {
+				$("#detailList-table tr:not(:first)").remove();	// 상세창 닫을 때 입력한 값 제거
+				document.querySelector('#add-finish-btn').style.display = 'none';
+				document.querySelector('#add-cancel-btn').style.display = 'none';
+				document.querySelector('#add-row-btn').style.display = 'block';
+				document.querySelectorAll('.minus-img').forEach(function(el) {
+					el.style.visibility = 'visible';
+				})
+				detail(soNo);
+			})
+		}
+	}
+		
+	function calculateTotalPrice() {
+
+		var rowNumber=document.querySelector('#detailList-table').rows.length-1;
+		var count = 0;
+		
+		var qty = document.querySelector('#qty'+rowNumber).value;
+		var unitPrice = document.querySelector('#unitPrice'+rowNumber).value;
+		
+		if (qty == null || qty == "" || unitPrice == null || unitPrice == "") {
+			alert("수량과 판매가 모두 입력하고 엔터를 눌러주세요");
+		} else {
+			var totalPrice = qty*unitPrice;
+			console.log(totalPrice);
+			document.querySelector('#totalPrice'+rowNumber).innerHTML=totalPrice;
+		}
+		
+	}
+	
+	function removeItem(e) {
+
+		if (confirm("진짜로 삭제하시겠습니까?")) {
+			var split = e.getAttribute('id').split('_');
+			var productCD = split[1];
+			var soNo = document.querySelector('#detailSoNo').value;
+				
+			
+			$.post('removeOrderDetail.do', "soNo="+soNo+"&productCD="+productCD, function(result) {
+				if (result > 0) {
+					console.log("삭제성공!");
+					$("#detailList-table tr:not(:first)").remove();	// 상세창 닫을 때 입력한 값 제거
+					detail(soNo);
+				} else if (result == 0) {
+					alert("삭제가 실패하였습니다.");
+				}
+			})
+		}
+	}
+	
+	
+	function addItemCancel() {
+		var soNo = document.querySelector('#detailSoNo').value;
+		$("#detailList-table tr:not(:first)").remove();
 		document.querySelector('#add-finish-btn').style.display = 'none';
+		document.querySelector('#add-cancel-btn').style.display = 'none';
 		document.querySelector('#add-row-btn').style.display = 'block';
+		document.querySelectorAll('.minus-img').forEach(function(el) {
+			el.style.visibility = 'visible';
+		})
+		detail(soNo);
+	}
+	
+	function newOrderInputView() {
+		$('.orderList-div').css('opacity', '0.3');
+		$('.search-div').css('opacity', '0.3');
+		$('.new-div').show();
+	}
+	
+	/* function newAddItem() {
+		
+		var rowNumber=document.querySelector('#newList-table').rows.length;
+		console.log(rowNumber);		
+		
+		$('#newList-table').append(
+				"<tr class='newListTr'>"
+					+ "<td class='center'></td>"
+					+ "<td id='newNum"+rowNumber+"' class='center'>"+rowNumber+"</td>"
+					+ "<td>"
+					+ "<input type='text' id='newProductCD"+rowNumber+"' class='item-add-col addProductCD' list='productAllList'>"
+					+ "</td>"
+					+ "<td id='newProductNM"+rowNumber+"' class='center'></td>"
+					+ "<td id='newProductGroup"+rowNumber+"' class='center'></td>"
+					+ "<td id='newUnit"+rowNumber+"' class='center'></td>"
+					+ "<td><input type='text' id='newQty"+rowNumber+"' class='item-add-col calculateTotalPrice'></td>"
+					+ "<td class='right'><input type='text' id='newUnitPrice"+rowNumber+"' class='item-add-col calculateTotalPrice'></td>"
+					+ "<td id='newTotalPrice"+rowNumber+"' class='right'></td>"
+				+ "</tr>"
+		);
+		
+		document.querySelectorAll('.newMinus-img').forEach(function(el) {
+			el.style.visibility = 'hidden';
+		})
+		
+		document.querySelector('#new-add-row-btn').style.display = 'none';
+		document.querySelector('#new-add-finish-btn').style.display = 'block';
+		document.querySelector('#new-add-cancel-btn').style.display = 'block';
+	} */
+	
+function loadNewProductData() {
+		
+		var rowNumber=document.querySelector('#detailList-table').rows.length-1;
+	
+		var productCD = document.querySelector('#newProductCD').value;
+		
+		$.post('selectByProductCD.do', "productCD="+productCD, function(data) {
+			var productNM = data.productNM;
+			var productGroup = data.productGroup;
+			var unit = data.unit;
+			
+			if (data == null || data == "") {
+				alert("없는 제품코드입니다");
+				document.querySelector('#newProductCD').value="";
+				document.querySelector('#newProductCD').focus();
+			} else if (data != null) {
+				
+				var count=0;
+				
+				document.querySelectorAll('.newProductCDCheck').forEach(function(el) {
+					if (el.innerHTML == document.querySelector('#newProductCD').value) {
+						count += 1;
+					}
+				})
+				
+				if (count>0) {
+					alert("이미 같은 제품이 등록되어 있습니다.");
+					document.querySelector('#newProductCD').value="";
+					document.querySelector('#newProductCD').focus();
+				} else if (count == 0) {
+					document.querySelector('#newProductNM').value=productNM;
+					document.querySelector('#newProductGroup').value=productGroup;
+					document.querySelector('#newUnit').value=unit;
+				}
+			} 
+		});
+		
+	}
+	
+	function newAddItem() {
+		
+		var productCD = document.querySelector('#newProductCD').value;
+		var productNM = document.querySelector('#newProductNM').value;
+		var productGroup = document.querySelector('#newProductGroup').value;
+		var unit = document.querySelector('#newUnit').value;
+		var qty = document.querySelector('#newQty').value;
+		var unitPrice = document.querySelector('#newUnitPrice').value;
+		var totalPrice = qty * unitPrice;
+		
+		var rowNumber=document.querySelector('#newList-table').rows.length;
+		
+		
+		if (productCD == "" || productNM == "" || unit == "" || productGroup == "" || qty == "" || unitPrice == "") {
+			alert("값을 입력하세요");
+		} else {
+			$('#newList-table').append(
+					"<tr class='newListTr'>"
+						+ "<td class='center'></td>"
+						+ "<td id='newNum"+rowNumber+"' class='center'>"+rowNumber+"</td>"
+						+ "<td id='newProductCD"+rowNumber+"' class='center newProductCDCheck'>"+productCD+"</td>"
+						+ "<td id='newProductNM"+rowNumber+"' class='center'>"+productNM+"</td>"
+						+ "<td id='newProductGroup"+rowNumber+"' class='center'>"+productGroup+"</td>"
+						+ "<td id='newUnit"+rowNumber+"' class='center'>"+unit+"</td>"
+						+ "<td id='newQty"+rowNumber+"' class='center'>"+qty+"</td>"
+						+ "<td id='newUnitPrice"+rowNumber+"' class='right'>"+unitPrice+"</td>"
+						+ "<td id='newTotalPrice"+rowNumber+"' class='right'>"+totalPrice+"</td>"
+					+ "</tr>"
+			);
+			document.querySelectorAll('.newInput').forEach(function(el) {
+				el.value="";
+			})
+			
+			document.querySelector('#newProductCD').focus();
+		}
+	}
+	
+	function orderInsertAction() {
+		
+		
+		var buyerCD = document.querySelector('#newBuyerCD').value;
+		var soUser = document.querySelector('#newSoUser').value;
+		var requestDate = document.querySelector('#newRequestDate').value;
+		var currency = document.querySelector('#newCurrency').value;
+		
+		var soNo = "";
+		
+		if (buyerCD == "" || soUser == "" || requestDate == "" || currency == "") {
+			alert("필요한 정보를 입력해 주세요.");
+		} else {
+			$.post('orderInsert.do', "buyerCD="+buyerCD+"&soUser="+soUser+"&requestDate="+requestDate+"&currency="+currency, function(data) {
+				console.log(data);
+				soNo = data;
+				
+				var table = document.querySelector('#newList-table');
+				var rows = document.getElementById("newList-table").getElementsByTagName("tr");
+				var insertArray = new Array(table.rows.length-1);
+				
+				for (var i = 0; i < table.rows.length-1; i++) {
+					var cells = rows[i+1].getElementsByTagName("td");
+					
+					insertArray[i] = { soNo: soNo, productCD: cells[2].firstChild.data, qty: cells[6].firstChild.data, unitPrice: cells[7].firstChild.data};
+					console.log(insertArray[i]);
+				};
+				
+				console.log(insertArray);
+				
+			$.ajax({
+				     method: 'post',
+				     url: 'orderDetailInsert.do',
+				     traditional: true,
+				     data: {
+				       data: JSON.stringify(insertArray)
+				     },
+				     dataType: 'json',
+				     success: function (res) {
+				        if (res.result) {
+							pageView('order.do');
+				        }
+					}
+			   });
+			})
+			
+		}
+		
+	}
+	
+	function requestApproval() {
+		
+		var soNo = document.querySelector('#detailSoNo').value;
+		var msg = document.querySelector('#comment-input').value;
+		var status = document.querySelector('#detailStatus').value;
+		
+		console.log("soNo: "+soNo+", msg : "+msg);
+		var encodeMsg = encodeURIComponent(msg);
+		console.log("encodeMsg: "+encodeMsg);
+		
+		
+		$.post('requestApproval.do', "soNo="+soNo+"&content="+content+"&status="+status, function(result) {
+			if (result > 0) {
+				pageView('order.do');
+			} else if (result < 0) {
+				alert("오더상태 변경 실패");
+			} else if (result == 0) {
+				alert("코멘트 저장 실패");
+			}
+		});
+		
 	}
 	
 	
@@ -211,33 +567,33 @@
 					<div class="search-sub-div">
 						<div class="search-item-div">
 							<div class="search-item-text">• 오더번호</div>
-							<input type=text id="searchSoNo" class="search" list="CDList">
+							<input type=text id="searchSoNo" class="search" list="">
 						</div>
 						<div class="search-item-div">
 							<div class="search-item-text">• 영업담당자</div>
-							<input type=text id="searchSoUser" class="search" list="CDList">
+							<input type=text id="searchSoUser" class="search" list="">
 						</div>
 						<div class="search-item-div">
 							<div class="search-item-text">• 판매가기준일</div>
-							<input type=text id="searchPricingDate" class="search" list="CDList">
+							<input type=text id="searchPricingDate" class="search" list="">
 						</div>
 						<div class="search-item-div">
 							<div class="search-item-text">• 상태</div>
-							<input type=text id="searchStatus" class="search" list="CDList">
+							<input type=text id="searchStatus" class="search" list="">
 						</div>
 					</div>
 					<div class="search-sub-div">
 						<div class="search-item-div">
 							<div class="search-item-text">• 거래처코드</div>
-							<input type=text id="searchBuyerCD" class="search" list="CDList">
+							<input type=text id="searchBuyerCD" class="search" list="">
 						</div>
 						<div class="search-item-div">
 							<div class="search-item-text">• 오더등록일</div>
-							<input type=text id="searchAddDate" class="search" list="CDList">
+							<input type=text id="searchAddDate" class="search" list="">
 						</div>
 						<div class="search-item-div">
 							<div class="search-item-text">• 납품요청일</div>
-							<input type=text id="searchRequestDate" class="search" list="CDList">
+							<input type=text id="searchRequestDate" class="search" list="">
 						</div>
 					</div>
 				</div>
@@ -274,6 +630,90 @@
 				</table>
 			</div>
 			
+			
+			<div class="new-div">
+				<div class="x-div"><div onclick="xBack()" class="x-sub-div">✖</div></div>
+				
+				<div class="new-row-div">
+					<div class="new-sub-row-div">
+						<div class="new-text">거래처 코드<span class="red_warn">*</span></div>
+						<input type="text" id="newBuyerCD" class="no-border" list="buyerAllList" size="5" autocomplete="off">
+					</div>
+					<div class="new-sub-row-div">
+						<div class="new-text">영업담당자<span class="red_warn">*</span></div>
+						<input type="text" id="newSoUser" class="no-border" list="employee_list">
+					</div>
+					<div class="new-sub-row-div">
+						<div class="new-text">납품요청일<span class="red_warn">*</span></div>
+						<input type="date" id="newRequestDate" class="no-border" value="">
+					</div>
+					<div class="new-sub-row-div">
+						<div class="new-text">통화<span class="red_warn">*</span></div>
+						<select id="newCurrency"class="">
+							<option value="KRW">KRW</option>
+							<option value="USD">USD</option>
+							<option value="EUR">EUR</option>
+							<option value="JPY">JPY</option>
+						</select>
+					</div>
+				</div>
+				
+				<hr class="new-hr">
+				
+				
+				<div class="newAddItem-div" align="left">
+					<div class="new-sub-row-div">
+						<div class="new-text">제품코드<span class="red_warn">*</span></div>
+						<input type="text" id="newProductCD" class="addNewProductCD newInput" required="required" list="productAllList" autocomplete="off"/>
+					</div>
+					<div class="new-sub-row-div">
+						<div class="new-text">수량<span class="red_warn">*</span></div>
+						<input type="text" id="newQty" class="newInput" required="required"/>
+					</div>
+					<div class="new-sub-row-div">
+						<div class="new-text">판매가<span class="red_warn">*</span></div>
+						<input type="text" id="newUnitPrice" class="newInput" required="required"/>
+					</div>
+					<button id="new-add-row-btn" class="new-action-btn2" onclick="newAddItem()">제품추가</button>
+				</div>
+				
+				<div class="newAddItem-div" align="left">
+					<div class="new-sub-row-div">
+						<div class="new-text">제품명</div>
+						<input type="text" id="newProductNM" class="newInput" readonly="readonly"/>
+					</div>
+					<div class="new-sub-row-div">
+						<div class="new-text">제품그룹</div>
+						<input type="text" id="newProductGroup" class="newInput" required="required"/>
+					</div>
+					<div class="new-sub-row-div">
+						<div class="new-text">단위</div>
+						<input type="text" id="newUnit" class="newInput" required="required"/>
+					</div>
+				</div>
+				
+				<div class="newList-div">
+					<table id="newList-table">
+						<tr>
+							<th class="new-header-col1"></th>
+							<th class="new-header-col2">번호</th>
+							<th class="new-header-col3 center">제품코드</th>
+							<th class="new-header-col4 center">제품명</th>
+							<th class="new-header-col5 center">제품그룹</th>
+							<th class="new-header-col6 center">단위</th>
+							<th class="new-header-col7 center">수량</th>
+							<th class="new-header-col8 center">판매가</th>
+							<th class="new-header-col9 center">합계</th>
+						</tr>
+					</table>
+				</div>
+				
+				<div class="new-action-div">
+					<div class="new-action-btn-div">
+						<button class="new-action-btn2" onclick="orderInsertAction()">저장</button>
+					</div>
+				</div>
+			</div>
 			
 			<div class="detail-div">
 				<div class="x-div"><div onclick="xBack()" class="x-sub-div">✖</div></div>
@@ -322,6 +762,7 @@
 				<div class="detailAddItem-div" align="right">
 					<button id="add-row-btn" class="detail-action-btn2" onclick="addItem()">제품추가</button>
 					<button id="add-finish-btn" class="detail-action-btn2" onclick="addItemAction()" style="display: none;">제품추가완료</button>
+					<button id="add-cancel-btn" class="detail-action-btn1" onclick="addItemCancel()" style="display: none;">제품추가취소</button>
 				</div>
 				
 				<div class="detailList-div">
@@ -332,8 +773,8 @@
 							<th class="detail-header-col3 center">제품코드</th>
 							<th class="detail-header-col4 center">제품명</th>
 							<th class="detail-header-col5 center">제품그룹</th>
-							<th class="detail-header-col6 center">수량</th>
-							<th class="detail-header-col7 center">단위</th>
+							<th class="detail-header-col6 center">단위</th>
+							<th class="detail-header-col7 center">수량</th>
 							<th class="detail-header-col8 center">판매가</th>
 							<th class="detail-header-col9 center">합계</th>
 						</tr>
@@ -371,7 +812,7 @@
 			<div class="bottom-div">
 				<div class="bottom-btn-div">
 					<c:set var="editable" value="a"></c:set>
-					<button class="new-input-btn" onclick="newInputView()">오더등록</button>
+					<button class="new-order-input-btn" onclick="newOrderInputView()">오더등록</button>
 				</div>
 			</div>
 			
@@ -387,9 +828,24 @@
 		</div>
 		
 		<div style="display: none;">
-			<datalist id="productCDList">
+			<datalist id="productAllList">
 				<c:forEach var="product" items="${productAllList }">
 					<option value="${product.productCD}">${product.productNM}</option>
+				</c:forEach>
+			</datalist>
+		</div>
+		
+		<div style="display: none;">
+			<datalist id="buyerAllList">
+				<c:forEach var="buyer" items="${buyerAllList }">
+					<option value="${buyer.buyerCd}">${buyer.buyerNm}</option>
+				</c:forEach>
+			</datalist>
+		</div>
+		<div style="display: none;">
+			<datalist id="employee_list">
+				<c:forEach var="employee" items="${employee_list }">
+					<option value="${employee.empCd}">${employee.name}</option>
 				</c:forEach>
 			</datalist>
 		</div>

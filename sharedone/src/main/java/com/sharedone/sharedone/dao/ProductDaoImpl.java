@@ -36,8 +36,8 @@ public class ProductDaoImpl implements ProductDao {
 	}
 
 	@Override
-	public int totalByProductGroup(String productGroup) {
-		return sst.selectOne("productns.totalByProductGroup", productGroup);
+	public int totalProduct() {
+		return sst.selectOne("productns.totalProduct");
 	}
 
 	@Override

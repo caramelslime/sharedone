@@ -1,5 +1,6 @@
 package com.sharedone.sharedone.service;
 
+import java.sql.Date;
 import java.util.List;
 
 import com.sharedone.sharedone.model.Notice;
@@ -20,5 +21,15 @@ public interface OrderService {
 
 //	khs 승인/반려시 상태 업데이트
 	int updateApproveOrRefer(Notice notice);
+	
+	int addOrderDetail(String soNo, String productCD, int qty, int unitPrice);
+
+	int removeOrderDetail(String soNo, String productCD);
+
+	int addOrder(String soNo, String buyerCD, String soUser, Date requestDate, String currency);
+
+	int totalOrder();
+
+	int approvalUpdate(String soNo, String status);
 
 }
