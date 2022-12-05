@@ -1,172 +1,144 @@
-
-am5.ready(function() {
-
-// Create root element
-// https://www.amcharts.com/docs/v5/getting-started/#Root_element
-var root = am5.Root.new("chartdiv");
-
-// Set themes
-// https://www.amcharts.com/docs/v5/concepts/themes/
-root.setThemes([am5themes_Animated.new(root)]);
-
-// Create chart
-// https://www.amcharts.com/docs/v5/charts/xy-chart/
-var chart = root.container.children.push(
-  am5xy.XYChart.new(root, {
-    panX: false,
-    panY: false,
-    wheelX: "panX",
-    wheelY: "zoomX",
-    layout: root.verticalLayout
-  })
-);
-
-// Add scrollbar
-// https://www.amcharts.com/docs/v5/charts/xy-chart/scrollbars/
-chart.set(
-  "scrollbarX",
-  am5.Scrollbar.new(root, {
-    orientation: "horizontal"
-  })
-);
-
-var data = [
-  {
-    year: "2016",
-    income: 23.5,
-    expenses: 21.1
-  },
-  {
-    year: "2017",
-    income: 26.2,
-    expenses: 30.5
-  },
-  {
-    year: "2018",
-    income: 30.1,
-    expenses: 34.9
-  },
-  {
-    year: "2019",
-    income: 29.5,
-    expenses: 31.1
-  },
-  {
-    year: "2020",
-    income: 30.6,
-    expenses: 28.2,
-    strokeSettings: {
-      stroke: chart.get("colors").getIndex(1),
-      strokeWidth: 3,
-      strokeDasharray: [5, 5]
-    }
-  },
-  {
-    year: "2021",
-    income: 34.1,
-    expenses: 32.9,
-    columnSettings: {
-      strokeWidth: 1,
-      strokeDasharray: [5],
-      fillOpacity: 0.2
-    },
-    info: "(projection)"
-  }
-];
-
-// Create axes
-// https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
-var xAxis = chart.xAxes.push(
-  am5xy.CategoryAxis.new(root, {
-    categoryField: "year",
-    renderer: am5xy.AxisRendererX.new(root, {}),
-    tooltip: am5.Tooltip.new(root, {})
-  })
-);
-
-xAxis.data.setAll(data);
-
-var yAxis = chart.yAxes.push(
-  am5xy.ValueAxis.new(root, {
-    min: 0,
-    extraMax: 0.1,
-    renderer: am5xy.AxisRendererY.new(root, {})
-  })
-);
-
-
-// Add series
-// https://www.amcharts.com/docs/v5/charts/xy-chart/series/
-
-var series1 = chart.series.push(
-  am5xy.ColumnSeries.new(root, {
-    name: "Income",
-    xAxis: xAxis,
-    yAxis: yAxis,
-    valueYField: "income",
-    categoryXField: "year",
-    tooltip:am5.Tooltip.new(root, {
-      pointerOrientation:"horizontal",
-      labelText:"{name} in {categoryX}: {valueY} {info}"
-    })
-  })
-);
-
-series1.columns.template.setAll({
-  tooltipY: am5.percent(10),
-  templateField: "columnSettings"
-});
-
-series1.data.setAll(data);
-
-var series2 = chart.series.push(
-  am5xy.LineSeries.new(root, {
-    name: "Expenses",
-    xAxis: xAxis,
-    yAxis: yAxis,
-    valueYField: "expenses",
-    categoryXField: "year",
-    tooltip:am5.Tooltip.new(root, {
-      pointerOrientation:"horizontal",
-      labelText:"{name} in {categoryX}: {valueY} {info}"
-    })    
-  })
-);
-
-series2.strokes.template.setAll({
-  strokeWidth: 3,
-  templateField: "strokeSettings"
-});
-
-
-series2.data.setAll(data);
-
-series2.bullets.push(function () {
-  return am5.Bullet.new(root, {
-    sprite: am5.Circle.new(root, {
-      strokeWidth: 3,
-      stroke: series2.get("stroke"),
-      radius: 5,
-      fill: root.interfaceColors.get("background")
-    })
-  });
-});
-
-chart.set("cursor", am5xy.XYCursor.new(root, {}));
-
-// Add legend
-// https://www.amcharts.com/docs/v5/charts/xy-chart/legend-xy-series/
-var legend = chart.children.push(
-  am5.Legend.new(root, {
-    centerX: am5.p50,
-    x: am5.p50
-  })
-);
-legend.data.setAll(chart.series.values);
-
-// Make stuff animate on load
-// https://www.amcharts.com/docs/v5/concepts/animations/
-chart.appear(1000, 100);
-series1.appear();
-
-}); // end am5.ready()
+$(document).ready(function(){
+	 $('.report-table-div').hide();
+	 $('.subData').hide();
+	 
+	 
+	 	//이번달 매출 누적그래프
+		$.ajax({
+		    url: 'monthAmount.do',
+			type : "POST",
+			async : true,
+			traditional: true,
+			dataType : "json",
+			cache : false,
+	        success: function (data) {
+				
+	        	var labels = data.map(function(e) {
+	        		   return e.pricingDate;
+	        		});
+	        		var datas = data.map(function(e) {
+	        		   return e.runningTotal;
+	        		});
+	        		
+	        		new Chart(document.getElementById("allAmountGraph"), {
+	        		    type: 'line',
+	        		    data: {
+	        		      labels: labels,
+	        		      datasets: [
+	        		        {
+	        		          label: "누적금액",
+	        		          borderColor: 'rgba(75, 192, 192, 1)',
+	        	              backgroundColor: 'rgba(75, 192, 192, 0.2)',
+	        		          data: datas
+	        		        }
+	        		      ]
+	        		    },
+	        		    options: {
+	        		      legend: { display: false },
+	        		      title: {
+	        		        display: true,
+	        		        text: '이번달 누적 매출'
+	        		      }
+	        		    }
+	        		});
+	        	
+			}
+		});
+	 	//이번달 매출 누적 그래프 끝
+	 	
+	 	//팀별 누적 매출
+		$.ajax({
+		    url: 'groupAmount.do',
+			type : "POST",
+			async : true,
+			traditional: true,
+			dataType : "json",
+			cache : false,
+	        success: function (data) {
+				
+	        	var labels = data.map(function(e) {
+	        		   return e.dept;
+	        		});
+	        		var datas = data.map(function(e) {
+	        		   return e.amount;
+	        		});
+	        		
+	        		new Chart(document.getElementById("groupGraph"), {
+	        		    type: 'pie',
+	        		    data: {
+	        		      labels: labels,
+	        		      datasets: [
+	        		        {
+	        		          label: "팀별 매출",
+	        		          backgroundColor: ['#fd7c78', '#70dafc', '#fed085', '#b9e88b', '#82a5fc'],
+	        		          data: datas
+	        		        }
+	        		      ]
+	        		    },
+	        		    options: {
+	        		      legend: { display: false },
+	        		      title: {
+	        		        display: true,
+	        		        text: '팀별 매출 합계'
+	        		      }
+	        		    }
+	        		});
+	        	
+			}
+		});
+	 	//팀별 누적 매출 끝
+	 	
+	 	//승인여부 그래프
+		$.ajax({
+		    url: 'statusAmount.do',
+			type : "POST",
+			async : true,
+			traditional: true,
+			dataType : "json",
+			cache : false,
+	        success: function (data) {
+				
+	        	var labels = data.map(function(e) {
+	        		   return e.status;
+	        		});
+	        		var datas = data.map(function(e) {
+	        		   return e.cnt;
+	        		});
+	        		
+	        		new Chart(document.getElementById("statusGraph"), {
+	        		    type: 'bar',
+	        		    data: {
+	        		      labels: labels,
+	        		      datasets: [
+	        		        {
+	        		          label: "건수",
+	        		          backgroundColor: [
+	                              'rgba(255, 99, 132, 0.5)',
+	                              'rgba(54, 162, 235, 0.5)',
+	                              'rgba(255, 206, 86, 0.5)',
+	                              'rgba(75, 192, 192, 0.5)',
+	                              'rgba(153, 102, 255, 0.5)',
+	                              'rgba(255, 159, 64, 0.5)'],
+	                          borderColor: ['rgb(255, 99, 132,1.5)',
+	                              'rgba(54, 162, 235, 1.5)',
+	                              'rgba(255, 206, 86, 1.5)',
+	                              'rgba(75, 192, 192, 1.5)',
+	                              'rgba(153, 102, 255, 1.5)',
+	                              'rgba(255, 159, 64, 1.5)'],
+	        		          data: datas
+	        		        }
+	        		      ]
+	        		    },
+	        		    options: {
+	        		      legend: { display: false },
+	        		      title: {
+	        		        display: true,
+	        		        text: '승인여부 별'
+	        		      }
+	        		    }
+	        		});
+	        	
+			}
+		});
+	 	//팀별 누적 매출 끝
+})

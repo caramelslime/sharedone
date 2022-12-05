@@ -16,6 +16,8 @@ public class Report {
 	private String empCd;
 	private String orderStatus;
 	private int amount;
+	private int runningTotal;
+	private int cnt;
 	
 	//buyer
 	private String buyerNm;			//거래처명
@@ -42,16 +44,16 @@ public class Report {
 	private Date pricingDate;
 	private String requestDate;
 	private String currency;
-	private String productCD;
+	private String productCd;
 	private String qty;
 	private String unit;
-	private String unitprice;
+	private String unitPrice;
 	
 	//emp
 	private String pw;
 	private String phone;
 	private String name;
-	private Date hiredate;
+	private Date hireDate;
 	private String job;
 	
 	//product

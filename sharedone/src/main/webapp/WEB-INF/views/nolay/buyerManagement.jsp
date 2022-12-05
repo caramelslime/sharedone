@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -234,6 +235,7 @@
 	}
 	//수정
 	
+	//하나씩 수정
  	function buyerUpdate(buyerCd){
 		$.post('updateForm.do', "buyerCd="+buyerCd, function(data) {
 			updateFrm.buyerCd.value = data.buyerCd;
@@ -252,6 +254,7 @@
 			updateFrm.tel.value = data.tel;
 			updateFrm.email.value = data.email;
 			updateFrm.remark.value = data.remark;
+
 			updateFrm.addDate.value = data.addDate;
 			updateFrm.addUser.value = data.addUser;
 			
@@ -260,10 +263,11 @@
 			 
 			$('.update-div').show();
 			
+			
+			
 			});
 		
 	}
-	
 	function updateBuyer(){
 		var sendData = $('#updateFrm').serialize();
 		alert(sendData);
@@ -276,6 +280,9 @@
  			$('.buyerList-div').css('opacity', '1');
  			$('.search-div').css('opacity', '1');
 		
+ 			setTimeout(function() {
+ 				pageView('buyerManagement.do');
+ 		    }, 200);
  			
 			}else if(data == "n"){
 				alert("거래처 수정에 실패했습니다");
@@ -418,6 +425,7 @@
 		
 	}
 	
+	//삭제
 	function check() {
 		const checkboxes2 = document.getElementsByName('selectChk');
 		
@@ -459,6 +467,7 @@
 	    }, 200);
 	}
 
+	//수정수정 여기!!!!!!!!!!!!!!!!!!!!!!!!
 	var editable = 0;
 	
 	function editStart() {
@@ -569,7 +578,7 @@ $('.statusList').SumoSelect({
 					<div class="search-item-text">• 거래처코드/거래처명</div>
 					<!-- sumoselect -->
 					<select class="buyerList" name="buyerSelect">
-						<option value="">선택안함</option>
+						<option value=""></option>
 						<c:forEach var="buyer" items="${buyerAllList }">
 							<option value="${buyer.buyerCd }">${buyer.buyerCd } ${buyer.buyerNm }</option>
 						</c:forEach>
@@ -578,7 +587,7 @@ $('.statusList').SumoSelect({
 				<div class="search-item-div">
 					<div class="search-item-text2">• 담당자</div>
 					<select class="employeeList" name="employeeSelect">
-						<option value="">선택안함</option>
+						<option value=""></option>
 						<c:forEach var="emp" items="${employee_list }">
 							<option value="${emp.empCd }">${emp.empCd } ${emp.name }</option>
 						</c:forEach>
@@ -587,7 +596,7 @@ $('.statusList').SumoSelect({
 				<div class="search-item-div">
 					<div class="search-item-text">• 거래처상태</div>
 					<select class="statusList" name="statusSelect">
-						<option value="">선택안함</option>
+						<option value=""></option>
 						<option value="활성">활성</option>
 						<option value="비활성">비활성</option>
 					</select>
@@ -634,7 +643,7 @@ $('.statusList').SumoSelect({
 							<td><input type="text" value="${buyer_list.rprsvNm }" class="list-input edit"></td>
 							<td><input type="text" value="${buyer_list.businessStatus}" class="list-input edit"></td>
 							<td><input type="text" value="${buyer_list.event }" class="list-input edit"></td>
-							<td><input type="text" value="${buyer_list.empCd }" class="list-input edit"></td>
+							<td><input type="text" value="${buyer_list.name }" class="list-input edit"></td>
 							<td><input type="text" value="${buyer_list.status }" class="list-input edit"></td>
 							<td><input type="text" value="${buyer_list.nationCd }" class="list-input edit"></td>
 							<td >〒${buyer_list.postcode }&nbsp;${buyer_list.address } ${buyer_list.addressDetail }</td>
@@ -668,7 +677,12 @@ $('.statusList').SumoSelect({
 				</div>
 				<div class="insert-sub-row-div">
 					<div class="insert-text">담당자<span class="red_warn">*</span></div>
-					<input type="text" name="empCd" required="required"/>
+					<select class="employeeList" name="empCd">
+						<option value=""></option>
+						<c:forEach var="emp" items="${employee_list }">
+							<option value="${emp.empCd }">${emp.empCd } ${emp.name }</option>
+						</c:forEach>
+					</select>
 				</div>
 			</div>
 			
@@ -691,7 +705,12 @@ $('.statusList').SumoSelect({
 				</div>
 				<div class="insert-sub-row-div">
 					<div class="insert-text">작성자<span class="red_warn">*</span></div>
-					<input type="text" name="addUser" required="required"/>
+					<select class="employeeList" name="addUser">
+						<option value=""></option>
+						<c:forEach var="emp" items="${employee_list }">
+							<option value="${emp.empCd }">${emp.empCd } ${emp.name }</option>
+						</c:forEach>
+					</select>
 				</div>
 			</div>
 			
@@ -895,9 +914,6 @@ $('.statusList').SumoSelect({
 					<div class="insert-text">작성일시<span class="red_warn">*</span></div>
 					<input type="date" id="currentDate" name="addDate"/>
 				</div>
-				<script>
-				  document.getElementById('currentDate').value = new Date().toISOString().substring(0, 10);
-				</script>
 			</div>
 			
 			<hr class="insert-hr">

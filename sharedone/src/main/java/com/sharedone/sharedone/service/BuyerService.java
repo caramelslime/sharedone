@@ -16,7 +16,7 @@ public interface BuyerService {
 	int buyerInsert(Buyer buyer);
 
 	//buyer정보 하나 불러오기
-	Buyer selectBuyer(String buyercd);
+	Buyer selectBuyer(String buyerCd);
 
 	//buyer정보 업데이트
 	int buyerUpdate(Buyer buyer);
@@ -25,10 +25,10 @@ public interface BuyerService {
 	int buyerCount();
 
 	//거래처 삭제
-	String delList(String buyercd);
+	String delList(String buyerCd);
 
 	//거래처 삭제(update)
-	int deleteBuyer(String delList, String buyercd);
+	int deleteBuyer(String delList, String buyerCd);
 
 
 

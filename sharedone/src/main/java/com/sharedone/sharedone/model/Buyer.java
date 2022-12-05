@@ -1,9 +1,5 @@
 package com.sharedone.sharedone.model;
 
-import java.sql.Date;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import lombok.Data;
 
 
@@ -24,11 +20,11 @@ public class Buyer {
 	private String tel;				//전화번호
 	private String email;			//이메일
 	private String remark;			//참고사항
-	@JsonFormat(shape=JsonFormat.Shape.STRING,pattern="yyyy-MM-dd", timezone="Asia/Seoul")
-	private Date addDate;			//등록일시
+	//@JsonFormat(shape=JsonFormat.Shape.STRING,pattern="yyyy-MM-dd", timezone="Asia/Seoul")
+	private String addDate;			//등록일시
 	private String addUser;			//작성자
 	private String delyn;			//삭제여부
 	
 	//join
-
+	private String name;
 }

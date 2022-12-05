@@ -31,8 +31,8 @@ public class BuyerDaoImpl implements BuyerDao {
 	}
 
 	//buyer정보 하나 불러오기
-	public Buyer selectBuyer(String buyercd) {
-		return sst.selectOne("buyerns.selectBuyer", buyercd);
+	public Buyer selectBuyer(String buyerCd) {
+		return sst.selectOne("buyerns.selectBuyer", buyerCd);
 	}
 
 	//buyer정보 수정
@@ -46,15 +46,15 @@ public class BuyerDaoImpl implements BuyerDao {
 	}
 
 	//거래처 삭제
-	public String delList(String buyercd) {
-		return sst.selectOne("buyerns.delList", buyercd);
+	public String delList(String buyerCd) {
+		return sst.selectOne("buyerns.delList", buyerCd);
 	}
 
 	//거래처 삭제
-	public int deleteBuyer(String delList, String buyercd) {
+	public int deleteBuyer(String delList, String buyerCd) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("delList", delList);
-		map.put("buyercd", buyercd);
+		map.put("buyerCd", buyerCd);
 		return sst.update("buyerns.deleteBuyer", map);
 	}
 

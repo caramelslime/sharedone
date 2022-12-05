@@ -31,16 +31,18 @@ public class BuyerController {
 	private EmployeeService es;
 	
 	@RequestMapping("buyerManagement")
-	public String buyerManagement(Model model, Buyer buyer, Employee employee, String buyercd, String empcd, String status) {
+	public String buyerManagement(Model model, Buyer buyer, Employee employee, String buyerCd, String empCd, String status) {
 
-		buyer.setBuyerCd(buyercd);
-		buyer.setEmpCd(empcd);
+		buyer.setBuyerCd(buyerCd);
+		buyer.setEmpCd(empCd);
 		buyer.setStatus(status);
 		
 		//buyer정보 전체 리스트 불러오기
 		List<Buyer> buyerAllList = bs.selectBuyerAllList();
+		//System.out.println(buyerAllList);
 		//buyer정보 전체 리스트 불러오기(검색용)
 		List<Buyer> buyer_list = bs.selectBuyerList(buyer);
+		System.out.println(buyer_list);
 		//employee정보 전체 리스트 불러오기(검색용)
 		List<Employee> employee_list = es.selectEmployeeList();
 
@@ -51,19 +53,19 @@ public class BuyerController {
 		return "/nolay/buyerManagement";
 	}
 
-	@RequestMapping(value = "newInsertConfirm", produces = "text/html;charset=utf-8")
-	@ResponseBody
-	public String newInsertConfirm(Buyer buyer, Model model) {
-		String msg = "";
-		int result = 0;
-		result = bs.buyerInsert(buyer);
-		if(result == 1) {
-			msg="y";
-		}else {
-			msg="n";
-		}
-		return msg;
-	}
+//	@RequestMapping(value = "newInsertConfirm", produces = "text/html;charset=utf-8")
+//	@ResponseBody
+//	public String newInsertConfirm(Buyer buyer, Model model) {
+//		String msg = "";
+//		int result = 0;
+//		result = bs.buyerInsert(buyer);
+//		if(result == 1) {
+//			msg="y";
+//		}else {
+//			msg="n";
+//		}
+//		return msg;
+//	}
 	
 	@RequestMapping(value = "updateConfirm", produces = "text/html;charset=utf-8")
 	@ResponseBody
@@ -85,6 +87,7 @@ public class BuyerController {
 	@RequestMapping(path = "buyerInsert")
 	@ResponseBody
 	public Map<String, Object> buyerInsert(@RequestParam String data, Model model, Buyer buyer) {
+		System.out.println("buyerInsert"+ buyer);
 		Map<String, Object> result = new HashMap<String, Object>();
 		try {
 			List<Map<String,Object>> info = new ArrayList<Map<String,Object>>();
@@ -93,7 +96,6 @@ public class BuyerController {
 		    for (Map<String, Object> buyerInfo : info) {
 		    	System.out.println("buyerInfo.get(\"buyerNm\")" + buyerInfo.get("buyerNm"));
 		    	String buyerName = (String) buyerInfo.get("buyerNm");
-		    	System.out.println("buyerName"  + buyerName);
 		        String brno = (String) buyerInfo.get("brno");
 		        String rprsvNm = (String) buyerInfo.get("rprsvNm");
 		        String businessStatus = (String) buyerInfo.get("businessStatus");
@@ -108,10 +110,8 @@ public class BuyerController {
 		        String email = (String) buyerInfo.get("email");
 		        String remark = (String) buyerInfo.get("remark");
 		        String addDate = (String) buyerInfo.get("addDate");
-		        String addUser = (String) buyerInfo.get("addUser");
-		        
-		        SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		        Date adddate1 = fm.parse(addDate);
+		        System.out.println(addDate);
+		        String addUser = (String) buyerInfo.get("addUser");  
 		        
 		        buyer.setBuyerNm(buyerName);
 		        buyer.setBrno(brno);
@@ -127,7 +127,8 @@ public class BuyerController {
 		        buyer.setTel(tel);
 		        buyer.setEmail(email);
 		        buyer.setRemark(remark);
-		        buyer.setAddDate((java.sql.Date) adddate1);
+		        System.out.println(buyer.getRemark());
+		        buyer.setAddDate(addDate);
 		        buyer.setAddUser(addUser);
 		        
 		        System.out.println("buyer.getAddress()"+buyer.getAddress());
@@ -135,13 +136,13 @@ public class BuyerController {
 				//거래처 코드 지정을 위한 거래처 리스트 count
 				int buyer_count = bs.buyerCount();
 				System.out.println(buyer_count);
-				String buyerCD;
-				buyerCD = "B"+String.format("%05d",buyer_count+1);
-				buyer.setBuyerCd(buyerCD);
-		    	System.out.println(buyerCD);
+				String buyerCd;
+				buyerCd = "B"+String.format("%05d",buyer_count+1);
+				buyer.setBuyerCd(buyerCd);
+		    	System.out.println(buyerCd);
 		        
 		        int Buyerresult = bs.buyerInsert(buyer);
-		        System.out.println(Buyerresult);
+		        System.out.println("buyerResult"+Buyerresult);
 		        
 		    }  
 		     result.put("result", true);
@@ -154,12 +155,13 @@ public class BuyerController {
 
 	
 	@RequestMapping(value = "buyerDelete", produces = "text/html;charset=utf-8")
-	public String buyerDelete (Model model, @RequestParam("selectChk") String[] selectChk) {
+	public String buyerDelete(Model model, @RequestParam("selectChk") String[] selectChk) {
 		
-		String[] selectDelete =selectChk;
+		System.out.println("selectChk:" + selectChk);
+		String[] selectDelete = selectChk;
 		String[] delList= new String[selectDelete.length];
 		
-		System.out.println(selectDelete);
+		System.out.println("selectDelete : "+selectDelete);
 		
 		if (selectDelete[0].equals("selectAll")) {
 			for (int i = 1; i < selectDelete.length; i++) {
@@ -173,7 +175,7 @@ public class BuyerController {
 		} else {
 			for (int i = 0; i < selectDelete.length; i++) {
 				if (bs.delList(selectDelete[i]).equals("n")) {
-					System.out.println(selectDelete[i]);
+					System.out.println("selectDelete[i]:"+selectDelete[i]);
 					delList[i] = "y";
 				} else if (bs.delList(selectDelete[i]).equals("y")) {
 					delList[i] = "n";
@@ -193,7 +195,7 @@ public class BuyerController {
 			}
 		}
 		
-		System.out.println(result);
+		System.out.println("result:"+result);
 		model.addAttribute("result", result);
 		
 		return "/nolay/buyerManagement";

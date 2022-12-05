@@ -4,24 +4,25 @@
 <mapper namespace="buyerns">
 	<!-- buyer정보 전체 리스트 불러오기 -->
 	<select id="selectBuyerAllList" resultType="buyer">
-	 SELECT * FROM m_buyer WHERE delyn='n' ORDER BY addDate DESC
+	 SELECT * FROM m_buyer b, m_employee e WHERE b.empCd=e.empCd AND delyn='n' ORDER BY addDate DESC
 	</select>
 	<!-- buyer정보 전체 리스트 불러오기(검색용) -->
 	<select id="selectBuyerList" resultType="buyer" parameterType="buyer">
-		SELECT * FROM m_buyer
+		SELECT * FROM m_buyer b, m_employee e
 		<where>
 			<if test="buyerCd != null and buyerCd !=''">
 				UPPER(buyerCd) like UPPER('%'||#{buyerCd}||'%') AND
 			</if>
 			<if test="empCd != null and empCd !=''">
-				empCd like '%'||#{empCd}||'%' AND
+				b.empCd like '%'||#{empCd}||'%' AND
 			</if>
 			<if test="status != null and status !=''">
-				status like '%'||#{status}||'%' AND
+				b.status like '%'||#{status}||'%' AND
 			</if>
-			delyn='n'
+			b.empCd=e.empCd
+			AND b.delyn='n'
 		</where>
-		ORDER BY addDate DESC 
+		ORDER BY b.addDate DESC 
 	</select>
 	<!-- buyer정보 inert -->
 	<insert id="buyerInsert" parameterType="buyer">
