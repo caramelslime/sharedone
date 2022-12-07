@@ -14,4 +14,6 @@ public class Product {
 	private String selectDelete;
 	
 	private String cdnm;
+	private String type;
+	private String value;
 }

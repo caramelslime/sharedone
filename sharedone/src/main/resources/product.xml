@@ -23,23 +23,33 @@
 	</select>
 	
 	<update id="productUpdate" parameterType="product">
-		UPDATE m_product SET productNM=#{productNM}, unit=#{unit}, productGroup=#{productGroup} WHERE productCD=#{productCD}
+		UPDATE m_product
+		<set>
+			<if test="productNM != null and productNM != ''">productNM=#{productNM}</if>
+			<if test="unit != null and unit != ''">unit=#{unit}</if>
+			<if test="productGroup != null and productGroup != ''">productGroup=#{productGroup}</if>
+		</set>		
+		WHERE productCD=#{productCD}
 	</update>
 	
 	<insert id="productInsert" parameterType="product">
 		INSERT INTO m_product VALUES (#{productCD}, #{productNM}, #{unit}, #{productGroup}, 'n')
 	</insert>
 	
-	<select id="totalByProductGroup" parameterType="String" resultType="int">
-		SELECT COUNT(*) FROM m_product WHERE productgroup=#{productGroup}
+	<select id="totalProduct" resultType="int">
+		SELECT COUNT(*) FROM m_product
 	</select>
 	
 	<select id="delList" parameterType="string" resultType="string">
-		select del from m_product where productCD=#{productCD}
+		select delyn from m_product where productCD=#{productCD}
 	</select>
 	
 	<update id="deleteProduct" parameterType="map">
-		update m_product set del=#{delList} where productCD=#{productCD}
+		update m_product set delyn=#{delList} where productCD=#{productCD}
 	</update>
+	
+	<select id="productAllList" resultType="product">
+		SELECT * FROM m_product ORDER BY productCD
+	</select>
 	
 </mapper>

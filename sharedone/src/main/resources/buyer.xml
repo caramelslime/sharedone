@@ -22,7 +22,7 @@
 			b.empCd=e.empCd
 			AND b.delyn='n'
 		</where>
-		ORDER BY b.addDate DESC 
+		ORDER BY b.buyerCd DESC 
 	</select>
 	<!-- buyer정보 inert -->
 	<insert id="buyerInsert" parameterType="buyer">
@@ -102,4 +102,26 @@
 	<update id="deleteBuyer" parameterType="map">
 		UPDATE m_buyer SET delyn=#{delList} WHERE buyerCd=#{buyerCd}
 	</update>
+	
+	<update id="buyerListUpdate">
+		UPDATE m_buyer
+		<set>
+			<if test="buyerNm != null and buyerNm != ''">buyerNm=#{buyerNm}</if>
+			<if test="brno != null and brno != ''">brno=#{brno}</if>
+			<if test="rprsvNm != null and rprsvNm != ''">rprsvNm=#{rprsvNm}</if>
+			<if test="businessStatus != null and businessStatus != ''">businessStatus=#{businessStatus}</if>
+			<if test="event != null and event != ''">event=#{event}</if>
+			<if test="name != null and name != ''">name=#{name}</if>
+			<if test="status != null and status != ''">status=#{status}</if>
+			<if test="nationCd != null and nationCd != ''">nationCd=#{nationCd}</if>
+			<if test="tel != null and tel != ''">tel=#{tel}</if>
+			<if test="email != null and email != ''">email=#{email}</if>
+			<if test="remark != null and remark != ''">remark=#{remark}</if>
+		</set>		
+		WHERE buyerCd=#{buyerCd}
+	</update>
+	
+	<select id="brnoDupCheck" parameterType="string" resultType="string">
+		SELECT * FROM m_buyer WHERE brno=#{brno}
+	</select>
 </mapper>

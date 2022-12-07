@@ -495,7 +495,7 @@ $(document).ready(function(){
 	        		      legend: { display: false },
 	        		      title: {
 	        		        display: true,
-	        		        text: '승인여부 별'
+	        		        text: '승인여부 항목 별 개수'
 	        		      }
 	        		    }
 	        		});
@@ -627,7 +627,7 @@ function search() {
     					"<tr>"
     						+"<td>"+labels[i]+"</td>"
     						+"<td>"+datas[i].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')+"</td>"
-    					+"<tr>"
+    					+"</tr>"
     				);
     			}//표 끝
     			

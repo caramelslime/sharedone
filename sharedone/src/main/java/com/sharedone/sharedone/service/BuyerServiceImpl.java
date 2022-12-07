@@ -54,4 +54,14 @@ public class BuyerServiceImpl implements BuyerService{
 		return bd.deleteBuyer(delList, buyercd);
 	}
 
+	//거래처 리스트 수정
+	public int buyerListUpdate(Buyer buyer) {
+		return bd.buyerListUpdate(buyer);
+	}
+
+	//사업자 등록번호 중복검사
+	public Buyer brnoDupCheck(String brno) {
+		return bd.brnoDupCheck(brno);
+	}
+
 }

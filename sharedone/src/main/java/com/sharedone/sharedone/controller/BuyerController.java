@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sharedone.sharedone.model.Buyer;
 import com.sharedone.sharedone.model.Employee;
+import com.sharedone.sharedone.model.Product;
 import com.sharedone.sharedone.service.BuyerService;
 import com.sharedone.sharedone.service.EmployeeService;
 
@@ -200,5 +201,61 @@ public class BuyerController {
 		
 		return "/nolay/buyerManagement";
 	}
-
+	
+	@RequestMapping("buyerListUpdate")
+	public String productUpdate(Buyer buyer, Model model, String buyerCd, String type, String value) {
+			
+			System.out.println(buyerCd);
+			System.out.println(type);
+			System.out.println(value);
+			
+			if (type.equals("buyerNm")) {
+				System.out.println("buyerNm");
+				buyer.setBuyerNm(value);
+			} else if (type.equals("brno")) {
+				buyer.setBrno(value);
+			} else if (type.equals("rprsvNm")) {
+				buyer.setRprsvNm(value);
+			} else if (type.equals("businessStatus")) {
+				buyer.setBusinessStatus(value);
+			} else if (type.equals("event")) {
+				buyer.setEvent(value);
+			} else if (type.equals("name")) {
+				buyer.setName(value);
+			} else if (type.equals("status")) {
+				buyer.setStatus(value);
+			} else if (type.equals("nationCd")) {
+				buyer.setNationCd(value);
+			} else if (type.equals("tel")) {
+				buyer.setTel(value);
+			} else if (type.equals("email")) {
+				buyer.setEmail(value);
+			} else if (type.equals("remark")) {
+				buyer.setRemark(value);
+			}
+			
+			buyer.setBuyerCd(buyerCd);
+			
+			System.out.println(buyer);
+			
+			String result = String.valueOf(bs.buyerListUpdate(buyer));
+			
+			return "/nolay/buyerManagement";
+		}
+	
+	@RequestMapping(value = "brnoDupCheck", produces = "text/html;charset=utf-8")
+	@ResponseBody
+	public int brnoDupCheck(Buyer buyer, String brno) {
+		int result = 0;
+		buyer = bs.brnoDupCheck(brno);
+		System.out.println("buyer="+buyer);
+		if(buyer != null) {
+			result=1;
+		}else {
+			result=0;
+		}
+		System.out.println("result="+result);
+		return result;
+	}
+	
 }

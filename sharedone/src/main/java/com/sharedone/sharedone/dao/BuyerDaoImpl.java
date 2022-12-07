@@ -58,5 +58,15 @@ public class BuyerDaoImpl implements BuyerDao {
 		return sst.update("buyerns.deleteBuyer", map);
 	}
 
+	//거래처 리스트 수정
+	public int buyerListUpdate(Buyer buyer) {
+		return sst.update("buyerns.buyerListUpdate", buyer);
+	}
+
+	//사업자 등록번호 중복검사
+	public Buyer brnoDupCheck(String brno) {
+		return sst.selectOne("buyerns.brnoDupCheck", brno);
+	}
+
 
 }

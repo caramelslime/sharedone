@@ -150,7 +150,7 @@ th:first-child, td:first-child {
 	display: flex;
     margin: 9px 0 0 21px;
 }
-.new-input-btn{
+.new-product-input-btn{
 	border: none;
     background-color: #00944e;
     color: white;
@@ -306,8 +306,18 @@ th:first-child, td:first-child {
 
 .no-border {
 	border: none;
+	outline: none;
 	background: transparent;
 }
 
 
+/* semoselect */
+
+.SumoSelect>.CaptionCont {
+    background-color: #d7d7d7;
+    border: none;
+}
+.SumoSelect.open .search-txt{
+	background-color: #d7d7d7;
+}
 

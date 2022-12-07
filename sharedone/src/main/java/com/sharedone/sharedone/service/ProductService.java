@@ -14,10 +14,12 @@ public interface ProductService {
 
 	int productInsert(Product product);
 
-	int totalByProductGroup(String productGroup);
+	int totalProduct();
 
 	String delList(String productCD);
 
 	int deleteProduct(String delList, String productCD);
+
+	List<Product> productAllList();
 
 }

@@ -30,6 +30,12 @@ public interface BuyerService {
 	//거래처 삭제(update)
 	int deleteBuyer(String delList, String buyerCd);
 
+	//리스트 수정
+	int buyerListUpdate(Buyer buyer);
+
+	//사업자등록번호 중복검사
+	Buyer brnoDupCheck(String brno);
+
 
 
 }

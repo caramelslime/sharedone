@@ -36,8 +36,8 @@ public class ProductDaoImpl implements ProductDao {
 	}
 
 	@Override
-	public int totalByProductGroup(String productGroup) {
-		return sst.selectOne("productns.totalByProductGroup", productGroup);
+	public int totalProduct() {
+		return sst.selectOne("productns.totalProduct");
 	}
 
 	@Override
@@ -51,5 +51,10 @@ public class ProductDaoImpl implements ProductDao {
 		map.put("delList", delList);
 		map.put("productCD", productCD);
 		return sst.update("productns.deleteProduct", map);
+	}
+
+	@Override
+	public List<Product> productAllList() {
+		return sst.selectList("productns.productAllList");
 	}
 }

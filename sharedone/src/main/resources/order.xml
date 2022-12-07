@@ -20,7 +20,42 @@
 			</if>
 			currency IS NOT NULL
 		</where>
-		 ORDER BY soNo
+		 ORDER BY soNo DESC
 	</select>
+	
+	<select id="selectOrderHeader" parameterType="string" resultType="order">
+		SELECT * FROM t_order WHERE soNo=#{soNo}
+	</select>
+	
+	<select id="selectOrderItems" parameterType="string" resultType="order">
+		SELECT d.*, productNM, unit, productGroup FROM t_order_detail d, m_product p WHERE d.productCD=p.productCD  AND soNo=#{soNo}
+	</select>
+	
+	
+	<select id="selectByProductCD" parameterType="string" resultType="order">
+		SELECT * FROM m_product WHERE productCD=#{productCD}
+	</select>
+	
+	<insert id="addOrderDetail" parameterType="map">
+		INSERT INTO t_order_detail VALUES (#{soNo}, #{productCD}, #{qty}, #{unitPrice})
+	</insert>
+	
+	<delete id="removeOrderDetail" parameterType="map">
+		DELETE t_order_detail WHERE soNo=#{soNo} AND productCD=#{productCD}
+	</delete>
+	
+	<insert id="addOrder" parameterType="map">
+		INSERT INTO t_order VALUES (#{soNo}, #{buyerCD}, #{soUser}, sysdate, sysdate, #{requestDate}, '임시저장', #{currency})
+	</insert>
+	
+	<select id="totalOrder" resultType="int">
+		SELECT COUNT(*) FROM t_order
+	</select>
+	
+	<update id="approvalUpdate" parameterType="map">
+		UPDATE t_order SET status=#{status} WHERE soNo=#{soNo}
+	</update>
+	
+	
 	
 </mapper>
