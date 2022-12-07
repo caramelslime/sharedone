@@ -336,13 +336,16 @@ background-color: #fff;
     margin-left: 20px;
     background-color: #fff;
     box-shadow: 2px -1px 4px #b1b1b1;
+    margin-top: 37px;
 }
+
 .graphBox{
-background-color: #fff;
+	background-color: #fff;
     box-shadow: 2px -1px 4px #b1b1b1;
     width: 600px;
     display: flex;
     justify-content: center;
+    margin-top: 34px;
 }
 
 .thLength{
@@ -719,7 +722,7 @@ function search() {
 							<div class="search-item-text">• 기간</div>
 							<select class="dashYear-select">
 								<option value=""></option>
-								<option value="2022">2022년</option>
+								<option value="2022" selected="selected">2022년</option>
 								<option value="2021">2021년</option>
 							</select> 
 							<select class="dashMonth-select">
@@ -735,7 +738,7 @@ function search() {
 								<option value="09">9월</option>
 								<option value="10">10월</option>
 								<option value="11">11월</option>
-								<option value="12">12월</option>
+								<option value="12" selected="selected">12월</option>
 							</select>
 						</div>
 						
