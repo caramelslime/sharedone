@@ -482,7 +482,6 @@ insert into t_order values('S00020', 'B00020', 'E00014', TO_DATE('2022-12-02', '
 
 --오더 아이템
 insert into t_order_detail values('S00001', 'P00001', 200 , 2000);
-insert into t_order_detail values('S00001', 'P00001', 200 , 2000);
 insert into t_order_detail values('S00001', 'P00002', 100 , 3000);
 insert into t_order_detail values('S00001', 'P00005', 200 , 2000);
 insert into t_order_detail values('S00002', 'P00010', 100 , 4000);
