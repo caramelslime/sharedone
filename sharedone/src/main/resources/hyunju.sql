@@ -804,8 +804,8 @@ CREATE TABLE M_BUYER (
    BUYERCD   VARCHAR2(20) PRIMARY KEY,      --거래처코드
    BUYERNM   VARCHAR2(50) NOT NULL,         --거래처명
    BRNO CHAR(10) NOT NULL,               --사업자등록번호
-   RPRSV_NM VARCHAR2(40) NOT NULL,         --대표자
-   BUSINESS_STATUS   VARCHAR2(200) NOT NULL,   --업태
+   RPRSVNM VARCHAR2(40) NOT NULL,         --대표자
+   BUSINESSSTATUS   VARCHAR2(200) NOT NULL,   --업태
    EVENT VARCHAR2(200) NOT   NULL,         --종목
    EMPCD VARCHAR2(40) NOT NULL,         --담당자
    STATUS VARCHAR2(20) NOT NULL,         --거래처상태
@@ -826,7 +826,7 @@ CREATE TABLE M_BUYER (
 insert into M_BUYER values(
 'B00001'             --거래처코드
 , '이마트'            --거래처명
-, '2068650913'         --사업자등록번호
+, '2068650911'         --사업자등록번호
 , '강희석'            --대표자
 , '도소매업'            --업태
 , '기타'               --종목
@@ -846,7 +846,7 @@ insert into M_BUYER values(
 insert into M_BUYER values(
 'B00002'             --거래처코드
 , '삼마트'            --거래처명
-, '2068650913'         --사업자등록번호
+, '2068650912'         --사업자등록번호
 , '강희석'            --대표자
 , '도소매업'            --업태
 , '기타'               --종목
@@ -886,7 +886,7 @@ insert into M_BUYER values(
 insert into M_BUYER values(
 'B00004'             --거래처코드
 , '오마트'            --거래처명
-, '2068650913'         --사업자등록번호
+, '2068650914'         --사업자등록번호
 , '강희석'            --대표자
 , '도소매업'            --업태
 , '기타'               --종목
@@ -906,7 +906,7 @@ insert into M_BUYER values(
 insert into M_BUYER values(
 'B00005'             --거래처코드
 , '육마트'            --거래처명
-, '2068650913'         --사업자등록번호
+, '2068650915'         --사업자등록번호
 , '강희석'            --대표자
 , '도소매업'            --업태
 , '기타'               --종목
@@ -927,7 +927,7 @@ insert into M_BUYER values(
 insert into M_BUYER values(
 'B00006'             --거래처코드
 , '일마트'            --거래처명
-, '2068650913'         --사업자등록번호
+, '2068650916'         --사업자등록번호
 , '강희석'            --대표자
 , '도소매업'            --업태
 , '기타'               --종목
@@ -947,7 +947,7 @@ insert into M_BUYER values(
 insert into M_BUYER values(
 'B00007'             --거래처코드
 , '칠마트'            --거래처명
-, '2068650913'         --사업자등록번호
+, '2068650917'         --사업자등록번호
 , '강희석'            --대표자
 , '도소매업'            --업태
 , '기타'               --종목
@@ -967,7 +967,7 @@ insert into M_BUYER values(
 insert into M_BUYER values(
 'B00008'             --거래처코드
 , '팔마트'            --거래처명
-, '2068650913'         --사업자등록번호
+, '2068650918'         --사업자등록번호
 , '강희석'            --대표자
 , '도소매업'            --업태
 , '기타'               --종목
@@ -989,7 +989,7 @@ insert into M_BUYER values(
 insert into M_BUYER values(
 'B00009'             --거래처코드
 , '구마트'            --거래처명
-, '2068650913'         --사업자등록번호
+, '2068650919'         --사업자등록번호
 , '강희석'            --대표자
 , '도소매업'            --업태
 , '기타'               --종목
@@ -1009,7 +1009,7 @@ insert into M_BUYER values(
 insert into M_BUYER values(
 'B00010'             --거래처코드
 , '십마트'            --거래처명
-, '2068650913'         --사업자등록번호
+, '2068650923'         --사업자등록번호
 , '강희석'            --대표자
 , '도소매업'            --업태
 , '기타'               --종목
@@ -1029,7 +1029,7 @@ insert into M_BUYER values(
 insert into M_BUYER values(
 'B00011'             --거래처코드
 , '십일마트'            --거래처명
-, '2068650913'         --사업자등록번호
+, '2068650933'         --사업자등록번호
 , '강희석'            --대표자
 , '도소매업'            --업태
 , '기타'               --종목
@@ -1049,7 +1049,7 @@ insert into M_BUYER values(
 insert into M_BUYER values(
 'B00012'             --거래처코드
 , '십이마트'            --거래처명
-, '2068650913'         --사업자등록번호
+, '2068650943'         --사업자등록번호
 , '강희석'            --대표자
 , '도소매업'            --업태
 , '기타'               --종목
@@ -1069,7 +1069,7 @@ insert into M_BUYER values(
 insert into M_BUYER values(
 'B00013'             --거래처코드
 , '십삼마트'            --거래처명
-, '2068650913'         --사업자등록번호
+, '2068650953'         --사업자등록번호
 , '강희석'            --대표자
 , '도소매업'            --업태
 , '기타'               --종목
@@ -1089,7 +1089,7 @@ insert into M_BUYER values(
 insert into M_BUYER values(
 'B00014'             --거래처코드
 , '십사마트'            --거래처명
-, '2068650913'         --사업자등록번호
+, '2068650963'         --사업자등록번호
 , '강희석'            --대표자
 , '도소매업'            --업태
 , '기타'               --종목
@@ -1110,7 +1110,7 @@ insert into M_BUYER values(
 insert into M_BUYER values(
 'B00015'             --거래처코드
 , '십오마트'            --거래처명
-, '2068650913'         --사업자등록번호
+, '2068650973'         --사업자등록번호
 , '강희석'            --대표자
 , '도소매업'            --업태
 , '기타'               --종목
@@ -1130,7 +1130,7 @@ insert into M_BUYER values(
 insert into M_BUYER values(
 'B00016'             --거래처코드
 , '십육마트'            --거래처명
-, '2068650913'         --사업자등록번호
+, '2068650983'         --사업자등록번호
 , '강희석'            --대표자
 , '도소매업'            --업태
 , '기타'               --종목
@@ -1151,7 +1151,7 @@ insert into M_BUYER values(
 insert into M_BUYER values(
 'B00017'             --거래처코드
 , '십칠마트'            --거래처명
-, '2068650913'         --사업자등록번호
+, '2068650993'         --사업자등록번호
 , '강희석'            --대표자
 , '도소매업'            --업태
 , '기타'               --종목
@@ -1171,7 +1171,7 @@ insert into M_BUYER values(
 insert into M_BUYER values(
 'B00018'             --거래처코드
 , '십팔마트'            --거래처명
-, '2068650913'         --사업자등록번호
+, '2068650903'         --사업자등록번호
 , '강희석'            --대표자
 , '도소매업'            --업태
 , '기타'               --종목
@@ -1191,7 +1191,7 @@ insert into M_BUYER values(
 insert into M_BUYER values(
 'B00019'             --거래처코드
 , '십구마트'            --거래처명
-, '2068650913'         --사업자등록번호
+, '2068650113'         --사업자등록번호
 , '강희석'            --대표자
 , '도소매업'            --업태
 , '기타'               --종목
@@ -1213,7 +1213,7 @@ insert into M_BUYER values(
 insert into M_BUYER values(
 'B00020'             --거래처코드
 , '이십마트'            --거래처명
-, '2068650913'         --사업자등록번호
+, '2068650213'         --사업자등록번호
 , '강희석'            --대표자
 , '도소매업'            --업태
 , '기타'               --종목
@@ -1241,6 +1241,7 @@ CREATE TABLE m_product (
    del CHAR(1)
 );
 
+drop table m_buyer;
 DELETE FROM m_product;
 
 SELECT * FROM tabs;
@@ -1380,4 +1381,9 @@ DELETE FROM t_order_detail;
 SELECT * FROM t_order;
 
 
->>>>>>> refs/remotes/origin/SungBeen
+SELECT * FROM m_buyer WHERE brno='2068650113';
+
+		SELECT * FROM m_buyer b, m_employee e
+			WHERE b.empCd=e.empCd
+			AND b.delyn='n'
+		ORDER BY b.buyerCd DESC;

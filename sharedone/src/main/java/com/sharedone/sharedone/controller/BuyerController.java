@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -43,6 +44,7 @@ public class BuyerController {
 		//System.out.println(buyerAllList);
 		//buyer정보 전체 리스트 불러오기(검색용)
 		List<Buyer> buyer_list = bs.selectBuyerList(buyer);
+		System.out.println(buyer.getRprsvNm());
 		System.out.println(buyer_list);
 		//employee정보 전체 리스트 불러오기(검색용)
 		List<Employee> employee_list = es.selectEmployeeList();
@@ -243,19 +245,21 @@ public class BuyerController {
 			return "/nolay/buyerManagement";
 		}
 	
+	
 	@RequestMapping(value = "brnoDupCheck", produces = "text/html;charset=utf-8")
 	@ResponseBody
-	public int brnoDupCheck(Buyer buyer, String brno) {
-		int result = 0;
-		buyer = bs.brnoDupCheck(brno);
+	public String brnoDupCheck(String brno) {
+		System.out.println("brno="+brno);
+		String msg="";
+		Buyer buyer = bs.brnoDupCheck(brno);
 		System.out.println("buyer="+buyer);
 		if(buyer != null) {
-			result=1;
+			msg="y";
 		}else {
-			result=0;
+			msg="n";
 		}
-		System.out.println("result="+result);
-		return result;
+		System.out.println("msg="+msg);
+		return msg;
 	}
 	
 }

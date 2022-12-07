@@ -206,18 +206,16 @@
 		  
 		  //사업자등록번호 중복검사
 		  $('#brno-input').focusout(function() {
-				$.ajax({
-				     method: 'get',
-				     url: 'brnoDupCheck.do',
-				     data: {
-				       "brno" : insertFrm.brno.value
-				     },
-				     success: function (data) {
-					}
+				$.post('brnoDupCheck.do', "brno="+insertFrm.brno.value,
+				     function (data) {
+						if(data=='y'){
+							alert('이미 존재하는 거래처 입니다');
+							insertFrm.brno.value="";
+						}
 			   });
 		  });
 		 
-	})
+	});
 	function xBack(){
 		 $('.insert-div').hide();
 		 $('.update-div').hide();
@@ -643,8 +641,8 @@ $('.statusList').SumoSelect({
 					<th>국가코드</th>
 					<th>소재지</th>
 					<th>전화번호</th>
-					<th>이메일</th
-					><th>참고사항</th>
+					<th>이메일</th>
+					<th>참고사항</th>
 				</tr>
 				
 				<c:if test="${not empty buyer_list}">
