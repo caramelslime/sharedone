@@ -645,7 +645,7 @@
 					</div>
 					<div class="new-sub-row-div">
 						<div class="new-text">영업담당자<span class="red_warn">*</span></div>
-						<input type="text" id="newSoUser" class="no-border newInput2" list="employee_list">
+						<input type="text" id="newSoUser" class="no-border newInput2" list="employee_list" value="${sessionScope.empCd }" readonly="readonly">
 					</div>
 					<div class="new-sub-row-div">
 						<div class="new-text">납품요청일<span class="red_warn">*</span></div>

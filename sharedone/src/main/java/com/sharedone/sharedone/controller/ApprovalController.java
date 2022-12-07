@@ -116,7 +116,7 @@ public class ApprovalController {
 				notice.setContent(content);
 				notice.setCheck(check);
 				notice.setNoticeCd(noticeCd);
-				notice.setEmpCd("E00006");
+				notice.setEmpCd(empCd);
 				System.out.println(content);
 
 				

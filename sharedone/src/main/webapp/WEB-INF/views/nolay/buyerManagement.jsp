@@ -719,11 +719,8 @@ $('.statusList').SumoSelect({
 				</div>
 				<div class="insert-sub-row-div">
 					<div class="insert-text">작성자<span class="red_warn">*</span></div>
-					<select class="employeeList" name="addUser">
-						<option value=""></option>
-						<c:forEach var="emp" items="${employee_list }">
-							<option value="${emp.empCd }">${emp.empCd } ${emp.name }</option>
-						</c:forEach>
+					<select class="employeeList" name="addUser" disabled="disabled">
+						<option value="${sessionScope.empCd }">${sessionScope.empCd } ${sessionScope.name }</option>
 					</select>
 				</div>
 			</div>
