@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="orderns">
+
+	<select id="orderList" parameterType="order" resultType="order">
+		SELECT * FROM t_order
+		<where>
+			<if test="soNo != null and soNo !=''">
+				UPPER(soNo) like UPPER('%'||#{soNo}||'%') AND
+			</if>
+			<if test="buyerCD != null and buyerCD !=''">
+				UPPER(buyerCD) like UPPER('%'||#{buyerCD}||'%') AND
+			</if>
+			<if test="soUser != null and soUser !=''">
+				UPPER(soUser) like UPPER('%'||#{soUser}||'%') AND
+			</if>
+			<if test="status != null and status !=''">
+				UPPER(status) like UPPER('%'||#{status}||'%') AND
+			</if>
+			currency IS NOT NULL
+		</where>
+		 ORDER BY soNo DESC
+	</select>
+	
+	<select id="selectOrderHeader" parameterType="string" resultType="order">
+		SELECT * FROM t_order WHERE soNo=#{soNo}
+	</select>
+	
+	<select id="selectOrderItems" parameterType="string" resultType="order">
+		SELECT d.*, productNM, unit, productGroup FROM t_order_detail d, m_product p WHERE d.productCD=p.productCD  AND soNo=#{soNo}
+	</select>
+	
+	
+	<select id="selectByProductCD" parameterType="string" resultType="order">
+		SELECT * FROM m_product WHERE productCD=#{productCD}
+	</select>
+	
+	<insert id="addOrderDetail" parameterType="map">
+		INSERT INTO t_order_detail VALUES (#{soNo}, #{productCD}, #{qty}, #{unitPrice})
+	</insert>
+	
+	<delete id="removeOrderDetail" parameterType="map">
+		DELETE t_order_detail WHERE soNo=#{soNo} AND productCD=#{productCD}
+	</delete>
+	
+	<insert id="addOrder" parameterType="map">
+		INSERT INTO t_order VALUES (#{soNo}, #{buyerCD}, #{soUser}, sysdate, sysdate, #{requestDate}, '임시저장', #{currency})
+	</insert>
+	
+	<select id="totalOrder" resultType="int">
+		SELECT COUNT(*) FROM t_order
+	</select>
+	
+	<update id="approvalUpdate" parameterType="map">
+		UPDATE t_order SET status=#{status} WHERE soNo=#{soNo}
+	</update>
+	
+	<!-- khs 승인요청중인 오더리스트 불러오기 -->
+	<select id="pendingApprovalList" parameterType="order" resultType="order">
+		select * from t_order where souser in (select empCd from m_employee where dept = (select dept from m_employee where empCd = #{soUser})) and status = '승인대기' ORDER BY soNo
+	</select>
+	
+	<!-- khs 승인/반려 시 상태 업데이트 -->
+	<update id="updateApproveOrRefer" parameterType="notice">
+		<if test="check==1">
+			update t_order set status = '승인완료' where sono = #{soNo}
+		</if>
+		<if test="check==2">
+			update t_order set status = '반려' where sono = #{soNo}
+		</if>
+	</update>
+	
+</mapper>

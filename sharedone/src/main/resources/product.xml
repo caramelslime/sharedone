@@ -3,8 +3,57 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="productns">
 
-	<select id="productList" resultType="product">
-		SELECT * FROM product
+	<select id="productList" parameterType="product" resultType="product">
+		SELECT * FROM m_product
+		<where>
+			<if test="cdnm != null and cdnm !=''">
+				UPPER(productCD) like UPPER('%'||#{cdnm}||'%') OR
+				UPPER(productNM) like UPPER('%'||#{cdnm}||'%') AND
+			</if>
+			<if test="productGroup != null and productGroup !=''">
+				productGroup like '%'||#{productGroup}||'%' AND
+			</if>
+			delyn='n'
+		</where>
+		 ORDER BY productCD
+	</select>
+	
+	<select id="productDetail" parameterType="String" resultType="product">
+		SELECT * FROM m_product WHERE productCD = #{productCD}
+	</select>
+	
+	<update id="productUpdate" parameterType="product">
+		UPDATE m_product
+		<set>
+			<if test="productNM != null and productNM != ''">productNM=#{productNM}</if>
+			<if test="unit != null and unit != ''">unit=#{unit}</if>
+			<if test="productGroup != null and productGroup != ''">productGroup=#{productGroup}</if>
+		</set>		
+		WHERE productCD=#{productCD}
+	</update>
+	
+	<insert id="productInsert" parameterType="product">
+		INSERT INTO m_product VALUES (#{productCD}, #{productNM}, #{unit}, #{productGroup}, 'n')
+	</insert>
+	
+	<select id="totalProduct" resultType="int">
+		SELECT COUNT(*) FROM m_product
+	</select>
+	
+	<select id="delList" parameterType="string" resultType="string">
+		select delyn from m_product where productCD=#{productCD}
+	</select>
+	
+	<update id="deleteProduct" parameterType="map">
+		update m_product set delyn=#{delList} where productCD=#{productCD}
+	</update>
+	
+	<select id="productAllList" resultType="product">
+		SELECT * FROM m_product ORDER BY productCD
+    </select>
+    
+	<select id="selectByNm" parameterType="string" resultType="String">
+		SELECT productCD FROM m_product WHERE productNM=#{productNM}
 	</select>
 	
 </mapper>

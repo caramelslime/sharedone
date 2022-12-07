@@ -1,0 +1,326 @@
+/* 공통속성 */
+ul{
+	display: flex;
+	list-style:none;
+	text-decoration-line: none;
+}
+
+.content{
+    position: static;
+    background-color: #e5e1dc;
+    height: 900px;
+}
+
+/* 메뉴 카테고리 박스 */
+.top-div{
+	background-color: #fff;
+}
+.top-title{
+    margin: 10px 0 0 25px;
+    font-weight: 900;
+    font-size: 20px;
+}
+.top-ul{
+	padding: 0px 0px 10px 0;
+    margin: 5px 0 0px 26px;
+    font-size: 14px;
+}
+
+.home-img{
+	width: 15px;
+}
+.home-text{
+    color: #00944e;
+}
+.s-li{
+    color: #bebebe;
+    margin: 0 10px 0 10px;
+}
+.sub-text-li{
+}
+
+
+
+/* 검색 박스 */
+.search-div{
+    width: 92%;
+    background-color: #fff;
+    margin: 23px auto 20px auto;
+    box-shadow: 2px -1px 4px #b1b1b1;
+    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+}
+.search-sub-wrap{
+       margin: 26px 0px 20px 60px;
+}
+.search-sub-div{
+    display: flex;
+    margin-bottom: 9px;
+
+}
+.search-item-div{
+    width: 325px;
+    display: flex;
+    align-items: center;
+}
+.each-item-div{
+	margin-left: 78px;
+}
+.search-item-text{
+    width: 100px;
+}
+.search-item-div>input{
+	border: none;
+    background-color: #d7d7d7;
+    height: 25px;
+    position: static;
+}
+.dodbogi-img{
+	width: 17px;
+    position: relative;
+    left: -47px;
+    cursor: pointer;
+}
+.list-img{
+	width: 17px;
+    position: relative;
+    left: -41px;
+    height: 15px;
+    cursor: pointer;
+}
+.search-box{
+    width: 106px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f0f0;
+    font-size: 15px;
+    font-weight: 400;
+    cursor: pointer;
+}
+
+
+/* 거래처 리스트 */
+.buyerList-div{
+    background-color: #fff;
+    width: 92%;
+    overflow: hidden;
+    resize: both;
+    box-shadow: 2px -1px 4px #b1b1b1;
+    margin-left:4%;
+    overflow: scroll;
+    height: 600px;
+}
+.list-table{
+	margin: 4px 10px 0 10px;
+	border-collapse: collapse;
+	font-size: 12px;
+	width:1700px;
+}
+
+td{
+	border-bottom: 1px solid #444444;
+    border-left: 1px solid #444444;
+    padding: 10px;
+}
+th{
+	border-bottom: 1px solid #444444;
+    border-left: 1px solid #444444;
+    padding: 10px;
+}
+th:first-child, td:first-child {
+    border-left: none;
+  }
+  
+  
+ /* 신규등록과 삭제가 있는 bottom 박스*/
+.bottom-div{
+	position: fixed;
+    background-color: #fff;
+    width: 100%;
+    height: 43px;
+    margin : 23px 0 0 2px;
+    bottom: 0;
+}
+.bottom-btn-div{
+	display: flex;
+    margin: 9px 0 0 21px;
+}
+.new-input-btn{
+	border: none;
+    background-color: #00944e;
+    color: white;
+    box-shadow: 1px -1px 2px #b1b1b1;
+    margin-right: 10px;
+    height: 24px;
+    cursor: pointer;
+}
+.del-btn{
+    border: none;
+    background-color: #e5e1dc;
+    box-shadow: 1px -1px 2px #b1b1b1;
+    height: 24px;
+    cursor: pointer;
+}
+
+
+/* insert Form */
+.insert-div{
+	background: #fff;
+    width: 860px;
+    height: 700px;
+	position: relative;
+    top: -700px;
+	box-shadow: 2px -1px 4px #b1b1b1;
+    padding: 27px 15px 15px 20px;
+	margin: auto;
+    font-size: 13px;
+}
+.x-div{
+    display: flex;
+    justify-content: end;
+    margin: -9px 16px 10px 0;
+    height: 37px;
+    font-size: 15px;
+}
+.x-sub-div{
+    cursor: pointer;
+    width: 17px;
+}
+.insert-row-div{
+	display: flex;
+	flex-direction: row;
+}
+.insert-sub-row-div{
+	display: flex;
+	flex-direction: row;
+	width:250px;
+    justify-content: space-between;
+    margin-right:36px;
+}
+.insert-text{
+	width:105px;
+}
+.red_warn{
+    color: #d00000;
+    font-size: 11px;
+}
+.insert-sub-row-div>input{
+	border: none;
+    background-color: #d7d7d7;
+    height: 25px;
+    width: 140px;
+}
+
+.insert-hr{
+    border-top: 1px solid #d4d0cc;
+}
+
+
+
+
+/* 사업장소재지 */
+.insert-sub-row-div2{
+    display: flex;
+}
+
+.add-div>input{
+	border:none;
+	background-color: #d7d7d7;
+    height: 25px;
+}
+.address-wrap{
+	margin-bottom: 3px;
+}
+.address-wrap>input{
+	border:none;
+	background-color: #d7d7d7;
+    height: 25px;
+   
+}
+#address_btn_wrap{
+	display: flex;
+	align-items: center;
+    margin-bottom: 6px;
+}
+#sample4_postcode{
+	border:none;
+	background-color: #d7d7d7;
+    height: 25px;
+	margin-right: 5px;
+}
+#sample4_roadAddress{
+	width:400px;
+}
+#sample4_detailAddress{
+	width:300px;
+}
+
+.add-div{
+
+}
+.add-sub-div{
+    margin-top: 4px;
+}
+
+#addr-search-btn{
+    cursor: pointer;
+    border: none;
+    height: 27px;
+    cursor: pointer;
+    background-color: #b7b7b7;
+    transition: background-color 0.2s ease-out, border-color 0.2s ease-out;
+}
+#addr-search-btn:hover{
+	background-color: #848484;
+}
+
+.remark-textarea{
+	border:none;
+	background-color: #d7d7d7;
+	resize: none;
+	width: 711px;
+}
+
+
+.insert-submit-div{
+    display: flex;
+    justify-content: center;
+    margin-top: 33px;
+}
+#insertSubmit{
+    border: none;
+    background-color: #293b4b;
+    color: #fff;
+    width: 95px;
+    height: 33px;
+    cursor: pointer;
+}
+.warn-div{
+    margin-top: 19px;
+}
+
+
+/* update div */
+.update-div{
+	background: #fff;
+    width: 860px;
+    height: 526px;
+	position: relative;
+    top: -700px;
+	box-shadow: 2px -1px 4px #b1b1b1;
+    padding: 27px 15px 15px 20px;
+	margin: auto;
+    font-size: 13px;
+}
+
+.buyercdText{
+	color:gray;
+}
+.buyercdText:focus{
+	outline : none;
+}
+.buyerListTr:hover{
+	background-color: #d3dfea;
+}

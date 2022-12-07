@@ -1,0 +1,23 @@
+/* 공통속성 */
+ul{
+	display: flex;
+	list-style:none;
+	text-decoration-line: none;
+}
+
+a { 
+	text-decoration: none;
+	color: gray;
+}
+a:visited { 
+    text-decoration: none; 
+}
+a:hover { 
+    text-decoration: none; 
+}
+a:focus { 
+	text-decoration: none; 
+}
+a:hover, a:active { 
+	text-decoration: none; 
+}
