@@ -551,3 +551,7 @@ insert into t_notice values(8,'승인요청부탁드려용.
 다시 확인하고 승인 부탁드립니다.','E00002','S00008',sysdate,'승인요청');
 insert into t_notice values(9,'승인부탁드려용.
 다시 확인하고 승인  부탁드립니다.','E00002','S00009',sysdate,'승인요청');
+insert into t_notice values(10,'승인부탁드려용.
+다시 확인하고 승인  부탁드립니다.','E00009','S00017',sysdate,'승인요청');
+insert into t_notice values(11,'승인부탁드려용.
+다시 확인하고 승인  부탁드립니다.','E00010','S00019',sysdate,'승인요청');

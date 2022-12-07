@@ -118,8 +118,8 @@
 				var productGroup = data[i].productGroup;
 				var qty = data[i].qty;
 				var unit = data[i].unit;
-				var unitprice = data[i].unitprice;
-				var totalprice = qty * unitprice;
+				var unitPrice = data[i].unitPrice;
+				var totalPrice = qty * unitPrice;
 				
 				$('#detailList-table').append(
 						"<tr class='detailListTr'>"
@@ -130,8 +130,8 @@
 							+ "<td class='center'>"+productGroup+"</td>"
 							+ "<td class='center'>"+qty+"</td>"
 							+ "<td class='center'>"+unit+"</td>"
-							+ "<td class='right'>"+unitprice+"</td>"
-							+ "<td class='right'>"+totalprice+"</td>"
+							+ "<td class='right'>"+unitPrice+"</td>"
+							+ "<td class='right'>"+totalPrice+"</td>"
 						+ "</tr>"
 				);
 			}
@@ -164,7 +164,7 @@
 	<div class="main-container">
 		<div class="content">
 			<div class="top-div">
-				<div class="top-title">오더관리</div>
+				<div class="top-title">오더 승인 대기 목록</div>
 				<ul class="top-ul">
 					<li><img class="home-img" src="/sharedone/resources/images/home.png"/><span class="home-text">HOME</span></li>
 					<li class="s-li">/</li>

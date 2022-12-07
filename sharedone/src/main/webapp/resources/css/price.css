@@ -133,7 +133,6 @@ th:first-child, td:first-child {
   }
 .priceListTr:hover {
 	background-color: #d3dfea;
-	cursor:pointer;
 }
 
   
@@ -188,7 +187,7 @@ th:first-child, td:first-child {
 .insert-div{
 	background: #fff;
     width: 860px;
-    height: 580px;
+    height: 630px;
 	position: relative;
     top: -700px;
 	box-shadow: 2px -1px 4px #b1b1b1;
@@ -308,6 +307,5 @@ th:first-child, td:first-child {
 	border: none;
 	background: transparent;
 }
-
 
 

@@ -9,7 +9,7 @@
 <title>Insert title here</title>
 
 <style type="text/css">@import url("/sharedone/resources/css/share.css");</style>
-<style type="text/css">@import url("/sharedone/resources/css/price.css");</style>
+<style type="text/css">@import url("/sharedone/resources/css/price.css?1");</style>
 
 <script src="/sharedone/resources/js/jquery.sumoselect.min.js"></script>
 <style type="text/css">@import url("/sharedone/resources/css/sumoselect.min.css");</style>
@@ -156,6 +156,14 @@
 				xBack();
 			}
 		});
+		/* 수정 중에 엔터치면 포커스아웃(blur) */
+		$('.edit').keypress(function() { // enter키를 누르면 메세지 전송
+			//  누른 key값(asscii)  IE ?      IE의 값         IE아닌 모든 web값
+			var keycode = event.keyCode ? event.keyCode : event.which;
+			if (keycode == 13) { // 13이 enter(assii값)
+				this.blur();
+			}
+		});
 	})
 	
 	function insertAction() {
@@ -243,24 +251,21 @@
 	    }, 200);
 	}
 	
-// 	function priceNMUpdate(e) {
-// 		console.log(e);
-// 		var str = e.split('_');
+	/* 제품 업데이트 */
+	function productUpdate(pricePK, type, value) {
 		
-// 		console.log(str[0]);
-// 		console.log(str[1]);
-// 		console.log(str[2]);
+		$(function() {
+			$.ajax({
+			    url: 'priceUpdate.do?pricePK='+pricePK+'&type='+type+'&value='+value,
+				type : "POST",
+				async : true,
+				traditional: true,
+				dataType : "html",
+				cache : false
+			});
+		});
 		
-// 		var buyerCD = str[0];
-// 		var productCD = str[1];
-// 		var periodStart = str[2];
-		
-		
-		
-// 		console.log(document.querySelector('#'+e).value);
-		
-		
-// 	}
+	}
 	
  	var editable = 0;
 	
@@ -277,55 +282,34 @@
  		editable = 0;
  		console.log(editable);
  	}
+ 	
+	var previousValue = "";
 	
- 	$(function() {
-		
- 			$('.edit').on("focusin", function(event) {
- 				if (editable == 1) {
- 					this.readOnly = false;
- 					console.log("focusin");
-					console.log(this.value);
-					console.log(this.getAttribute('id'));
- 				};
- 			});
+	$(function() {
 			
- 			$('.edit').on("focusout", function(event) {
- 				if (editable == 1) {
-					
-					var str = this.getAttribute('id').split('_');
-					
-					if (str[1] == 'productCD') {
- 						var buyerCD = str[0];
- 						var productCD = str[1];
- 						console.log("priceNM = "+priceNM);
-						
-						
- 						console.log("focusout");
- 						console.log(this.value);
- 						this.readOnly = true;
-						
- 					} else if (str[1] == 'unit') {
- 						var productCD = str[0];
- 						var unit = str[1];
-						
-						
- 						console.log("focusout");
- 						console.log(this.value);
- 						this.readOnly = true;
-						
-					} else if (str[1] == 'productGroup') {
- 						var productCD = str[0];
- 						var productGroup = str[1];
-						
-						
- 						console.log("focusout");
- 						console.log(this.value);
- 						this.readOnly = true;
-						
- 					}
- 				}
- 			});
- 	})
+			/* f */
+			$('.edit').on("focusin", function(event) {
+				if (editable == 1) {
+					this.readOnly = false;
+					console.log("focusin : "+this.value);
+					previousValue = this.value;
+				};
+			});
+			
+			$('.edit').on("focusout", function(event) {
+				
+				console.log("previousValue : "+previousValue+", thisValue : "+this.value);
+				
+				if (editable == 1 && previousValue != this.value) {
+					var updateInfo = this.getAttribute('id');
+					var str = updateInfo.split('_');
+					productUpdate(str[0], str[1], this.value);
+					console.log("update done!!")
+				} else if (editable == 1 && previousValue == this.value) {
+					console.log("no update(same value)")
+				}
+			});
+	})
 
 	function search() {
 		var buyerCd = document.querySelector('.buyerList').value;
@@ -412,12 +396,39 @@ $('.statusList').SumoSelect({
 								<td class="col1">
 									<input type="checkbox" name="selectChk" value="${price.buyerCD}%${price.productCD}%${price.periodStart}" >
 								</td>
-								<td class="col2">${price.buyerCD}</td>
+								<td class="col2"><input type="text" class="no-border" value="${price.buyerCD}" readonly="readonly"></td>
 								<td class="col3"><input type="text" class="no-border" value="${price.productCD}" readonly="readonly"></td>
-								<td class="col4">${price.periodStart}</td>
-								<td class="col5">${price.periodEnd}</td>
-								<td class="col6">${price.listPrice}</td>
-								<td class="col7">${price.currency}</td>
+								<td class="col4"><input type="text" class="no-border" value="${price.periodStart}" readonly="readonly"></td>
+								<td class="col5"><input type="text" class="no-border" value="${price.periodEnd}" readonly="readonly"></td>
+								<td class="col6"><input type="number" id="${price.buyerCD}+${price.productCD}+${price.periodStart}_listPrice" class="edit" value="${price.listPrice}" readonly="readonly"></td>
+								<td class="col7">
+									<select id="${price.buyerCD}+${price.productCD}+${price.periodStart}_currency" class="edit" style="width: 146px;">
+										<c:if test="${price.currency == 'KRW' }">
+											<option value="KRW" selected="selected">KRW</option>
+										</c:if>
+										<c:if test="${price.currency != 'KRW' }">
+											<option value="KRW">KRW</option>
+										</c:if>
+										<c:if test="${price.currency == 'USD' }">
+											<option value="USD" selected="selected">USD</option>
+										</c:if>
+										<c:if test="${price.currency != 'USD' }">
+											<option value="USD">USD</option>
+										</c:if>
+										<c:if test="${price.currency == 'EUR' }">
+											<option value="EUR" selected="selected">EUR</option>
+										</c:if>
+										<c:if test="${price.currency != 'EUR' }">
+											<option value="EUR">EUR</option>
+										</c:if>
+										<c:if test="${price.currency == 'JPY' }">
+											<option value="JPY" selected="selected">JPY</option>
+										</c:if>
+										<c:if test="${price.currency != 'JPY' }">
+											<option value="JPY">JPY</option>
+										</c:if>
+									</select>
+								</td>
 							</tr>
 						</c:forEach>
 					</c:if>
@@ -459,7 +470,12 @@ $('.statusList').SumoSelect({
 					</div>
 					<div class="insert-sub-row-div">
 						<div class="insert-text">통화<span class="red_warn">*</span></div>
-						<input type="text" id="currency" required="required"/>
+						<select id="currency" class="" style="width: 146px;">
+							<option value="KRW">KRW</option>
+							<option value="USD">USD</option>
+							<option value="EUR">EUR</option>
+							<option value="JPY">JPY</option>
+						</select>
 					</div>
 					<div class="insert-sub-row-div">
 						<img class="plus-img" alt="이미지 없음" src="/sharedone/resources/images/plus.png" onclick="addInsert()" />

@@ -25,6 +25,7 @@ public interface OrderDao {
 	int totalOrder();
 
 	int approvalUpdate(String soNo, String status);
+	
 	List<Order> pendingApprovalList(Order order);
 
 	int updateApproveOrRefer(Notice notice);

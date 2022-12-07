@@ -59,17 +59,6 @@ public class PriceController {
 		return "/nolay/priceList";
 	}
 	
-	@RequestMapping("priceUpdate")
-	public String priceUpdate(Model model, Price price) {
-		int result = 0;
-		
-		result =pv.priceUpdate(price);
-		
-		model.addAttribute("price", price);
-		model.addAttribute("result", result);
-		
-		return "/nolay/priceUpdate";
-	}
 	
 	@RequestMapping("priceIsertForm")
 	public String priceIsertForm () {
@@ -189,6 +178,32 @@ public class PriceController {
 		
 		System.out.println(result);
 		model.addAttribute("result", result);
+		
+		return "/nolay/priceList";
+	}
+	
+	@RequestMapping("priceUpdate")
+	public String priceUpdate(Price price, Model model, String pricePK, String type, String value) {
+		
+		System.out.println(pricePK);
+		System.out.println(type);
+		System.out.println(value);
+		price.setListPrice(0);
+		if (type.equals("listPrice")) {
+			System.out.println("listPrice");
+			price.setListPrice(Integer.parseInt(value));
+		} else if (type.equals("currency")) {
+			System.out.println("currency");	
+			price.setCurrency(value);
+		}
+		String[] list=pricePK.split(" ");
+		price.setBuyerCD(list[0]);
+		price.setProductCD(list[1]);
+		price.setPeriodStart(Date.valueOf(list[2]));
+		
+		System.out.println(price.getPeriodStart());
+		
+		String result = String.valueOf(pv.priceUpdate(price));
 		
 		return "/nolay/priceList";
 	}

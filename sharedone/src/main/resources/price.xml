@@ -21,10 +21,6 @@
 		SELECT pc.*,b.buyerNM,pd.productNM FROM m_price pc, M_buyer b, m_product pd WHERE pc.buyerCD=b.buyerCD and pc.productCd=pd.productCd and buyerCD = #{buyerCD} and productCD = #{productCD} and periodStart = #{periodStart}
 	</select>
 	
-	<update id="pricetUpdate" parameterType="price">
-		UPDATE m_price SET buyerNM=#{buyerNM} and productNM=#{productNM} and periodStart=#{periodStart} and listPrice=#{listPrice} and currency=#{currency} FROM price pc, M_buyer b, m_product pd WHERE pc.buyerCD=b.buyerCD and pc.productCd=pd.productCd and buyerCD = #{buyerCD} and productCD = #{productCD} and periodStart = #{periodStart}
-	</update>
-	
 	<delete id="priceDelete" parameterType="map">
 		DELETE m_price WHERE buyerCD=#{buyerCD} and productCD=#{productCD} and periodStart=#{periodStart}
 	</delete>
@@ -41,7 +37,14 @@
 		update m_price set del=#{del} where buyerCD=#{buyerCD} and productCD=#{productCD} and periodStart=#{periodStart}
 	</update>
 	<select id="findDate" parameterType="price" resultType="price">
-		select * from price where buyerCD=#{buyerCD} and productCD=#{productCD} and periodStart between #{periodStart} and #{periodStart}+30 or periodEnd between #{periodStart} and #{periodStart}+30
+		select * from m_price where buyerCD=#{buyerCD} and productCD=#{productCD} and (periodStart between #{periodStart} and #{periodStart}+30 or periodEnd between #{periodStart} and #{periodStart}+30) and del='n'
 	</select>
-	
+	<update id="priceUpdate" parameterType="price">
+		UPDATE m_price
+		<set>
+			<if test="listPrice != null and listPrice != 0">listPrice=#{listPrice}</if>
+			<if test="currency != null and currency != ''">currency=#{currency}</if>
+		</set>		
+		WHERE productCD=#{productCD}
+	</update>
 </mapper>

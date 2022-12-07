@@ -4,7 +4,7 @@
 <mapper namespace="noticens">
 	<!-- 최신의 승인요청 코멘트 추출 -->
 	<select id="selectLastRequest" parameterType="String" resultType="notice">
-		select * from t_notice where soNo=#{soNo} and status='승인요청' and noticecd=(select max(noticecd) from t_notice where status = '승인요청')	
+		select * from t_notice where soNo=#{soNo} and status='승인요청' and noticecd=(select max(noticecd) from t_notice where status = '승인요청' and soNo=#{soNo})	
 	</select>
 	
 	<select id="getMax" resultType="integer">

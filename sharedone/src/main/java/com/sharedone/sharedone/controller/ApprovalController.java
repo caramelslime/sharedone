@@ -49,6 +49,7 @@ public class ApprovalController {
 			result = 1; // 성공 id와 password가 일치
 			session.setAttribute("empCd", emp2.getEmpCd());
 			session.setAttribute("name", emp2.getName());
+			session.setAttribute("job", emp2.getJob());
 		}
 		model.addAttribute("result", result);
 		return "empLogin";
@@ -56,8 +57,8 @@ public class ApprovalController {
 	@RequestMapping("pendingApprovalList")
 	public String pendingApprovalList(String pageNum, Model model, Order order, HttpSession session) {
 		
-//		 String empCd=(String) session.getAttribute("empCd");
-		 order.setSoUser("E00001");
+		 String empCd=(String) session.getAttribute("empCd");
+		 order.setSoUser("empCd");
 //		 int rowPerPage = 10;
 //		 //한 화면에 보여주는 페이지 수 
 //		 if(pageNum == null || pageNum.equals(""))pageNum="1"; 
@@ -110,7 +111,7 @@ public class ApprovalController {
 				notice.setContent(content);
 				notice.setCheck(check);
 				notice.setNoticeCd(noticeCd);
-				notice.setEmpCd("E0005");
+				notice.setEmpCd("E00006");
 				System.out.println(content);
 
 				
