@@ -32,7 +32,7 @@
 <body>
 <div class="header-main-container">
 	<div class="logout-div">
-		<img class="logout-img" alt="" src="/sharedone/resources/images/logout.png"><span class="logout-text">Log out</span>
+		<img class="logout-img" alt="" src="/sharedone/resources/images/logout.png"><a href="logout.do"><span class="logout-text">Log out</span></a>
 	</div>
 </div>
 </body>

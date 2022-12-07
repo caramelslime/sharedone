@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -127,9 +128,11 @@
 		<div class="menu-div"  onclick="pageView4('orderReport.do')">
 			<img class="menu-img2" alt="이미지 없음" src="/sharedone/resources/images/dashboard.png"/>&nbsp;오더현황분석
 		</div>
-		<div class="menu-div"  onclick="pageView('pendingApprovalList.do')">
-			<img class="menu-img" alt="이미지 없음" src="/sharedone/resources/images/confirm.png"/>&nbsp;오더승인
-		</div>
+		<c:if test="${sessionScope.job == '팀장'}">
+			<div class="menu-div"  onclick="pageView('pendingApprovalList.do')">
+				<img class="menu-img" alt="이미지 없음" src="/sharedone/resources/images/confirm.png"/>&nbsp;오더승인
+			</div>
+		</c:if>
 	</div>
 </body>
 

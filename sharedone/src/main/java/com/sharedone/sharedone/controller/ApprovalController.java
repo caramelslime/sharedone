@@ -40,6 +40,11 @@ public class ApprovalController {
 	public String empLoginForm() {
 		return "/empLoginForm";
 	}
+	@RequestMapping("logout")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return "/logout";
+	}
 	@RequestMapping("empLogin")
 	public String empLogin(Employee emp,Model model,HttpSession session) {
 		Employee emp2 = es.select(emp.getEmpCd());
