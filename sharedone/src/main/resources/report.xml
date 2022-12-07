@@ -4,59 +4,83 @@
 <mapper namespace="reportns">
 
 	<select id="selectReport" parameterType="map" resultType="report">
-		<if test="empcd != null and empcd !=''">
+		<if test="empCd != null and empCd !=''">
 			<![CDATA[
-			SELECT pricingdate, sum(qty*unitprice) amount 
+			SELECT pricingDate, sum(qty*unitPrice) amount 
 			FROM t_order o 
 			LEFT OUTER JOIN t_order_detail od 
 			ON o.sono=od.sono 
-			WHERE o.souser='${empcd}' 
-				AND o.pricingdate >= TO_DATE('${year}-${month}','YYYY-MM') 
-				AND o.pricingdate < ADD_MONTHS(TO_DATE('${year}-${month}','YYYY-MM'), 1)
-			GROUP BY pricingdate
-			ORDER BY pricingdate
+			WHERE o.souser='${empCd}' 
+				AND o.pricingDate >= TO_DATE('${year}-${month}','YYYY-MM') 
+				AND o.pricingDate < ADD_MONTHS(TO_DATE('${year}-${month}','YYYY-MM'), 1)
+				AND o.status = '승인완료'
+			GROUP BY pricingDate
+			ORDER BY pricingDate
 			]]> 
+		</if>
+		<if test="buyerCd != null and buyerCd !=''">
+		<![CDATA[
+			SELECT pricingDate, sum(qty*unitPrice) amount
+			FROM t_order o, t_order_detail od 
+			WHERE o.sono=od.sono 
+				AND o.buyerCd='${buyerCd}' 
+				AND o.pricingDate >= TO_DATE('${year}-${month}','YYYY-MM') 
+				AND o.pricingDate < ADD_MONTHS(TO_DATE('${year}-${month}','YYYY-MM'), 1)
+			GROUP BY pricingDate 
+			ORDER BY pricingDate
+		]]> 
 		</if>
 		<if test="dept != null and dept !=''">
-			<![CDATA[
-			SELECT pricingdate, sum(qty*unitprice) amount 
-			FROM t_order o 
-			LEFT OUTER JOIN t_order_detail od 
-			ON o.sono=od.sono 
-			WHERE o.souser='${empcd}' 
-				AND o.pricingdate >= TO_DATE('${year}-${month}','YYYY-MM') 
-				AND o.pricingdate < ADD_MONTHS(TO_DATE('${year}-${month}','YYYY-MM'), 1)
-			GROUP BY pricingdate
-			ORDER BY pricingdate
-			]]> 
-		</if>
-		<if test="buyercd != null and buyercd !=''">
-			<![CDATA[
-			SELECT pricingdate, sum(qty*unitprice) amount 
-			FROM t_order o 
-			LEFT OUTER JOIN t_order_detail od 
-			ON o.sono=od.sono 
-			WHERE o.souser='${buyercd}' 
-				AND o.pricingdate >= TO_DATE('${year}-${month}','YYYY-MM') 
-				AND o.pricingdate < ADD_MONTHS(TO_DATE('${year}-${month}','YYYY-MM'), 1)
-			GROUP BY pricingdate
-			ORDER BY pricingdate
-			]]> 
-		</if>
-		<if test="orderStatus != null and orderStatus !=''">
-			<![CDATA[
-			SELECT pricingdate, sum(qty*unitprice) amount 
-			FROM t_order o 
-			LEFT OUTER JOIN t_order_detail od 
-			ON o.sono=od.sono 
-			WHERE o.souser='${empcd}' 
-				AND o.pricingdate >= TO_DATE('${year}-${month}','YYYY-MM') 
-				AND o.pricingdate < ADD_MONTHS(TO_DATE('${year}-${month}','YYYY-MM'), 1)
-			GROUP BY pricingdate
-			ORDER BY pricingdate
-			]]> 
+		<![CDATA[
+			SELECT e.dept, odd.amount, odd.pricingDate 
+			FROM 
+				(SELECT pricingDate, sum(qty*unitprice) amount, buyercd 
+				FROM t_order o, t_order_detail od 
+				WHERE o.sono=od.sono 
+				GROUP BY pricingDate, buyercd) odd,
+			m_buyer b, m_employee e
+			WHERE b.empcd=e.empcd
+			AND odd.buyercd=b.buyercd
+			AND e.dept='${dept}'
+			AND odd.pricingDate >= TO_DATE('${year}-${month}','YYYY-MM') 
+			AND odd.pricingDate < ADD_MONTHS(TO_DATE('${year}-${month}','YYYY-MM'), 1)
+			ORDER BY dept, pricingDate
+		]]> 
 		</if>
 	</select>
+	
+	<!-- 이번달 매출 누적 합계 -->
+	<select id="selectAllAmount" resultType="report">
+		<![CDATA[
+		select pricingDate, sum(amount) OVER(ORDER BY pricingDate) runningtotal from
+		(select pricingDate, sum(qty*unitPrice) amount
+		from  t_order o, t_order_detail od 
+		where o.sono=od.sono 
+			AND o.status='승인완료' 
+			AND o.pricingDate >= TRUNC(SYSDATE, 'MM')
+			AND o.pricingDate < LAST_DAY(SYSDATE)
+		GROUP BY pricingDate
+		ORDER BY pricingDate)
+		]]> 
+	</select>
 
+	<!-- 팀별 누적 매출 합계 -->
+	<select id="selectGroupAmount" resultType="report">
+	SELECT dept, sum(qty*unitprice) amount
+	FROM t_order o, t_order_detail od, m_buyer b, m_employee e
+	WHERE o.sono=od.sono 
+		AND o.buyercd=b.buyercd 
+		AND b.empcd=e.empcd 
+	GROUP BY dept
+	ORDER BY dept
+	</select>
+	
+	<!-- 승인여부 그래프 -->
+	<select id="selectStatusAmount" resultType="report">
+	SELECT status, count(*) cnt 
+	FROM t_order 
+	GROUP BY status
+	</select>
+	
 
 </mapper>

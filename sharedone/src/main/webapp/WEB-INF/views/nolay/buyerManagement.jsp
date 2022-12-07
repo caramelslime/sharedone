@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -202,6 +203,20 @@
 	$(document).ready(function(){
 		  $('.insert-div').hide();
 		  $('.update-div').hide();
+		  
+		  //사업자등록번호 중복검사
+		  $('#brno-input').focusout(function() {
+				$.ajax({
+				     method: 'get',
+				     url: 'brnoDupCheck.do',
+				     data: {
+				       "brno" : insertFrm.brno.value
+				     },
+				     success: function (data) {
+					}
+			   });
+		  });
+		 
 	})
 	function xBack(){
 		 $('.insert-div').hide();
@@ -234,6 +249,7 @@
 	}
 	//수정
 	
+	//하나씩 수정
  	function buyerUpdate(buyerCd){
 		$.post('updateForm.do', "buyerCd="+buyerCd, function(data) {
 			updateFrm.buyerCd.value = data.buyerCd;
@@ -252,6 +268,7 @@
 			updateFrm.tel.value = data.tel;
 			updateFrm.email.value = data.email;
 			updateFrm.remark.value = data.remark;
+
 			updateFrm.addDate.value = data.addDate;
 			updateFrm.addUser.value = data.addUser;
 			
@@ -260,13 +277,13 @@
 			 
 			$('.update-div').show();
 			
+			
+			
 			});
 		
 	}
-	
 	function updateBuyer(){
 		var sendData = $('#updateFrm').serialize();
-		alert(sendData);
 		$.post('updateConfirm.do'
 				, sendData
 				, function(data) {
@@ -276,6 +293,9 @@
  			$('.buyerList-div').css('opacity', '1');
  			$('.search-div').css('opacity', '1');
 		
+ 			setTimeout(function() {
+ 				pageView('buyerManagement.do');
+ 		    }, 200);
  			
 			}else if(data == "n"){
 				alert("거래처 수정에 실패했습니다");
@@ -418,6 +438,7 @@
 		
 	}
 	
+	//삭제
 	function check() {
 		const checkboxes2 = document.getElementsByName('selectChk');
 		
@@ -459,69 +480,71 @@
 	    }, 200);
 	}
 
+	
+	/* 바이어 업데이트 */
+	function buyerUpdate2(buyerCd, type, value) {
+		
+		$(function() {
+			$.ajax({
+			    url: 'buyerListUpdate.do?buyerCd='+buyerCd+'&type='+type+'&value='+value,
+				type : "POST",
+				async : true,
+				traditional: true,
+				dataType : "html",
+				cache : false
+			});
+		});
+		
+	}
+	
 	var editable = 0;
 	
+	/* 바이어 수정 활성화 */
 	function editStart() {
 		document.querySelector('.edit-start-btn').style.display = 'none';
 		document.querySelector('.edit-finish-btn').style.display = 'block';
+		$('.buyerList-div').css('background-color', '#d3dfea');
 		editable = 1;
 		console.log(editable);
 	}
 	
+	/* 바이어 수정 비활성화 */
 	function editFinish() {
 		document.querySelector('.edit-start-btn').style.display = 'block';
 		document.querySelector('.edit-finish-btn').style.display = 'none';
+		$('.buyerList-div').css('background-color', '#fff');
 		editable = 0;
 		console.log(editable);
-	}	
+	}
 	
-	//여기부터 해야함
+	var previousValue = "";
+	
 	$(function() {
-		
-		$('.edit').on("focusin", function(event) {
-			if (editable == 1) {
-				this.readOnly = false;
-				console.log("focusin");
-			};
-		});
-		
-		$('.edit').on("focusout", function(event) {
-			if (editable == 1) {
+			
+			/* f */
+			$('.edit').on("focusin", function(event) {
+				if (editable == 1) {
+					this.readOnly = false;
+					console.log("focusin : "+this.value);
+					previousValue = this.value;
+				};
+			});
+			
+			$('.edit').on("focusout", function(event) {
 				
-				var str = this.getAttribute('id').split('_');
+				console.log("previousValue : "+previousValue+", thisValue : "+this.value);
 				
-				if (str[1] == 'productNM') {
-					var productCD = str[0];
-					var productNM = str[1];
-					console.log("productNM = "+productNM);
-					
-					
-					console.log("focusout");
-					console.log(this.value);
-					this.readOnly = true;
-					
-				} else if (str[1] == 'unit') {
-					var productCD = str[0];
-					var unit = str[1];
-					
-					
-					console.log("focusout");
-					console.log(this.value);
-					this.readOnly = true;
-					
-				} else if (str[1] == 'productGroup') {
-					var productCD = str[0];
-					var productGroup = str[1];
-					
-					
-					console.log("focusout");
-					console.log(this.value);
-					this.readOnly = true;
-					
+				if (editable == 1 && previousValue != this.value) {
+					var updateInfo = this.getAttribute('id');
+					var str = updateInfo.split('_');
+					buyerUpdate2(str[0], str[1], this.value);
+					console.log("update done!!")
+				} else if (editable == 1 && previousValue == this.value) {
+					console.log("no update(same value)")
 				}
-			}
-		});
-})
+			});
+	})
+
 	
 	//검색
 	function search() {
@@ -569,7 +592,7 @@ $('.statusList').SumoSelect({
 					<div class="search-item-text">• 거래처코드/거래처명</div>
 					<!-- sumoselect -->
 					<select class="buyerList" name="buyerSelect">
-						<option value="">선택안함</option>
+						<option value=""></option>
 						<c:forEach var="buyer" items="${buyerAllList }">
 							<option value="${buyer.buyerCd }">${buyer.buyerCd } ${buyer.buyerNm }</option>
 						</c:forEach>
@@ -578,7 +601,7 @@ $('.statusList').SumoSelect({
 				<div class="search-item-div">
 					<div class="search-item-text2">• 담당자</div>
 					<select class="employeeList" name="employeeSelect">
-						<option value="">선택안함</option>
+						<option value=""></option>
 						<c:forEach var="emp" items="${employee_list }">
 							<option value="${emp.empCd }">${emp.empCd } ${emp.name }</option>
 						</c:forEach>
@@ -587,7 +610,7 @@ $('.statusList').SumoSelect({
 				<div class="search-item-div">
 					<div class="search-item-text">• 거래처상태</div>
 					<select class="statusList" name="statusSelect">
-						<option value="">선택안함</option>
+						<option value=""></option>
 						<option value="활성">활성</option>
 						<option value="비활성">비활성</option>
 					</select>
@@ -629,18 +652,18 @@ $('.statusList').SumoSelect({
 						<tr ondblclick="buyerUpdate('${buyer_list.buyerCd}')" id="buyerListTr_${buyer_list.buyerCd }" class="buyerListTr">
 							<td><input type="checkbox" name="selectChk" value="${buyer_list.buyerCd}" class="no-border" ></td>
 							<td><input type="text" readonly="readonly" value="${buyer_list.buyerCd }"  class="list-input edit"></td>
-							<td><input type="text" value="${buyer_list.buyerNm }" class="list-input4 edit"></td>
-							<td><input type="text" value="${buyer_list.brno }" class="list-input4 edit"></td>
-							<td><input type="text" value="${buyer_list.rprsvNm }" class="list-input edit"></td>
-							<td><input type="text" value="${buyer_list.businessStatus}" class="list-input edit"></td>
-							<td><input type="text" value="${buyer_list.event }" class="list-input edit"></td>
-							<td><input type="text" value="${buyer_list.empCd }" class="list-input edit"></td>
-							<td><input type="text" value="${buyer_list.status }" class="list-input edit"></td>
-							<td><input type="text" value="${buyer_list.nationCd }" class="list-input edit"></td>
+							<td><input type="text" id="${buyer_list.buyerCd }_buyerNm" value="${buyer_list.buyerNm }" class="list-input4 edit"></td>
+							<td><input type="text" id="${buyer_list.buyerCd }_brno" value="${buyer_list.brno }" class="list-input4 edit"></td>
+							<td><input type="text" id="${buyer_list.buyerCd }_rprsvNm" value="${buyer_list.rprsvNm }" class="list-input edit"></td>
+							<td><input type="text" id="${buyer_list.buyerCd }_businessStatus" value="${buyer_list.businessStatus}" class="list-input edit"></td>
+							<td><input type="text" id="${buyer_list.buyerCd }_event" value="${buyer_list.event }" class="list-input edit"></td>
+							<td><input type="text" id="${buyer_list.buyerCd }_name" value="${buyer_list.name }" class="list-input edit"></td>
+							<td><input type="text" id="${buyer_list.buyerCd }_status" value="${buyer_list.status }" class="list-input edit"></td>
+							<td><input type="text" id="${buyer_list.buyerCd }_nationCd" value="${buyer_list.nationCd }" class="list-input edit"></td>
 							<td >〒${buyer_list.postcode }&nbsp;${buyer_list.address } ${buyer_list.addressDetail }</td>
-							<td><input type="text" value="${buyer_list.tel }" class="list-input2 edit"></td>
-							<td><input type="text" value="${buyer_list.email }" class="list-input2 edit"></td>
-							<td><input type="text" value="${buyer_list.remark }" class="list-input3 edit"></td>
+							<td><input type="text" id="${buyer_list.buyerCd }_tel"  value="${buyer_list.tel }" class="list-input2 edit"></td>
+							<td><input type="text" id="${buyer_list.buyerCd }_email" value="${buyer_list.email }" class="list-input2 edit"></td>
+							<td><input type="text" id="${buyer_list.buyerCd }_remark" value="${buyer_list.remark }" class="list-input3 edit"></td>
 						</tr>
 					</c:forEach>
 				</c:if>
@@ -668,7 +691,12 @@ $('.statusList').SumoSelect({
 				</div>
 				<div class="insert-sub-row-div">
 					<div class="insert-text">담당자<span class="red_warn">*</span></div>
-					<input type="text" name="empCd" required="required"/>
+					<select class="employeeList" name="empCd">
+						<option value=""></option>
+						<c:forEach var="emp" items="${employee_list }">
+							<option value="${emp.empCd }">${emp.empCd } ${emp.name }</option>
+						</c:forEach>
+					</select>
 				</div>
 			</div>
 			
@@ -691,7 +719,12 @@ $('.statusList').SumoSelect({
 				</div>
 				<div class="insert-sub-row-div">
 					<div class="insert-text">작성자<span class="red_warn">*</span></div>
-					<input type="text" name="addUser" required="required"/>
+					<select class="employeeList" name="addUser">
+						<option value=""></option>
+						<c:forEach var="emp" items="${employee_list }">
+							<option value="${emp.empCd }">${emp.empCd } ${emp.name }</option>
+						</c:forEach>
+					</select>
 				</div>
 			</div>
 			
@@ -701,7 +734,7 @@ $('.statusList').SumoSelect({
 			<div class="insert-row-div">
 				<div class="insert-sub-row-div">
 					<div class="insert-text">사업자등록번호<span class="red_warn">*</span></div>
-					<input type="text" name="brno" required="required"/>
+					<input id="brno-input" type="text" name="brno" required="required"/>
 				</div>
 				<div class="insert-sub-row-div">
 					<div class="insert-text">전화번호<span class="red_warn">*</span></div>
@@ -895,9 +928,6 @@ $('.statusList').SumoSelect({
 					<div class="insert-text">작성일시<span class="red_warn">*</span></div>
 					<input type="date" id="currentDate" name="addDate"/>
 				</div>
-				<script>
-				  document.getElementById('currentDate').value = new Date().toISOString().substring(0, 10);
-				</script>
 			</div>
 			
 			<hr class="insert-hr">

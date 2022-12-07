@@ -13,7 +13,7 @@
 			<if test="productGroup != null and productGroup !=''">
 				productGroup like '%'||#{productGroup}||'%' AND
 			</if>
-			delyn='n'
+			del='n'
 		</where>
 		 ORDER BY productCD
 	</select>
