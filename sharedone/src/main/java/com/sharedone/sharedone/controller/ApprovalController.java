@@ -63,7 +63,7 @@ public class ApprovalController {
 	public String pendingApprovalList(String pageNum, Model model, Order order, HttpSession session) {
 		
 		 String empCd=(String) session.getAttribute("empCd");
-		 order.setSoUser("empCd");
+		 order.setSoUser(empCd);
 //		 int rowPerPage = 10;
 //		 //한 화면에 보여주는 페이지 수 
 //		 if(pageNum == null || pageNum.equals(""))pageNum="1"; 

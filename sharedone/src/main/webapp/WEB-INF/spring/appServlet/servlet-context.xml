@@ -39,6 +39,19 @@
 			</beans:list>
 		</beans:property>
 	</beans:bean>
-	
+	<beans:bean id="sc" class="com.sharedone.sharedone.service.SessionChk"></beans:bean>
+	<interceptors>
+		<interceptor>
+			<mapping path="/product.do"/>
+			<mapping path="/buyerManagement.do"/>
+			<mapping path="/order.do"/>
+			<mapping path="/orderReport.do"/>
+			<mapping path="/pendingApprovalList.do"/>
+			<mapping path="/priceList.do"/>
+			<mapping path="/main.do"/>
+			<exclude-mapping path="/WEB-INF/views/empLoginForm.do"/>
+			<beans:ref bean="sc"></beans:ref>
+		</interceptor>
+	</interceptors>
 	
 </beans:beans>
