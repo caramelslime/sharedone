@@ -8,10 +8,17 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
+<script type="text/javascript" src="/sharedone/resources/js/moment.min.js"></script>
+<script type="text/javascript" src="/sharedone/resources/js/daterangepicker.js"></script>
+<style type="text/css">@import url("/sharedone/resources/css/daterangepicker.css");</style>
+
 <style type="text/css">@import url("/sharedone/resources/css/share.css");</style>
 <style type="text/css">@import url("/sharedone/resources/css/order.css");</style>
 
+
 <script type="text/javascript">
+	
+	
 	
 	function pageView(data) {
 		
@@ -33,7 +40,21 @@
 		});
 	}
 	
+	
+	
 	$(function() {
+		
+		$('.dateRange').daterangepicker({
+		    locale: {
+		        "separator": " ~ ",                     // 시작일시와 종료일시 구분자
+		        "format": 'YYYY-MM-DD',     // 일시 노출 포맷
+		        "applyLabel": "확인",                    // 확인 버튼 텍스트
+		        "cancelLabel": "취소",                   // 취소 버튼 텍스트
+		        "daysOfWeek": ["일", "월", "화", "수", "목", "금", "토"],
+		        "monthNames": ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"]
+		    }
+        });
+		
 		$('.search').keypress(function() { // enter키를 누르면 메세지 전송
 			//  누른 key값(asscii)  IE ?      IE의 값         IE아닌 모든 web값
 			var keycode = event.keyCode ? event.keyCode : event.which;
@@ -579,7 +600,7 @@
 						</div>
 						<div class="search-item-div">
 							<div class="search-item-text">• 판매가기준일</div>
-							<input type=text id="searchPricingDate" class="search" list="">
+							<input type=text id="searchPricingDate" class="search dateRange">
 						</div>
 						<div class="search-item-div">
 							<div class="search-item-text">• 상태</div>
@@ -593,11 +614,11 @@
 						</div>
 						<div class="search-item-div">
 							<div class="search-item-text">• 오더등록일</div>
-							<input type=text id="searchAddDate" class="search" list="">
+							<input type=text id="searchAddDate" class="search dateRange">
 						</div>
 						<div class="search-item-div">
 							<div class="search-item-text">• 납품요청일</div>
-							<input type=text id="searchRequestDate" class="search" list="">
+							<input type=text id="searchRequestDate" class="search dateRange">
 						</div>
 					</div>
 				</div>
@@ -854,6 +875,6 @@
 			</datalist>
 		</div>
 	</div>
-	
 </body>
+
 </html>
