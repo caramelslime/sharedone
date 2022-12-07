@@ -38,7 +38,7 @@ public class ApprovalController {
 	
 	@RequestMapping("empLoginForm")
 	public String empLoginForm() {
-		return "/empLoginForm";
+		return "/nolay/empLoginForm";
 	}
 	@RequestMapping("logout")
 	public String logout(HttpSession session) {
