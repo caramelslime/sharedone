@@ -164,7 +164,7 @@
 	<div class="main-container">
 		<div class="content">
 			<div class="top-div">
-				<div class="top-title">오더관리</div>
+				<div class="top-title">오더 승인 대기 목록</div>
 				<ul class="top-ul">
 					<li><img class="home-img" src="/sharedone/resources/images/home.png"/><span class="home-text">HOME</span></li>
 					<li class="s-li">/</li>

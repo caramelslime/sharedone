@@ -4,7 +4,7 @@
 <mapper namespace="empns">
    <!--  로그인 -->
 	<select id="select" parameterType="String" resultType="emp">
-		select * from employee where empCd=#{empCd}
+		select * from m_employee where empCd=#{empCd}
 	</select>
 	
 	<select id="productList" resultType="product">
