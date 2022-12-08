@@ -619,7 +619,15 @@ function search() {
         		      title: {
         		        display: true,
         		        text: '매출 그래프'
-        		      }
+        		      },
+        		      responsive: false,
+      				  scales: {
+      					yAxes: [{
+      						ticks: {
+      							beginAtZero: true,	
+      						}
+      					}]
+      				}
         		    }
         		});
         		//그래프 끝

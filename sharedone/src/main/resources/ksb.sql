@@ -281,3 +281,12 @@ SELECT listprice FROM m_price WHERE buyerCD = 'B00000' AND productCD = 'P00006' 
 SELECT * FROM t_order_detail;
 
 UPDATE t_order_detail SET productNM = #{productNM} WHERE productCD = #{productCD}
+
+SELECT * FROM m_price;
+UPDATE m_price SET del = 'y' WHERE buyercd = 'B00000';
+
+SELECT * FROM m_buyer;
+
+UPDATE m_buyer SET delyn = 'y' WHERE buyercd = 'B00000';
+
+

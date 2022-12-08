@@ -249,6 +249,7 @@
 	function editStart() {
 		document.querySelector('.edit-start-btn').style.display = 'none';
 		document.querySelector('.edit-finish-btn').style.display = 'block';
+		$('.productList-div').css('background-color', '#d3dfea');
 		editable = 1;
 		console.log(editable);
 	}
@@ -257,6 +258,7 @@
 	function editFinish() {
 		document.querySelector('.edit-start-btn').style.display = 'block';
 		document.querySelector('.edit-finish-btn').style.display = 'none';
+		$('.productList-div').css('background-color', '#fff');
 		editable = 0;
 		console.log(editable);
 	}
