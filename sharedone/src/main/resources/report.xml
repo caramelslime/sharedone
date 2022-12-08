@@ -77,9 +77,13 @@
 	
 	<!-- 승인여부 그래프 -->
 	<select id="selectStatusAmount" resultType="report">
-	SELECT status, count(*) cnt 
-	FROM t_order 
-	GROUP BY status
+		<![CDATA[
+		SELECT status, count(*) cnt 
+		FROM t_order 
+		WHERE pricingDate >= TRUNC(SYSDATE, 'MM')
+	    AND pricingDate < LAST_DAY(SYSDATE)
+		GROUP BY status
+		]]> 
 	</select>
 	
 

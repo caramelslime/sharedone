@@ -64,4 +64,9 @@ public class BuyerServiceImpl implements BuyerService{
 		return bd.brnoDupCheck(brno);
 	}
 
+	//바이어 코드에 해당하는 바이어 이름
+	public Buyer selectBuyerNm(String buyerCd) {
+		return bd.selectBuyerNm(buyerCd);
+	}
+
 }

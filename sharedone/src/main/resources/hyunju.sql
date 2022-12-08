@@ -804,8 +804,8 @@ CREATE TABLE M_BUYER (
    BUYERCD   VARCHAR2(20) PRIMARY KEY,      --거래처코드
    BUYERNM   VARCHAR2(50) NOT NULL,         --거래처명
    BRNO CHAR(10) NOT NULL,               --사업자등록번호
-   RPRSV_NM VARCHAR2(40) NOT NULL,         --대표자
-   BUSINESS_STATUS   VARCHAR2(200) NOT NULL,   --업태
+   RPRSVNM VARCHAR2(40) NOT NULL,         --대표자
+   BUSINESSSTATUS   VARCHAR2(200) NOT NULL,   --업태
    EVENT VARCHAR2(200) NOT   NULL,         --종목
    EMPCD VARCHAR2(40) NOT NULL,         --담당자
    STATUS VARCHAR2(20) NOT NULL,         --거래처상태
@@ -826,7 +826,7 @@ CREATE TABLE M_BUYER (
 insert into M_BUYER values(
 'B00001'             --거래처코드
 , '이마트'            --거래처명
-, '2068650913'         --사업자등록번호
+, '2068650911'         --사업자등록번호
 , '강희석'            --대표자
 , '도소매업'            --업태
 , '기타'               --종목
@@ -846,7 +846,7 @@ insert into M_BUYER values(
 insert into M_BUYER values(
 'B00002'             --거래처코드
 , '삼마트'            --거래처명
-, '2068650913'         --사업자등록번호
+, '2068650912'         --사업자등록번호
 , '강희석'            --대표자
 , '도소매업'            --업태
 , '기타'               --종목
@@ -886,7 +886,7 @@ insert into M_BUYER values(
 insert into M_BUYER values(
 'B00004'             --거래처코드
 , '오마트'            --거래처명
-, '2068650913'         --사업자등록번호
+, '2068650914'         --사업자등록번호
 , '강희석'            --대표자
 , '도소매업'            --업태
 , '기타'               --종목
@@ -906,7 +906,7 @@ insert into M_BUYER values(
 insert into M_BUYER values(
 'B00005'             --거래처코드
 , '육마트'            --거래처명
-, '2068650913'         --사업자등록번호
+, '2068650915'         --사업자등록번호
 , '강희석'            --대표자
 , '도소매업'            --업태
 , '기타'               --종목
@@ -927,7 +927,7 @@ insert into M_BUYER values(
 insert into M_BUYER values(
 'B00006'             --거래처코드
 , '일마트'            --거래처명
-, '2068650913'         --사업자등록번호
+, '2068650916'         --사업자등록번호
 , '강희석'            --대표자
 , '도소매업'            --업태
 , '기타'               --종목
@@ -947,7 +947,7 @@ insert into M_BUYER values(
 insert into M_BUYER values(
 'B00007'             --거래처코드
 , '칠마트'            --거래처명
-, '2068650913'         --사업자등록번호
+, '2068650917'         --사업자등록번호
 , '강희석'            --대표자
 , '도소매업'            --업태
 , '기타'               --종목
@@ -967,7 +967,7 @@ insert into M_BUYER values(
 insert into M_BUYER values(
 'B00008'             --거래처코드
 , '팔마트'            --거래처명
-, '2068650913'         --사업자등록번호
+, '2068650918'         --사업자등록번호
 , '강희석'            --대표자
 , '도소매업'            --업태
 , '기타'               --종목
@@ -989,7 +989,7 @@ insert into M_BUYER values(
 insert into M_BUYER values(
 'B00009'             --거래처코드
 , '구마트'            --거래처명
-, '2068650913'         --사업자등록번호
+, '2068650919'         --사업자등록번호
 , '강희석'            --대표자
 , '도소매업'            --업태
 , '기타'               --종목
@@ -1009,7 +1009,7 @@ insert into M_BUYER values(
 insert into M_BUYER values(
 'B00010'             --거래처코드
 , '십마트'            --거래처명
-, '2068650913'         --사업자등록번호
+, '2068650923'         --사업자등록번호
 , '강희석'            --대표자
 , '도소매업'            --업태
 , '기타'               --종목
@@ -1029,7 +1029,7 @@ insert into M_BUYER values(
 insert into M_BUYER values(
 'B00011'             --거래처코드
 , '십일마트'            --거래처명
-, '2068650913'         --사업자등록번호
+, '2068650933'         --사업자등록번호
 , '강희석'            --대표자
 , '도소매업'            --업태
 , '기타'               --종목
@@ -1049,7 +1049,7 @@ insert into M_BUYER values(
 insert into M_BUYER values(
 'B00012'             --거래처코드
 , '십이마트'            --거래처명
-, '2068650913'         --사업자등록번호
+, '2068650943'         --사업자등록번호
 , '강희석'            --대표자
 , '도소매업'            --업태
 , '기타'               --종목
@@ -1069,7 +1069,7 @@ insert into M_BUYER values(
 insert into M_BUYER values(
 'B00013'             --거래처코드
 , '십삼마트'            --거래처명
-, '2068650913'         --사업자등록번호
+, '2068650953'         --사업자등록번호
 , '강희석'            --대표자
 , '도소매업'            --업태
 , '기타'               --종목
@@ -1089,7 +1089,7 @@ insert into M_BUYER values(
 insert into M_BUYER values(
 'B00014'             --거래처코드
 , '십사마트'            --거래처명
-, '2068650913'         --사업자등록번호
+, '2068650963'         --사업자등록번호
 , '강희석'            --대표자
 , '도소매업'            --업태
 , '기타'               --종목
@@ -1110,7 +1110,7 @@ insert into M_BUYER values(
 insert into M_BUYER values(
 'B00015'             --거래처코드
 , '십오마트'            --거래처명
-, '2068650913'         --사업자등록번호
+, '2068650973'         --사업자등록번호
 , '강희석'            --대표자
 , '도소매업'            --업태
 , '기타'               --종목
@@ -1130,7 +1130,7 @@ insert into M_BUYER values(
 insert into M_BUYER values(
 'B00016'             --거래처코드
 , '십육마트'            --거래처명
-, '2068650913'         --사업자등록번호
+, '2068650983'         --사업자등록번호
 , '강희석'            --대표자
 , '도소매업'            --업태
 , '기타'               --종목
@@ -1151,7 +1151,7 @@ insert into M_BUYER values(
 insert into M_BUYER values(
 'B00017'             --거래처코드
 , '십칠마트'            --거래처명
-, '2068650913'         --사업자등록번호
+, '2068650993'         --사업자등록번호
 , '강희석'            --대표자
 , '도소매업'            --업태
 , '기타'               --종목
@@ -1171,7 +1171,7 @@ insert into M_BUYER values(
 insert into M_BUYER values(
 'B00018'             --거래처코드
 , '십팔마트'            --거래처명
-, '2068650913'         --사업자등록번호
+, '2068650903'         --사업자등록번호
 , '강희석'            --대표자
 , '도소매업'            --업태
 , '기타'               --종목
@@ -1191,7 +1191,7 @@ insert into M_BUYER values(
 insert into M_BUYER values(
 'B00019'             --거래처코드
 , '십구마트'            --거래처명
-, '2068650913'         --사업자등록번호
+, '2068650113'         --사업자등록번호
 , '강희석'            --대표자
 , '도소매업'            --업태
 , '기타'               --종목
@@ -1213,7 +1213,7 @@ insert into M_BUYER values(
 insert into M_BUYER values(
 'B00020'             --거래처코드
 , '이십마트'            --거래처명
-, '2068650913'         --사업자등록번호
+, '2068650213'         --사업자등록번호
 , '강희석'            --대표자
 , '도소매업'            --업태
 , '기타'               --종목
@@ -1230,7 +1230,27 @@ insert into M_BUYER values(
 , 'E00014'            --작성자
 , 'n'                --삭제여부
 );
-
+delete from m_buyer where buyerCd='B00021';
+insert into M_BUYER values(
+'B00021'             --거래처코드
+, '이십일마트'            --거래처명
+, '2068650213'         --사업자등록번호
+, '강희석'            --대표자
+, '도소매업'            --업태
+, '기타'               --종목
+, 'E00001'            --담당자
+, '비활성'               --거래처상태
+, 'KR'               --국가코드
+, '33316'            --우편번호
+, '서울특별시 성동구'         --소재지
+, '뚝섬로 377(성수동2가)'   --소재지상세
+, '023805678'         --전화번호
+, 'test1@test1.com'      --이메일
+, '이마트'            --참고사항
+, sysdate            --등록일시
+, 'E00014'            --작성자
+, 'n'                --삭제여부
+);
 
 --판매부번 테이블
 CREATE TABLE m_product (
@@ -1241,6 +1261,7 @@ CREATE TABLE m_product (
    del CHAR(1)
 );
 
+drop table m_buyer;
 DELETE FROM m_product;
 
 SELECT * FROM tabs;
@@ -1279,6 +1300,7 @@ CREATE TABLE t_order (
    status VARCHAR(20),
    currency CHAR(3)
 );
+select * from t_order;
 drop table t_order;
 ----여기부터
 insert into t_order values('S00001', 'B00001', 'E00001', TO_DATE('2022-10-02', 'YYYY--MM-DD'), TO_DATE('2022-10-02', 'YYYY--MM-DD'), TO_DATE('2022-10-20', 'YYYY--MM-DD'), '승인완료', 'KRW');
@@ -1301,6 +1323,43 @@ insert into t_order values('S00017', 'B00017', 'E00009', TO_DATE('2022-11-16', '
 insert into t_order values('S00018', 'B00018', 'E00009', TO_DATE('2022-11-18', 'YYYY--MM-DD'), TO_DATE('2022-11-18', 'YYYY--MM-DD'), TO_DATE('2022-11-29', 'YYYY--MM-DD'), '반려', 'KRW');
 insert into t_order values('S00019', 'B00019', 'E00010', TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-11-15', 'YYYY--MM-DD'), '승인대기', 'KRW');
 insert into t_order values('S00020', 'B00020', 'E00014', TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-11-18', 'YYYY--MM-DD'), '승인완료', 'KRW');
+
+
+insert into t_order values('S00021', 'B00001', 'E00002', TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-11-15', 'YYYY--MM-DD'), '승인완료', 'KRW');
+insert into t_order values('S00022', 'B00002', 'E00002', TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-11-18', 'YYYY--MM-DD'), '승인완료', 'KRW');
+insert into t_order values('S00023', 'B00003', 'E00014', TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-11-15', 'YYYY--MM-DD'), '승인완료', 'KRW');
+insert into t_order values('S00024', 'B00004', 'E00014', TO_DATE('2022-12-03', 'YYYY--MM-DD'), TO_DATE('2022-12-03', 'YYYY--MM-DD'), TO_DATE('2022-11-18', 'YYYY--MM-DD'), '승인완료', 'KRW');
+insert into t_order values('S00025', 'B00005', 'E00010', TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-11-15', 'YYYY--MM-DD'), '승인완료', 'KRW');
+insert into t_order values('S00026', 'B00006', 'E00014', TO_DATE('2022-12-04', 'YYYY--MM-DD'), TO_DATE('2022-12-04', 'YYYY--MM-DD'), TO_DATE('2022-11-18', 'YYYY--MM-DD'), '승인완료', 'KRW');
+insert into t_order values('S00027', 'B00007', 'E00008', TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-11-15', 'YYYY--MM-DD'), '반려', 'KRW');
+insert into t_order values('S00028', 'B00008', 'E00008', TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-11-18', 'YYYY--MM-DD'), '반려', 'KRW');
+insert into t_order values('S00029', 'B00009', 'E00008', TO_DATE('2022-12-07', 'YYYY--MM-DD'), TO_DATE('2022-12-07', 'YYYY--MM-DD'), TO_DATE('2022-11-15', 'YYYY--MM-DD'), '승인완료', 'KRW');
+insert into t_order values('S00030', 'B00010', 'E00008', TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-11-18', 'YYYY--MM-DD'), '승인완료', 'KRW');
+insert into t_order values('S00031', 'B00011', 'E00008', TO_DATE('2022-12-08', 'YYYY--MM-DD'), TO_DATE('2022-12-08', 'YYYY--MM-DD'), TO_DATE('2022-11-15', 'YYYY--MM-DD'), '승인대기', 'KRW');
+insert into t_order values('S00032', 'B00012', 'E00014', TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-11-18', 'YYYY--MM-DD'), '승인완료', 'KRW');
+insert into t_order values('S00033', 'B00013', 'E00002', TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-11-15', 'YYYY--MM-DD'), '승인대기', 'KRW');
+insert into t_order values('S00034', 'B00014', 'E00002', TO_DATE('2022-12-04', 'YYYY--MM-DD'), TO_DATE('2022-12-04', 'YYYY--MM-DD'), TO_DATE('2022-11-18', 'YYYY--MM-DD'), '승인완료', 'KRW');
+insert into t_order values('S00035', 'B00015', 'E00010', TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-11-15', 'YYYY--MM-DD'), '승인완료', 'KRW');
+insert into t_order values('S00036', 'B00016', 'E00008', TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-11-18', 'YYYY--MM-DD'), '승인완료', 'KRW');
+insert into t_order values('S00037', 'B00017', 'E00010', TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-11-15', 'YYYY--MM-DD'), '종결', 'KRW');
+insert into t_order values('S00038', 'B00018', 'E00008', TO_DATE('2022-12-05', 'YYYY--MM-DD'), TO_DATE('2022-12-05', 'YYYY--MM-DD'), TO_DATE('2022-11-18', 'YYYY--MM-DD'), '종결', 'KRW');
+insert into t_order values('S00039', 'B00019', 'E00008', TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-11-15', 'YYYY--MM-DD'), '승인대기', 'KRW');
+insert into t_order values('S00040', 'B00020', 'E00002', TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-11-18', 'YYYY--MM-DD'), '승인완료', 'KRW');
+insert into t_order values('S00041', 'B00001', 'E00002', TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-11-15', 'YYYY--MM-DD'), '승인완료', 'KRW');
+insert into t_order values('S00042', 'B00002', 'E00014', TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-11-18', 'YYYY--MM-DD'), '승인완료', 'KRW');
+insert into t_order values('S00043', 'B00003', 'E00010', TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-11-15', 'YYYY--MM-DD'), '승인대기', 'KRW');
+insert into t_order values('S00044', 'B00004', 'E00014', TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-11-18', 'YYYY--MM-DD'), '승인완료', 'KRW');
+insert into t_order values('S00045', 'B00005', 'E00010', TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-11-15', 'YYYY--MM-DD'), '승인완료', 'KRW');
+insert into t_order values('S00046', 'B00006', 'E00014', TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-11-18', 'YYYY--MM-DD'), '승인완료', 'KRW');
+insert into t_order values('S00047', 'B00007', 'E00010', TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-11-15', 'YYYY--MM-DD'), '승인대기', 'KRW');
+insert into t_order values('S00048', 'B00008', 'E00001', TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-11-18', 'YYYY--MM-DD'), '승인완료', 'KRW');
+insert into t_order values('S00049', 'B00009', 'E00001', TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-11-15', 'YYYY--MM-DD'), '승인완료', 'KRW');
+insert into t_order values('S00050', 'B00010', 'E00001', TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-11-18', 'YYYY--MM-DD'), '승인완료', 'KRW');
+insert into t_order values('S00051', 'B00011', 'E00001', TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-11-15', 'YYYY--MM-DD'), '승인완료', 'KRW');
+insert into t_order values('S00052', 'B00012', 'E00001', TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-11-18', 'YYYY--MM-DD'), '승인완료', 'KRW');
+insert into t_order values('S00053', 'B00011', 'E00001', TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-11-15', 'YYYY--MM-DD'), '반려', 'KRW');
+insert into t_order values('S00054', 'B00012', 'E00001', TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-11-18', 'YYYY--MM-DD'), '반려', 'KRW');
+
 
 DELETE FROM t_order;
 
@@ -1380,4 +1439,17 @@ DELETE FROM t_order_detail;
 SELECT * FROM t_order;
 
 
->>>>>>> refs/remotes/origin/SungBeen
+SELECT * FROM m_buyer WHERE brno='2068650113';
+
+		SELECT * FROM m_buyer b, m_employee e
+			WHERE b.empCd=e.empCd
+			AND b.delyn='n'
+		ORDER BY b.buyerCd DESC;
+
+
+--오더 승인여부
+	SELECT status, count(*) cnt --승인여부 항목과 항목별 개수
+	FROM t_order  -- 오더테이블
+	WHERE pricingDate >= TO_DATE('2022-12','YYYY-MM') --12월 1일부터
+    AND pricingDate < ADD_MONTHS(TO_DATE('2022-12','YYYY-MM'), 1) --12월 31일 까지
+	GROUP BY status

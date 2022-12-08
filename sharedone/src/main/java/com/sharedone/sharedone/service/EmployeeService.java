@@ -11,4 +11,7 @@ public interface EmployeeService {
 	//직원 정보 전체 리스트 출력
 	List<Employee> selectEmployeeList();
 
+	//직원 정보 한개 출력
+	Employee selectEmpNm(String empCd);
+
 }

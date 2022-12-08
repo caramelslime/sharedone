@@ -23,4 +23,9 @@ public class EmployeeDaoImpl implements EmployeeDao{
 	public List<Employee> selectEmployeeList() {
 		return sst.selectList("empns.selectEmployeeList");
 	}
+
+	//직원 정보 한개 출력
+	public Employee selectEmpNm(String empCd) {
+		return sst.selectOne("empns.selectEmpNm", empCd);
+	}
 }
