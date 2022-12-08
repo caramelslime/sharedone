@@ -170,4 +170,64 @@ public class OrderRestController {
 		return content;
 	}
 	
+	@RequestMapping("/checkValidPrice")
+	@ResponseBody
+	public int checkValidPrice(String productCD, String buyerCD, String currency) {
+		int count = os.checkValidPrice(productCD, buyerCD, currency);
+		System.out.println(count);
+		return count;
+	}
+	
+	@RequestMapping("/validPrice")
+	@ResponseBody
+	public int validPrice(String productCD, String buyerCD, String currency) {
+		int price = os.validPrice(productCD, buyerCD, currency);
+		System.out.println(price);
+		return price;
+	}
+	
+	@RequestMapping("/defaultPrice")
+	@ResponseBody
+	public int defaultPrice(String productCD, String currency) {
+		int price = os.defaultPrice(productCD, currency);
+		System.out.println(price);
+		return price;
+	}
+	
+	
+	
+	
+	
+	@RequestMapping("detailProductDelete")
+	public String detailProductDelete(String soNo) {
+		
+		
+		System.out.println(soNo);
+		
+		int result = os.detailProductDelete(soNo);
+		
+		
+		return "/nolay/order";
+	}
+	
+	@RequestMapping("detailProductUpdate")
+	public String detailProductUpdate(Order order, Model model, String soNo, String productCD, int qty, int unitPrice) {
+		
+		
+		System.out.println(soNo);
+		System.out.println(productCD);
+		System.out.println(qty);
+		System.out.println(unitPrice);
+		
+		int result = os.detailProductUpdate(soNo, productCD, qty, unitPrice);
+		
+		
+		return "/nolay/order";
+	}
+	
+	
+	
+	
+	
+	
 }

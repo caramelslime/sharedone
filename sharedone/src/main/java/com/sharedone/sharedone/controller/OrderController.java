@@ -2,6 +2,8 @@ package com.sharedone.sharedone.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,14 +33,16 @@ public class OrderController {
 	private EmployeeService es;
 	
 	@RequestMapping("order")
-	public String order(Order order, Model model, String soNo, String buyerCD, String soUser, String addDate, String pricingDate, String requestDate, String status) {
+	public String order(HttpSession session, Order order, Model model, String soNo, String buyerCD, String soUser, String addDateRange, String pricingDateRange, String requestDateRange, String status) {
+		
+		soUser = (String) session.getAttribute("empCd");
 		
 		order.setSoNo(soNo);
 		order.setBuyerCD(buyerCD);
 		order.setSoUser(soUser);
-//		order.setAddDate(addDate);
-//		order.setPricingDate(pricingDate);
-//		order.setRequestDate(requestDate);
+		order.setAddDateRange(addDateRange);
+		order.setPricingDateRange(pricingDateRange);
+		order.setRequestDateRange(requestDateRange);
 		order.setStatus(status);
 		
 		List<Product> productAllList = ps.productAllList();
@@ -52,6 +56,8 @@ public class OrderController {
 		
 		List<Employee> employee_list = es.selectEmployeeList();
 		model.addAttribute("employee_list", employee_list);
+		
+		model.addAttribute("order", order);
 		
 		return "/nolay/order";
 	}

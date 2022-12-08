@@ -72,4 +72,29 @@ public class OrderServiceImpl implements OrderService {
 		// TODO Auto-generated method stub
 		return od.updateApproveOrRefer(notice);
 	}
+
+	@Override
+	public int checkValidPrice(String productCD, String buyerCD, String currency) {
+		return od.checkValidPrice(productCD, buyerCD, currency);
+	}
+
+	@Override
+	public int validPrice(String productCD, String buyerCD, String currency) {
+		return od.validPrice(productCD, buyerCD, currency);
+	}
+
+	@Override
+	public int defaultPrice(String productCD, String currency) {
+		return od.defaultPrice(productCD, currency);
+	}
+
+	@Override
+	public int detailProductUpdate(String soNo, String productCD, int qty, int unitPrice) {
+		return od.detailProductUpdate(soNo, productCD, qty, unitPrice);
+	}
+
+	@Override
+	public int detailProductDelete(String soNo) {
+		return od.detailProductDelete(soNo);
+	}
 }

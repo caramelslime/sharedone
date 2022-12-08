@@ -468,6 +468,30 @@ th:first-child, td:first-child {
 	width: 146px;
 }
 
+.edit-start-btn{
+    border: none;
+    background-color: #e5e1dc;
+    box-shadow: 1px -1px 2px #b1b1b1;
+    height: 24px;
+    cursor: pointer;
+}
+
+.edit-finish-btn{
+    border: none;
+    background-color: #e5e1dc;
+    box-shadow: 1px -1px 2px #b1b1b1;
+    height: 24px;
+    cursor: pointer;
+}
+
+.edit {
+	border: none;
+	outline: none;
+	background: transparent;
+}
+
+
+
 
 
 
