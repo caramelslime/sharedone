@@ -24,4 +24,9 @@ public class EmployeeServiceImpl implements EmployeeService{
 	public List<Employee> selectEmployeeList() {
 		return ed.selectEmployeeList();
 	}
+
+	//직원정보 한개 출력
+	public Employee selectEmpNm(String empCd) {
+		return ed.selectEmpNm(empCd);
+	}
 }

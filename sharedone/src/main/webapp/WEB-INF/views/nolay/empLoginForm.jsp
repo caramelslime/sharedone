@@ -64,77 +64,21 @@ width: 335px;
 	function pageView(data) {
 		alert('로그인 후 이용해주세요');
 		return false;
-		/* var addr = data;
-	
-		var ajaxOption = {
-			url : addr,
-			async : true,
-			type : "POST",
-			dataType : "html",
-			cache : false
-		};
-	
-		$.ajax(ajaxOption).done(function(data) {
-			$('#layout-body').children().remove();
-			$('#layout-body').html(data);
-		}); */
 	}
 	//바이어목록
 	function pageView2(data) {
 		alert('로그인 후 이용해주세요');
 		return false;
-		/* var addr = data;
-	
-		var ajaxOption = {
-			url : addr,
-			async : true,
-			type : "POST",
-			dataType : "html",
-			cache : false
-		};
-	
-		$.ajax(ajaxOption).done(function(data) {
-			$('#layout-body').children().remove();
-			$('#layout-body').html(data);
-		}); */
 	}
 	//판매가격관리
 	function pageView3(data) {
 		alert('로그인 후 이용해주세요');
 		return false;
-		/* var addr = data;
-	
-		var ajaxOption = {
-			url : addr,
-			async : true,
-			type : "POST",
-			dataType : "html",
-			cache : false
-		};
-	
-		$.ajax(ajaxOption).done(function(data) {
-			$('#layout-body').children().remove();
-			$('#layout-body').html(data);
-		}); */
 	}
 	//오더현황분석
 	function pageView4(data) {
 		alert('로그인 후 이용해주세요');
 		return false;
-		/* var addr = data;
-	
-		var ajaxOption = {
-			url : addr,
-			async : true,
-			type : "POST",
-			dataType : "html",
-			cache : false
-		};
-	
-		$.ajax(ajaxOption).done(function(data) {
-			$('#layout-body').children().remove();
-			$('#layout-body').html(data);
-		}); */
 	}
 </script>
 <style type="text/css">

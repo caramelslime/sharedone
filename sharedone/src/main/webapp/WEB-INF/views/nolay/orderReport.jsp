@@ -498,8 +498,16 @@ $(document).ready(function(){
 	        		      legend: { display: false },
 	        		      title: {
 	        		        display: true,
-	        		        text: '승인여부 항목 별 개수'
-	        		      }
+	        		        text: '이번달 승인여부 현황'
+	        		      },
+	        		      responsive: false,
+	        				scales: {
+	        					yAxes: [{
+	        						ticks: {
+	        							beginAtZero: true,	
+	        						}
+	        					}]
+	        				}
 	        		    }
 	        		});
 	        	
