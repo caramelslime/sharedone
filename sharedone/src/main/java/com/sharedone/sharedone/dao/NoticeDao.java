@@ -16,4 +16,8 @@ public interface NoticeDao {
 
 	String loadComment(String soNo, String empCd);
 
+	int checkReturnComment(String soNo, String empCd);
+
+	String loadReturnComment(String soNo, String empCd);
+
 }

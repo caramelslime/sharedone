@@ -51,8 +51,8 @@
 			el.style.visibility = 'hidden';
 		})
 		document.querySelector('#add-row-btn').style.visibility = 'hidden';
-		document.querySelector('.edit-start-btn').style.display = 'none';
-		document.querySelector('.edit-finish-btn').style.display = 'block';
+		document.querySelector('.edit-start-btn2').style.display = 'none';
+		document.querySelector('.edit-finish-btn2').style.display = 'block';
 		document.querySelector('#request-approval-btn').style.display = 'none';
 		
 		editable = 1;
@@ -66,8 +66,8 @@
 	
 	/* 제품 수정 비활성화 */
 	function editFinish() {
-		document.querySelector('.edit-start-btn').style.display = 'block';
-		document.querySelector('.edit-finish-btn').style.display = 'none';
+		document.querySelector('.edit-start-btn2').style.display = 'block';
+		document.querySelector('.edit-finish-btn2').style.display = 'none';
 		document.querySelector('#request-approval-btn').style.display = 'block';
 		
 		editable = 0;
@@ -343,8 +343,8 @@
 		document.querySelector('#add-row-btn').style.visibility = 'visible';
 		document.querySelector('.detailAddItem-div').style.visibility = 'visible';
 		document.querySelector('.detail-action-btn-div').style.visibility = 'visible';
-		document.querySelector('.edit-start-btn').style.display = 'block';
-		document.querySelector('.edit-finish-btn').style.display = 'none';
+		document.querySelector('.edit-start-btn2').style.display = 'block';
+		document.querySelector('.edit-finish-btn2').style.display = 'none';
 		document.querySelector('#request-approval-btn').style.display = 'block';
 		document.querySelectorAll('.edit').forEach(function(element) {
 			element.readOnly = true;
@@ -841,8 +841,30 @@
 				});
 			}
 			
+		});
+		
+		$.post('checkReturnComment.do', "soNo="+soNo+"&empCd="+empCd, function(result) {
+			if (result == 0) {
+				console.log("반려커멘트가 없다");
+				content = " ";
+				document.querySelector('#comment-return-input').value=content;
+			} else if (result > 0) {
+				$.post('loadReturnComment.do', "soNo="+soNo+"&empCd="+empCd, function(result) {
+					
+					content=decodeURIComponent(result);
+					console.log("커멘트가 있어서 불러옴 : "+content);
+					document.querySelector('#comment-return-input').value=content;
+				});
+			}
+			
 		});	
+		
+		
 	}
+	
+	
+	
+	
 	
 function search() {
 		
@@ -879,7 +901,7 @@ function search() {
 					<div class="search-sub-div">
 						<div class="search-item-div">
 							<div class="search-item-text">• 오더번호</div>
-							<input type=text id="searchSoNo" class="search" list="">
+							<input type=text id="searchSoNo" class="search" list="soNoAllList" autocomplete="off">
 						</div>
 						<div class="search-item-div">
 							<div class="search-item-text">• 영업담당자</div>
@@ -891,7 +913,14 @@ function search() {
 						</div>
 						<div class="search-item-div">
 							<div class="search-item-text">• 상태</div>
-							<input type=text id="searchStatus" class="search" list="">
+							<select id="searchStatus" class="search" required="required">
+								<option value=""></option>
+								<option value="임시저장">임시저장</option>
+								<option value="승인대기">승인대기</option>
+								<option value="승인완료">승인완료</option>
+								<option value="반려">반려</option>
+								<option value="종결">종결</option>
+							</select>
 						</div>
 					</div>
 					<div class="search-sub-div">
@@ -1113,8 +1142,8 @@ function search() {
 				
 				<div class="detail-action-div">
 					<div class="detail-action-btn-div">
-						<button class="edit-start-btn" onclick="editStart()" style="display: block;">수정하기</button>
-						<button class="edit-finish-btn" onclick="editFinish()" style="display: none;">수정 완료</button>
+						<button class="edit-start-btn2" onclick="editStart()" style="display: block;">수정하기</button>
+						<button class="edit-finish-btn2" onclick="editFinish()" style="display: none;">수정 완료</button>
 						<button id="request-approval-btn" class="detail-action-btn2" onclick="requestApproval()" style="display: block;">승인 요청</button>
 					</div>
 				</div>
@@ -1135,6 +1164,14 @@ function search() {
 		<div style="display: none;">
 			<datalist id="soNoList">
 				<c:forEach var="order" items="${orderList }">
+					<option value="${order.soNo}"></option>
+				</c:forEach>
+			</datalist>
+		</div>
+		
+		<div style="display: none;">
+			<datalist id="soNoAllList">
+				<c:forEach var="order" items="${orderAllList }">
 					<option value="${order.soNo}"></option>
 				</c:forEach>
 			</datalist>

@@ -14,6 +14,17 @@
 <style type="text/css">@import url("/sharedone/resources/css/sumoselect.min.css");</style>
 <script src="/sharedone/resources/js/jquery.sumoselect.min.js"></script>
 
+<style type="text/css">
+	.SumoSelect>.CaptionCont {
+    position: relative;
+    border: 1px solid #a4a4a4;
+    min-height: 14px;
+    background-color: #d7d7d7;
+    border-radius: 2px;
+    margin: 0;
+}
+</style>
+
 <script type="text/javascript">
 	
 //	document.querySelector('#searchCdnm').focus();
@@ -388,7 +399,10 @@
 					</div>
 					<div class="insert-sub-row-div">
 						<div class="insert-text">단위<span class="red_warn">*</span></div>
-						<input type="text" id="insertUnit" class="insert" required="required"/>
+						<select id="insertUnit" class="insert" required="required">
+							<option value="box">box</option>
+							<option value="ea">ea</option>
+						</select>
 					</div>
 					<div class="insert-sub-row-div">
 						<div class="insert-text">제품 그룹<span class="red_warn">*</span></div>

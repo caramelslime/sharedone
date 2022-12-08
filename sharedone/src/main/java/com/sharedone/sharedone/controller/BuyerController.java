@@ -162,7 +162,7 @@ public class BuyerController {
 		        
 				//거래처 코드 지정을 위한 거래처 리스트 count
 				int buyer_count = bs.buyerCount();
-				System.out.println(buyer_count);
+				System.out.println("buyer_count"+buyer_count);
 				String buyerCd;
 				buyerCd = "B"+String.format("%05d",buyer_count+1);
 				buyer.setBuyerCd(buyerCd);

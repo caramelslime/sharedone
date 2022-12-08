@@ -378,6 +378,7 @@
 	}
 
 	function insertAction() {
+		console.log('a');
 		var table = document.querySelector('#insertList-table');
 		var rows = document.getElementById("insertList-table").getElementsByTagName("tr");
 		var insertArray = new Array(table.rows.length-1);
@@ -810,9 +811,11 @@ $('.statusList').SumoSelect({
 						<div class="address-wrap">
 							<input type="text" id="sample4_roadAddress" name="address" placeholder="도로명주소">
 							<!-- <input type="text" id="sample4_jibunAddress" placeholder="지번주소"> -->
-							<span id="guide" style="color:#52c9c6; display:none; font-family:summernote; font-size:10px;"></span>
+							<!-- <span id="guide" style="color:#52c9c6; display:none; font-family:summernote; font-size:10px;"></span> -->
 							<input type="text" id="sample4_detailAddress" name="addressDetail" required="required" placeholder="상세주소">
+							<input type="hidden" id="sample4_jibunAddress" name="" required="required" placeholder="상세주소">
 							<!-- <input type="text" id="sample4_extraAddress" placeholder="참고항목"> -->
+							<input type="hidden" id="sample4_extraAddress" placeholder="참고항목">
 						</div>
 					</div>
 				</div>

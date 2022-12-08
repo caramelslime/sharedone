@@ -29,8 +29,16 @@
 		SELECT COUNT(*) FROM t_notice WHERE empCd=#{empCd} AND soNo=#{soNo}
 	</select>
 	
+	<select id="checkReturnComment" parameterType="map" resultType="int">
+		SELECT COUNT(*) FROM t_notice WHERE empCd!=#{empCd} AND soNo=#{soNo}
+	</select>
+	
 	<select id="loadComment" parameterType="map" resultType="String">
 		SELECT content FROM t_notice WHERE noticeCd = (SELECT MAX(noticeCd) FROM t_notice WHERE empCd=#{empCd} AND soNo=#{soNo})
+	</select>
+	
+	<select id="loadReturnComment" parameterType="map" resultType="String">
+		SELECT content FROM t_notice WHERE noticeCd = (SELECT MAX(noticeCd) FROM t_notice WHERE empCd!=#{empCd} AND soNo=#{soNo})
 	</select>
 	
 	

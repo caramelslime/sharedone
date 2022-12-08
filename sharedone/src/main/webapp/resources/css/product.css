@@ -219,6 +219,9 @@ th:first-child, td:first-child {
     justify-content: space-between;
     margin-right:36px;
 }
+
+
+
 .insert-text{
 	width:80px;
 }
@@ -227,6 +230,13 @@ th:first-child, td:first-child {
     font-size: 11px;
 }
 .insert-sub-row-div>input{
+	border: none;
+    background-color: #d7d7d7;
+    height: 25px;
+    width: 140px;
+}
+
+.insert-sub-row-div>select{
 	border: none;
     background-color: #d7d7d7;
     height: 25px;
@@ -313,11 +323,34 @@ th:first-child, td:first-child {
 
 /* semoselect */
 
-.SumoSelect>.CaptionCont {
-    background-color: #d7d7d7;
-    border: none;
-}
 .SumoSelect.open .search-txt{
 	background-color: #d7d7d7;
+}
+
+.search-item-div>input{
+	border: none;
+    background-color: #d7d7d7;
+    height: 25px;
+    position: static;
+}
+
+.SumoSelect>.CaptionCont {
+    position: relative;
+    border: 1px solid #a4a4a4;
+    min-height: 14px;
+    background-color: #d7d7d7;
+    border-radius: 2px;
+    margin: 0;
+}
+
+#searchProductGroup {
+	width: 200px;
+	height: 25.98px;
+	position: relative;
+    border: 1px solid #a4a4a4;
+    min-height: 14px;
+    background-color: #d7d7d7;
+    border-radius: 2px;
+    margin: 0;
 }
 

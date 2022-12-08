@@ -289,4 +289,5 @@ SELECT * FROM m_buyer;
 
 UPDATE m_buyer SET delyn = 'y' WHERE buyercd = 'B00000';
 
+SELECT * FROM m_employee;
 
