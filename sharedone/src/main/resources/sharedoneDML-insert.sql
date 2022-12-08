@@ -573,6 +573,7 @@ insert into t_order_detail values('S00019', 'P00001', 200 , 2000);
 insert into t_order_detail values('S00019', 'P00003', 200 , 2000);
 insert into t_order_detail values('S00020', 'P00009', 200 , 7000);
 insert into t_order_detail values('S00020', 'P00011', 200 , 2000);
+insert into t_order_detail values('S00049', 'P00013', 50, 8000);
 
 --상세사유
 insert into t_notice values(1,'승인좀요.

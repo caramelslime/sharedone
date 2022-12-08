@@ -46,6 +46,11 @@
 	
 	/* 제품 수정 활성화 */
 	function editStart() {
+		
+		document.querySelectorAll('.minus-img').forEach(function(el) {
+			el.style.visibility = 'hidden';
+		})
+		document.querySelector('#add-row-btn').style.visibility = 'hidden';
 		document.querySelector('.edit-start-btn').style.display = 'none';
 		document.querySelector('.edit-finish-btn').style.display = 'block';
 		document.querySelector('#request-approval-btn').style.display = 'none';
@@ -85,7 +90,11 @@
 	 		
 		})
 			
-			
+		document.querySelectorAll('.minus-img').forEach(function(el) {
+			el.style.visibility = 'visible';
+		})
+		document.querySelector('#add-row-btn').style.visibility = 'visible';
+		
 		
 	 		setTimeout(function() {
 		 		detail(soNo);
@@ -331,7 +340,7 @@
 		document.querySelector('.comment-return-div').style.visibility = 'hidden';
 		document.querySelector('#add-finish-btn').style.display = 'none';
 		document.querySelector('#add-cancel-btn').style.display = 'none';
-		document.querySelector('#add-row-btn').style.display = 'block';
+		document.querySelector('#add-row-btn').style.visibility = 'visible';
 		document.querySelector('.detailAddItem-div').style.visibility = 'visible';
 		document.querySelector('.detail-action-btn-div').style.visibility = 'visible';
 		document.querySelector('.edit-start-btn').style.display = 'block';
@@ -378,7 +387,7 @@
 			el.style.visibility = 'hidden';
 		})
 		
-		document.querySelector('#add-row-btn').style.display = 'none';
+		document.querySelector('#add-row-btn').style.visibility = 'hidden';
 		document.querySelector('#add-finish-btn').style.display = 'block';
 		document.querySelector('#add-cancel-btn').style.display = 'block';
 	}
@@ -494,13 +503,13 @@
 					var currency = document.querySelector('#detailCurrency').value;
 					
 					$.post('checkValidPrice.do', "productCD="+productCD+"&buyerCD="+buyerCD+"&currency="+currency, function(count) {
-						if (count > 1) {
+						if (count > 0) {
 							$.post('validPrice.do', "productCD="+productCD+"&buyerCD="+buyerCD+"&currency="+currency, function(price) {
 								console.log('기간내 가격 있음 : '+price);
 								console.log(document.querySelector('#detailUnitPrice'+rowNumber));
 								document.querySelector('#detailUnitPrice'+rowNumber).innerHTML = price;
 							});
-						} else if (count == 1) {
+						} else if (count == 0) {
 							$.post('defaultPrice.do', "productCD="+productCD+"&currency="+currency, function(price) {
 								console.log('기간내 가격 없음 -> defaultPrice : '+price);
 								console.log(document.querySelector('#detailUnitPrice'+rowNumber));
@@ -551,7 +560,7 @@
 				$("#detailList-table tr:not(:first)").remove();	// 상세창 닫을 때 입력한 값 제거
 				document.querySelector('#add-finish-btn').style.display = 'none';
 				document.querySelector('#add-cancel-btn').style.display = 'none';
-				document.querySelector('#add-row-btn').style.display = 'block';
+				document.querySelector('#add-row-btn').style.visibility = 'visible';
 				document.querySelectorAll('.minus-img').forEach(function(el) {
 					el.style.visibility = 'visible';
 				})
@@ -624,7 +633,7 @@
 		$("#detailList-table tr:not(:first)").remove();
 		document.querySelector('#add-finish-btn').style.display = 'none';
 		document.querySelector('#add-cancel-btn').style.display = 'none';
-		document.querySelector('#add-row-btn').style.display = 'block';
+		document.querySelector('#add-row-btn').style.visibility = 'visible';
 		document.querySelectorAll('.minus-img').forEach(function(el) {
 			el.style.visibility = 'visible';
 		})
