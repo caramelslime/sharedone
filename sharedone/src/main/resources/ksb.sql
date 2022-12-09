@@ -228,7 +228,56 @@ SELECT COUNT(*) FROM t_notice WHERE empCD='E00004' AND soNo='S00034';
 SELECT COUNT(*) FROM t_notice WHERE empCd=#{empCd} AND soNo=#{soNo}
 
 
+SELECT * FROM m_employee;
+
+SELECT * FROM t_order WHERE pricingDate BETWEEN TO_DATE('2022-10-04', 'YYYY-MM-DD') AND TO_DATE('2022-10-05', 'YYYY-MM-DD');
 
 
+INSERT INTO m_price VALUES ( 'B00000', 'P00001', '1900-01-01', '1900-01-01', '20000', 'KRW', 'n' );
+INSERT INTO m_price VALUES ( 'B00000', 'P00002', '1900-01-01', '1900-01-01', '15000', 'KRW', 'n' );
+INSERT INTO m_price VALUES ( 'B00000', 'P00003', '1900-01-01', '1900-01-01', '30000', 'KRW', 'n' );
+INSERT INTO m_price VALUES ( 'B00000', 'P00004', '1900-01-01', '1900-01-01', '20000', 'KRW', 'n' );
+INSERT INTO m_price VALUES ( 'B00000', 'P00005', '1900-01-01', '1900-01-01', '12000', 'KRW', 'n' );
+INSERT INTO m_price VALUES ( 'B00000', 'P00006', '1900-01-01', '1900-01-01', '18000', 'KRW', 'n' );
+INSERT INTO m_price VALUES ( 'B00000', 'P00007', '1900-01-01', '1900-01-01', '19000', 'KRW', 'n' );
+INSERT INTO m_price VALUES ( 'B00000', 'P00008', '1900-01-01', '1900-01-01', '20000', 'KRW', 'n' );
+INSERT INTO m_price VALUES ( 'B00000', 'P00009', '1900-01-01', '1900-01-01', '24000', 'KRW', 'n' );
+INSERT INTO m_price VALUES ( 'B00000', 'P00010', '1900-01-01', '1900-01-01', '55000', 'KRW', 'n' );
+INSERT INTO m_price VALUES ( 'B00000', 'P00011', '1900-01-01', '1900-01-01', '30000', 'KRW', 'n' );
+INSERT INTO m_price VALUES ( 'B00000', 'P00012', '1900-01-01', '1900-01-01', '25000', 'KRW', 'n' );
+INSERT INTO m_price VALUES ( 'B00000', 'P00013', '1900-01-01', '1900-01-01', '40000', 'KRW', 'n' );
+INSERT INTO m_price VALUES ( 'B00000', 'P00014', '1900-01-01', '1900-01-01', '30000', 'KRW', 'n' );
+INSERT INTO m_price VALUES ( 'B00000', 'P00015', '1900-01-01', '1900-01-01', '22000', 'KRW', 'n' );
+INSERT INTO m_price VALUES ( 'B00000', 'P00016', '1900-01-01', '1900-01-01', '28000', 'KRW', 'n' );
+INSERT INTO m_price VALUES ( 'B00000', 'P00017', '1900-01-01', '1900-01-01', '12000', 'KRW', 'n' );
+INSERT INTO m_price VALUES ( 'B00000', 'P00018', '1900-01-01', '1900-01-01', '15000', 'KRW', 'n' );
+INSERT INTO m_price VALUES ( 'B00000', 'P00019', '1900-01-01', '1900-01-01', '45000', 'KRW', 'n' );
+INSERT INTO m_price VALUES ( 'B00000', 'P00020', '1900-01-01', '1900-01-01', '55000', 'KRW', 'n' );
+
+INSERT INTO m_price VALUES ( 'B00001', 'P00006', '2022-12-06', '2022-12-31', '22000', 'KRW', 'n' );
+
+DELETE m_price WHERE buyerCD = 'B00001' AND productCD = 'P00006' AND listprice = 22000;
+
+SELECT periodStart FROM m_price WHERE buyerCD = 'B00001' AND productCD = 'P00006' AND currency='KRW';
+SELECT periodEnd FROM m_price WHERE buyerCD = 'B00001' AND productCD = 'P00006' AND currency='KRW';
+
+TO_DATE('2022-11-15', 'YYYY--MM-DD')
 
 
+SELECT COUNT(*) FROM m_price WHERE buyerCD = 'B00001' AND productCD = 'P00006' AND currency='KRW'
+	AND sysdate BETWEEN (SELECT periodStart FROM m_price WHERE buyerCD = 'B00001' AND productCD = 'P00006' AND currency='KRW')
+		AND (SELECT periodEnd FROM m_price WHERE buyerCD = 'B00001' AND productCD = 'P00006' AND currency='KRW');
+
+SELECT * FROM m_price WHERE buyerCD = 'B00001' AND productCD = 'P00006' AND currency='KRW'
+	AND sysdate BETWEEN (SELECT periodStart FROM m_price WHERE buyerCD = 'B00001' AND productCD = 'P00006' AND currency='KRW')
+		AND (SELECT periodEnd FROM m_price WHERE buyerCD = 'B00001' AND productCD = 'P00006' AND currency='KRW');
+
+SELECT count(*) FROM m_price WHERE buyerCD = 'B00001' AND productCD = 'P00006' AND currency='KRW' AND sysdate >= periodstart AND sysdate <=periodend;
+
+SELECT listprice FROM m_price WHERE buyerCD = 'B00001' AND productCD = 'P00006' AND currency='KRW' AND sysdate >= periodstart AND sysdate <=periodend;
+
+SELECT listprice FROM m_price WHERE buyerCD = 'B00000' AND productCD = 'P00006' AND currency='KRW';
+
+SELECT * FROM t_order_detail;
+
+UPDATE t_order_detail SET productNM = #{productNM} WHERE productCD = #{productCD}

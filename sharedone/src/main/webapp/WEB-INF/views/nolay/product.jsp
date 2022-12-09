@@ -329,7 +329,7 @@
 							<select id="searchCdnm" class="search" name="productSelect">
 								<option value=""></option>
 								<c:forEach var="product" items="${productAllList }">
-									<option value="${product.productCD }">${product.productNM }</option>
+									<option value="${product.productCD }">${product.productCD } ${product.productNM }</option>
 								</c:forEach>
 							</select>
 							
