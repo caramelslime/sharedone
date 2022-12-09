@@ -107,5 +107,8 @@
 		</if>
 	</update>
 	
+	<select id="orderAllList" parameterType="order" resultType="order">
+		SELECT * FROM t_order WHERE soUser = #{soUser} ORDER BY soNo DESC
+	</select>
 	
 </mapper>

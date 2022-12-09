@@ -170,12 +170,30 @@ public class OrderRestController {
 		return content;
 	}
 	
+	
+	@RequestMapping("checkReturnComment")
+	public int checkReturnComment(Model model, String soNo, String empCd) {
+		int count = 0;
+		count = ns.checkReturnComment(soNo, empCd);
+		System.out.println("soNo: "+soNo+"empCd: "+empCd);
+		System.out.println(count);
+		return count;
+	}
+	
 	@RequestMapping("/checkValidPrice")
 	@ResponseBody
 	public int checkValidPrice(String productCD, String buyerCD, String currency) {
 		int count = os.checkValidPrice(productCD, buyerCD, currency);
 		System.out.println(count);
 		return count;
+	}
+	
+	@RequestMapping(value = "loadReturnComment", produces = "text/html;charset=utf-8")
+	public String loadReturnComment(Model model, String soNo, String empCd, String content) {
+		content ="";
+		content = ns.loadReturnComment(soNo, empCd);
+		System.out.println(content);
+		return content;
 	}
 	
 	@RequestMapping("/validPrice")

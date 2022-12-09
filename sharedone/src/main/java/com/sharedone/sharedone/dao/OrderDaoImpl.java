@@ -162,4 +162,9 @@ public class OrderDaoImpl implements OrderDao {
 	public int detailProductDelete(String soNo) {
 		return sst.delete("orderns.detailProductDelete", soNo);
 	}
+
+	@Override
+	public List<Order> orderAllList(Order order) {
+		return sst.selectList("orderns.orderAllList", order);
+	}
 }

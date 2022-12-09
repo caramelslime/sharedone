@@ -57,4 +57,20 @@ public class NoticeDaoImpl implements NoticeDao{
 		return sst.selectOne("noticens.loadComment", map);
 	}
 
+	@Override
+	public int checkReturnComment(String soNo, String empCd) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("soNo", soNo);
+		map.put("empCd", empCd);
+		return sst.selectOne("noticens.checkReturnComment", map);
+	}
+
+	@Override
+	public String loadReturnComment(String soNo, String empCd) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("soNo", soNo);
+		map.put("empCd", empCd);
+		return sst.selectOne("noticens.loadReturnComment", map);
+	}
+
 }

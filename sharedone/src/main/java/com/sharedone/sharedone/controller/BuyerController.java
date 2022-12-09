@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -34,19 +35,44 @@ public class BuyerController {
 	@RequestMapping("buyerManagement")
 	public String buyerManagement(Model model, Buyer buyer, Employee employee, String buyerCd, String empCd, String status) {
 
+		if(buyerCd != null && buyerCd != "") {
+		//바이어 코드에 해당하는 바이어 이름
+		Buyer buyer2 = bs.selectBuyerNm(buyerCd);
+		System.out.println("buyer2.getBuyerNm()" + buyer2.getBuyerNm());
+		String buyerNm2 = buyer2.getBuyerNm();
+		model.addAttribute("buyerNm2", buyerNm2);
+		}
+		if(empCd != null && empCd != "") {
+			//바이어 코드에 해당하는 바이어 이름
+			Employee emp = es.selectEmpNm(empCd);
+			System.out.println("emp.getName()" + emp.getName());
+			String empNm = emp.getName();
+			model.addAttribute("empNm", empNm);
+		}
+		
+		System.out.println("buyerCd"+buyerCd);
 		buyer.setBuyerCd(buyerCd);
 		buyer.setEmpCd(empCd);
 		buyer.setStatus(status);
 		
 		//buyer정보 전체 리스트 불러오기
-		List<Buyer> buyerAllList = bs.selectBuyerAllList();
+		List<Buyer> buyerAllList = bs.selectBuyerAllList(); 
 		//System.out.println(buyerAllList);
 		//buyer정보 전체 리스트 불러오기(검색용)
 		List<Buyer> buyer_list = bs.selectBuyerList(buyer);
-		System.out.println(buyer_list);
+		System.out.println(buyer.getRprsvNm());
 		//employee정보 전체 리스트 불러오기(검색용)
 		List<Employee> employee_list = es.selectEmployeeList();
+		
 
+		
+		String empCd2 = empCd;
+		
+
+		model.addAttribute("buyerCd", buyerCd);
+		model.addAttribute("empCd2", empCd2);
+		model.addAttribute("status", status);
+		
 		model.addAttribute("buyerAllList", buyerAllList);
 		model.addAttribute("buyer_list", buyer_list);
 		model.addAttribute("employee_list", employee_list);
@@ -136,7 +162,7 @@ public class BuyerController {
 		        
 				//거래처 코드 지정을 위한 거래처 리스트 count
 				int buyer_count = bs.buyerCount();
-				System.out.println(buyer_count);
+				System.out.println("buyer_count"+buyer_count);
 				String buyerCd;
 				buyerCd = "B"+String.format("%05d",buyer_count+1);
 				buyer.setBuyerCd(buyerCd);
@@ -243,19 +269,21 @@ public class BuyerController {
 			return "/nolay/buyerManagement";
 		}
 	
+	
 	@RequestMapping(value = "brnoDupCheck", produces = "text/html;charset=utf-8")
 	@ResponseBody
-	public int brnoDupCheck(Buyer buyer, String brno) {
-		int result = 0;
-		buyer = bs.brnoDupCheck(brno);
+	public String brnoDupCheck(String brno) {
+		System.out.println("brno="+brno);
+		String msg="";
+		Buyer buyer = bs.brnoDupCheck(brno);
 		System.out.println("buyer="+buyer);
 		if(buyer != null) {
-			result=1;
+			msg="y";
 		}else {
-			result=0;
+			msg="n";
 		}
-		System.out.println("result="+result);
-		return result;
+		System.out.println("msg="+msg);
+		return msg;
 	}
 	
 }

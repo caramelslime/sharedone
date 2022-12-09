@@ -1,6 +1,8 @@
 package com.sharedone.sharedone.model;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 
 @Data

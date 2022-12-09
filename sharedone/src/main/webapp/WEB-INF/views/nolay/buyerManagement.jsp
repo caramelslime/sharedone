@@ -203,21 +203,19 @@
 	$(document).ready(function(){
 		  $('.insert-div').hide();
 		  $('.update-div').hide();
-		  
+
 		  //사업자등록번호 중복검사
 		  $('#brno-input').focusout(function() {
-				$.ajax({
-				     method: 'get',
-				     url: 'brnoDupCheck.do',
-				     data: {
-				       "brno" : insertFrm.brno.value
-				     },
-				     success: function (data) {
-					}
+				$.post('brnoDupCheck.do', "brno="+insertFrm.brno.value,
+				     function (data) {
+						if(data=='y'){
+							alert('이미 존재하는 거래처 입니다');
+							insertFrm.brno.value="";
+						}
 			   });
 		  });
 		 
-	})
+	});
 	function xBack(){
 		 $('.insert-div').hide();
 		 $('.update-div').hide();
@@ -357,10 +355,10 @@
 			insertFrm.buyerNm.value="";
 			insertFrm.brno.value="";
 			insertFrm.rprsvNm.value="";
-			insertFrm.businessStatus.value="";
-			insertFrm.event.value="";
+			insertFrm.businessStatus.value="도소매업";
+			insertFrm.event.value="식료품";
 			insertFrm.empCd.value="";
-			insertFrm.nationCd.value="";
+			insertFrm.nationCd.value="KR";
 			insertFrm.postcode.value="";
 			insertFrm.address.value="";
 			insertFrm.addressDetail.value="";
@@ -380,6 +378,7 @@
 	}
 
 	function insertAction() {
+		console.log('a');
 		var table = document.querySelector('#insertList-table');
 		var rows = document.getElementById("insertList-table").getElementsByTagName("tr");
 		var insertArray = new Array(table.rows.length-1);
@@ -561,7 +560,7 @@
 /* 바이어리스트 */
 $('.buyerList').SumoSelect({
 	search: true, searchText: '코드/거래처명'
-	,noMatch : '"{0}"가 없습니다',
+	,noMatch : '"{0}"가 없습니다'
 	});
 /* 담당자리스트 */
 $('.employeeList').SumoSelect({
@@ -592,7 +591,8 @@ $('.statusList').SumoSelect({
 					<div class="search-item-text">• 거래처코드/거래처명</div>
 					<!-- sumoselect -->
 					<select class="buyerList" name="buyerSelect">
-						<option value=""></option>
+						<!-- <option value=""></option> -->
+						<option value="${buyerCd }" selected="selected">${buyerCd } ${buyerNm2 } </option>
 						<c:forEach var="buyer" items="${buyerAllList }">
 							<option value="${buyer.buyerCd }">${buyer.buyerCd } ${buyer.buyerNm }</option>
 						</c:forEach>
@@ -600,8 +600,9 @@ $('.statusList').SumoSelect({
 				</div>
 				<div class="search-item-div">
 					<div class="search-item-text2">• 담당자</div>
-					<select class="employeeList" name="employeeSelect">
-						<option value=""></option>
+					<select id="empCdSelect" class="employeeList" name="employeeSelect">
+						<!-- <option value=""></option> -->
+						<option value="${empCd2 }" selected="selected">${empCd2 } ${empNm }</option>
 						<c:forEach var="emp" items="${employee_list }">
 							<option value="${emp.empCd }">${emp.empCd } ${emp.name }</option>
 						</c:forEach>
@@ -610,9 +611,17 @@ $('.statusList').SumoSelect({
 				<div class="search-item-div">
 					<div class="search-item-text">• 거래처상태</div>
 					<select class="statusList" name="statusSelect">
-						<option value=""></option>
-						<option value="활성">활성</option>
-						<option value="비활성">비활성</option>
+						<option value="${status }" selected="selected">${status }</option>
+						<c:if test="${status == '' || status==null}">
+							<option value="활성">활성</option>
+							<option value="비활성">비활성</option>
+						</c:if>
+						<c:if test="${status == '활성'}">
+							<option value="비활성">비활성</option>
+						</c:if>
+						<c:if test="${status == '비활성'}">
+							<option value="활성">활성</option>
+						</c:if>
 					</select>
 				</div>
 			</div>
@@ -643,8 +652,8 @@ $('.statusList').SumoSelect({
 					<th>국가코드</th>
 					<th>소재지</th>
 					<th>전화번호</th>
-					<th>이메일</th
-					><th>참고사항</th>
+					<th>이메일</th>
+					<th>참고사항</th>
 				</tr>
 				
 				<c:if test="${not empty buyer_list}">
@@ -719,9 +728,11 @@ $('.statusList').SumoSelect({
 				</div>
 				<div class="insert-sub-row-div">
 					<div class="insert-text">작성자<span class="red_warn">*</span></div>
-					<select class="employeeList" name="addUser" disabled="disabled">
-						<option value="${sessionScope.empCd }">${sessionScope.empCd } ${sessionScope.name }</option>
-					</select>
+					<select class="employeeList" name="addUser">
+						<option value=""></option>
+						<c:forEach var="emp" items="${employee_list }">
+							<option value="${emp.empCd }">${emp.empCd } ${emp.name }</option>
+						</c:forEach>					</select>
 				</div>
 			</div>
 			
@@ -800,9 +811,11 @@ $('.statusList').SumoSelect({
 						<div class="address-wrap">
 							<input type="text" id="sample4_roadAddress" name="address" placeholder="도로명주소">
 							<!-- <input type="text" id="sample4_jibunAddress" placeholder="지번주소"> -->
-							<span id="guide" style="color:#52c9c6; display:none; font-family:summernote; font-size:10px;"></span>
+							<!-- <span id="guide" style="color:#52c9c6; display:none; font-family:summernote; font-size:10px;"></span> -->
 							<input type="text" id="sample4_detailAddress" name="addressDetail" required="required" placeholder="상세주소">
+							<input type="hidden" id="sample4_jibunAddress" name="" required="required" placeholder="상세주소">
 							<!-- <input type="text" id="sample4_extraAddress" placeholder="참고항목"> -->
+							<input type="hidden" id="sample4_extraAddress" placeholder="참고항목">
 						</div>
 					</div>
 				</div>

@@ -51,6 +51,9 @@ public class OrderController {
 		List<Order> orderList = os.orderList(order);
 		model.addAttribute("orderList", orderList);
 		
+		List<Order> orderAllList = os.orderAllList(order);
+		model.addAttribute("orderAllList", orderAllList);
+		
 		List<Buyer> buyerAllList = bs.selectBuyerAllList();
 		model.addAttribute("buyerAllList", buyerAllList);
 		

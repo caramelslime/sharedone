@@ -468,6 +468,28 @@ insert into M_BUYER values(
 , 'n'                --삭제여부
 );
 
+--이현주 추가
+insert into M_BUYER values(
+'B00021'             --거래처코드
+, '이십일마트'            --거래처명
+, '2068650213'         --사업자등록번호
+, '강희석'            --대표자
+, '도소매업'            --업태
+, '기타'               --종목
+, 'E00001'            --담당자
+, '비활성'               --거래처상태
+, 'KR'               --국가코드
+, '33316'            --우편번호
+, '서울특별시 성동구'         --소재지
+, '뚝섬로 377(성수동2가)'   --소재지상세
+, '023805678'         --전화번호
+, 'test1@test1.com'      --이메일
+, '이마트'            --참고사항
+, sysdate            --등록일시
+, 'E00014'            --작성자
+, 'n'                --삭제여부
+);
+
 --판매가격 데이터
 INSERT INTO m_price VALUES ( 'B00001', 'P00001', '2022-11-20', '2022-12-20', '20000', 'KRW', 'n' );
 INSERT INTO m_price VALUES ( 'B00002', 'P00002', '2022-11-21', '2022-12-21', '15000', 'KRW', 'n' );
@@ -523,6 +545,50 @@ insert into t_order values('S00018', 'B00018', 'E00009', TO_DATE('2022-11-18', '
 insert into t_order values('S00019', 'B00019', 'E00010', TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-11-15', 'YYYY--MM-DD'), '승인대기', 'KRW');
 insert into t_order values('S00020', 'B00020', 'E00014', TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-11-18', 'YYYY--MM-DD'), '승인완료', 'KRW');
 
+--이현주 추가
+insert into t_order values('S00021', 'B00001', 'E00002', TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-11-15', 'YYYY--MM-DD'), '승인완료', 'KRW');
+insert into t_order values('S00022', 'B00002', 'E00002', TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-11-18', 'YYYY--MM-DD'), '승인완료', 'KRW');
+insert into t_order values('S00023', 'B00003', 'E00014', TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-11-15', 'YYYY--MM-DD'), '승인완료', 'KRW');
+insert into t_order values('S00024', 'B00004', 'E00014', TO_DATE('2022-12-03', 'YYYY--MM-DD'), TO_DATE('2022-12-03', 'YYYY--MM-DD'), TO_DATE('2022-11-18', 'YYYY--MM-DD'), '승인완료', 'KRW');
+insert into t_order values('S00025', 'B00005', 'E00010', TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-11-15', 'YYYY--MM-DD'), '승인완료', 'KRW');
+insert into t_order values('S00026', 'B00006', 'E00014', TO_DATE('2022-12-04', 'YYYY--MM-DD'), TO_DATE('2022-12-04', 'YYYY--MM-DD'), TO_DATE('2022-11-18', 'YYYY--MM-DD'), '승인완료', 'KRW');
+insert into t_order values('S00027', 'B00007', 'E00008', TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-11-15', 'YYYY--MM-DD'), '반려', 'KRW');
+insert into t_order values('S00028', 'B00008', 'E00008', TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-11-18', 'YYYY--MM-DD'), '반려', 'KRW');
+insert into t_order values('S00029', 'B00009', 'E00008', TO_DATE('2022-12-07', 'YYYY--MM-DD'), TO_DATE('2022-12-07', 'YYYY--MM-DD'), TO_DATE('2022-11-15', 'YYYY--MM-DD'), '승인완료', 'KRW');
+insert into t_order values('S00030', 'B00010', 'E00008', TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-11-18', 'YYYY--MM-DD'), '승인완료', 'KRW');
+insert into t_order values('S00031', 'B00011', 'E00008', TO_DATE('2022-12-08', 'YYYY--MM-DD'), TO_DATE('2022-12-08', 'YYYY--MM-DD'), TO_DATE('2022-11-15', 'YYYY--MM-DD'), '승인대기', 'KRW');
+insert into t_order values('S00032', 'B00012', 'E00014', TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-11-18', 'YYYY--MM-DD'), '승인완료', 'KRW');
+insert into t_order values('S00033', 'B00013', 'E00002', TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-11-15', 'YYYY--MM-DD'), '승인대기', 'KRW');
+insert into t_order values('S00034', 'B00014', 'E00002', TO_DATE('2022-12-04', 'YYYY--MM-DD'), TO_DATE('2022-12-04', 'YYYY--MM-DD'), TO_DATE('2022-11-18', 'YYYY--MM-DD'), '승인완료', 'KRW');
+insert into t_order values('S00035', 'B00015', 'E00010', TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-11-15', 'YYYY--MM-DD'), '승인완료', 'KRW');
+insert into t_order values('S00036', 'B00016', 'E00008', TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-11-18', 'YYYY--MM-DD'), '승인완료', 'KRW');
+insert into t_order values('S00037', 'B00017', 'E00010', TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-11-15', 'YYYY--MM-DD'), '종결', 'KRW');
+insert into t_order values('S00038', 'B00018', 'E00008', TO_DATE('2022-12-05', 'YYYY--MM-DD'), TO_DATE('2022-12-05', 'YYYY--MM-DD'), TO_DATE('2022-11-18', 'YYYY--MM-DD'), '종결', 'KRW');
+insert into t_order values('S00039', 'B00019', 'E00008', TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-11-15', 'YYYY--MM-DD'), '승인대기', 'KRW');
+insert into t_order values('S00040', 'B00020', 'E00002', TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-11-18', 'YYYY--MM-DD'), '승인완료', 'KRW');
+insert into t_order values('S00041', 'B00001', 'E00002', TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-11-15', 'YYYY--MM-DD'), '승인완료', 'KRW');
+insert into t_order values('S00042', 'B00002', 'E00014', TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-11-18', 'YYYY--MM-DD'), '승인완료', 'KRW');
+insert into t_order values('S00043', 'B00003', 'E00010', TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-11-15', 'YYYY--MM-DD'), '승인대기', 'KRW');
+insert into t_order values('S00044', 'B00004', 'E00014', TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-11-18', 'YYYY--MM-DD'), '승인완료', 'KRW');
+insert into t_order values('S00045', 'B00005', 'E00010', TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-11-15', 'YYYY--MM-DD'), '승인완료', 'KRW');
+insert into t_order values('S00046', 'B00006', 'E00014', TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-11-18', 'YYYY--MM-DD'), '승인완료', 'KRW');
+insert into t_order values('S00047', 'B00007', 'E00010', TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-11-15', 'YYYY--MM-DD'), '승인대기', 'KRW');
+insert into t_order values('S00048', 'B00008', 'E00001', TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-11-18', 'YYYY--MM-DD'), '승인완료', 'KRW');
+insert into t_order values('S00049', 'B00009', 'E00001', TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-11-15', 'YYYY--MM-DD'), '승인완료', 'KRW');
+insert into t_order values('S00050', 'B00010', 'E00001', TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-11-18', 'YYYY--MM-DD'), '승인완료', 'KRW');
+insert into t_order values('S00051', 'B00011', 'E00001', TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-11-15', 'YYYY--MM-DD'), '승인완료', 'KRW');
+insert into t_order values('S00052', 'B00012', 'E00001', TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-11-18', 'YYYY--MM-DD'), '승인완료', 'KRW');
+insert into t_order values('S00053', 'B00011', 'E00001', TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-11-15', 'YYYY--MM-DD'), '반려', 'KRW');
+insert into t_order values('S00054', 'B00012', 'E00001', TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-11-18', 'YYYY--MM-DD'), '반려', 'KRW');
+
+insert into t_order values('S00055', 'B00005', 'E00010', TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-11-15', 'YYYY--MM-DD'), '승인완료', 'KRW');
+insert into t_order values('S00056', 'B00006', 'E00014', TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-11-18', 'YYYY--MM-DD'), '승인완료', 'KRW');
+insert into t_order values('S00057', 'B00007', 'E00010', TO_DATE('2022-12-03', 'YYYY--MM-DD'), TO_DATE('2022-12-03', 'YYYY--MM-DD'), TO_DATE('2022-11-15', 'YYYY--MM-DD'), '승인완료', 'KRW');
+insert into t_order values('S00058', 'B00008', 'E00001', TO_DATE('2022-12-05', 'YYYY--MM-DD'), TO_DATE('2022-12-05', 'YYYY--MM-DD'), TO_DATE('2022-11-18', 'YYYY--MM-DD'), '승인완료', 'KRW');
+insert into t_order values('S00059', 'B00009', 'E00001', TO_DATE('2022-12-07', 'YYYY--MM-DD'), TO_DATE('2022-12-07', 'YYYY--MM-DD'), TO_DATE('2022-11-15', 'YYYY--MM-DD'), '승인완료', 'KRW');
+insert into t_order values('S00060', 'B00001', 'E00001', TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-11-15', 'YYYY--MM-DD'), '승인완료', 'KRW');
+
+
 --오더 아이템
 insert into t_order_detail values('S00001', 'P00001', 200 , 2000);
 insert into t_order_detail values('S00001', 'P00002', 100 , 3000);
@@ -573,6 +639,14 @@ insert into t_order_detail values('S00019', 'P00001', 200 , 2000);
 insert into t_order_detail values('S00019', 'P00003', 200 , 2000);
 insert into t_order_detail values('S00020', 'P00009', 200 , 7000);
 insert into t_order_detail values('S00020', 'P00011', 200 , 2000);
+insert into t_order_detail values('S00049', 'P00013', 50, 8000);
+
+insert into t_order_detail values('S00055', 'P00011', 200 , 9000);
+insert into t_order_detail values('S00056', 'P00001', 200 , 2000);
+insert into t_order_detail values('S00057', 'P00003', 200 , 2000);
+insert into t_order_detail values('S00058', 'P00009', 200 , 7000);
+insert into t_order_detail values('S00059', 'P00011', 200 , 2000);
+insert into t_order_detail values('S00060', 'P00011', 200 , 5000);
 
 --상세사유
 insert into t_notice values(1,'승인좀요.

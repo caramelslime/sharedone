@@ -121,7 +121,10 @@
 		WHERE buyerCd=#{buyerCd}
 	</update>
 	
-	<select id="brnoDupCheck" parameterType="string" resultType="string">
+	<select id="brnoDupCheck" parameterType="string" resultType="buyer">
 		SELECT * FROM m_buyer WHERE brno=#{brno}
+	</select>
+	<select id="selectBuyerNm" parameterType="string" resultType="buyer">
+		SELECT * FROM m_buyer WHERE buyerCd=#{buyerCd}
 	</select>
 </mapper>

@@ -40,4 +40,6 @@ public interface OrderDao {
 
 	int detailProductDelete(String soNo);
 
+	List<Order> orderAllList(Order order);
+
 }

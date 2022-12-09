@@ -97,4 +97,9 @@ public class OrderServiceImpl implements OrderService {
 	public int detailProductDelete(String soNo) {
 		return od.detailProductDelete(soNo);
 	}
+
+	@Override
+	public List<Order> orderAllList(Order order) {
+		return od.orderAllList(order);
+	}
 }

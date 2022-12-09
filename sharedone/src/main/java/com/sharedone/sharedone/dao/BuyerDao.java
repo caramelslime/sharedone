@@ -36,4 +36,7 @@ public interface BuyerDao {
 	//사업자 등록번호 중복검사
 	Buyer brnoDupCheck(String brno);
 
+	//바이어 코드에 해당하는 바이어 이름
+	Buyer selectBuyerNm(String buyerCd);
+
 }

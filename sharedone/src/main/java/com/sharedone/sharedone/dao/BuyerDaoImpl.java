@@ -67,4 +67,9 @@ public class BuyerDaoImpl implements BuyerDao {
 	public Buyer brnoDupCheck(String brno) {
 		return sst.selectOne("buyerns.brnoDupCheck", brno);
 	}
+
+	//바이어 코드에 해당하는 바이어 이름
+	public Buyer selectBuyerNm(String buyerCd) {
+		return sst.selectOne("buyerns.selectBuyerNm", buyerCd);
+	}
 }

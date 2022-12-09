@@ -42,4 +42,6 @@ public interface OrderService {
 
 	int detailProductDelete(String soNo);
 
+	List<Order> orderAllList(Order order);
+
 }
