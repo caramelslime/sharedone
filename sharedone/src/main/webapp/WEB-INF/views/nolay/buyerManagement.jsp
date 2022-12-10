@@ -357,7 +357,8 @@
 			insertFrm.rprsvNm.value="";
 			insertFrm.businessStatus.value="도소매업";
 			insertFrm.event.value="식료품";
-			insertFrm.empCd.value="";
+			$('.employeeList').load(location.href+' .employeeList');
+			//insertFrm.empCd.value="입력해주세요";
 			insertFrm.nationCd.value="KR";
 			insertFrm.postcode.value="";
 			insertFrm.address.value="";

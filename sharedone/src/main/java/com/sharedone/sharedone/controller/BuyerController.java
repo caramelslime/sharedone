@@ -265,6 +265,7 @@ public class BuyerController {
 			System.out.println(buyer);
 			
 			String result = String.valueOf(bs.buyerListUpdate(buyer));
+			System.out.println(result);
 			
 			return "/nolay/buyerManagement";
 		}

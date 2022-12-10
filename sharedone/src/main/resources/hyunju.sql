@@ -1360,6 +1360,7 @@ insert into t_order values('S00052', 'B00012', 'E00001', TO_DATE('2022-12-02', '
 insert into t_order values('S00053', 'B00011', 'E00001', TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-11-15', 'YYYY--MM-DD'), '반려', 'KRW');
 insert into t_order values('S00054', 'B00012', 'E00001', TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-11-18', 'YYYY--MM-DD'), '반려', 'KRW');
 
+insert into t_order_detail values('S00049', 'P00013', 50, 8000);
 
 DELETE FROM t_order;
 
