@@ -170,4 +170,82 @@ public class OrderRestController {
 		return content;
 	}
 	
+	
+	@RequestMapping("checkReturnComment")
+	public int checkReturnComment(Model model, String soNo, String empCd) {
+		int count = 0;
+		count = ns.checkReturnComment(soNo, empCd);
+		System.out.println("soNo: "+soNo+"empCd: "+empCd);
+		System.out.println(count);
+		return count;
+	}
+	
+	@RequestMapping("/checkValidPrice")
+	@ResponseBody
+	public int checkValidPrice(String productCD, String buyerCD, String currency) {
+		int count = os.checkValidPrice(productCD, buyerCD, currency);
+		System.out.println(count);
+		return count;
+	}
+	
+	@RequestMapping(value = "loadReturnComment", produces = "text/html;charset=utf-8")
+	public String loadReturnComment(Model model, String soNo, String empCd, String content) {
+		content ="";
+		content = ns.loadReturnComment(soNo, empCd);
+		System.out.println(content);
+		return content;
+	}
+	
+	@RequestMapping("/validPrice")
+	@ResponseBody
+	public int validPrice(String productCD, String buyerCD, String currency) {
+		int price = os.validPrice(productCD, buyerCD, currency);
+		System.out.println(price);
+		return price;
+	}
+	
+	@RequestMapping("/defaultPrice")
+	@ResponseBody
+	public int defaultPrice(String productCD, String currency) {
+		int price = os.defaultPrice(productCD, currency);
+		System.out.println(price);
+		return price;
+	}
+	
+	
+	
+	
+	
+	@RequestMapping("detailProductDelete")
+	public String detailProductDelete(String soNo) {
+		
+		
+		System.out.println(soNo);
+		
+		int result = os.detailProductDelete(soNo);
+		
+		
+		return "/nolay/order";
+	}
+	
+	@RequestMapping("detailProductUpdate")
+	public String detailProductUpdate(Order order, Model model, String soNo, String productCD, int qty, int unitPrice) {
+		
+		
+		System.out.println(soNo);
+		System.out.println(productCD);
+		System.out.println(qty);
+		System.out.println(unitPrice);
+		
+		int result = os.detailProductUpdate(soNo, productCD, qty, unitPrice);
+		
+		
+		return "/nolay/order";
+	}
+	
+	
+	
+	
+	
+	
 }

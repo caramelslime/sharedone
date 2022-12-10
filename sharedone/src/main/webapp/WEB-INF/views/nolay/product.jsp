@@ -14,6 +14,17 @@
 <style type="text/css">@import url("/sharedone/resources/css/sumoselect.min.css");</style>
 <script src="/sharedone/resources/js/jquery.sumoselect.min.js"></script>
 
+<style type="text/css">
+	.SumoSelect>.CaptionCont {
+    position: relative;
+    border: 1px solid #a4a4a4;
+    min-height: 14px;
+    background-color: #d7d7d7;
+    border-radius: 2px;
+    margin: 0;
+}
+</style>
+
 <script type="text/javascript">
 	
 //	document.querySelector('#searchCdnm').focus();
@@ -249,6 +260,7 @@
 	function editStart() {
 		document.querySelector('.edit-start-btn').style.display = 'none';
 		document.querySelector('.edit-finish-btn').style.display = 'block';
+		$('.productList-div').css('background-color', '#d3dfea');
 		editable = 1;
 		console.log(editable);
 	}
@@ -257,6 +269,7 @@
 	function editFinish() {
 		document.querySelector('.edit-start-btn').style.display = 'block';
 		document.querySelector('.edit-finish-btn').style.display = 'none';
+		$('.productList-div').css('background-color', '#fff');
 		editable = 0;
 		console.log(editable);
 	}
@@ -329,7 +342,7 @@
 							<select id="searchCdnm" class="search" name="productSelect">
 								<option value=""></option>
 								<c:forEach var="product" items="${productAllList }">
-									<option value="${product.productCD }">${product.productNM }</option>
+									<option value="${product.productCD }">${product.productCD } ${product.productNM }</option>
 								</c:forEach>
 							</select>
 							
@@ -386,7 +399,10 @@
 					</div>
 					<div class="insert-sub-row-div">
 						<div class="insert-text">단위<span class="red_warn">*</span></div>
-						<input type="text" id="insertUnit" class="insert" required="required"/>
+						<select id="insertUnit" class="insert" required="required">
+							<option value="box">box</option>
+							<option value="ea">ea</option>
+						</select>
 					</div>
 					<div class="insert-sub-row-div">
 						<div class="insert-text">제품 그룹<span class="red_warn">*</span></div>

@@ -1,5 +1,5 @@
 SELECT * FROM TABS;
-
+select * from m_buyer;
 --직원 테이블
 CREATE TABLE m_employee (
 	EMPCD	varchar(20)	NOT NULL PRIMARY KEY,
@@ -32,7 +32,7 @@ insert into m_employee values('E00015', '1', '01000000000', '양다은', 'test@t
 
 select * from m_employee;
 
-
+SELECT * FROM t_notice;
 
 --거래처 테이블
 CREATE TABLE M_BUYER (

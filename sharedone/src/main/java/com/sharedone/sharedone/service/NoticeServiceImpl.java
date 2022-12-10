@@ -43,4 +43,14 @@ public class NoticeServiceImpl implements NoticeService{
 		return nd.loadComment(soNo, empCd);
 	}
 
+	@Override
+	public int checkReturnComment(String soNo, String empCd) {
+		return nd.checkReturnComment(soNo, empCd);
+	}
+
+	@Override
+	public String loadReturnComment(String soNo, String empCd) {
+		return nd.loadReturnComment(soNo, empCd);
+	}
+
 }

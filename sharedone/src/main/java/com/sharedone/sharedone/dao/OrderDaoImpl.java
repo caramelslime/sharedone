@@ -20,7 +20,40 @@ public class OrderDaoImpl implements OrderDao {
 
 	@Override
 	public List<Order> orderList(Order order) {
-		return sst.selectList("orderns.orderList", order);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("soNo", order.getSoNo());
+		map.put("soUser", order.getSoUser());
+		
+		if (order.getPricingDateRange() != null && order.getPricingDateRange()!="") {
+			String[] splitPricingDate = order.getPricingDateRange().split("~");
+			String pricingDateStart = splitPricingDate[0].trim();
+			String pricingDateEnd = splitPricingDate[1].trim();
+			map.put("pricingDateStart", pricingDateStart);
+			map.put("pricingDateEnd", pricingDateEnd);
+		}
+		
+		map.put("status", order.getStatus());
+		map.put("buyerCD", order.getBuyerCD());
+		
+		if (order.getAddDateRange() != null && order.getAddDateRange()!="") {
+			String[] splitAddDate = order.getAddDateRange().split("~");
+			String addDateStart = splitAddDate[0].trim();
+			String addDateEnd = splitAddDate[1].trim();
+			map.put("addDateStart", addDateStart);
+			map.put("addDateEnd", addDateEnd);
+		}
+		
+		System.out.println("RequestDateRange : "+order.getRequestDateRange());
+		
+		if (order.getRequestDateRange() != null && order.getRequestDateRange()!="") {
+			String[] splitRequestDate = order.getRequestDateRange().split("~");
+			String requestDateStart = splitRequestDate[0].trim();
+			String requestDateEnd = splitRequestDate[1].trim();
+			map.put("requestDateStart", requestDateStart);
+			map.put("requestDateEnd", requestDateEnd);
+		}
+		
+		return sst.selectList("orderns.orderList", map);
 	}
 
 	@Override
@@ -86,7 +119,52 @@ public class OrderDaoImpl implements OrderDao {
 
 	@Override
 	public int updateApproveOrRefer(Notice notice) {
-		// TODO Auto-generated method stub
 		return sst.update("orderns.updateApproveOrRefer",notice);
+	}
+
+	@Override
+	public int checkValidPrice(String productCD, String buyerCD, String currency) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("productCD", productCD);
+		map.put("buyerCD", buyerCD);
+		map.put("currency", currency);
+		return sst.selectOne("orderns.checkValidPrice", map);
+	}
+
+	@Override
+	public int validPrice(String productCD, String buyerCD, String currency) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("productCD", productCD);
+		map.put("buyerCD", buyerCD);
+		map.put("currency", currency);
+		return sst.selectOne("orderns.validPrice", map);
+	}
+
+	@Override
+	public int defaultPrice(String productCD, String currency) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("productCD", productCD);
+		map.put("currency", currency);
+		return sst.selectOne("orderns.defaultPrice", map);
+	}
+
+	@Override
+	public int detailProductUpdate(String soNo, String productCD, int qty, int unitPrice) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("soNo", soNo);
+		map.put("productCD", productCD);
+		map.put("qty", qty);
+		map.put("unitPrice", unitPrice);
+		return sst.update("orderns.detailProductUpdate", map);
+	}
+
+	@Override
+	public int detailProductDelete(String soNo) {
+		return sst.delete("orderns.detailProductDelete", soNo);
+	}
+
+	@Override
+	public List<Order> orderAllList(Order order) {
+		return sst.selectList("orderns.orderAllList", order);
 	}
 }

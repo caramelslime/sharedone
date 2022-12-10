@@ -8,10 +8,17 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
+<script type="text/javascript" src="/sharedone/resources/js/moment.min.js"></script>
+<script type="text/javascript" src="/sharedone/resources/js/daterangepicker.js"></script>
+<style type="text/css">@import url("/sharedone/resources/css/daterangepicker.css");</style>
+
 <style type="text/css">@import url("/sharedone/resources/css/share.css");</style>
 <style type="text/css">@import url("/sharedone/resources/css/order.css");</style>
 
+
 <script type="text/javascript">
+	
+	
 	
 	function pageView(data) {
 		
@@ -33,7 +40,101 @@
 		});
 	}
 	
+	
+	
+	var editable = 0;
+	
+	/* 제품 수정 활성화 */
+	function editStart() {
+		
+		document.querySelectorAll('.minus-img').forEach(function(el) {
+			el.style.visibility = 'hidden';
+		})
+		document.querySelector('#add-row-btn').style.visibility = 'hidden';
+		document.querySelector('.edit-start-btn2').style.display = 'none';
+		document.querySelector('.edit-finish-btn2').style.display = 'block';
+		document.querySelector('#request-approval-btn').style.display = 'none';
+		
+		editable = 1;
+		console.log(editable);
+		
+		document.querySelectorAll('.edit').forEach(function(element) {
+			element.readOnly = false;
+		})
+			
+	}
+	
+	/* 제품 수정 비활성화 */
+	function editFinish() {
+		document.querySelector('.edit-start-btn2').style.display = 'block';
+		document.querySelector('.edit-finish-btn2').style.display = 'none';
+		document.querySelector('#request-approval-btn').style.display = 'block';
+		
+		editable = 0;
+		console.log(editable);
+		
+		document.querySelectorAll('.edit').forEach(function(element) {
+			element.readOnly = true;
+		})
+		
+		var soNo = document.querySelector('#detailSoNo').value;
+		detailProductDelete(soNo);
+		
+		document.querySelectorAll('.productCDCheck').forEach(function(element) {
+			
+			var row = element.getAttribute('id').substr(15);
+			var productCD = element.value
+			var qty = document.querySelector('#detailQty'+row).value;
+			var unitPrice = document.querySelector('#detailUnitPrice'+row).innerHTML;
+	 		detailProductUpdate(soNo, productCD, qty, unitPrice);
+	 		
+		})
+			
+		document.querySelectorAll('.minus-img').forEach(function(el) {
+			el.style.visibility = 'visible';
+		})
+		document.querySelector('#add-row-btn').style.visibility = 'visible';
+		
+		
+	 		setTimeout(function() {
+		 		detail(soNo);
+			}, 200);
+	}
+	
+	function detailProductDelete(soNo) {
+		$(function() {
+			$.ajax({
+			    url: 'detailProductDelete.do?soNo='+soNo,
+				type : "POST",
+				async : true,
+				traditional: true,
+				dataType : "html",
+				cache : false
+			});
+		});
+	}
+	
+	var previousValue = "";
+	
 	$(function() {
+		
+		
+		$('.dateRange').daterangepicker({
+		    locale: {
+		        "separator": " ~ ",                     // 시작일시와 종료일시 구분자
+		        "format": 'YYYY-MM-DD',     // 일시 노출 포맷
+		        "applyLabel": "확인",                    // 확인 버튼 텍스트
+		        "cancelLabel": "취소",                   // 취소 버튼 텍스트
+		        "daysOfWeek": ["일", "월", "화", "수", "목", "금", "토"],
+		        "monthNames": ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"]
+		    }
+        });
+		
+		document.querySelectorAll('.dateRange').forEach(function(el) {
+			el.value="";
+		});
+		
+		
 		$('.search').keypress(function() { // enter키를 누르면 메세지 전송
 			//  누른 key값(asscii)  IE ?      IE의 값         IE아닌 모든 web값
 			var keycode = event.keyCode ? event.keyCode : event.which;
@@ -61,9 +162,26 @@
 			$(this).val($(this).val().toUpperCase());
 			var keycode = event.keyCode ? event.keyCode : event.which;
 			if (keycode == 13) { // 13이 enter(assii값)
-				loadNewProductData();
+				if (document.querySelector('#newBuyerCD').value == null || document.querySelector('#newBuyerCD').value == "") {
+					alert("거래처코드를 입력해주세요.");
+					document.querySelector('#newBuyerCD').focus();
+				} else if (document.querySelector('#newBuyerCD').value != null && document.querySelector('#newBuyerCD').value != "") {
+					loadNewProductData();
+				}
 			}
 		});
+		
+		$(document).on('keypress', '.addDetailProductCD' ,function() {
+			$(this).val($(this).val().toUpperCase());
+			var keycode = event.keyCode ? event.keyCode : event.which;
+			if (keycode == 13) { // 13이 enter(assii값)
+					console.log("thisvalue"+this.getAttribute('id'));
+					var row = this.getAttribute('id').substr(15);
+					console.log(row);
+					loadDetailProductData(row, this.value);
+			}
+		});
+		
 		
 		$('#detailList-table').on('keypress', '.calculateTotalPrice' ,function() {
 			var keycode = event.keyCode ? event.keyCode : event.which;
@@ -72,7 +190,34 @@
 			}
 		});
 		
+		$('#detailList-table').on('keypress', '.calculateDetailTotalPrice' ,function() {
+			var keycode = event.keyCode ? event.keyCode : event.which;
+			if (keycode == 13) { // 13이 enter(assii값)
+				var row = this.getAttribute('id').substr(9);
+				console.log(row);
+				calculateDetailTotalPrice(row);
+			}
+		});
+		
+		
+		
 	})
+	
+	/* 제품 업데이트 */
+	function detailProductUpdate(soNo, productCD, qty, unitPrice) {
+		
+		$(function() {
+			$.ajax({
+			    url: 'detailProductUpdate.do?soNo='+soNo+'&productCD='+productCD+'&qty='+qty+'&unitPrice='+unitPrice,
+				type : "POST",
+				async : true,
+				traditional: true,
+				dataType : "html",
+				cache : false
+			});
+		});
+		
+	}
 	
 	function search() {
 		
@@ -90,6 +235,8 @@
 	var status = "";
 	
 	function detail(soNo) {
+		
+		$("#detailList-table tr:not(:first)").remove();	// 상세창 닫을 때 입력한 값 제거
 		
 		console.log(soNo);
 		
@@ -114,19 +261,22 @@
 					
 					loadComment();
 					
+					var rowNumber=document.querySelector('#detailList-table').rows.length;
+					console.log(rowNumber);
+					
 					if (status == '승인완료' || status == '승인대기' || status == '종결') {
 						$('#detailList-table').append(
 								"<tr class='detailListTr'>"
 									+"<td class='center'>"
 									+"</td>"
 									+"<td class='center'>"+num+"</td>"
-									+ "<td class='center productCDCheck'>"+productCD+"</td>"
-									+ "<td class='center'>"+productNM+"</td>"
-									+ "<td class='center'>"+productGroup+"</td>"
-									+ "<td class='center'>"+unit+"</td>"
-									+ "<td class='center'>"+qty+"</td>"
-									+ "<td class='right'>"+unitPrice+"</td>"
-									+ "<td class='right'>"+totalPrice+"</td>"
+									+ "<td> <input type='text' id='detailProductCD"+rowNumber+"' class='center addDetailProductCD edit productCDCheck' value='"+productCD+"' readonly='readonly'></td>"
+									+ "<td id='detailProductNM"+rowNumber+"' class='center'>"+productNM+"</td>"
+									+ "<td id='detailProductGroup"+rowNumber+"' class='center'>"+productGroup+"</td>"
+									+ "<td id='detailUnit"+rowNumber+"' class='center'>"+unit+"</td>"
+									+ "<td> <input type='text' id='detailQty"+rowNumber+"' class='center calculateDetailTotalPrice edit' value='"+qty+"' readonly='readonly'></td>"
+									+ "<td id='detailUnitPrice"+rowNumber+"' class='right '>"+unitPrice+"</td>"
+									+ "<td id='detailTotalPrice"+rowNumber+"' class='right'>"+totalPrice+"</td>"
 								+ "</tr>"
 						);
 						
@@ -138,13 +288,13 @@
 									+ "<img id='productCD_"+productCD+"' class='minus-img' alt='이미지 없음' src='/sharedone/resources/images/minus.png' onclick='removeItem(this)' />"
 									+"</td>"
 									+"<td class='center'>"+num+"</td>"
-									+ "<td class='center productCDCheck'>"+productCD+"</td>"
-									+ "<td class='center'>"+productNM+"</td>"
-									+ "<td class='center'>"+productGroup+"</td>"
-									+ "<td class='center'>"+unit+"</td>"
-									+ "<td class='center'>"+qty+"</td>"
-									+ "<td class='right'>"+unitPrice+"</td>"
-									+ "<td class='right'>"+totalPrice+"</td>"
+									+ "<td> <input type='text' id='detailProductCD"+rowNumber+"' class='center addDetailProductCD edit productCDCheck' value='"+productCD+"' readonly='readonly'></td>"
+									+ "<td id='detailProductNM"+rowNumber+"' class='center'>"+productNM+"</td>"
+									+ "<td id='detailProductGroup"+rowNumber+"' class='center'>"+productGroup+"</td>"
+									+ "<td id='detailUnit"+rowNumber+"' class='center'>"+unit+"</td>"
+									+ "<td> <input type='text' id='detailQty"+rowNumber+"' class='center calculateDetailTotalPrice edit' value='"+qty+"' readonly='readonly'></td>"
+									+ "<td id='detailUnitPrice"+rowNumber+"' class='right'>"+unitPrice+"</td>"
+									+ "<td id='detailTotalPrice"+rowNumber+"' class='right'>"+totalPrice+"</td>"
 								+ "</tr>"
 						);
 					}
@@ -190,9 +340,15 @@
 		document.querySelector('.comment-return-div').style.visibility = 'hidden';
 		document.querySelector('#add-finish-btn').style.display = 'none';
 		document.querySelector('#add-cancel-btn').style.display = 'none';
-		document.querySelector('#add-row-btn').style.display = 'block';
+		document.querySelector('#add-row-btn').style.visibility = 'visible';
 		document.querySelector('.detailAddItem-div').style.visibility = 'visible';
 		document.querySelector('.detail-action-btn-div').style.visibility = 'visible';
+		document.querySelector('.edit-start-btn2').style.display = 'block';
+		document.querySelector('.edit-finish-btn2').style.display = 'none';
+		document.querySelector('#request-approval-btn').style.display = 'block';
+		document.querySelectorAll('.edit').forEach(function(element) {
+			element.readOnly = true;
+		})
 		document.querySelectorAll('.newInput').forEach(function(el) {
 			el.value="";
 		})
@@ -222,7 +378,7 @@
 					+ "<td id='productGroup"+rowNumber+"' class='center'></td>"
 					+ "<td id='unit"+rowNumber+"' class='center'></td>"
 					+ "<td><input type='text' id='qty"+rowNumber+"' class='item-add-col calculateTotalPrice'></td>"
-					+ "<td class='right'><input type='text' id='unitPrice"+rowNumber+"' class='item-add-col calculateTotalPrice'></td>"
+					+ "<td id='unitPrice"+rowNumber+"' class='right calculateTotalPrice'></td>"
 					+ "<td id='totalPrice"+rowNumber+"' class='right'></td>"
 				+ "</tr>"
 		);
@@ -231,7 +387,7 @@
 			el.style.visibility = 'hidden';
 		})
 		
-		document.querySelector('#add-row-btn').style.display = 'none';
+		document.querySelector('#add-row-btn').style.visibility = 'hidden';
 		document.querySelector('#add-finish-btn').style.display = 'block';
 		document.querySelector('#add-cancel-btn').style.display = 'block';
 	}
@@ -270,9 +426,105 @@
 					document.querySelector('#productCD'+rowNumber).value="";
 					document.querySelector('#productCD'+rowNumber).focus();
 				} else if (count == 0) {
+					
+					var buyerCD = document.querySelector('#newBuyerCD').value;
+					var currency = document.querySelector('#newCurrency').value;
+					
+					$.post('checkValidPrice.do', "productCD="+productCD+"&buyerCD="+buyerCD+"&currency="+currency, function(count) {
+						if (count > 0) {
+							$.post('validPrice.do', "productCD="+productCD+"&buyerCD="+buyerCD+"&currency="+currency, function(price) {
+								console.log('기간내 가격 있음 : '+price);
+								console.log(document.querySelector('#unitPrice'+rowNumber));
+								document.querySelector('#unitPrice'+rowNumber).innerHTML = price;
+							});
+						} else if (count == 0) {
+							$.post('defaultPrice.do', "productCD="+productCD+"&currency="+currency, function(price) {
+								console.log('기간내 가격 없음 -> defaultPrice : '+price);
+								console.log(document.querySelector('#unitPrice'+rowNumber));
+								document.querySelector('#unitPrice'+rowNumber).innerHTML = price;
+							});
+						}
+					});
+					
 					document.querySelector('#productNM'+rowNumber).innerHTML=productNM;
 					document.querySelector('#productGroup'+rowNumber).innerHTML=productGroup;
 					document.querySelector('#unit'+rowNumber).innerHTML=unit;
+				}
+				
+			}
+		});
+		
+	}
+	
+	function loadDetailProductData(row, previousValue) {
+		
+		var rowNumber=row;
+		
+		console.log("rowNumber:"+rowNumber);
+		
+		console.log(document.querySelector('.addDetailProductCD').value);
+		
+		var productCD = document.querySelector('.addDetailProductCD').value;
+		
+		$.post('selectByProductCD.do', "productCD="+productCD, function(data) {
+			console.log(data);
+			var productNM = data.productNM;
+			var productGroup = data.productGroup;
+			var unit = data.unit;
+			var soNo = document.querySelector('#detailSoNo').value;
+			
+			if (data == null || data == "") {
+				alert("없는 제품코드입니다");
+				document.querySelector('#detailProductCD'+rowNumber).value="";
+				document.querySelector('#detailProductCD'+rowNumber).focus();
+			} else if (data != null) {
+				
+				var count=0;
+				
+				document.querySelectorAll('.productCDCheck').forEach(function(el) {
+					console.log("el.innerHTML:"+el.value);
+					console.log("rowNumber"+rowNumber);
+					console.log("detailproductCD:"+document.querySelector('#detailProductCD'+rowNumber));
+					
+					if (el.value == document.querySelector('#detailProductCD'+rowNumber).value) {
+						count += 1;
+					}
+				})
+				
+				console.log("count : "+count);
+				
+				if (count>1) {
+					alert("이미 같은 제품이 등록되어 있습니다.");
+					document.querySelector('#detailProductCD'+rowNumber).value="";
+					document.querySelector('#detailProductCD'+rowNumber).focus();
+				} else if (count == 1) {
+					
+					var buyerCD = document.querySelector('#detailBuyerCD').value;
+					var currency = document.querySelector('#detailCurrency').value;
+					
+					$.post('checkValidPrice.do', "productCD="+productCD+"&buyerCD="+buyerCD+"&currency="+currency, function(count) {
+						if (count > 0) {
+							$.post('validPrice.do', "productCD="+productCD+"&buyerCD="+buyerCD+"&currency="+currency, function(price) {
+								console.log('기간내 가격 있음 : '+price);
+								console.log(document.querySelector('#detailUnitPrice'+rowNumber));
+								document.querySelector('#detailUnitPrice'+rowNumber).innerHTML = price;
+							});
+						} else if (count == 0) {
+							$.post('defaultPrice.do', "productCD="+productCD+"&currency="+currency, function(price) {
+								console.log('기간내 가격 없음 -> defaultPrice : '+price);
+								console.log(document.querySelector('#detailUnitPrice'+rowNumber));
+								document.querySelector('#detailUnitPrice'+rowNumber).innerHTML = price;
+							});
+						}
+					});
+					
+					console.log(productNM);
+					console.log(soNo, productCD);
+					console.log('#detailProductNM'+rowNumber);
+					document.querySelector('#detailProductNM'+rowNumber).innerHTML=productNM;
+					document.querySelector('#detailProductGroup'+rowNumber).innerHTML=productGroup;
+					document.querySelector('#detailUnit'+rowNumber).innerHTML=unit;
+					document.querySelector('#detailTotalPrice'+rowNumber).innerHTML="";
 				}
 				
 			}
@@ -287,7 +539,7 @@
 		
 		var productCD = document.querySelector('#productCD'+rowNumber).value;
 		var qty = document.querySelector('#qty'+rowNumber).value;
-		var unitPrice = document.querySelector('#unitPrice'+rowNumber).value;
+		var unitPrice = document.querySelector('#unitPrice'+rowNumber).innerHTML;
 		var soNo = document.querySelector('#detailSoNo').value;
 		var totalPrice = document.querySelector('#totalPrice'+rowNumber).innerHTML;
 		
@@ -308,7 +560,7 @@
 				$("#detailList-table tr:not(:first)").remove();	// 상세창 닫을 때 입력한 값 제거
 				document.querySelector('#add-finish-btn').style.display = 'none';
 				document.querySelector('#add-cancel-btn').style.display = 'none';
-				document.querySelector('#add-row-btn').style.display = 'block';
+				document.querySelector('#add-row-btn').style.visibility = 'visible';
 				document.querySelectorAll('.minus-img').forEach(function(el) {
 					el.style.visibility = 'visible';
 				})
@@ -323,14 +575,34 @@
 		var count = 0;
 		
 		var qty = document.querySelector('#qty'+rowNumber).value;
-		var unitPrice = document.querySelector('#unitPrice'+rowNumber).value;
+		var unitPrice = document.querySelector('#unitPrice'+rowNumber).innerHTML;
 		
 		if (qty == null || qty == "" || unitPrice == null || unitPrice == "") {
-			alert("수량과 판매가 모두 입력하고 엔터를 눌러주세요");
+			alert("제품코드와 수량을 입력하고 엔터를 눌러주세요");
 		} else {
 			var totalPrice = qty*unitPrice;
 			console.log(totalPrice);
 			document.querySelector('#totalPrice'+rowNumber).innerHTML=totalPrice;
+		}
+		
+	}
+	
+	function calculateDetailTotalPrice(row) {
+	
+		console.log("calculateDetailTotalPrice:"+row);
+		
+		var rowNumber=row
+		var count = 0;
+		
+		var qty = document.querySelector('#detailQty'+rowNumber).value;
+		var unitPrice = document.querySelector('#detailUnitPrice'+rowNumber).innerHTML;
+		
+		if (qty == null || qty == "" || unitPrice == null || unitPrice == "") {
+			alert("제품코드와 수량을 입력하고 엔터를 눌러주세요");
+		} else {
+			var totalPrice = qty*unitPrice;
+			console.log(totalPrice);
+			document.querySelector('#detailTotalPrice'+rowNumber).innerHTML=totalPrice;
 		}
 		
 	}
@@ -361,7 +633,7 @@
 		$("#detailList-table tr:not(:first)").remove();
 		document.querySelector('#add-finish-btn').style.display = 'none';
 		document.querySelector('#add-cancel-btn').style.display = 'none';
-		document.querySelector('#add-row-btn').style.display = 'block';
+		document.querySelector('#add-row-btn').style.visibility = 'visible';
 		document.querySelectorAll('.minus-img').forEach(function(el) {
 			el.style.visibility = 'visible';
 		})
@@ -372,6 +644,10 @@
 		$('.orderList-div').css('opacity', '0.3');
 		$('.search-div').css('opacity', '0.3');
 		$('.new-div').show();
+		
+		
+		var soUser = document.querySelector('#searchSoUser').value;
+		document.querySelector('#newSoUser').value = soUser;
 	}
 	
 	function loadNewProductData() {
@@ -384,6 +660,7 @@
 			var productNM = data.productNM;
 			var productGroup = data.productGroup;
 			var unit = data.unit;
+			
 			
 			if (data == null || data == "") {
 				alert("없는 제품코드입니다");
@@ -404,6 +681,24 @@
 					document.querySelector('#newProductCD').value="";
 					document.querySelector('#newProductCD').focus();
 				} else if (count == 0) {
+					
+					var buyerCD = document.querySelector('#newBuyerCD').value;
+					var currency = document.querySelector('#newCurrency').value;
+					
+					$.post('checkValidPrice.do', "productCD="+productCD+"&buyerCD="+buyerCD+"&currency="+currency, function(count) {
+						if (count > 0) {
+							$.post('validPrice.do', "productCD="+productCD+"&buyerCD="+buyerCD+"&currency="+currency, function(price) {
+								console.log('기간내 가격 있음 : '+price);
+								document.querySelector('#newUnitPrice').value = price;
+							});
+						} else if (count == 0) {
+							$.post('defaultPrice.do', "productCD="+productCD+"&currency="+currency, function(price) {
+								console.log('기간내 가격 없음 -> defaultPrice : '+price);
+								document.querySelector('#newUnitPrice').value = price;
+							});
+						}
+					});
+					
 					document.querySelector('#newProductNM').value=productNM;
 					document.querySelector('#newProductGroup').value=productGroup;
 					document.querySelector('#newUnit').value=unit;
@@ -451,7 +746,6 @@
 	}
 	
 	function orderInsertAction() {
-		
 		
 		var buyerCD = document.querySelector('#newBuyerCD').value;
 		var soUser = document.querySelector('#newSoUser').value;
@@ -547,8 +841,44 @@
 				});
 			}
 			
+		});
+		
+		$.post('checkReturnComment.do', "soNo="+soNo+"&empCd="+empCd, function(result) {
+			if (result == 0) {
+				console.log("반려커멘트가 없다");
+				content = " ";
+				document.querySelector('#comment-return-input').value=content;
+			} else if (result > 0) {
+				$.post('loadReturnComment.do', "soNo="+soNo+"&empCd="+empCd, function(result) {
+					
+					content=decodeURIComponent(result);
+					console.log("커멘트가 있어서 불러옴 : "+content);
+					document.querySelector('#comment-return-input').value=content;
+				});
+			}
+			
 		});	
+		
+		
 	}
+	
+	
+	
+	
+	
+function search() {
+		
+		var soNo = document.querySelector('#searchSoNo').value;
+		var soUser = document.querySelector('#searchSoUser').value;
+		var pricingDateRange = document.querySelector('#searchPricingDate').value;
+		var status = document.querySelector('#searchStatus').value;
+		var buyerCD = document.querySelector('#searchBuyerCD').value;
+		var addDateRange = document.querySelector('#searchAddDate').value;
+		var requestDateRange = document.querySelector('#searchRequestDate').value;
+		
+		pageView('order.do?soNo='+soNo+'&soUser='+soUser+'&pricingDateRange='+pricingDateRange+'&status='+status+'&buyerCD='+buyerCD+'&addDateRange='+addDateRange+'&requestDateRange='+requestDateRange);
+	}
+	
 	
 </script>
 
@@ -571,33 +901,40 @@
 					<div class="search-sub-div">
 						<div class="search-item-div">
 							<div class="search-item-text">• 오더번호</div>
-							<input type=text id="searchSoNo" class="search" list="">
+							<input type=text id="searchSoNo" class="search" list="soNoAllList" autocomplete="off">
 						</div>
 						<div class="search-item-div">
 							<div class="search-item-text">• 영업담당자</div>
-							<input type=text id="searchSoUser" class="search" list="">
+							<input type=text id="searchSoUser" class="search" readonly="readonly" value="${order.soUser }">
 						</div>
 						<div class="search-item-div">
 							<div class="search-item-text">• 판매가기준일</div>
-							<input type=text id="searchPricingDate" class="search" list="">
+							<input type=text id="searchPricingDate" class="search dateRange">
 						</div>
 						<div class="search-item-div">
 							<div class="search-item-text">• 상태</div>
-							<input type=text id="searchStatus" class="search" list="">
+							<select id="searchStatus" class="search" required="required">
+								<option value=""></option>
+								<option value="임시저장">임시저장</option>
+								<option value="승인대기">승인대기</option>
+								<option value="승인완료">승인완료</option>
+								<option value="반려">반려</option>
+								<option value="종결">종결</option>
+							</select>
 						</div>
 					</div>
 					<div class="search-sub-div">
 						<div class="search-item-div">
 							<div class="search-item-text">• 거래처코드</div>
-							<input type=text id="searchBuyerCD" class="search" list="">
+							<input type=text id="searchBuyerCD" class="search" list="buyerAllList" autocomplete="off">
 						</div>
 						<div class="search-item-div">
 							<div class="search-item-text">• 오더등록일</div>
-							<input type=text id="searchAddDate" class="search" list="">
+							<input type=text id="searchAddDate" class="search dateRange">
 						</div>
 						<div class="search-item-div">
 							<div class="search-item-text">• 납품요청일</div>
-							<input type=text id="searchRequestDate" class="search" list="">
+							<input type=text id="searchRequestDate" class="search dateRange">
 						</div>
 					</div>
 				</div>
@@ -645,7 +982,7 @@
 					</div>
 					<div class="new-sub-row-div">
 						<div class="new-text">영업담당자<span class="red_warn">*</span></div>
-						<input type="text" id="newSoUser" class="no-border newInput2" list="employee_list" value="${sessionScope.empCd }" readonly="readonly">
+						<input type="text" id="newSoUser" class="no-border newInput2" readonly="readonly">
 					</div>
 					<div class="new-sub-row-div">
 						<div class="new-text">납품요청일<span class="red_warn">*</span></div>
@@ -675,8 +1012,8 @@
 						<input type="text" id="newQty" class="newInput" required="required"/>
 					</div>
 					<div class="new-sub-row-div">
-						<div class="new-text">판매가<span class="red_warn">*</span></div>
-						<input type="text" id="newUnitPrice" class="newInput" required="required"/>
+						<div class="new-text">판매가</div>
+						<input type="text" id="newUnitPrice" class="newInput" readonly="readonly"/>
 					</div>
 					<button id="new-add-row-btn" class="new-action-btn2" onclick="newAddItem()">제품추가</button>
 				</div>
@@ -805,8 +1142,9 @@
 				
 				<div class="detail-action-div">
 					<div class="detail-action-btn-div">
-						<button class="detail-action-btn1" onclick="updateOrder()">수정</button>
-						<button class="detail-action-btn2" onclick="requestApproval()">승인 요청</button>
+						<button class="edit-start-btn2" onclick="editStart()" style="display: block;">수정하기</button>
+						<button class="edit-finish-btn2" onclick="editFinish()" style="display: none;">수정 완료</button>
+						<button id="request-approval-btn" class="detail-action-btn2" onclick="requestApproval()" style="display: block;">승인 요청</button>
 					</div>
 				</div>
 			</div>
@@ -826,6 +1164,14 @@
 		<div style="display: none;">
 			<datalist id="soNoList">
 				<c:forEach var="order" items="${orderList }">
+					<option value="${order.soNo}"></option>
+				</c:forEach>
+			</datalist>
+		</div>
+		
+		<div style="display: none;">
+			<datalist id="soNoAllList">
+				<c:forEach var="order" items="${orderAllList }">
 					<option value="${order.soNo}"></option>
 				</c:forEach>
 			</datalist>
@@ -854,6 +1200,6 @@
 			</datalist>
 		</div>
 	</div>
-	
 </body>
+
 </html>

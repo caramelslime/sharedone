@@ -28,4 +28,8 @@ public class Order {
 	private String productNM;
 	private String productGroup;
 	
+	private String addDateRange;
+	private String pricingDateRange;
+	private String requestDateRange;
+	
 }

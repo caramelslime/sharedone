@@ -30,4 +30,16 @@ public interface OrderDao {
 
 	int updateApproveOrRefer(Notice notice);
 
+	int checkValidPrice(String productCD, String buyerCD, String currency);
+
+	int validPrice(String productCD, String buyerCD, String currency);
+
+	int defaultPrice(String productCD, String currency);
+
+	int detailProductUpdate(String soNo, String productCD, int qty, int unitPrice);
+
+	int detailProductDelete(String soNo);
+
+	List<Order> orderAllList(Order order);
+
 }

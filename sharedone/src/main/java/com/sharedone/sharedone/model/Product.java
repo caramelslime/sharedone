@@ -16,4 +16,6 @@ public class Product {
 	private String cdnm;
 	private String type;
 	private String value;
+	
+	private int listPrice;
 }

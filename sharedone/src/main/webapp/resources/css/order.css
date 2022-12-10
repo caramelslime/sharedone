@@ -132,19 +132,20 @@ ul{
     cursor: pointer;
 }
 
-.edit-start-btn{
+.edit-start-btn2{
     border: none;
     background-color: #e5e1dc;
-    box-shadow: 1px -1px 2px #b1b1b1;
-    height: 24px;
+    width: 95px;
+    height: 33px;
     cursor: pointer;
+    margin-right: 5px;
 }
 
-.edit-finish-btn{
+.edit-finish-btn2{
     border: none;
     background-color: #e5e1dc;
-    box-shadow: 1px -1px 2px #b1b1b1;
-    height: 24px;
+    width: 95px;
+    height: 33px;
     cursor: pointer;
 }
 
@@ -466,6 +467,39 @@ th:first-child, td:first-child {
 
 #newCurrency {
 	width: 146px;
+}
+
+.edit-start-btn{
+    border: none;
+    background-color: #e5e1dc;
+    box-shadow: 1px -1px 2px #b1b1b1;
+    height: 24px;
+    cursor: pointer;
+}
+
+.edit-finish-btn{
+    border: none;
+    background-color: #e5e1dc;
+    box-shadow: 1px -1px 2px #b1b1b1;
+    height: 24px;
+    cursor: pointer;
+}
+
+.edit {
+	border: none;
+	outline: none;
+	background: transparent;
+}
+
+#searchStatus {
+	width: 166.71px;
+	height: 26.99px;
+	position: relative;
+    border: 1px solid #a4a4a4;
+    min-height: 14px;
+    background-color: #d7d7d7;
+    border-radius: 2px;
+    margin: 0;
 }
 
 

@@ -38,6 +38,27 @@ insert into m_product values('P00019', '벌집핏자' , 'box', '스낵류', 'n')
 insert into m_product values('P00020', '고래밥' , 'box', '스낵류', 'n') ;
 --거래처 데이터
 --영업1팀
+--default
+insert into M_BUYER values(
+'B00000'             --거래처코드
+, 'default'            --거래처명
+, '0000000000'         --사업자등록번호
+, 'default'            --대표자
+, 'default'            --업태
+, 'default'               --종목
+, 'E00001'            --담당자
+, '활성'               --거래처상태
+, 'KR'               --국가코드
+, '00000'            --우편번호
+, 'default'         --소재지
+, 'default'   --소재지상세
+, '0000000000'         --전화번호
+, 'default@default.com'      --이메일
+, 'default'            --참고사항
+, sysdate            --등록일시
+, 'E00001'            --작성자
+, 'n'                --삭제여부
+);
 --E00001의 거래처
 insert into M_BUYER values(
 'B00001'             --거래처코드
@@ -470,16 +491,38 @@ insert into M_BUYER values(
 );
 
 --판매가격 데이터
-INSERT INTO m_price VALUES ( 'B00001', 'P00001', '2022-11-20', '2022-12-20', '2000', '원', 'n' );
-INSERT INTO m_price VALUES ( 'B00002', 'P00002', '2022-11-21', '2022-12-21', '1500', '원', 'n' );
-INSERT INTO m_price VALUES ( 'B00003', 'P00003', '2022-11-22', '2022-12-22', '3000', '원', 'n' );
-INSERT INTO m_price VALUES ( 'B00004', 'P00004', '2022-11-23', '2022-12-23', '2000', '원', 'n' );
-INSERT INTO m_price VALUES ( 'B00005', 'P00005', '2022-11-24', '2022-12-24', '1200', '원', 'n' );
-INSERT INTO m_price VALUES ( 'B00001', 'P00006', '2022-11-05', '2022-12-05', '1800', '원', 'n' );
-INSERT INTO m_price VALUES ( 'B00002', 'P00007', '2022-11-06', '2022-12-06', '1900', '원', 'n' );
-INSERT INTO m_price VALUES ( 'B00003', 'P00008', '2022-11-07', '2022-12-07', '2000', '원', 'n' );
-INSERT INTO m_price VALUES ( 'B00004', 'P00009', '2022-11-08', '2022-12-08', '2400', '원', 'n' );
-INSERT INTO m_price VALUES ( 'B00005', 'P00010', '2022-11-09', '2022-12-09', '5500', '원', 'n' );
+INSERT INTO m_price VALUES ( 'B00001', 'P00001', '2022-11-20', '2022-12-20', '20000', 'KRW', 'n' );
+INSERT INTO m_price VALUES ( 'B00002', 'P00002', '2022-11-21', '2022-12-21', '15000', 'KRW', 'n' );
+INSERT INTO m_price VALUES ( 'B00003', 'P00003', '2022-11-22', '2022-12-22', '30000', 'KRW', 'n' );
+INSERT INTO m_price VALUES ( 'B00004', 'P00004', '2022-11-23', '2022-12-23', '20000', 'KRW', 'n' );
+INSERT INTO m_price VALUES ( 'B00005', 'P00005', '2022-11-24', '2022-12-24', '12000', 'KRW', 'n' );
+INSERT INTO m_price VALUES ( 'B00001', 'P00006', '2022-11-05', '2022-12-05', '18000', 'KRW', 'n' );
+INSERT INTO m_price VALUES ( 'B00002', 'P00007', '2022-11-06', '2022-12-06', '19000', 'KRW', 'n' );
+INSERT INTO m_price VALUES ( 'B00003', 'P00008', '2022-11-07', '2022-12-07', '20000', 'KRW', 'n' );
+INSERT INTO m_price VALUES ( 'B00004', 'P00009', '2022-11-08', '2022-12-08', '24000', 'KRW', 'n' );
+INSERT INTO m_price VALUES ( 'B00005', 'P00010', '2022-11-09', '2022-12-09', '55000', 'KRW', 'n' );
+INSERT INTO m_price VALUES ( 'B00000', 'P00001', '1900-01-01', '1900-01-01', '20000', 'KRW', 'n' );
+INSERT INTO m_price VALUES ( 'B00000', 'P00002', '1900-01-01', '1900-01-01', '15000', 'KRW', 'n' );
+INSERT INTO m_price VALUES ( 'B00000', 'P00003', '1900-01-01', '1900-01-01', '30000', 'KRW', 'n' );
+INSERT INTO m_price VALUES ( 'B00000', 'P00004', '1900-01-01', '1900-01-01', '20000', 'KRW', 'n' );
+INSERT INTO m_price VALUES ( 'B00000', 'P00005', '1900-01-01', '1900-01-01', '12000', 'KRW', 'n' );
+INSERT INTO m_price VALUES ( 'B00000', 'P00006', '1900-01-01', '1900-01-01', '18000', 'KRW', 'n' );
+INSERT INTO m_price VALUES ( 'B00000', 'P00007', '1900-01-01', '1900-01-01', '19000', 'KRW', 'n' );
+INSERT INTO m_price VALUES ( 'B00000', 'P00008', '1900-01-01', '1900-01-01', '20000', 'KRW', 'n' );
+INSERT INTO m_price VALUES ( 'B00000', 'P00009', '1900-01-01', '1900-01-01', '24000', 'KRW', 'n' );
+INSERT INTO m_price VALUES ( 'B00000', 'P00010', '1900-01-01', '1900-01-01', '55000', 'KRW', 'n' );
+INSERT INTO m_price VALUES ( 'B00000', 'P00011', '1900-01-01', '1900-01-01', '30000', 'KRW', 'n' );
+INSERT INTO m_price VALUES ( 'B00000', 'P00012', '1900-01-01', '1900-01-01', '25000', 'KRW', 'n' );
+INSERT INTO m_price VALUES ( 'B00000', 'P00013', '1900-01-01', '1900-01-01', '40000', 'KRW', 'n' );
+INSERT INTO m_price VALUES ( 'B00000', 'P00014', '1900-01-01', '1900-01-01', '30000', 'KRW', 'n' );
+INSERT INTO m_price VALUES ( 'B00000', 'P00015', '1900-01-01', '1900-01-01', '22000', 'KRW', 'n' );
+INSERT INTO m_price VALUES ( 'B00000', 'P00016', '1900-01-01', '1900-01-01', '28000', 'KRW', 'n' );
+INSERT INTO m_price VALUES ( 'B00000', 'P00017', '1900-01-01', '1900-01-01', '12000', 'KRW', 'n' );
+INSERT INTO m_price VALUES ( 'B00000', 'P00018', '1900-01-01', '1900-01-01', '15000', 'KRW', 'n' );
+INSERT INTO m_price VALUES ( 'B00000', 'P00019', '1900-01-01', '1900-01-01', '45000', 'KRW', 'n' );
+INSERT INTO m_price VALUES ( 'B00000', 'P00020', '1900-01-01', '1900-01-01', '55000', 'KRW', 'n' );
+
+
 --오더 데이터
 insert into t_order values('S00001', 'B00001', 'E00001', TO_DATE('2022-10-02', 'YYYY--MM-DD'), TO_DATE('2022-10-02', 'YYYY--MM-DD'), TO_DATE('2022-10-20', 'YYYY--MM-DD'), '승인완료', 'KRW');
 insert into t_order values('S00002', 'B00002', 'E00001', TO_DATE('2022-10-03', 'YYYY--MM-DD'), TO_DATE('2022-10-03', 'YYYY--MM-DD'), TO_DATE('2022-10-25', 'YYYY--MM-DD'), '승인완료', 'KRW');
@@ -538,6 +581,13 @@ insert into t_order values('S00052', 'B00012', 'E00001', TO_DATE('2022-12-02', '
 insert into t_order values('S00053', 'B00011', 'E00001', TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-11-15', 'YYYY--MM-DD'), '반려', 'KRW');
 insert into t_order values('S00054', 'B00012', 'E00001', TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-11-18', 'YYYY--MM-DD'), '반려', 'KRW');
 
+insert into t_order values('S00055', 'B00005', 'E00010', TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-12-01', 'YYYY--MM-DD'), TO_DATE('2022-11-15', 'YYYY--MM-DD'), '승인완료', 'KRW');
+insert into t_order values('S00056', 'B00006', 'E00014', TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-11-18', 'YYYY--MM-DD'), '승인완료', 'KRW');
+insert into t_order values('S00057', 'B00007', 'E00010', TO_DATE('2022-12-03', 'YYYY--MM-DD'), TO_DATE('2022-12-03', 'YYYY--MM-DD'), TO_DATE('2022-11-15', 'YYYY--MM-DD'), '승인완료', 'KRW');
+insert into t_order values('S00058', 'B00008', 'E00001', TO_DATE('2022-12-05', 'YYYY--MM-DD'), TO_DATE('2022-12-05', 'YYYY--MM-DD'), TO_DATE('2022-11-18', 'YYYY--MM-DD'), '승인완료', 'KRW');
+insert into t_order values('S00059', 'B00009', 'E00001', TO_DATE('2022-12-07', 'YYYY--MM-DD'), TO_DATE('2022-12-07', 'YYYY--MM-DD'), TO_DATE('2022-11-15', 'YYYY--MM-DD'), '승인완료', 'KRW');
+insert into t_order values('S00060', 'B00001', 'E00001', TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-12-02', 'YYYY--MM-DD'), TO_DATE('2022-11-15', 'YYYY--MM-DD'), '승인완료', 'KRW');
+
 
 --오더 아이템
 insert into t_order_detail values('S00001', 'P00001', 200 , 2000);
@@ -589,6 +639,14 @@ insert into t_order_detail values('S00019', 'P00001', 200 , 2000);
 insert into t_order_detail values('S00019', 'P00003', 200 , 2000);
 insert into t_order_detail values('S00020', 'P00009', 200 , 7000);
 insert into t_order_detail values('S00020', 'P00011', 200 , 2000);
+insert into t_order_detail values('S00049', 'P00013', 50, 8000);
+
+insert into t_order_detail values('S00055', 'P00011', 200 , 9000);
+insert into t_order_detail values('S00056', 'P00001', 200 , 2000);
+insert into t_order_detail values('S00057', 'P00003', 200 , 2000);
+insert into t_order_detail values('S00058', 'P00009', 200 , 7000);
+insert into t_order_detail values('S00059', 'P00011', 200 , 2000);
+insert into t_order_detail values('S00060', 'P00011', 200 , 5000);
 
 --상세사유
 insert into t_notice values(1,'승인좀요.

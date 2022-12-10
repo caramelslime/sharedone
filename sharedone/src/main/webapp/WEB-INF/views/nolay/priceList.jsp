@@ -114,6 +114,9 @@
 	}
 	
 	$(function() {
+		
+		$(".readonly").attr("disabled", "disabled");
+		
 		$('#buyerCD').keypress(function() { // enter키를 누르면 메세지 전송
 			//  누른 key값(asscii)  IE ?      IE의 값         IE아닌 모든 web값
 			var keycode = event.keyCode ? event.keyCode : event.which;
@@ -267,19 +270,31 @@
 		
 	}
 	
+	function readOnlyOff() {
+		$(".readonly").attr("disabled", false);
+	}
+	
+	function readOnlyOn() {
+		$(".readonly").attr("disabled", true);
+	}
+	
  	var editable = 0;
 	
  	function editStart() {
  		document.querySelector('.edit-start-btn').style.display = 'none';
  		document.querySelector('.edit-finish-btn').style.display = 'block';
+ 		$('.priceList-div').css('background-color', '#d3dfea');
  		editable = 1;
+ 		readOnlyOff();
  		console.log(editable);
  	}
 	
  	function editFinish() {
  		document.querySelector('.edit-start-btn').style.display = 'block';
  		document.querySelector('.edit-finish-btn').style.display = 'none';
+ 		$('.priceList-div').css('background-color', '#fff');
  		editable = 0;
+ 		readOnlyOn();
  		console.log(editable);
  	}
  	
@@ -335,6 +350,11 @@ $('.productList').SumoSelect({
 /* 거래처상태리스트 */
 $('.statusList').SumoSelect({
 });
+
+
+
+
+
 </script>
 </head>
 <body>
@@ -402,7 +422,7 @@ $('.statusList').SumoSelect({
 								<td class="col5"><input type="text" class="no-border" value="${price.periodEnd}" readonly="readonly"></td>
 								<td class="col6"><input type="number" id="${price.buyerCD}+${price.productCD}+${price.periodStart}_listPrice" class="edit" value="${price.listPrice}" readonly="readonly"></td>
 								<td class="col7">
-									<select id="${price.buyerCD}+${price.productCD}+${price.periodStart}_currency" class="edit" style="width: 146px;">
+									<select id="${price.buyerCD}+${price.productCD}+${price.periodStart}_currency" class="edit readonly" style="width: 146px;">
 										<c:if test="${price.currency == 'KRW' }">
 											<option value="KRW" selected="selected">KRW</option>
 										</c:if>
