@@ -39,4 +39,24 @@ public class ReportServiceImpl implements ReportService{
 	public List<Report> selectBuyerCd(Report report) {
 		return rd.selectBuyerCd(report);
 	}
+
+	//리스트 전체 테이블 불러오기
+	public List<Report> reportList(Report report) {
+		return rd.reportList(report);
+	}
+
+	//달별 매출 그래프
+	public List<Report> selectReportAmountList(Report report) {
+		return rd.selectReportAmountList(report);
+	}
+
+	//팀별 매출
+	public List<Report> selectgroupAllAmount(Report report) {
+		return rd.selectgroupAllAmount(report);
+	}
+
+	//승인여부 그래프
+	public List<Report> selectStatusAllAmount(Report report) {
+		return rd.selectStatusAllAmount(report);
+	}
 }

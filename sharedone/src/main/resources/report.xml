@@ -2,66 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="reportns">
-
-	<select id="selectReport" parameterType="map" resultType="report">
-		<if test="empCd != null and empCd !=''">
-			<![CDATA[
-			SELECT pricingDate, sum(qty*unitPrice) amount 
-			FROM t_order o 
-			LEFT OUTER JOIN t_order_detail od 
-			ON o.sono=od.sono 
-			WHERE o.souser='${empCd}' 
-				AND o.pricingDate >= TO_DATE('${year}-${month}','YYYY-MM') 
-				AND o.pricingDate < ADD_MONTHS(TO_DATE('${year}-${month}','YYYY-MM'), 1)
-				AND o.status = '승인완료'
-			GROUP BY pricingDate
-			ORDER BY pricingDate
-			]]> 
-		</if>
-		<if test="buyerCd != null and buyerCd !=''">
-		<![CDATA[
-			SELECT pricingDate, sum(qty*unitPrice) amount
-			FROM t_order o, t_order_detail od 
-			WHERE o.sono=od.sono 
-				AND o.buyerCd='${buyerCd}' 
-				AND o.pricingDate >= TO_DATE('${year}-${month}','YYYY-MM') 
-				AND o.pricingDate < ADD_MONTHS(TO_DATE('${year}-${month}','YYYY-MM'), 1)
-			GROUP BY pricingDate 
-			ORDER BY pricingDate
-		]]> 
-		</if>
-		<if test="dept != null and dept !=''">
-		<![CDATA[
-			SELECT e.dept, odd.amount, odd.pricingDate 
-			FROM 
-				(SELECT pricingDate, sum(qty*unitprice) amount, buyercd 
-				FROM t_order o, t_order_detail od 
-				WHERE o.sono=od.sono 
-				GROUP BY pricingDate, buyercd) odd,
-			m_buyer b, m_employee e
-			WHERE b.empcd=e.empcd
-			AND odd.buyercd=b.buyercd
-			AND e.dept='${dept}'
-			AND odd.pricingDate >= TO_DATE('${year}-${month}','YYYY-MM') 
-			AND odd.pricingDate < ADD_MONTHS(TO_DATE('${year}-${month}','YYYY-MM'), 1)
-			ORDER BY dept, pricingDate
-		]]> 
-		</if>
-	</select>
-	
 	<!-- 이번달 매출 누적 합계 -->
 	<select id="selectAllAmount" resultType="report">
-		<![CDATA[
+		
 		select pricingDate, sum(amount) OVER(ORDER BY pricingDate) runningtotal from
 		(select pricingDate, sum(qty*unitPrice) amount
 		from  t_order o, t_order_detail od 
 		where o.sono=od.sono 
-			AND o.status='승인완료' 
+		<![CDATA[
 			AND o.pricingDate >= TRUNC(SYSDATE, 'MM')
 			AND o.pricingDate < LAST_DAY(SYSDATE)
+		]]> 
 		GROUP BY pricingDate
 		ORDER BY pricingDate)
-		]]> 
+		
 	</select>
 
 	<!-- 팀별 누적 매출 합계 -->
@@ -86,5 +40,126 @@
 		]]> 
 	</select>
 	
+	<select id="reportList" parameterType="report" resultType="report">
 
+			SELECT o.pricingdate, p.productNM, b.buyerNm, e.name, e.dept, o.status, sum(tod.qty*tod.unitprice) amount
+			FROM t_order o, m_employee e, m_product p, m_buyer b, t_order_detail tod
+			<where>
+				<if test="productCD != null and productCD != ''">
+					UPPER(p.productCD) like UPPER('%'||#{productCD}||'%') AND
+				</if>
+				<if test="buyerCd != null and buyerCd != ''">
+					UPPER(b.buyerCd) like UPPER('%'||#{buyerCd}||'%') AND
+				</if>
+				<if test="empCd != null and empCd != ''">
+					UPPER(e.empCd) like UPPER('%'||#{empCd}||'%') AND
+				</if>
+				<if test="dept != null and dept != ''">
+					UPPER(e.dept) like UPPER('%'||#{dept}||'%') AND
+				</if>
+				<if test="status != null and status != ''">
+					UPPER(o.status) like UPPER('%'||#{status}||'%') AND
+				</if>
+				o.sono=tod.sono
+				AND o.souser=e.empcd
+				AND o.buyercd=b.buyercd
+				AND tod.productcd=p.productcd
+				<if test="year != null and year != '' and month != null and month != ''">
+					<![CDATA[
+						AND o.pricingDate >= TO_DATE('${year}-${month}','YYYY-MM') 
+						AND o.pricingDate < ADD_MONTHS(TO_DATE('${year}-${month}','YYYY-MM'), 1) 
+				    ]]> 
+				</if>
+	    	</where>
+	    	GROUP BY o.pricingdate, p.productNM, b.buyerNm, e.name, e.dept, o.status
+			ORDER BY o.pricingdate
+	</select>
+
+	<select id="selectReportAmountList" parameterType="report" resultType="report">
+		select pricingDate, sum(amount) OVER(ORDER BY pricingDate) runningtotal from
+		(select o.pricingDate, sum(qty*unitPrice) amount
+		FROM t_order o, m_employee e, m_product p, m_buyer b, t_order_detail tod
+		<where>
+			o.sono=tod.sono
+			AND o.souser=e.empcd
+			AND o.buyercd=b.buyercd
+			AND tod.productcd=p.productcd
+			<![CDATA[
+				AND o.pricingDate >= TO_DATE('${year}-${month}','YYYY-MM') 
+				AND o.pricingDate < ADD_MONTHS(TO_DATE('${year}-${month}','YYYY-MM'), 1) 
+			]]> 
+			<if test="productCD != null and productCD != ''">
+				AND p.productCD='${productCD}'
+			</if>
+			<if test="buyerCd != null and buyerCd != ''">
+				AND b.buyerCd='${buyerCd}'
+			</if>
+			<if test="empCd != null and empCd != ''">
+				AND e.empCd='${empCd}'
+			</if>
+			<if test="dept != null and dept != ''">
+				AND e.dept='${dept}'
+			</if>
+		</where>
+		GROUP BY o.pricingDate
+		ORDER BY o.pricingDate)
+	</select>
+	
+	<select id="selectgroupAllAmount" parameterType="report" resultType="report">
+		SELECT dept, sum(qty*unitprice) amount
+		FROM t_order o, m_employee e, m_product p, m_buyer b, t_order_detail tod
+		<where>
+			o.sono=tod.sono
+			AND o.souser=e.empcd
+			AND o.buyercd=b.buyercd
+			AND tod.productcd=p.productcd
+			<![CDATA[
+				AND o.pricingDate >= TO_DATE('${year}-${month}','YYYY-MM') 
+				AND o.pricingDate < ADD_MONTHS(TO_DATE('${year}-${month}','YYYY-MM'), 1) 
+			]]> 
+			<if test="productCD != null and productCD != ''">
+				AND p.productCD='${productCD}'
+			</if>
+			<if test="buyerCd != null and buyerCd != ''">
+				AND b.buyerCd='${buyerCd}'
+			</if>
+			<if test="empCd != null and empCd != ''">
+				AND e.empCd='${empCd}'
+			</if>
+		</where>
+		GROUP BY dept
+		ORDER BY dept
+	</select>
+	<select id="selectStatusAllAmount" parameterType="report" resultType="report">
+			
+		SELECT o.status, count(*) cnt 
+		FROM t_order o, m_employee e, m_product p, m_buyer b, t_order_detail tod
+		<where>
+			o.sono=tod.sono
+			AND o.souser=e.empcd
+			AND o.buyercd=b.buyercd
+			AND tod.productcd=p.productcd
+			<![CDATA[
+			AND o.pricingDate >= TO_DATE('${year}-${month}','YYYY-MM') 
+			AND o.pricingDate < ADD_MONTHS(TO_DATE('${year}-${month}','YYYY-MM'), 1) 
+		    ]]> 
+			<if test="productCD != null and productCD != ''">
+				AND p.productCD='${productCD}'
+			</if>
+			<if test="buyerCd != null and buyerCd != ''">
+				AND b.buyerCd='${buyerCd}'
+			</if>
+			<if test="empCd != null and empCd != ''">
+				AND e.empCd='${empCd}'
+			</if>
+			<if test="dept != null and dept != ''">
+				AND e.dept='${dept}'
+			</if>	    
+			<if test="status != null and status != ''">
+				AND o.status='${status}'
+			</if>	
+	    </where>
+		GROUP BY o.status
+		
+	</select>
 </mapper>

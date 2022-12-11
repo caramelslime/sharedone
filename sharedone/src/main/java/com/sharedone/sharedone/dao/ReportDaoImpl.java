@@ -43,4 +43,28 @@ public class ReportDaoImpl implements ReportDao{
 	public List<Report> selectBuyerCd(Report report) {
 		return sst.selectList("reportns.selectBuyerCd", report);
 	}
+
+
+	//리스트 전체 테이블 불러오기
+	public List<Report> reportList(Report report) {
+		return sst.selectList("reportns.reportList", report);
+	}
+
+
+	//달별 매출 그래프
+	public List<Report> selectReportAmountList(Report report) {
+		return sst.selectList("reportns.selectReportAmountList", report);
+	}
+
+
+	//팀별 매출
+	public List<Report> selectgroupAllAmount(Report report) {
+		return sst.selectList("reportns.selectgroupAllAmount", report);
+	}
+
+
+	//승인여부 그래프
+	public List<Report> selectStatusAllAmount(Report report) {
+		return sst.selectList("reportns.selectStatusAllAmount", report);
+	}
 }

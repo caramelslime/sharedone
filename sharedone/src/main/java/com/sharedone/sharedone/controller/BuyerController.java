@@ -1,9 +1,6 @@
 package com.sharedone.sharedone.controller;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,13 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sharedone.sharedone.model.Buyer;
 import com.sharedone.sharedone.model.Employee;
-import com.sharedone.sharedone.model.Product;
 import com.sharedone.sharedone.service.BuyerService;
 import com.sharedone.sharedone.service.EmployeeService;
 
@@ -43,7 +38,7 @@ public class BuyerController {
 		model.addAttribute("buyerNm2", buyerNm2);
 		}
 		if(empCd != null && empCd != "") {
-			//바이어 코드에 해당하는 바이어 이름
+			//사원 코드에 해당하는 바이어 이름
 			Employee emp = es.selectEmpNm(empCd);
 			System.out.println("emp.getName()" + emp.getName());
 			String empNm = emp.getName();
@@ -80,19 +75,6 @@ public class BuyerController {
 		return "/nolay/buyerManagement";
 	}
 
-//	@RequestMapping(value = "newInsertConfirm", produces = "text/html;charset=utf-8")
-//	@ResponseBody
-//	public String newInsertConfirm(Buyer buyer, Model model) {
-//		String msg = "";
-//		int result = 0;
-//		result = bs.buyerInsert(buyer);
-//		if(result == 1) {
-//			msg="y";
-//		}else {
-//			msg="n";
-//		}
-//		return msg;
-//	}
 	
 	@RequestMapping(value = "updateConfirm", produces = "text/html;charset=utf-8")
 	@ResponseBody
@@ -114,12 +96,11 @@ public class BuyerController {
 	@RequestMapping(path = "buyerInsert")
 	@ResponseBody
 	public Map<String, Object> buyerInsert(@RequestParam String data, Model model, Buyer buyer) {
-		System.out.println("buyerInsert"+ buyer);
 		Map<String, Object> result = new HashMap<String, Object>();
 		try {
 			List<Map<String,Object>> info = new ArrayList<Map<String,Object>>();
 		    info = JSONArray.fromObject(data);
-		    System.out.println(info);
+		    System.out.println("info="+info);
 		    for (Map<String, Object> buyerInfo : info) {
 		    	System.out.println("buyerInfo.get(\"buyerNm\")" + buyerInfo.get("buyerNm"));
 		    	String buyerName = (String) buyerInfo.get("buyerNm");
@@ -252,6 +233,8 @@ public class BuyerController {
 				buyer.setStatus(value);
 			} else if (type.equals("nationCd")) {
 				buyer.setNationCd(value);
+			} else if (type.equals("addressDetail")) {
+				buyer.setAddressDetail(value);
 			} else if (type.equals("tel")) {
 				buyer.setTel(value);
 			} else if (type.equals("email")) {

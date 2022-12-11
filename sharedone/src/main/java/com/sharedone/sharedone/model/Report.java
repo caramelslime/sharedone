@@ -18,6 +18,7 @@ public class Report {
 	private int amount;
 	private int runningTotal;
 	private int cnt;
+	private int cumSales;
 	
 	//buyer
 	private String buyerNm;			//거래처명
@@ -44,7 +45,7 @@ public class Report {
 	private Date pricingDate;
 	private String requestDate;
 	private String currency;
-	private String productCd;
+	private String productCD;
 	private String qty;
 	private String unit;
 	private String unitPrice;
@@ -57,7 +58,7 @@ public class Report {
 	private String job;
 	
 	//product
-	private String productNm;
+	private String productNM;
 	private String productGroup;
 	private String del;
 	private String delList;

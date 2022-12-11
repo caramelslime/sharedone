@@ -59,7 +59,7 @@
 	</insert>
 	
 	<select id="selectBuyer" parameterType="string" resultType="buyer">
-		SELECT * FROM m_buyer WHERE buyerCd=#{buyerCd}
+		SELECT * FROM m_buyer b, m_employee e WHERE b.empCd=e.empCd AND b.buyerCd=#{buyerCd}
 	</select>
 	
 	<update id="buyerUpdate" parameterType="buyer">
@@ -114,6 +114,7 @@
 			<if test="name != null and name != ''">name=#{name}</if>
 			<if test="status != null and status != ''">status=#{status}</if>
 			<if test="nationCd != null and nationCd != ''">nationCd=#{nationCd}</if>
+			<if test="addressDetail != null and addressDetail != ''">addressDetail=#{addressDetail}</if>
 			<if test="tel != null and tel != ''">tel=#{tel}</if>
 			<if test="email != null and email != ''">email=#{email}</if>
 			<if test="remark != null and remark != ''">remark=#{remark}</if>

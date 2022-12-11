@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -74,7 +75,7 @@ ul {
 	width: 92%;
 	height: 110px;
     background-color: #fff;
-    margin: 23px auto 35px auto;
+    margin: 23px auto 18px auto;
     box-shadow: 2px -1px 4px #b1b1b1;
     font-size: 14px;
     display: flex;
@@ -83,7 +84,6 @@ ul {
 
 .search-sub-wrap {
 	width: 100%;
-	padding: 0 0 0 33px;
 	display: flex;
 }
 
@@ -113,7 +113,7 @@ ul {
 .search-each-div {
 	display: flex;
     width: 100%;
-    margin-left: 22px;
+    margin-left: 17px;
 }
 
 .search-item-text {
@@ -169,15 +169,6 @@ ul {
 	font-style: italic;
 }
 
-.report-table-div {
-	background-color: #fff;
-	width: 90%;
-	resize: both;
-	box-shadow: 2px -1px 4px #b1b1b1;
-	margin-left: 4%;
-	overflow: scroll;
-	height: 600px;
-}
 
 /* 신규등록과 삭제가 있는 bottom 박스*/
 .bottom-div {
@@ -250,14 +241,6 @@ ul {
 	margin-left: 4px;
 }
 
-#report-table {
-	border-collapse: collapse;
-    font-size: 12px;
-    width: 560px;
-	margin: 37px 5px 20px 15px;
-
-}
-
 td {
 	border-bottom: 1px solid #444444;
 	border-left: 1px solid #444444;
@@ -294,16 +277,14 @@ th:first-child, td:first-child {
 	width: 147px;
 }
 
-.SumoSelect>.CaptionCont>span.placeholder {
-	color: #4f4f4f;
-	font-style: italic;
-}
-
 .SumoSelect.open .search-txt {
 	background-color: #d7d7d7;
 }
 
-
+.SumoSelect>.CaptionCont>span.placeholder {
+    color: #cfcfcf;
+    font-style: italic;
+}
 
 /* mainData div */
 .maindata{
@@ -352,25 +333,70 @@ background-color: #fff;
 	width:200px;
 }
 
+.report-table-div{
+    background-color: #fff;
+    width: 91%;
+    overflow: hidden;
+    resize: both;
+    box-shadow: 2px -1px 4px #b1b1b1;
+    margin: 10px auto 0 auto;
+    overflow: scroll;
+    height: 316px;
+}
 
-
-/* 반응형 */
-/* @media screen and (max-width:1800px) {
-	.search-div {
-		width: 1447px;
-	}
-} */
+#report-table{
+	width: 1328px;
+}
+.titleTr{
+	background-color: lightgray;
+}
+.delBtn{
+	cursor:pointer;
+	padding-top: 4px;
+}
+.reloadDiv{
+	width: 24px;
+    height: 24px;
+    border: 1px solid #e8e8e8;
+    border-radius: 5px;
+    background-color: #e9e9e9;
+    cursor: pointer;
+    margin: 0 0 0 19px;
+}
+.reloadImg{
+    width: 18px;
+    margin: 3px 3px 0 3px;
+}
+.search-box{
+    width: 106px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f0f0;
+    font-size: 15px;
+    font-weight: 400;
+    cursor: pointer;
+}
 </style>
 
 <script type="text/javascript">
 $(document).ready(function(){
-	 $('.report-table-div').hide();
-	 $('.subData').hide();
-	 
-	 
-	 	//이번달 매출 누적그래프
+	var year = document.querySelector('.dashYear-select').value;
+	var month = document.querySelector('.dashMonth-select').value;
+	var productCD = document.querySelector('.productList').value;
+	var buyerCd = document.querySelector('.buyerList').value;
+	var empCd2 = document.querySelector('.employeeList').value;
+	var dept = document.querySelector('.deptList').value;
+	var status = document.querySelector('.statusList').value;
+	
+	if(month == ''){
+		$('.maindata').hide();
+		$('.report-table-div').css('height', '600px');
+	}
+	else if(month != ''){
+		//달별 매출 누적그래프
 		$.ajax({
-		    url: 'monthAmount.do',
+		    url: 'monthAllAmount.do?year='+year+"&month="+month+"&productCD="+productCD+"&buyerCd="+buyerCd+"&empCd2="+empCd2+"&dept="+dept,
 			type : "POST",
 			async : true,
 			traditional: true,
@@ -402,18 +428,42 @@ $(document).ready(function(){
 	        		      legend: { display: false },
 	        		      title: {
 	        		        display: true,
-	        		        text: '이번달 누적 매출'
-	        		      }
-	        		    }
+	        		        text: '월별 누적 매출'
+	        		      },
+	        		      scales: {
+	                          yAxes: [{
+	                            ticks: {
+	                            	beginAtZero:true,
+	                                userCallback: function(value, index, values) {
+	                                    value = value.toString();
+	                                    value = value.split(/(?=(?:...)*$)/);
+	                                    value = value.join(',');
+	                                    return value;
+	                                }
+	                            }
+	                          }]
+	                        },
+	        		      tooltips: { 
+	        	               callbacks: { 
+	        	                   label: function(tooltipItem, data) { //그래프 콤마
+	        	                       return tooltipItem.yLabel.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원"; 
+	        	                       } 
+	        	    	    	},
+	        	    		},
+
+	        		    },
+	        		    
+
+       		    
 	        		});
 	        	
 			}
 		});
-	 	//이번달 매출 누적 그래프 끝
+	 	//달별 매출 누적 그래프 끝
 	 	
 	 	//팀별 누적 매출
 		$.ajax({
-		    url: 'groupAmount.do',
+		    url: 'groupAllAmount.do?year='+year+"&month="+month+"&productCD="+productCD+"&buyerCd="+buyerCd,
 			type : "POST",
 			async : true,
 			traditional: true,
@@ -444,9 +494,13 @@ $(document).ready(function(){
 	        		      legend: { display: false },
 	        		      title: {
 	        		        display: true,
-	        		        text: '팀별 매출 합계'
+	        		        text: '월별 팀 매출 합계'
 	        		      }
+
+	        		      
+	        		      
 	        		    }
+	        		    
 	        		});
 	        	
 			}
@@ -455,7 +509,7 @@ $(document).ready(function(){
 	 	
 	 	//승인여부 그래프
 		$.ajax({
-		    url: 'statusAmount.do',
+		    url: 'statusAllAmount.do?year='+year+"&month="+month+"&productCD="+productCD+"&buyerCd="+buyerCd+"&empCd2="+empCd2+"&dept="+dept+"&status="+status,
 			type : "POST",
 			async : true,
 			traditional: true,
@@ -498,7 +552,7 @@ $(document).ready(function(){
 	        		      legend: { display: false },
 	        		      title: {
 	        		        display: true,
-	        		        text: '이번달 승인여부 현황'
+	        		        text: '월별 승인여부 현황'
 	        		      },
 	        		      responsive: false,
 	        				scales: {
@@ -513,8 +567,41 @@ $(document).ready(function(){
 	        	
 			}
 		});
-	 	//팀별 누적 매출 끝
+	 	//승인여부 그래프 끝
+	 	
+	}
+ 	
 })
+
+	//검색 조건 초기화
+	function delSearchMonth() {
+		 $ ('.dashMonth-select')[0].sumo.selectItem(0); 
+	}
+	function delSearchProductCD() {
+		 $ ('.productList')[0].sumo.selectItem(0); 
+	}
+	function delSearchBuyerCd() {
+		 $ ('.buyerList')[0].sumo.selectItem(0); 
+	}
+	function delSearchEmpCd() {
+		 $ ('.employeeList')[0].sumo.selectItem(0); 
+	}
+	function delSearchDept() {
+		 $ ('.deptList')[0].sumo.selectItem(0); 
+	}
+	function delSearchStatus() {
+		 $ ('.statusList')[0].sumo.selectItem(0); 
+	}
+	
+	//전체 검색 조건 초기화
+	function reloadBtn() {
+		$ ('.dashMonth-select')[0].sumo.selectItem(0); 
+		$ ('.productList')[0].sumo.selectItem(0); 
+		$ ('.buyerList')[0].sumo.selectItem(0);
+		$ ('.employeeList')[0].sumo.selectItem(0);
+		$ ('.deptList')[0].sumo.selectItem(0); 
+		$ ('.statusList')[0].sumo.selectItem(0);
+	}
 </script>
 
 
@@ -531,8 +618,11 @@ $('.dashMonth-select').SumoSelect({
 	selectAll: true
 	,placeholder: '월선택'
 	});
-/* 팀 */
-$('.deptList').SumoSelect();
+/* 제품리스트 */
+$('.productList').SumoSelect({
+	search: true, searchText: '코드/제품명'
+	,noMatch : '"{0}"가 없습니다',
+	});
 /* 바이어리스트 */
 $('.buyerList').SumoSelect({
 	search: true, searchText: '코드/거래처명'
@@ -543,6 +633,8 @@ $('.employeeList').SumoSelect({
 	search: true, searchText: '코드/사원명'
 	,noMatch : '"{0}"가 없습니다',
 	});
+/* 소속 */
+$('.deptList').SumoSelect();
 /* 승인여부리스트 */
 $('.statusList').SumoSelect({
 	});
@@ -551,110 +643,24 @@ $('.statusList').SumoSelect({
 
 //검색
 function search() {
-	
-	$('#report-table').load(location.href+' #report-table');
-	$('.maindata').hide();
-	$('.subData').show(); 
-	
 	var year = document.querySelector('.dashYear-select').value;
 	var month = document.querySelector('.dashMonth-select').value;
+	var productCD = document.querySelector('.productList').value;
 	var buyerCd = document.querySelector('.buyerList').value;
+	var empCd2 = document.querySelector('.employeeList').value;
 	var dept = document.querySelector('.deptList').value;
-	var empCd = document.querySelector('.employeeList').value;
-	//var orderStatus = document.querySelector('.statusList').value;
+	var status = document.querySelector('.statusList').value;
 	
-	if(year == null || year == "" && month == null || month == "" ){
-		alert("검색할 기간을 입력하세요");
-		setTimeout(function() {pageView('orderReport.do');}, 200);
-	}else if(buyerCd != "" && empCd != ""){
-		alert("거래처코드와 사원코드를 중복하여 검색할 수 없습니다");
-		setTimeout(function() {pageView('orderReport.do');}, 200);
-	}else if(buyerCd != "" && dept != ""){
-		alert("거래처코드와 팀을 중복하여 검색할 수 없습니다");
-		setTimeout(function() {pageView('orderReport.do');}, 200);
-	}else if(dept != "" && empCd != ""){
-		alert("사원코드와 팀을 중복하여 검색할 수 없습니다");
-		setTimeout(function() {pageView('orderReport.do');}, 200);
+	if(month == ''){
+		alert('기간을 입력해주세요');
+		return false;
 	}
-	else{
+	
+	pageView('orderReport.do?year='+year+'&month='+month+'&productCD='+productCD+'&buyerCd='+buyerCd+'&empCd2='+empCd2+'&dept='+dept+'&status='+status);
+	
 
-	$.ajax({
-	    url: 'dashBoard.do',
-		type : "POST",
-		async : true,
-		traditional: true,
-		data: {"year" : year
-			,"month" : month
-			, "empCd" : empCd
-			, "buyerCd" : buyerCd
-			, "dept" : dept
-			//, "orderStatus" : orderStatus 
-		},
-		dataType : "json",
-		cache : false,
-        success: function (data) {
-
-        	var labels = data.map(function(e) {
-        		   return e.pricingDate;
-        		});
-        		var datas = data.map(function(e) {
-        		   return e.amount;
-        		});
-        		//그래프
-        		
-        		var chartObj = new Chart(document.getElementById("barCanvas"), {
-        		    type: 'bar',
-        		    data: {
-        		      labels: labels,
-        		      datasets: [
-        		        {
-        		          label: "금액",
-        		          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850","#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-        		          data: datas
-        		        }
-        		      ]
-        		    },
-        		    options: {
-        		      legend: { display: false },
-        		      title: {
-        		        display: true,
-        		        text: '매출 그래프'
-        		      },
-        		      responsive: false,
-      				  scales: {
-      					yAxes: [{
-      						ticks: {
-      							beginAtZero: true,	
-      						}
-      					}]
-      				}
-        		    }
-        		});
-        		//그래프 끝
-        		
-        		//표
-        		var sum = 0;
-    			$('#report-table').append(
-    					"<tr>"
-    						+"<th class='thLength'>"+"날짜"+"</th>"
-    						+"<th>"+"매출"+"</th>"
-    					+"</tr>"
-    			);
-    			for(var i = 0; i < labels.length; i++){
-    				//표만들기
-    				$('#report-table').append(
-    					"<tr>"
-    						+"<td>"+labels[i]+"</td>"
-    						+"<td>"+datas[i].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')+"</td>"
-    					+"</tr>"
-    				);
-    			}//표 끝
-    			
-		}
-	});
-	//사원 번호 검색 끝
-	}
-	//else문 끝
+	
+	
 }
 //검색 끝
 
@@ -671,16 +677,12 @@ function search() {
 	function exportExcel() {
 			// step 1. workbook 생성
 		    var wb = XLSX.utils.book_new();
-	
 		    // step 2. 시트 만들기 
 		    var newWorksheet = excelHandler.getWorksheet();
-		    
 		    // step 3. workbook에 새로만든 워크시트에 이름을 주고 붙인다.  
 		    XLSX.utils.book_append_sheet(wb, newWorksheet, excelHandler.getSheetName());
-	
 		    // step 4. 엑셀 파일 만들기 
 		    var wbout = XLSX.write(wb, {bookType:'xlsx',  type: 'binary'});
-	
 		    // step 5. 엑셀 파일 내보내기 
 		    saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), excelHandler.getExcelFileName());
 		}
@@ -701,16 +703,8 @@ function search() {
 		}
 //엑셀끝
 
-//그래프
-   function showList() {
-	   $('.report-table-div').show();
-	   $('.graphBox').hide();
-   }
    
-   function showChart(){
-	   $('.subData').show();
-	   $('.report-table-div').hide();
-   }	   
+   
 </script>
 </head>
 <body>
@@ -742,71 +736,316 @@ function search() {
 								<option value="2021">2021년</option>
 							</select> 
 							<select class="dashMonth-select">
-								<option value=""></option>
-								<option value="01">1월</option>
-								<option value="02">2월</option>
-								<option value="03">3월</option>
-								<option value="04">4월</option>
-								<option value="05">5월</option>
-								<option value="06">6월</option>
-								<option value="07">7월</option>
-								<option value="08">8월</option>
-								<option value="09">9월</option>
-								<option value="10">10월</option>
-								<option value="11">11월</option>
-								<option value="12" selected="selected">12월</option>
-							</select>
+								<option hidden="" value=""></option>
+								<c:if test="${month == '' || month==null}">
+									<option value="01">1월</option>
+									<option value="02">2월</option>
+									<option value="03">3월</option>
+									<option value="04">4월</option>
+									<option value="05">5월</option>
+									<option value="06">6월</option>
+									<option value="07">7월</option>
+									<option value="08">8월</option>
+									<option value="09">9월</option>
+									<option value="10">10월</option>
+									<option value="11">11월</option>
+									<option value="12">12월</option>
+								</c:if>
+								<c:if test="${month == '01'}">
+									<option value="01" selected="selected">1월</option>
+									<option value="02">2월</option>
+									<option value="03">3월</option>
+									<option value="04">4월</option>
+									<option value="05">5월</option>
+									<option value="06">6월</option>
+									<option value="07">7월</option>
+									<option value="08">8월</option>
+									<option value="09">9월</option>
+									<option value="10">10월</option>
+									<option value="11">11월</option>
+									<option value="12">12월</option>
+								</c:if>
+								<c:if test="${month == '02'}">
+									<option value="01">1월</option>
+									<option value="02" selected="selected">2월</option>
+									<option value="03">3월</option>
+									<option value="04">4월</option>
+									<option value="05">5월</option>
+									<option value="06">6월</option>
+									<option value="07">7월</option>
+									<option value="08">8월</option>
+									<option value="09">9월</option>
+									<option value="10">10월</option>
+									<option value="11">11월</option>
+									<option value="12">12월</option>
+								</c:if>
+								<c:if test="${month == '03'}">
+									<option value="01">1월</option>
+									<option value="02">2월</option>
+									<option value="03" selected="selected">3월</option>
+									<option value="04">4월</option>
+									<option value="05">5월</option>
+									<option value="06">6월</option>
+									<option value="07">7월</option>
+									<option value="08">8월</option>
+									<option value="09">9월</option>
+									<option value="10">10월</option>
+									<option value="11">11월</option>
+									<option value="12">12월</option>
+								</c:if>
+								<c:if test="${month == '04'}">
+									<option value="01">1월</option>
+									<option value="02">2월</option>
+									<option value="03">3월</option>
+									<option value="04" selected="selected">4월</option>
+									<option value="05">5월</option>
+									<option value="06">6월</option>
+									<option value="07">7월</option>
+									<option value="08">8월</option>
+									<option value="09">9월</option>
+									<option value="10">10월</option>
+									<option value="11">11월</option>
+									<option value="12">12월</option>
+								</c:if>
+								<c:if test="${month == '05'}">
+									<option value="01">1월</option>
+									<option value="02">2월</option>
+									<option value="03">3월</option>
+									<option value="04">4월</option>
+									<option value="05" selected="selected">5월</option>
+									<option value="06">6월</option>
+									<option value="07">7월</option>
+									<option value="08">8월</option>
+									<option value="09">9월</option>
+									<option value="10">10월</option>
+									<option value="11">11월</option>
+									<option value="12">12월</option>
+								</c:if>
+								<c:if test="${month == '06'}">
+									<option value="01">1월</option>
+									<option value="02">2월</option>
+									<option value="03">3월</option>
+									<option value="04">4월</option>
+									<option value="05">5월</option>
+									<option value="06" selected="selected">6월</option>
+									<option value="07">7월</option>
+									<option value="08">8월</option>
+									<option value="09">9월</option>
+									<option value="10">10월</option>
+									<option value="11">11월</option>
+									<option value="12">12월</option>
+								</c:if>
+								<c:if test="${month == '07'}">
+									<option value="01">1월</option>
+									<option value="02">2월</option>
+									<option value="03">3월</option>
+									<option value="04">4월</option>
+									<option value="05">5월</option>
+									<option value="06">6월</option>
+									<option value="07" selected="selected">7월</option>
+									<option value="08">8월</option>
+									<option value="09">9월</option>
+									<option value="10">10월</option>
+									<option value="11">11월</option>
+									<option value="12">12월</option>
+								</c:if>
+								<c:if test="${month == '08'}">
+									<option value="01">1월</option>
+									<option value="02">2월</option>
+									<option value="03">3월</option>
+									<option value="04">4월</option>
+									<option value="05">5월</option>
+									<option value="06">6월</option>
+									<option value="07">7월</option>
+									<option value="08" selected="selected">8월</option>
+									<option value="09">9월</option>
+									<option value="10">10월</option>
+									<option value="11">11월</option>
+									<option value="12">12월</option>
+								</c:if>
+								<c:if test="${month == '09'}">
+									<option value="01">1월</option>
+									<option value="02">2월</option>
+									<option value="03">3월</option>
+									<option value="04">4월</option>
+									<option value="05">5월</option>
+									<option value="06">6월</option>
+									<option value="07">7월</option>
+									<option value="08">8월</option>
+									<option value="09" selected="selected">9월</option>
+									<option value="10">10월</option>
+									<option value="11">11월</option>
+									<option value="12">12월</option>
+								</c:if>
+								<c:if test="${month == '10'}">
+									<option value="01">1월</option>
+									<option value="02">2월</option>
+									<option value="03">3월</option>
+									<option value="04">4월</option>
+									<option value="05">5월</option>
+									<option value="06">6월</option>
+									<option value="07">7월</option>
+									<option value="08">8월</option>
+									<option value="09">9월</option>
+									<option value="10" selected="selected">10월</option>
+									<option value="11">11월</option>
+									<option value="12">12월</option>
+								</c:if>
+								<c:if test="${month == '11'}">
+									<option value="01">1월</option>
+									<option value="02">2월</option>
+									<option value="03">3월</option>
+									<option value="04">4월</option>
+									<option value="05">5월</option>
+									<option value="06">6월</option>
+									<option value="07">7월</option>
+									<option value="08">8월</option>
+									<option value="09">9월</option>
+									<option value="10">10월</option>
+									<option value="11" selected="selected">11월</option>
+									<option value="12">12월</option>
+								</c:if>
+								<c:if test="${month == '12'}">
+									<option value="01">1월</option>
+									<option value="02">2월</option>
+									<option value="03">3월</option>
+									<option value="04">4월</option>
+									<option value="05">5월</option>
+									<option value="06">6월</option>
+									<option value="07">7월</option>
+									<option value="08">8월</option>
+									<option value="09">9월</option>
+									<option value="10">10월</option>
+									<option value="11">11월</option>
+									<option value="12" selected="selected">12월</option>
+								</c:if>
+								
+							</select><div class="delBtn" onclick="delSearchMonth()">&nbsp;✖</div>
 						</div>
 						
 						<div class="search-sub-sub-div">
+						<!-- 제품 -->
+						<div class="search-each-div">
+							<div class="search-item-text3">• 제품</div>
+							<select class="productList" name="productSelect">
+								<option class="hidden" value=""></option>
+								<option value="${productCD }" selected="selected">${productCD } ${productNM2 } </option>
+								<c:forEach var="product" items="${productAllList }">
+									<option value="${product.productCD }">${product.productCD }
+										${product.productNM }</option>
+								</c:forEach>
+							</select><div class="delBtn" onclick="delSearchProductCD()">&nbsp;✖</div>
+
+						</div>
 						<!-- 바이어 -->
 						<div class="search-each-div">
 							<div class="search-item-text">• 바이어</div>
 							<!-- 검색용 거래처 데이터 리스트 -->
 							<select class="buyerList" name="buyerSelect">
-								<option value=""></option>
+								<option class="hidden" value=""></option>
+								<option value="${buyerCd }" selected="selected">${buyerCd } ${buyerNm2 } </option>
 								<c:forEach var="buyer" items="${buyerAllList }">
 									<option value="${buyer.buyerCd }">${buyer.buyerCd }
 										${buyer.buyerNm }</option>
 								</c:forEach>
-							</select>
-						</div>
-						<!-- 팀 -->
-						<div class="search-each-div">
-							<div class="search-item-text3">• 팀</div>
-							<select class="deptList" name="deptSelect">
-								<option value=""></option>
-								<option value="영업1팀">영업1팀</option>
-								<option value="영업2팀">영업2팀</option>
-								<option value="영업3팀">영업3팀</option>
-							</select>
-
+							</select><div class="delBtn" onclick="delSearchBuyerCd()">&nbsp;✖</div>
 						</div>
 						<!-- 사원 -->
 						<div class="search-each-div">
-							<div class="search-item-text">• 사원</div>
+							<div class="search-item-text">• 담당자</div>
 							<!-- 검색용 직원 데이터 리스트 -->
 							<select class="employeeList" name="employeeSelect">
-								<option value=""></option>
+								<option class="hidden" value=""></option>
+								<option value="${empCd2 }" selected="selected">${empCd2 } ${empNm2 } </option>
 								<c:forEach var="emp" items="${employee_list }">
-									<option value="${emp.empCd }">${emp.empCd }${emp.name }</option>
+									<option value="${emp.empCd }">${emp.empCd }
+									${emp.name }</option>
 								</c:forEach>
-							</select>
+							</select><div class="delBtn" onclick="delSearchEmpCd()">&nbsp;✖</div>
+						</div>
+						<!-- 소속 -->
+						<div class="search-each-div">
+							<div class="search-item-text">• 소속</div>
+							<!-- 검색용 직원 데이터 리스트 -->
+							<select class="deptList" name="deptSelect">
+								<option class="hidden" value=""></option>
+								<c:if test="${dept == '' || dept==null}">
+									<option value="영업1팀">영업1팀</option>
+									<option value="영업2팀">영업2팀</option>
+									<option value="영업3팀">영업3팀</option>
+								</c:if>
+								<c:if test="${dept == '영업1팀'}">
+									<option value="영업1팀" selected="selected">영업1팀</option>
+									<option value="영업2팀">영업2팀</option>
+									<option value="영업3팀">영업3팀</option>
+								</c:if>
+								<c:if test="${dept == '영업2팀'}">
+									<option value="영업1팀">영업1팀</option>
+									<option value="영업2팀" selected="selected">영업2팀</option>
+									<option value="영업3팀">영업3팀</option>
+								</c:if>
+								<c:if test="${dept == '영업3팀'}">
+									<option value="영업1팀">영업1팀</option>
+									<option value="영업2팀">영업2팀</option>
+									<option value="영업3팀" selected="selected">영업3팀</option>
+								</c:if>
+							</select><div class="delBtn" onclick="delSearchDept()">&nbsp;✖</div>
+							
+							
 						</div>
 						<!-- 승인여부 -->
 						<div class="search-each-div">
-							<!-- <div class="search-item-text2">• 승인여부</div>
+							<div class="search-item-text2">• 승인여부</div>
 							<select class="statusList" name="statusSelect">
-								<option value=""></option>
-								<option value="입력완료">입력완료</option>
-								<option value="승인대기">승인대기</option>
-								<option value="반려">반려</option>
-								<option value="승인완료">승인완료</option>
-								<option value="종결">종결</option>
-							</select> -->
+								<option class="hidden" value=""></option>
+								<c:if test="${status == '' || status==null}">
+									<option value="입력완료">입력완료</option>
+									<option value="승인대기">승인대기</option>
+									<option value="반려">반려</option>
+									<option value="승인완료">승인완료</option>
+									<option value="종결">종결</option>
+								</c:if>
+								<c:if test="${status == '입력완료'}">
+									<option value="입력완료" selected="selected">입력완료</option>
+									<option value="승인대기">승인대기</option>
+									<option value="반려">반려</option>
+									<option value="승인완료">승인완료</option>
+									<option value="종결">종결</option>
+								</c:if>
+								<c:if test="${status == '승인대기'}">
+									<option value="입력완료">입력완료</option>
+									<option value="승인대기" selected="selected">승인대기</option>
+									<option value="반려">반려</option>
+									<option value="승인완료">승인완료</option>
+									<option value="종결">종결</option>
+								</c:if>
+								<c:if test="${status == '반려'}">
+									<option value="입력완료">입력완료</option>
+									<option value="승인대기">승인대기</option>
+									<option value="반려" selected="selected">반려</option>
+									<option value="승인완료">승인완료</option>
+									<option value="종결">종결</option>
+								</c:if>
+								<c:if test="${status == '승인완료'}">
+									<option value="입력완료">입력완료</option>
+									<option value="승인대기">승인대기</option>
+									<option value="반려">반려</option>
+									<option value="승인완료" selected="selected">승인완료</option>
+									<option value="종결">종결</option>
+								</c:if>
+								<c:if test="${status == '종결'}">
+									<option value="입력완료">입력완료</option>
+									<option value="승인대기">승인대기</option>
+									<option value="반려">반려</option>
+									<option value="승인완료">승인완료</option>
+									<option value="종결" selected="selected">종결</option>
+								</c:if>
+							</select><div class="delBtn" onclick="delSearchStatus()">&nbsp;✖</div>
 						</div>
+						<div class="reloadDiv" onclick="reloadBtn()" title="검색조건 초기화"><img class="reloadImg" alt="" src="/sharedone/resources/images/reload.png"> </div>
+						
+						
 						</div>
-
 
 					</div>
 
@@ -840,29 +1079,40 @@ function search() {
 					</div>
 				</div>
 			</div>
-			<!-- <div class="maindata2">
 			
-			</div> -->
-
-			<!-- 리스트 테이블 -->
-			<!-- <div class="report-table-div">
+			<div class="report-table-div">
 				<table id="report-table">
-
+					<tr class="titleTr">
+						<th></th>
+						<th>날짜</th>
+						<th>제품</th>
+						<th>바이어</th>
+						<th>담당자</th>
+						<th>소속</th>
+						<th>승인여부</th>
+						<th>매출</th>
+						<th>누적매출</th>
+					</tr>
+				
+					<c:forEach var="reportList" items="${reportList }">
+					
+						<tr>
+							<td><c:set var="i" value="${i+1}"></c:set>${i }</td>
+							<td>${reportList.pricingDate }</td>
+							<td>${reportList.productNM }</td>
+							<td>${reportList.buyerNm }</td>
+							<td>${reportList.name }</td>
+							<td>${reportList.dept }</td>
+							<td>${reportList.status }</td>
+							<td><fmt:formatNumber value="${reportList.amount}" pattern="#,###"/></td>
+							<td><fmt:formatNumber value="${reportList.cumSales }" pattern="#,###"/></td>
+						</tr>
+					</c:forEach>
+					
 				</table>
-			</div> -->
-
-			<!-- 그래프 -->
-			<div class="subData">
-				<div class="graphBox">
-					<canvas id="barCanvas" width="500" height="300"></canvas>
-				</div>
-				<div class="listBox">
-					<table id="report-table">
-
-					</table>
-				</div>
 			</div>
 
+			
 			<!-- floating bottom div -->
 			<div class="bottom-div">
 				<div class="bottom-btn-div">
@@ -873,6 +1123,5 @@ function search() {
 		</div>
 	</div>
 
-<!-- <script src="/sharedone/resources/js/chart.js"></script> -->
 </body>
 </html>

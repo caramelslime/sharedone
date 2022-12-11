@@ -21,4 +21,16 @@ public interface ReportDao {
 	//거래처 코드 검색
 	List<Report> selectBuyerCd(Report report);
 
+	//리스트 전체 테이블 불러오기
+	List<Report> reportList(Report report);
+
+	//달별 매출 그래프
+	List<Report> selectReportAmountList(Report report);
+
+	//팀별 매출
+	List<Report> selectgroupAllAmount(Report report);
+
+	//승인여부 그래프
+	List<Report> selectStatusAllAmount(Report report);
+
 }

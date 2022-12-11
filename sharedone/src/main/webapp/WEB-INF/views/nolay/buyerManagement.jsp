@@ -17,6 +17,7 @@
 
 <script src="/sharedone/resources/js/jquery.sumoselect.min.js"></script>
 <style type="text/css">@import url("/sharedone/resources/css/sumoselect.min.css");</style>
+
 <style type="text/css">
 
 .search-item-div {
@@ -188,6 +189,24 @@
     background-color: #d7d7d7;
 }
 
+.delBtn{
+	cursor:pointer;
+}
+
+.reloadDiv{
+	width: 24px;
+    height: 24px;
+    border: 1px solid #e8e8e8;
+    border-radius: 5px;
+	background-color: #e9e9e9;
+    cursor: pointer;
+    margin: 5px 0 0 28px;
+}
+.reloadImg{
+	width:18px;
+	margin: 3px 0 0 3px;
+}
+
 
 /* semoselect */
 
@@ -214,8 +233,32 @@
 						}
 			   });
 		  });
-		 
+		  
+		  //거래처 리스트 select disabled
+		  $('.readonly').attr("disabled",true);
+		  
+		  //sumoselect 0번째 요소 hide
+		  $('.hidden').hide();
+		   
 	});
+	
+	//검색 조건 초기화
+	function delSearchBuyerCd() {
+		 $ ('.buyerList')[0].sumo.selectItem(0); 
+	}
+	function delSearchEmpCd() {
+		 $ ('.employeeList')[0].sumo.selectItem(0); 
+	}
+	function delSearchStatus() {
+		 $ ('.statusList')[0].sumo.selectItem(0); 
+	}
+	//전체 검색 조건 초기화
+	function reloadBtn() {
+		$ ('.buyerList')[0].sumo.selectItem(0);
+		$ ('.employeeList')[0].sumo.selectItem(0);
+		$ ('.statusList')[0].sumo.selectItem(0);
+	}
+	
 	function xBack(){
 		 $('.insert-div').hide();
 		 $('.update-div').hide();
@@ -257,7 +300,7 @@
 			updateFrm.rprsvNm.value = data.rprsvNm;
 			updateFrm.businessStatus.value = data.businessStatus;
 			updateFrm.event.value = data.event;
-			updateFrm.empCd.value = data.empCd;
+			updateFrm.empCd.value = data.empCd +' '+ data.name;
 			updateFrm.status.value = data.status;
 			updateFrm.nationCd.value = data.nationCd;
 			updateFrm.postcode.value = data.postcode;
@@ -323,11 +366,50 @@
 		
 		var rowNumber=document.querySelector('#insertList-table').rows.length;
 		
+		var empCdReg = RegExp(/^[E]{1}[0-9|ㄱ-ㅎ|가-힣\s]{2,12}$/);
 		
+		//입력 데이터 없을 때 안내메세지
+		if (buyerNm == "" ) {
+			alert("거래처 명을 입력하세요");
+			insertFrm.buyerNm.focus();
+		} else if(brno == ""){
+			alert("사업자등록번호를 입력하세요");
+			insertFrm.brno.focus();
+		} else if(rprsvNm == ""){
+			alert("대표자를 입력하세요");
+			insertFrm.rprsvNm.focus();
+		} else if(email == ""){
+			alert("이메일을 입력하세요");
+			insertFrm.email.focus();
+		} else if(tel == ""){
+			alert("전화번호를 입력하세요");
+			insertFrm.tel.focus();
+		} else if(!empCdReg.test(empCd)){
+			alert("담당자를 선택하세요")
+			insertFrm.empCd.value="";
+			insertFrm.empCd.focus();
+		} else if(empCd == ""){
+			alert("담당자를 선택하세요");
+			insertFrm.empCd.focus();
+		} else if(!empCdReg.test(addUser)){
+			alert("작성자를 선택하세요");
+			insertFrm.addUser.value="";
+			insertFrm.addUser.focus();
+		} else if(addUser == ""){
+			alert("작성자를 선택하세요");
+			insertFrm.addUser.focus();
+		} else if(postcode == ""){
+			alert("우편번호를 입력하세요");
+			insertFrm.postcode.focus();
+		} else if(address == ""){
+			alert("주소를 입력하세요");
+			insertFrm.address.focus();
+		} else if(addressDetail == ""){
+			alert("상세주소를 입력하세요");
+			insertFrm.addressDetail.focus();
+		}
 		
-		if (buyerNm == "" || brno == "" || rprsvNm == "" || businessStatus == "" || event == "" || empCd == "" || status == "" || nationCd == "" || postcode == "" || address == "" || addressDetail == "" || tel == "" || email == "" || addDate == "" || addUser == "" ) {
-			alert("값을 입력하세요");
-		} else {
+		else {
 			$('#insertList-table').append(
 					"<tr class='insertListTr'>"
 						+ "<td>"
@@ -357,15 +439,14 @@
 			insertFrm.rprsvNm.value="";
 			insertFrm.businessStatus.value="도소매업";
 			insertFrm.event.value="식료품";
-			$('.employeeList').load(location.href+' .employeeList');
-			//insertFrm.empCd.value="입력해주세요";
+			insertFrm.empCd.value="";
 			insertFrm.nationCd.value="KR";
 			insertFrm.postcode.value="";
 			insertFrm.address.value="";
 			insertFrm.addressDetail.value="";
 			insertFrm.tel.value="";
 			insertFrm.email.value="";
-			insertFrm.remark.value="";
+			insertFrm.remark.value=".";
 			insertFrm.addDate.value = new Date().toISOString().substring(0, 10);
 			insertFrm.addUser.value="";
 		
@@ -379,24 +460,41 @@
 	}
 
 	function insertAction() {
-		console.log('a');
+		
 		var table = document.querySelector('#insertList-table');
 		var rows = document.getElementById("insertList-table").getElementsByTagName("tr");
 		var insertArray = new Array(table.rows.length-1);
-		console.log(table);
-		console.log(insertArray);
-		console.log(rows);
 		
+		var empCdNm = "";
+		var addUserNm= "";
+		
+		for (var i = 0; i < table.rows.length-1; i++) {
+			
+			var cells = rows[i+1].getElementsByTagName("td");
+			empCdNm = cells[6].firstChild.data;
+			for (var i = 0; i < table.rows.length-1; i++) {
+			var empCd2 = empCdNm.split(" ");
+			console.log(empCd2[0]);
+			}
+			
+			addUserNm = cells[16].firstChild.data;
+			for (var i = 0; i < table.rows.length-1; i++) {
+			var addUser2 = addUserNm.split(" ");
+			console.log(addUser2[0]);
+			}
+		
+		}
 		
 		for (var i = 0; i < table.rows.length-1; i++) {
 			var cells = rows[i+1].getElementsByTagName("td");
+			
 			insertArray[i] = { 
 					buyerNm: cells[1].firstChild.data, 
 					brno: cells[2].firstChild.data, 
 					rprsvNm: cells[3].firstChild.data, 
 					businessStatus: cells[4].firstChild.data, 
 					event: cells[5].firstChild.data, 
-					empCd: cells[6].firstChild.data, 
+					empCd: empCd2[0], 
 					status: cells[7].firstChild.data, 
 					nationCd: cells[8].firstChild.data, 
 					postcode: cells[9].firstChild.data, 
@@ -406,8 +504,9 @@
 					email: cells[13].firstChild.data, 
 					remark: cells[14].firstChild.data, 
 					addDate: cells[15].firstChild.data, 
-					addUser: cells[16].firstChild.data
+					addUser: addUser2[0]
 					};
+			
 			console.log(insertArray[i]);
 		};
 		
@@ -423,6 +522,7 @@
 		     dataType: 'json',
 		     success: function (res) {
 		        if (res.result) {
+		        	alert("새로운 거래처가 등록되었습니다");
 					pageView('buyerManagement.do');
 		        }
 			}
@@ -505,6 +605,7 @@
 		document.querySelector('.edit-finish-btn').style.display = 'block';
 		$('.buyerList-div').css('background-color', '#d3dfea');
 		editable = 1;
+		$('.readonly').attr("disabled",false);
 		console.log(editable);
 	}
 	
@@ -514,6 +615,10 @@
 		document.querySelector('.edit-finish-btn').style.display = 'none';
 		$('.buyerList-div').css('background-color', '#fff');
 		editable = 0;
+		alert('거래처 정보가 수정되었습니다');
+		setTimeout(function() {
+				pageView('buyerManagement.do');
+		    }, 200);
 		console.log(editable);
 	}
 	
@@ -552,7 +657,11 @@
 		var empCd = document.querySelector('.employeeList').value;
 		var status = document.querySelector('.statusList').value;
 		pageView('buyerManagement.do?buyerCd='+buyerCd+'&empCd='+empCd+'&status='+status);
+		
+		
 	}
+	
+	
 </script>
 
 
@@ -562,15 +671,15 @@
 $('.buyerList').SumoSelect({
 	search: true, searchText: '코드/거래처명'
 	,noMatch : '"{0}"가 없습니다'
-	});
+	}); 
 /* 담당자리스트 */
-$('.employeeList').SumoSelect({
+ $('.employeeList').SumoSelect({
 	search: true, searchText: '코드/담당자명'
 	,noMatch : '"{0}"가 없습니다',
-	});
+	}); 
 /* 거래처상태리스트 */
-$('.statusList').SumoSelect({
-});
+ $('.statusList').SumoSelect({
+}); 
 </script>
 </head>
 <body>
@@ -592,26 +701,27 @@ $('.statusList').SumoSelect({
 					<div class="search-item-text">• 거래처코드/거래처명</div>
 					<!-- sumoselect -->
 					<select class="buyerList" name="buyerSelect">
-						<!-- <option value=""></option> -->
+						<option class="hidden" value=""></option>
 						<option value="${buyerCd }" selected="selected">${buyerCd } ${buyerNm2 } </option>
 						<c:forEach var="buyer" items="${buyerAllList }">
 							<option value="${buyer.buyerCd }">${buyer.buyerCd } ${buyer.buyerNm }</option>
 						</c:forEach>
-					</select>
+					</select><div class="delBtn" onclick="delSearchBuyerCd()">&nbsp;✖</div>
 				</div>
 				<div class="search-item-div">
 					<div class="search-item-text2">• 담당자</div>
-					<select id="empCdSelect" class="employeeList" name="employeeSelect">
-						<!-- <option value=""></option> -->
+ 					<select id="empCdSelect" class="employeeList" name="employeeSelect">
+						<option class="hidden" value=""></option>
 						<option value="${empCd2 }" selected="selected">${empCd2 } ${empNm }</option>
 						<c:forEach var="emp" items="${employee_list }">
 							<option value="${emp.empCd }">${emp.empCd } ${emp.name }</option>
 						</c:forEach>
-					</select>
+					</select><div class="delBtn" onclick="delSearchEmpCd()">&nbsp;✖</div>
 				</div>
 				<div class="search-item-div">
 					<div class="search-item-text">• 거래처상태</div>
 					<select class="statusList" name="statusSelect">
+						<option class="hidden" value=""></option>
 						<option value="${status }" selected="selected">${status }</option>
 						<c:if test="${status == '' || status==null}">
 							<option value="활성">활성</option>
@@ -623,8 +733,10 @@ $('.statusList').SumoSelect({
 						<c:if test="${status == '비활성'}">
 							<option value="활성">활성</option>
 						</c:if>
-					</select>
+					</select><div class="delBtn" onclick="delSearchStatus()">&nbsp;✖</div>
 				</div>
+				
+				<div class="reloadDiv" onclick="reloadBtn()" title="검색조건 초기화"><img class="reloadImg" alt="" src="/sharedone/resources/images/reload.png"> </div>
 			</div>
 
 			</div>
@@ -662,18 +774,120 @@ $('.statusList').SumoSelect({
 						<tr ondblclick="buyerUpdate('${buyer_list.buyerCd}')" id="buyerListTr_${buyer_list.buyerCd }" class="buyerListTr">
 							<td><input type="checkbox" name="selectChk" value="${buyer_list.buyerCd}" class="no-border" ></td>
 							<td><input type="text" readonly="readonly" value="${buyer_list.buyerCd }"  class="list-input edit"></td>
-							<td><input type="text" id="${buyer_list.buyerCd }_buyerNm" value="${buyer_list.buyerNm }" class="list-input4 edit"></td>
-							<td><input type="text" id="${buyer_list.buyerCd }_brno" value="${buyer_list.brno }" class="list-input4 edit"></td>
-							<td><input type="text" id="${buyer_list.buyerCd }_rprsvNm" value="${buyer_list.rprsvNm }" class="list-input edit"></td>
-							<td><input type="text" id="${buyer_list.buyerCd }_businessStatus" value="${buyer_list.businessStatus}" class="list-input edit"></td>
-							<td><input type="text" id="${buyer_list.buyerCd }_event" value="${buyer_list.event }" class="list-input edit"></td>
-							<td><input type="text" id="${buyer_list.buyerCd }_name" value="${buyer_list.name }" class="list-input edit"></td>
-							<td><input type="text" id="${buyer_list.buyerCd }_status" value="${buyer_list.status }" class="list-input edit"></td>
-							<td><input type="text" id="${buyer_list.buyerCd }_nationCd" value="${buyer_list.nationCd }" class="list-input edit"></td>
-							<td >〒${buyer_list.postcode }&nbsp;${buyer_list.address } ${buyer_list.addressDetail }</td>
-							<td><input type="text" id="${buyer_list.buyerCd }_tel"  value="${buyer_list.tel }" class="list-input2 edit"></td>
-							<td><input type="text" id="${buyer_list.buyerCd }_email" value="${buyer_list.email }" class="list-input2 edit"></td>
-							<td><input type="text" id="${buyer_list.buyerCd }_remark" value="${buyer_list.remark }" class="list-input3 edit"></td>
+							<td><input type="text" readonly="readonly" id="${buyer_list.buyerCd }_buyerNm" value="${buyer_list.buyerNm }" id="readonly" class="list-input4 edit readoonly"></td>
+							<td><input type="text" readonly="readonly" id="${buyer_list.buyerCd }_brno" value="${buyer_list.brno }" class="list-input4 edit readoonly"></td>
+							<td><input type="text" readonly="readonly" id="${buyer_list.buyerCd }_rprsvNm" value="${buyer_list.rprsvNm }" class="list-input edit readoonly"></td>
+							<td>
+								<select style="width:80px;" id="${buyer_list.buyerCd }_businessStatus" class="list-input edit readonly">
+									<option value="${buyer_list.businessStatus}" selected="selected">${buyer_list.businessStatus}</option>
+									<c:if test="${buyer_list.businessStatus == '도소매업'}">
+										<option value="숙박업">숙박업</option>
+										<option value="서비스업">서비스업</option>
+										<option value="기타">기타</option>
+									</c:if>
+									<c:if test="${buyer_list.businessStatus == '숙박업'}">
+										<option value="도소매업">도소매업</option>
+										<option value="서비스업">서비스업</option>
+										<option value="기타">기타</option>
+									</c:if>
+									<c:if test="${buyer_list.businessStatus == '서비스업'}">
+										<option value="도소매업">도소매업</option>
+										<option value="숙박업">숙박업</option>
+										<option value="기타">기타</option>
+									</c:if>
+									<c:if test="${buyer_list.businessStatus == '기타'}">
+										<option value="도소매업">도소매업</option>
+										<option value="숙박업">숙박업</option>
+										<option value="서비스업">서비스업</option>
+									</c:if>
+									
+								</select>
+							</td>
+							<%-- <td><input type="text" id="${buyer_list.buyerCd }_businessStatus" value="${buyer_list.businessStatus}" class="list-input edit"></td> --%>
+							<td>
+								<select style="width:70px;" id="${buyer_list.buyerCd }_event" class="list-input edit readonly">
+									<option value="${buyer_list.event }" selected="selected">${buyer_list.event }</option>
+									<c:if test="${buyer_list.event == '식료품'}">
+											<option value="한식">한식</option>
+											<option value="잡화">잡화</option>
+											<option value="사무">사무</option>
+											<option value="기타">기타</option>
+									</c:if>
+									<c:if test="${buyer_list.event == '한식'}">
+											<option value="식료품">식료품</option>
+											<option value="잡화">잡화</option>
+											<option value="사무">사무</option>
+											<option value="기타">기타</option>
+									</c:if>
+									<c:if test="${buyer_list.event == '잡화'}">
+											<option value="식료품">식료품</option>
+											<option value="한식">한식</option>
+											<option value="사무">사무</option>
+											<option value="기타">기타</option>
+									</c:if>
+									<c:if test="${buyer_list.event == '사무'}">
+											<option value="식료품">식료품</option>
+											<option value="한식">한식</option>
+											<option value="잡화">잡화</option>
+											<option value="기타">기타</option>
+									</c:if>
+									<c:if test="${buyer_list.event == '기타'}">
+											<option value="식료품">식료품</option>
+											<option value="한식">한식</option>
+											<option value="잡화">잡화</option>
+											<option value="사무">사무</option>
+									</c:if>
+								</select>
+							</td>
+							<%-- <td><input type="text" id="${buyer_list.buyerCd }_event" value="${buyer_list.event }" class="list-input edit"></td> --%>
+							<td><input type="text" readonly="readonly" id="${buyer_list.buyerCd }_name" value="${buyer_list.name }" class="list-input edit readoonly"></td>
+							<td>
+								<select style="width:60px;" id="${buyer_list.buyerCd }_status" class="list-input edit readonly">
+									<option value="${buyer_list.status }" selected="selected">${buyer_list.status }</option>
+									<c:if test="${buyer_list.status == '활성'}">
+											<option value="비활성">비활성</option>
+									</c:if>
+									<c:if test="${buyer_list.status == '비활성'}">
+											<option value="활성">활성</option>
+									</c:if>
+
+								</select>
+
+							</td>
+							<%-- <td><input type="text" id="${buyer_list.buyerCd }_status" value="${buyer_list.status }" class="list-input edit readoonly"></td> --%>
+							<td>
+								<select style="width:40px;" id="${buyer_list.buyerCd }_nationCd" class="list-input edit readonly">
+									<option value="${buyer_list.nationCd }" selected="selected">${buyer_list.nationCd }</option>
+									<c:if test="${buyer_list.nationCd == 'KR'}">
+											<option value="US">US</option>
+											<option value="DE">DE</option>
+											<option value="JP">JP</option>
+									</c:if>
+									<c:if test="${buyer_list.nationCd == 'US'}">
+											<option value="KR">KR</option>
+											<option value="DE">DE</option>
+											<option value="JP">JP</option>
+									</c:if>
+									<c:if test="${buyer_list.nationCd == 'DE'}">
+											<option value="KR">KR</option>
+											<option value="US">US</option>
+											<option value="JP">JP</option>
+									</c:if>
+									<c:if test="${buyer_list.nationCd == 'JP'}">
+											<option value="KR">KR</option>
+											<option value="US">US</option>
+											<option value="DE">DE</option>
+									</c:if>
+								</select>
+
+							</td>
+							<%-- <td><input type="text" id="${buyer_list.buyerCd }_nationCd" value="${buyer_list.nationCd }" class="list-input edit readoonly"></td> --%>
+							<td >〒${buyer_list.postcode }&nbsp;${buyer_list.address }
+							<input type="text" readonly="readonly" id="${buyer_list.buyerCd }_addressDetail"  value="${buyer_list.addressDetail }" class="list-input2 edit readoonly">
+							 </td>
+							<td><input type="text" readonly="readonly" id="${buyer_list.buyerCd }_tel"  value="${buyer_list.tel }" class="list-input2 edit readoonly"></td>
+							<td><input type="text" readonly="readonly" id="${buyer_list.buyerCd }_email" value="${buyer_list.email }" class="list-input2 edit readoonly"></td>
+							<td><input type="text" readonly="readonly" id="${buyer_list.buyerCd }_remark" value="${buyer_list.remark }" class="list-input3 edit readoonly"></td>
 						</tr>
 					</c:forEach>
 				</c:if>
@@ -701,12 +915,12 @@ $('.statusList').SumoSelect({
 				</div>
 				<div class="insert-sub-row-div">
 					<div class="insert-text">담당자<span class="red_warn">*</span></div>
-					<select class="employeeList" name="empCd">
-						<option value=""></option>
-						<c:forEach var="emp" items="${employee_list }">
-							<option value="${emp.empCd }">${emp.empCd } ${emp.name }</option>
-						</c:forEach>
-					</select>
+					<input list="empSelect" name="empCd">
+						<datalist id="empSelect">
+							<c:forEach var="emp" items="${employee_list }">
+								<option value="${emp.empCd } ${emp.name }"></option>
+							</c:forEach>
+						</datalist>
 				</div>
 			</div>
 			
@@ -729,11 +943,12 @@ $('.statusList').SumoSelect({
 				</div>
 				<div class="insert-sub-row-div">
 					<div class="insert-text">작성자<span class="red_warn">*</span></div>
-					<select class="employeeList" name="addUser">
-						<option value=""></option>
-						<c:forEach var="emp" items="${employee_list }">
-							<option value="${emp.empCd }">${emp.empCd } ${emp.name }</option>
-						</c:forEach>					</select>
+					<input list="empSelect" name="addUser">
+						<datalist id="empSelect">
+							<c:forEach var="emp" items="${employee_list }">
+								<option value="${emp.empCd } ${emp.name }"></option>
+							</c:forEach>
+						</datalist>
 				</div>
 			</div>
 			
@@ -743,11 +958,11 @@ $('.statusList').SumoSelect({
 			<div class="insert-row-div">
 				<div class="insert-sub-row-div">
 					<div class="insert-text">사업자등록번호<span class="red_warn">*</span></div>
-					<input id="brno-input" type="text" name="brno" required="required"/>
+					<input id="brno-input" type="text" name="brno" placeholder="숫자만 입력해주세요" required="required" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="10"/>
 				</div>
 				<div class="insert-sub-row-div">
 					<div class="insert-text">전화번호<span class="red_warn">*</span></div>
-					<input type="tel" name="tel" placeholder="숫자만 입력해주세요" required="required"/>
+					<input id="tel-input" type="tel" name="tel" placeholder="숫자만 입력해주세요" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" required="required" />
 				</div>
 				<div class="insert-sub-row-div">
 					<div class="insert-text">작성일시<span class="red_warn">*</span></div>
@@ -767,8 +982,8 @@ $('.statusList').SumoSelect({
 					<input type="text" name="rprsvNm" required="required"/>
 				</div>
 				<div class="insert-sub-row-div">
-					<div class="insert-text">이메일</div>
-					<input type="email" name="email"/>
+					<div class="insert-text">이메일<span class="red_warn">*</span></div>
+					<input id="email-input" type="email" name="email"/>
 				</div>
 			</div>
 			
@@ -828,7 +1043,7 @@ $('.statusList').SumoSelect({
 			<div>
 				<div class="insert-sub-row-div2">
 					<div class="insert-text">참고사항</div>
-					<textarea class="remark-textarea" rows="4" cols="" name="remark"></textarea>
+					<textarea class="remark-textarea" rows="4" cols="" name="remark">.</textarea>
 				</div>
 			</div>			
 			
@@ -896,7 +1111,12 @@ $('.statusList').SumoSelect({
 				</div>
 				<div class="insert-sub-row-div">
 					<div class="insert-text">담당자<span class="red_warn">*</span></div>
-					<input type="text" name="empCd" required="required"/>
+					<input list="empSelect" name="empCd">
+						<datalist id="empSelect">
+							<c:forEach var="emp" items="${employee_list }">
+								<option value="${emp.empCd } ${emp.name }"></option>
+							</c:forEach>
+						</datalist>
 				</div>
 			</div>
 			
@@ -919,7 +1139,12 @@ $('.statusList').SumoSelect({
 				</div>
 				<div class="insert-sub-row-div">
 					<div class="insert-text">작성자<span class="red_warn">*</span></div>
-					<input type="text" name="addUser" required="required"/>
+					<input list="empSelect" name="addUser">
+						<datalist id="empSelect">
+							<c:forEach var="emp" items="${employee_list }">
+								<option value="${emp.empCd } ${emp.name }"></option>
+							</c:forEach>
+						</datalist>
 				</div>
 			</div>
 			
@@ -929,11 +1154,11 @@ $('.statusList').SumoSelect({
 			<div class="insert-row-div">
 				<div class="insert-sub-row-div">
 					<div class="insert-text">사업자등록번호<span class="red_warn">*</span></div>
-					<input type="text" name="brno" required="required"/>
+					<input type="text" id="brno-input" name="brno" required="required" placeholder="숫자만 입력해주세요"  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="10"/>
 				</div>
 				<div class="insert-sub-row-div">
 					<div class="insert-text">전화번호<span class="red_warn">*</span></div>
-					<input type="tel" name="tel" placeholder="숫자만 입력해주세요" required="required"/>
+					<input type="tel" name="tel" placeholder="숫자만 입력해주세요" required="required" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
 				</div>
 				<div class="insert-sub-row-div">
 					<div class="insert-text">작성일시<span class="red_warn">*</span></div>

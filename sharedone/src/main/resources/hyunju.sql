@@ -812,7 +812,7 @@ CREATE TABLE M_BUYER (
    NATIONCD CHAR(2) NOT NULL,            --국가코드
    POSTCODE CHAR(5) NOT NULL,            --우편번호
    ADDRESS   VARCHAR2(50) NOT NULL,         --소재지
-   ADDRESS_DETAIL VARCHAR2(50) NOT NULL,   --소재지상세
+   ADDRESSDETAIL VARCHAR2(50) NOT NULL,   --소재지상세
    TEL   CHAR(11) NOT NULL,               --전화번호
    EMAIL VARCHAR2(320)   NULL,            --이메일
    REMARK VARCHAR2(1000) NULL,            --참고사항
@@ -820,7 +820,7 @@ CREATE TABLE M_BUYER (
    ADDUSER   VARCHAR2(255) NOT NULL,         --작성자
    DELYN CHAR DEFAULT 'n' NOT NULL         --삭제여부
 );
-
+ALTER TABLE m_buyer RENAME COLUMN ADDRESS_DETAIL TO ADDRESSDETAIL;
 --영업1팀
 --E00001의 거래처
 insert into M_BUYER values(
@@ -1454,3 +1454,23 @@ SELECT * FROM m_buyer WHERE brno='2068650113';
 	WHERE pricingDate >= TO_DATE('2022-12','YYYY-MM') --12월 1일부터
     AND pricingDate < ADD_MONTHS(TO_DATE('2022-12','YYYY-MM'), 1) --12월 31일 까지
 	GROUP BY status
+
+
+
+
+select * from m_buyer;
+
+SELECT * FROM m_buyer b, m_employee e WHERE b.empCd=e.empCd AND b.addUser=e.empCd AND b.buyerCd='B00001';
+
+
+
+SELECT o.pricingdate, p.productNM, b.buyerNm, e.name, o.status, sum(tod.qty*tod.unitprice) amount
+			FROM t_order o, m_employee e, m_product p, m_buyer b, t_order_detail tod
+			WHERE o.sono=tod.sono
+			AND o.souser=e.empcd
+			AND o.buyercd=b.buyercd
+			AND tod.productcd=p.productcd
+			AND o.pricingDate >= TRUNC(SYSDATE, 'MM')
+	    	AND o.pricingDate < LAST_DAY(SYSDATE)
+	    	GROUP BY o.pricingdate, p.productNM, b.buyerNm, e.name, o.status
+			ORDER BY o.pricingdate;
