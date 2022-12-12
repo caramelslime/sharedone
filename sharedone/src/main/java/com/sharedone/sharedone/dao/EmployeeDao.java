@@ -14,4 +14,6 @@ public interface EmployeeDao {
 	//직원 정보 한개 출력
 	Employee selectEmpNm(String empCd);
 
+	List<Employee> selectTeam(String empCd);
+
 }

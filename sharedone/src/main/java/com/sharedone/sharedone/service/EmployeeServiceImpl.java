@@ -29,4 +29,10 @@ public class EmployeeServiceImpl implements EmployeeService{
 	public Employee selectEmpNm(String empCd) {
 		return ed.selectEmpNm(empCd);
 	}
+
+	@Override
+	public List<Employee> selectTeam(String empCd) {
+		// TODO Auto-generated method stub
+		return ed.selectTeam(empCd);
+	}
 }

@@ -19,4 +19,8 @@
 	<select id="selectEmpNm" parameterType="string" resultType="employee">
 		SELECT * FROm m_employee WHERE empCd=#{empCd}
 	</select>
+	
+	<select id="selectTeam" parameterType="string" resultType="employee">
+		SELECT * FROm m_employee WHERE dept =(select dept from m_employee where empCd=#{empCd})
+	</select>
 </mapper>
