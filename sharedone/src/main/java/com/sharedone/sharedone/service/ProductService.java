@@ -24,4 +24,7 @@ public interface ProductService {
 	
 	String selectByNm(String productNM);
 
+//	khs 제품명 찾기
+	Product selectProductNm(String productCD2);
+
 }

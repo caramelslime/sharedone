@@ -56,4 +56,10 @@ public class ProductServiceImpl implements ProductService {
 	public String selectByNm(String productNM) {
 		return pd.selectByNm(productNM);
 	}
+
+	@Override
+	public Product selectProductNm(String productCD2) {
+		// TODO Auto-generated method stub
+		return pd.selectProductNm(productCD2);
+	}
 }

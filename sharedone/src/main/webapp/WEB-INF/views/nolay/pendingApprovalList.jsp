@@ -168,6 +168,22 @@
     height: 39px;
     margin: 10px auto 0 auto;
 }
+.delBtn{
+	cursor:pointer;
+}
+.reloadDiv{
+	width: 24px;
+    height: 24px;
+    border: 1px solid #e8e8e8;
+    border-radius: 5px;
+	background-color: #e9e9e9;
+    cursor: pointer;
+    margin: 5px 0 0 28px;
+}
+.reloadImg{
+	width:18px;
+	margin: 3px 0 0 3px;
+}
 
 /*  */
 #status-select{
@@ -330,6 +346,18 @@
 		$('.search-div').css('opacity', '0.3');
 		$('.detail-div').show();
 	}
+	//검색 조건 초기화
+	function delSearchBuyerCd() {
+		 $ ('.buyerList')[0].sumo.selectItem(0); 
+	}
+	function delSearchEmpCd() {
+		 $ ('.employeeList')[0].sumo.selectItem(0); 
+	}
+	//전체 검색 조건 초기화
+	function reloadBtn() {
+		$ ('.buyerList')[0].sumo.selectItem(0);
+		$ ('.employeeList')[0].sumo.selectItem(0);
+	}
 	
 	function xBack(){
 		$("#detailList-table tr:not(:first)").remove();	// 상세창 닫을 때 입력한 값 제거
@@ -385,22 +413,25 @@ $('.statusList').SumoSelect({
 						<!-- sumoselect -->
 						<select class="buyerList" name="buyerSelect">
 							<!-- <option value=""></option> -->
+							<option class="hidden" value=""></option>
 							<option value="${buyerCd }" selected="selected">${buyerCd } ${buyerNm2 } </option>
 							<c:forEach var="buyer" items="${buyerList }">
 								<option value="${buyer.buyerCd }">${buyer.buyerCd } ${buyer.buyerNm }</option>
 							</c:forEach>
-						</select>
+						</select><div class="delBtn" onclick="delSearchBuyerCd()">&nbsp;✖</div>
 					</div>
 					<div class="search-item-div">
 						<div class="search-item-text2">• 담당자</div>
 						<select id="empCdSelect" class="employeeList" name="employeeSelect">
 							<!-- <option value=""></option> -->
+							<option class="hidden" value=""></option>
 							<option value="${empCd2 }" selected="selected">${empCd2 } ${empNm }</option>
 							<c:forEach var="emp" items="${teamList }">
 								<option value="${emp.empCd }">${emp.empCd } ${emp.name }</option>
 							</c:forEach>
-						</select>
+						</select><div class="delBtn" onclick="delSearchEmpCd()">&nbsp;✖</div>
 					</div>
+					<div class="reloadDiv" onclick="reloadBtn()" title="검색조건 초기화"><img class="reloadImg" alt="" src="/sharedone/resources/images/reload.png"> </div>
 				</div>
 
 					</div>

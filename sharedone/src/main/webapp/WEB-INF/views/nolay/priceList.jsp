@@ -28,6 +28,22 @@
     border:none;
     background-color: #d7d7d7;
 }
+.delBtn{
+	cursor:pointer;
+}
+.reloadDiv{
+	width: 24px;
+    height: 24px;
+    border: 1px solid #e8e8e8;
+    border-radius: 5px;
+	background-color: #e9e9e9;
+    cursor: pointer;
+    margin: 5px 0 0 28px;
+}
+.reloadImg{
+	width:18px;
+	margin: 3px 0 0 3px;
+}
 /* semoselect */
 
 .SumoSelect>.CaptionCont {
@@ -105,8 +121,8 @@
 						+ "</td>"	
 					+ "</tr>"		
 			);
-			document.querySelector('#buyerCD').value="";
-			document.querySelector('#productCD').value="";
+			$ ('#buyerCD')[0].sumo.selectItem(0);
+			$ ('#productCD')[0].sumo.selectItem(0);
 			document.querySelector('#periodStart').value="";
 			document.querySelector('#periodEnd').value="";
 			document.querySelector('#listPrice').value="";
@@ -337,11 +353,22 @@
 					productUpdate(str[0], str[1], this.value);
 					console.log("update done!!")
 				} else if (editable == 1 && previousValue == this.value) {
-					console.log("no update(same value)")
+					this.readOnly = true;
+					console.log("no update(same value)");
 				}
 			});
 	})
-
+	function delSearchBuyerCd() {
+		 $ ('.buyerList')[0].sumo.selectItem(0); 
+	}
+	function delSearchProductCd() {
+		 $ ('.productList')[0].sumo.selectItem(0); 
+	}
+	//전체 검색 조건 초기화
+	function reloadBtn() {
+		$ ('.buyerList')[0].sumo.selectItem(0);
+		$ ('.productList')[0].sumo.selectItem(0);
+	}
 	function search() {
 		var buyerCd = document.querySelector('.buyerList').value;
 		var productCd = document.querySelector('.productList').value;
@@ -393,21 +420,24 @@ $('.statusList').SumoSelect({
 						<div class="search-item-text">• 거래처코드/거래처명</div>
 						<!-- sumoselect -->
 						<select class="buyerList" name="buyerSelect" placeholder="코드/거래처명">
-							<option value=""></option>
+						<option class="hidden" value=""></option>
+							<option value="${buyerCD2 }" selected="selected">${buyerCD2 } ${buyerNM2 } </option>
 							<c:forEach var="buyer" items="${buyerAllList }">
 								<option value="${buyer.buyerCd }">${buyer.buyerCd } ${buyer.buyerNm }</option>
 							</c:forEach>
-						</select>
+						</select><div class="delBtn" onclick="delSearchBuyerCd()">&nbsp;✖&nbsp;</div>
 					</div>
 					<div class="search-item-div">
-						<div class="search-item-text2">• 제품코드/제품명</div>
+						<div class="search-item-text2">• 제품코드/ 제품명</div>
 						<select class="productList" name="productSelect" placeholder="코드/제품명">
-							<option value=""></option>
+						<option class="hidden" value=""></option>
+							<option value="${productCD2 }" selected="selected">${productCD2 } ${productNM2 }</option>
 							<c:forEach var="product" items="${productAllList }">
 								<option value="${product.productCD }">${product.productCD } ${product.productNM }</option>
 							</c:forEach>
-						</select>
+						</select><div class="delBtn" onclick="delSearchProductCd()">&nbsp;✖</div>
 					</div>
+									<div class="reloadDiv" onclick="reloadBtn()" title="검색조건 초기화"><img class="reloadImg" alt="" src="/sharedone/resources/images/reload.png"> </div>
 				</div>
 				<!-- <div class="search-item-div"><div class="search-item-text">• 유효기간 시작일 </div><input type="date" id="searchPeriodStart" class="search" ></div>	 -->
 				</div>

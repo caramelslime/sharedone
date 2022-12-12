@@ -24,4 +24,6 @@ public interface ProductDao {
 	
 	String selectByNm(String productNM);
 
+	Product selectProductNm(String productCD2);
+
 }

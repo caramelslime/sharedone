@@ -55,5 +55,9 @@
 	<select id="selectByNm" parameterType="string" resultType="String">
 		SELECT productCD FROM m_product WHERE productNM=#{productNM}
 	</select>
+	<!-- khs 코드로 이름찾기 -->
+	<select id="selectProductNm" parameterType="string" resultType="product">
+		SELECT * FROM m_product WHERE productCd=#{productCD2}
+	</select>
 	
 </mapper>

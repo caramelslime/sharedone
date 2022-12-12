@@ -61,4 +61,9 @@ public class ProductDaoImpl implements ProductDao {
 	public String selectByNm(String productNM) {
 		return sst.selectOne("productns.selectByNm", productNM);
 	}
+
+	@Override
+	public Product selectProductNm(String productCD2) {
+		return sst.selectOne("productns.selectProductNm",productCD2);
+	}
 }

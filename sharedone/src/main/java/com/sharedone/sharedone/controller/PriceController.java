@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sharedone.sharedone.model.Buyer;
+import com.sharedone.sharedone.model.Employee;
 import com.sharedone.sharedone.model.Price;
 import com.sharedone.sharedone.model.Product;
 import com.sharedone.sharedone.service.BuyerService;
@@ -35,7 +36,20 @@ public class PriceController {
 	private ProductService ps;
 	
 	@RequestMapping("priceList")
-	public String priceList(Model model, Price price,String buyerCD) {
+	public String priceList(Model model, Price price) {
+		if(price.getBuyerCD() != null && price.getBuyerCD() != "") {
+			//바이어 코드에 해당하는 바이어 이름
+			Buyer buyer2 = bs.selectBuyerNm(price.getBuyerCD());
+			System.out.println("buyer2.getBuyerNm()" + buyer2.getBuyerNm());
+			String buyerNm2 = buyer2.getBuyerNm();
+			model.addAttribute("buyerNM2", buyerNm2);
+		}
+		if(price.getProductCD() != null && price.getProductCD() != "") {
+			//바이어 코드에 해당하는 바이어 이름
+			Product product = ps.selectProductNm(price.getProductCD());
+			String productNM2 = product.getProductNM();
+			model.addAttribute("productNM2", productNM2);
+		}
 		System.out.println(price.getBuyerCD());
 		System.out.println(price.getProductCD());
 		List<Price> priceList = pv.priceList(price);
@@ -45,6 +59,8 @@ public class PriceController {
 		model.addAttribute("priceList", priceList);
 		model.addAttribute("buyerAllList", buyerAllList);
 		model.addAttribute("productAllList", productAllList);
+		model.addAttribute("productCD2", price.getProductCD());
+		model.addAttribute("buyerCD2", price.getBuyerCD());
 		
 		return "/nolay/priceList";
 	}
