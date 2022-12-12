@@ -312,3 +312,5 @@ t_order o, m_buyer b, m_employee e
 
 SELECT o.*, buyerNM, name FROM t_order o, m_buyer b, m_employee e WHERE currency IS NOT NULL AND o.buyerCD = b.buyerCD AND o.soUser = e.empcd ORDER BY soNo;
 
+SELECT * FROM t_order WHERE soUser = '' ORDER BY soNo DESC;
+

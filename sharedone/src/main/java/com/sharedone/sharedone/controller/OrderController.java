@@ -35,7 +35,39 @@ public class OrderController {
 	@RequestMapping("order")
 	public String order(HttpSession session, Order order, Model model, String soNo, String buyerCD, String soUser, String addDateRange, String pricingDateRange, String requestDateRange, String status) {
 		
+		String leaderSoUser = soUser;
+		System.out.println("leaderSoUser : "+leaderSoUser);
 		soUser = (String) session.getAttribute("empCd");
+		
+		String team = "";
+		String leader = "n";
+		if (soUser.equals("E00001")) {
+			team = "team1";
+			leader = "y";
+		} else if (soUser.equals("E00006")) {
+			team = "team2";
+			leader = "y";
+		} else if (soUser.equals("E00011")) {
+			team = "team3";
+			leader = "y";
+		}
+		
+		if (soUser.equals("E00001") || soUser.equals("E00006") || soUser.equals("E00011")) {
+			if (leaderSoUser == null) {
+				soUser = "";
+			} else if (leaderSoUser != null) {
+				soUser = leaderSoUser;
+			}
+		}
+		
+		System.out.println("soUser : "+soUser);
+		
+		
+		System.out.println("soUser : "+soUser);
+		System.out.println("leader : "+leader);
+		
+		model.addAttribute("team", team);
+		model.addAttribute("leader", leader);
 		
 		order.setSoNo(soNo);
 		order.setBuyerCD(buyerCD);
@@ -76,7 +108,6 @@ public class OrderController {
 		System.out.println(pricingDateRange);
 		System.out.println(buyerCD);
 		System.out.println(requestDateRange);
-		
 		
 		
 		

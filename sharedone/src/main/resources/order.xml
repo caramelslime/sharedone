@@ -22,7 +22,7 @@
 				pricingDate BETWEEN TO_DATE(#{pricingDateStart}, 'YYYY-MM-DD') AND TO_DATE(#{pricingDateEnd}, 'YYYY-MM-DD') AND
 			</if>
 			<if test="addDateStart != null and addDateStart !=''">
-				addDate BETWEEN TO_DATE(#{addDateStart}, 'YYYY-MM-DD') AND TO_DATE(#{addDateEnd}, 'YYYY-MM-DD') AND
+				o.addDate BETWEEN TO_DATE(#{addDateStart}, 'YYYY-MM-DD') AND TO_DATE(#{addDateEnd}, 'YYYY-MM-DD') AND
 			</if>
 			<if test="requestDateStart != null and requestDateStart !=''">
 				requestDate BETWEEN TO_DATE(#{requestDateStart}, 'YYYY-MM-DD') AND TO_DATE(#{requestDateEnd}, 'YYYY-MM-DD') AND

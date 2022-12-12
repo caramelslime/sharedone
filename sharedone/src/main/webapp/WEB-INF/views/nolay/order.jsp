@@ -922,6 +922,7 @@ function search() {
 		
 		var soNo = document.querySelector('#searchSoNo').value;
 		var soUser = document.querySelector('#searchSoUser').value;
+		console.log(soUser);
 		var pricingDateRange = document.querySelector('#searchPricingDate').value;
 		var status = document.querySelector('#searchStatus').value;
 		var buyerCD = document.querySelector('#searchBuyerCD').value;
@@ -963,7 +964,12 @@ function search() {
 						</div>
 						<div class="search-item-div">
 							<div class="search-item-text">• 영업담당자</div>
-							<input type=text id="searchSoUser" class="search inputWidth" readonly="readonly" value="${order.soUser }">
+							<c:if test="${leader == 'y'}">
+								<input type=text id="searchSoUser" class="search inputWidth" list="employee_list">
+							</c:if>
+							<c:if test="${leader == 'n'}">
+								<input type=text id="searchSoUser" class="search inputWidth" readonly="readonly" value="${order.soUser }">
+							</c:if>
 						</div>
 						<div class="search-item-div">
 							<div class="search-item-text">• 판매가기준일</div>

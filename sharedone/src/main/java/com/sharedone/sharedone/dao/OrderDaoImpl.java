@@ -36,6 +36,7 @@ public class OrderDaoImpl implements OrderDao {
 		map.put("buyerCD", order.getBuyerCD());
 		
 		if (order.getAddDateRange() != null && order.getAddDateRange()!="") {
+			System.out.println("order.getAddDateRange() : "+order.getAddDateRange());
 			String[] splitAddDate = order.getAddDateRange().split("~");
 			String addDateStart = splitAddDate[0].trim();
 			String addDateEnd = splitAddDate[1].trim();
