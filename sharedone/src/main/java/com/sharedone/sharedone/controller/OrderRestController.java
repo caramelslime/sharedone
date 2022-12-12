@@ -112,6 +112,7 @@ public class OrderRestController {
 			result.put("result", true);
 
 		} catch (Exception e) {
+			System.out.println("inputerror");
 			System.out.println(e.getMessage());
 			result.put("result", false);
 		}

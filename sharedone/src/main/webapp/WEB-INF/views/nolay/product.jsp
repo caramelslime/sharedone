@@ -318,6 +318,10 @@
 		placeholder: ' '
 		});
 	
+	function searchCdnmReset() {
+		document.querySelector('#searchCdnm').value='';
+	}
+	
 	
 </script>
 
@@ -337,25 +341,42 @@
 			<div class="search-div">
 				<div class="search-sub-wrap">
 					<div class="search-sub-div">
-						<div class="search-item-div">
-							<div class="search-item-text">• 제품 코드 / 제품명</div>
-							<select id="searchCdnm" class="search" name="productSelect">
-								<option value=""></option>
-								<c:forEach var="product" items="${productAllList }">
-									<option value="${product.productCD }">${product.productCD } ${product.productNM }</option>
-								</c:forEach>
-							</select>
-							
-							<!-- <input type=text id="searchCdnm" class="search" list="CDList"> -->
+						<div class="insert-row-div2">
+							<div class="search-item-text1">• 제품 코드 / 제품명</div>
+							<div class="search-item-text2 insert-row-div">
+								<c:if test="${cdnm != null && cdnm != '' }">
+								<input type=text id="searchCdnm" class="search" name="productSelect" value="${cdnm }" list="productAllList" autocomplete="off">
+								</c:if>
+								<c:if test="${cdnm == null || cdnm == '' }">
+								<input type=text id="searchCdnm" class="search" name="productSelect" list="productAllList" autocomplete="off">
+								</c:if>
+								<div class="searchCdnm-reset-div"><div onclick="searchCdnmReset()" class="searchCdnm-reset">✖</div></div>
+							</div>
 						</div>
 					</div>
 					<div class="search-item-div">
 						<div class="search-item-text">• 제품 그룹</div>
+						<c:if test="${productGroup != null && productGroup != '' }">
 						<select id="searchProductGroup" class="search" required="required">
-							<option value=""></option>
+							<c:if test="${productGroup == '스낵류' }">
+								<option value="">전체</option>
+								<option value="스낵류" selected="selected">스낵류</option>
+								<option value="초콜릿류">초콜릿류</option>
+							</c:if>
+							<c:if test="${productGroup == '초콜릿류' }">
+								<option value="">전체</option>
+								<option value="스낵류">스낵류</option>
+								<option value="초콜릿류" selected="selected">초콜릿류</option>
+							</c:if>
+						</select>
+						</c:if>
+						<c:if test="${productGroup == null || productGroup == '' }">
+						<select id="searchProductGroup" class="search" required="required">
+							<option value="">전체</option>
 							<option value="스낵류">스낵류</option>
 							<option value="초콜릿류">초콜릿류</option>
 						</select>
+						</c:if>
 					</div>	
 				</div>
 				<div class="search-box search" onclick="search()" tabIndex="0">조회</div>
@@ -452,6 +473,14 @@
 					<option value="${product.productCD}">${product.productNM}</option>
 				</c:forEach>
 			</datalist>
+			
+			<div style="display: none;">
+			<datalist id="productAllList">
+				<c:forEach var="product" items="${productAllList }">
+					<option value="${product.productCD}">${product.productNM}</option>
+				</c:forEach>
+			</datalist>
+		</div>
 		</div>
 	</div>
 	

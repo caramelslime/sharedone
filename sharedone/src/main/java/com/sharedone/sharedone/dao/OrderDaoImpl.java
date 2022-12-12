@@ -167,4 +167,9 @@ public class OrderDaoImpl implements OrderDao {
 	public List<Order> orderAllList(Order order) {
 		return sst.selectList("orderns.orderAllList", order);
 	}
+
+	@Override
+	public int totalPrice(String soNo) {
+		return sst.selectOne("orderns.totalPrice", soNo);
+	}
 }

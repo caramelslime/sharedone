@@ -32,4 +32,8 @@ public class Order {
 	private String pricingDateRange;
 	private String requestDateRange;
 	
+	private String buyerNM;
+	private String name;
+	
+	private int totalPrice;
 }

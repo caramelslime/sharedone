@@ -49,7 +49,14 @@ public class OrderController {
 		model.addAttribute("productAllList", productAllList);
 		
 		List<Order> orderList = os.orderList(order);
+		
+		for (int i=0; i < orderList.size(); i++) {
+			orderList.get(i).setTotalPrice(os.totalPrice(orderList.get(i).getSoNo()));
+		}
+		
 		model.addAttribute("orderList", orderList);
+		
+		
 		
 		List<Order> orderAllList = os.orderAllList(order);
 		model.addAttribute("orderAllList", orderAllList);
@@ -61,6 +68,25 @@ public class OrderController {
 		model.addAttribute("employee_list", employee_list);
 		
 		model.addAttribute("order", order);
+		
+		System.out.println(soNo);
+		System.out.println(soUser);
+		System.out.println(addDateRange);
+		System.out.println(status);
+		System.out.println(pricingDateRange);
+		System.out.println(buyerCD);
+		System.out.println(requestDateRange);
+		
+		
+		
+		
+		model.addAttribute("soNo", soNo);
+		model.addAttribute("soUser", soUser);
+		model.addAttribute("addDateRange", addDateRange);
+		model.addAttribute("status", status);
+		model.addAttribute("pricingDateRange", pricingDateRange);
+		model.addAttribute("buyerCD", buyerCD);
+		model.addAttribute("requestDateRange", requestDateRange);
 		
 		return "/nolay/order";
 	}

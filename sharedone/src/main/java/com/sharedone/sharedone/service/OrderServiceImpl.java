@@ -102,4 +102,10 @@ public class OrderServiceImpl implements OrderService {
 	public List<Order> orderAllList(Order order) {
 		return od.orderAllList(order);
 	}
+
+	@Override
+	public int totalPrice(String soNo) {
+		// TODO Auto-generated method stub
+		return od.totalPrice(soNo);
+	}
 }

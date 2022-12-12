@@ -55,6 +55,8 @@
 		document.querySelector('.edit-finish-btn2').style.display = 'block';
 		document.querySelector('#request-approval-btn').style.display = 'none';
 		
+		$('.edit-back').css('background-color', '#d3dfea');
+		
 		editable = 1;
 		console.log(editable);
 		
@@ -66,39 +68,64 @@
 	
 	/* 제품 수정 비활성화 */
 	function editFinish() {
-		document.querySelector('.edit-start-btn2').style.display = 'block';
-		document.querySelector('.edit-finish-btn2').style.display = 'none';
-		document.querySelector('#request-approval-btn').style.display = 'block';
 		
-		editable = 0;
-		console.log(editable);
-		
+		var count = 0;
 		document.querySelectorAll('.edit').forEach(function(element) {
-			element.readOnly = true;
+			if (element.value == '' || element.value == null) {
+				count +=1;
+			} 
 		})
 		
-		var soNo = document.querySelector('#detailSoNo').value;
-		detailProductDelete(soNo);
+		document.querySelectorAll('.detailTotalPrice').forEach(function(element) {
+			if (element.innerHTML == '' || element.innerHTML == null) {
+				count +=1;
+			} 
+		})
 		
-		document.querySelectorAll('.productCDCheck').forEach(function(element) {
+		
+		if (count > 0) {
+			alert('제품 정보와 합계를 불러온 후에 저장해주세요');
+		} else {
+		
+			document.querySelector('.edit-start-btn2').style.display = 'block';
+			document.querySelector('.edit-finish-btn2').style.display = 'none';
+			document.querySelector('#request-approval-btn').style.display = 'block';
 			
-			var row = element.getAttribute('id').substr(15);
-			var productCD = element.value
-			var qty = document.querySelector('#detailQty'+row).value;
-			var unitPrice = document.querySelector('#detailUnitPrice'+row).innerHTML;
-	 		detailProductUpdate(soNo, productCD, qty, unitPrice);
-	 		
-		})
+			editable = 0;
+			console.log(editable);
 			
-		document.querySelectorAll('.minus-img').forEach(function(el) {
-			el.style.visibility = 'visible';
-		})
-		document.querySelector('#add-row-btn').style.visibility = 'visible';
-		
-		
+			document.querySelectorAll('.edit').forEach(function(element) {
+				element.readOnly = true;
+			})
+			
+			var soNo = document.querySelector('#detailSoNo').value;
+			detailProductDelete(soNo);
+			
+			document.querySelectorAll('.productCDCheck').forEach(function(element) {
+				
+				var row = element.getAttribute('id').substr(15);
+				var productCD = element.value
+				var qty = document.querySelector('#detailQty'+row).value;
+				var unitPrice1 = document.querySelector('#detailUnitPrice'+row).innerHTML;
+				var unitPrice = unitPrice1.replace(/,/g, "");
+				
+				setTimeout(function() {
+			 		detailProductUpdate(soNo, productCD, qty, unitPrice);
+				}, 200);
+		 		
+			})
+				
+			document.querySelectorAll('.minus-img').forEach(function(el) {
+				el.style.visibility = 'visible';
+			})
+			document.querySelector('#add-row-btn').style.visibility = 'visible';
+			
+			
 	 		setTimeout(function() {
 		 		detail(soNo);
-			}, 200);
+			}, 300);
+	 		
+		}
 	}
 	
 	function detailProductDelete(soNo) {
@@ -135,7 +162,7 @@
 		});
 		
 		
-		$('.search').keypress(function() { // enter키를 누르면 메세지 전송
+		$('.search').keydown(function() { // enter키를 누르면 메세지 전송
 			//  누른 key값(asscii)  IE ?      IE의 값         IE아닌 모든 web값
 			var keycode = event.keyCode ? event.keyCode : event.which;
 			if (keycode == 13) { // 13이 enter(assii값)
@@ -171,14 +198,15 @@
 			}
 		});
 		
-		$(document).on('keypress', '.addDetailProductCD' ,function() {
+		$(document).on('keydown', '.addDetailProductCD' ,function() {
 			$(this).val($(this).val().toUpperCase());
 			var keycode = event.keyCode ? event.keyCode : event.which;
 			if (keycode == 13) { // 13이 enter(assii값)
 					console.log("thisvalue"+this.getAttribute('id'));
-					var row = this.getAttribute('id').substr(15);
+					var row1 = this.getAttribute('id').substr(15);
+					var row = Number(row1);
 					console.log(row);
-					loadDetailProductData(row, this.value);
+					loadDetailProductData(row);
 			}
 		});
 		
@@ -219,7 +247,9 @@
 		
 	}
 	
-	function search() {
+	/* function search() {
+		console.log(document.querySelector('#searchAddDate').value);
+		console.log(document.querySelector('#searchPricingDate').value);
 		
 		var soNo = document.querySelector('#searchSoNo').value;
 		var buyerCD = document.querySelector('#searchBuyerCD').value;
@@ -229,8 +259,9 @@
 		var requestDate = document.querySelector('#searchRequestDate').value;
 		var status = document.querySelector('#searchStatus').value;
 		
+		
 		pageView('order.do?soNo='+soNo+'&buyerCD='+buyerCD+'&soUser='+soUser+'&addDate='+addDate+'&pricingDate='+pricingDate+'&requestDate='+requestDate+'&status='+status);
-	}
+	} */
 	
 	var status = "";
 	
@@ -251,8 +282,9 @@
 					var productGroup = data[i].productGroup;
 					var qty = data[i].qty;
 					var unit = data[i].unit;
-					var unitPrice = data[i].unitPrice;
-					var totalPrice = qty * unitPrice;
+					var unitPrice = data[i].unitPrice.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+					var totalPrice1 = qty * unitPrice.replace(/,/g, "");
+					var totalPrice = totalPrice1.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 					
 					var status = document.querySelector('#detailStatus').value;
 					
@@ -270,13 +302,13 @@
 									+"<td class='center'>"
 									+"</td>"
 									+"<td class='center'>"+num+"</td>"
-									+ "<td> <input type='text' id='detailProductCD"+rowNumber+"' class='center addDetailProductCD edit productCDCheck' value='"+productCD+"' readonly='readonly'></td>"
+									+ "<td class='edit-back'> <input type='text' id='detailProductCD"+rowNumber+"' class='center addDetailProductCD edit productCDCheck' value='"+productCD+"' list='productAllList' readonly='readonly'></td>"
 									+ "<td id='detailProductNM"+rowNumber+"' class='center'>"+productNM+"</td>"
 									+ "<td id='detailProductGroup"+rowNumber+"' class='center'>"+productGroup+"</td>"
 									+ "<td id='detailUnit"+rowNumber+"' class='center'>"+unit+"</td>"
-									+ "<td> <input type='text' id='detailQty"+rowNumber+"' class='center calculateDetailTotalPrice edit' value='"+qty+"' readonly='readonly'></td>"
+									+ "<td class='edit-back'> <input type='text' id='detailQty"+rowNumber+"' class='center calculateDetailTotalPrice edit' value='"+qty+"' readonly='readonly'></td>"
 									+ "<td id='detailUnitPrice"+rowNumber+"' class='right '>"+unitPrice+"</td>"
-									+ "<td id='detailTotalPrice"+rowNumber+"' class='right'>"+totalPrice+"</td>"
+									+ "<td id='detailTotalPrice"+rowNumber+"' class='right detailTotalPrice'>"+totalPrice+"</td>"
 								+ "</tr>"
 						);
 						
@@ -288,13 +320,13 @@
 									+ "<img id='productCD_"+productCD+"' class='minus-img' alt='이미지 없음' src='/sharedone/resources/images/minus.png' onclick='removeItem(this)' />"
 									+"</td>"
 									+"<td class='center'>"+num+"</td>"
-									+ "<td> <input type='text' id='detailProductCD"+rowNumber+"' class='center addDetailProductCD edit productCDCheck' value='"+productCD+"' readonly='readonly'></td>"
+									+ "<td class='edit-back'> <input type='text' id='detailProductCD"+rowNumber+"' class='center addDetailProductCD edit productCDCheck' value='"+productCD+"' list='productAllList' readonly='readonly'></td>"
 									+ "<td id='detailProductNM"+rowNumber+"' class='center'>"+productNM+"</td>"
 									+ "<td id='detailProductGroup"+rowNumber+"' class='center'>"+productGroup+"</td>"
 									+ "<td id='detailUnit"+rowNumber+"' class='center'>"+unit+"</td>"
-									+ "<td> <input type='text' id='detailQty"+rowNumber+"' class='center calculateDetailTotalPrice edit' value='"+qty+"' readonly='readonly'></td>"
-									+ "<td id='detailUnitPrice"+rowNumber+"' class='right'>"+unitPrice+"</td>"
-									+ "<td id='detailTotalPrice"+rowNumber+"' class='right'>"+totalPrice+"</td>"
+									+ "<td class='edit-back'> <input type='text' id='detailQty"+rowNumber+"' class='center calculateDetailTotalPrice edit' value='"+qty+"' readonly='readonly'></td>"
+									+ "<td id='detailUnitPrice"+rowNumber+"' class='right'>"+unitPrice.replace(/\B(?=(\d{3})+(?!\d))/g, ',')+"</td>"
+									+ "<td id='detailTotalPrice"+rowNumber+"' class='right detailTotalPrice'>"+totalPrice.replace(/\B(?=(\d{3})+(?!\d))/g, ',')+"</td>"
 								+ "</tr>"
 						);
 					}
@@ -333,7 +365,9 @@
 	}
 	
 	function xBack(){
-		document.querySelector('#comment-input').value=""; // 상세창 닫을 때 코멘트 입력한 값 제거
+		pageView('order.do');
+		
+		/* document.querySelector('#comment-input').value=""; // 상세창 닫을 때 코멘트 입력한 값 제거
 		document.querySelector('#comment-input').readOnly=false;
 		$("#detailList-table tr:not(:first)").remove();	// 상세창 닫을 때 입력한 값 제거
 		$("#newList-table tr:not(:first)").remove();	// 상세창 닫을 때 입력한 값 제거
@@ -358,7 +392,7 @@
 		$('.detail-div').hide();
 		$('.new-div').hide();
 		$('.orderList-div').css('opacity', '1');
-		$('.search-div').css('opacity', '1');
+		$('.search-div').css('opacity', '1'); */
 	}
 	
 	function addItem() {
@@ -390,6 +424,9 @@
 		document.querySelector('#add-row-btn').style.visibility = 'hidden';
 		document.querySelector('#add-finish-btn').style.display = 'block';
 		document.querySelector('#add-cancel-btn').style.display = 'block';
+		document.querySelector('.edit-start-btn2').style.visibility = 'hidden';
+		document.querySelector('#request-approval-btn').style.visibility = 'hidden';
+		
 	}
 	
 	
@@ -415,10 +452,14 @@
 				
 				var count=0;
 				
+				console.log(document.querySelectorAll('.productCDCheck'));
+				
 				document.querySelectorAll('.productCDCheck').forEach(function(el) {
-					if (el.innerHTML == document.querySelector('#productCD'+rowNumber).value) {
+					console.log(el.value);
+					if (el.value == document.querySelector('#productCD'+rowNumber).value) {
 						count += 1;
 					}
+					console.log(count);
 				})
 				
 				if (count>0) {
@@ -435,13 +476,13 @@
 							$.post('validPrice.do', "productCD="+productCD+"&buyerCD="+buyerCD+"&currency="+currency, function(price) {
 								console.log('기간내 가격 있음 : '+price);
 								console.log(document.querySelector('#unitPrice'+rowNumber));
-								document.querySelector('#unitPrice'+rowNumber).innerHTML = price;
+								document.querySelector('#unitPrice'+rowNumber).innerHTML = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 							});
 						} else if (count == 0) {
 							$.post('defaultPrice.do', "productCD="+productCD+"&currency="+currency, function(price) {
 								console.log('기간내 가격 없음 -> defaultPrice : '+price);
 								console.log(document.querySelector('#unitPrice'+rowNumber));
-								document.querySelector('#unitPrice'+rowNumber).innerHTML = price;
+								document.querySelector('#unitPrice'+rowNumber).innerHTML = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 							});
 						}
 					});
@@ -456,15 +497,13 @@
 		
 	}
 	
-	function loadDetailProductData(row, previousValue) {
+	function loadDetailProductData(row) {
 		
 		var rowNumber=row;
 		
 		console.log("rowNumber:"+rowNumber);
 		
-		console.log(document.querySelector('.addDetailProductCD').value);
-		
-		var productCD = document.querySelector('.addDetailProductCD').value;
+		var productCD = document.querySelector('#detailProductCD'+rowNumber).value;
 		
 		$.post('selectByProductCD.do', "productCD="+productCD, function(data) {
 			console.log(data);
@@ -507,13 +546,13 @@
 							$.post('validPrice.do', "productCD="+productCD+"&buyerCD="+buyerCD+"&currency="+currency, function(price) {
 								console.log('기간내 가격 있음 : '+price);
 								console.log(document.querySelector('#detailUnitPrice'+rowNumber));
-								document.querySelector('#detailUnitPrice'+rowNumber).innerHTML = price;
+								document.querySelector('#detailUnitPrice'+rowNumber).innerHTML = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 							});
 						} else if (count == 0) {
 							$.post('defaultPrice.do', "productCD="+productCD+"&currency="+currency, function(price) {
 								console.log('기간내 가격 없음 -> defaultPrice : '+price);
 								console.log(document.querySelector('#detailUnitPrice'+rowNumber));
-								document.querySelector('#detailUnitPrice'+rowNumber).innerHTML = price;
+								document.querySelector('#detailUnitPrice'+rowNumber).innerHTML = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 							});
 						}
 					});
@@ -539,9 +578,11 @@
 		
 		var productCD = document.querySelector('#productCD'+rowNumber).value;
 		var qty = document.querySelector('#qty'+rowNumber).value;
-		var unitPrice = document.querySelector('#unitPrice'+rowNumber).innerHTML;
+		var unitPrice1 = document.querySelector('#unitPrice'+rowNumber).innerHTML;
+		var unitPrice = unitPrice1.replace(/,/g, "");
 		var soNo = document.querySelector('#detailSoNo').value;
-		var totalPrice = document.querySelector('#totalPrice'+rowNumber).innerHTML;
+		var totalPrice1 = document.querySelector('#totalPrice'+rowNumber).innerHTML;
+		var totalPrice = totalPrice1.replace(/,/g, "");
 		
 		if (productCD == "") {
 			alert("제품코드를 입력해 주세요.");
@@ -561,6 +602,8 @@
 				document.querySelector('#add-finish-btn').style.display = 'none';
 				document.querySelector('#add-cancel-btn').style.display = 'none';
 				document.querySelector('#add-row-btn').style.visibility = 'visible';
+				document.querySelector('.edit-start-btn2').style.visibility = 'visible';
+				document.querySelector('#request-approval-btn').style.visibility = 'visible';
 				document.querySelectorAll('.minus-img').forEach(function(el) {
 					el.style.visibility = 'visible';
 				})
@@ -575,12 +618,14 @@
 		var count = 0;
 		
 		var qty = document.querySelector('#qty'+rowNumber).value;
-		var unitPrice = document.querySelector('#unitPrice'+rowNumber).innerHTML;
+		var unitPrice1 = document.querySelector('#unitPrice'+rowNumber).innerHTML;
+		var unitPrice = unitPrice1.replace(/,/g, "");
 		
 		if (qty == null || qty == "" || unitPrice == null || unitPrice == "") {
 			alert("제품코드와 수량을 입력하고 엔터를 눌러주세요");
 		} else {
-			var totalPrice = qty*unitPrice;
+			var totalPrice1 = qty*unitPrice;
+			var totalPrice = totalPrice1.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 			console.log(totalPrice);
 			document.querySelector('#totalPrice'+rowNumber).innerHTML=totalPrice;
 		}
@@ -595,12 +640,14 @@
 		var count = 0;
 		
 		var qty = document.querySelector('#detailQty'+rowNumber).value;
-		var unitPrice = document.querySelector('#detailUnitPrice'+rowNumber).innerHTML;
+		var unitPrice1 = document.querySelector('#detailUnitPrice'+rowNumber).innerHTML;
+		var unitPrice = unitPrice1.replace(/,/g, "");
 		
 		if (qty == null || qty == "" || unitPrice == null || unitPrice == "") {
 			alert("제품코드와 수량을 입력하고 엔터를 눌러주세요");
 		} else {
-			var totalPrice = qty*unitPrice;
+			var totalPrice1 = qty*unitPrice;
+			var totalPrice = totalPrice1.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 			console.log(totalPrice);
 			document.querySelector('#detailTotalPrice'+rowNumber).innerHTML=totalPrice;
 		}
@@ -634,6 +681,8 @@
 		document.querySelector('#add-finish-btn').style.display = 'none';
 		document.querySelector('#add-cancel-btn').style.display = 'none';
 		document.querySelector('#add-row-btn').style.visibility = 'visible';
+		document.querySelector('.edit-start-btn2').style.visibility = 'visible';
+		document.querySelector('#request-approval-btn').style.visibility = 'visible';
 		document.querySelectorAll('.minus-img').forEach(function(el) {
 			el.style.visibility = 'visible';
 		})
@@ -688,13 +737,15 @@
 					$.post('checkValidPrice.do', "productCD="+productCD+"&buyerCD="+buyerCD+"&currency="+currency, function(count) {
 						if (count > 0) {
 							$.post('validPrice.do', "productCD="+productCD+"&buyerCD="+buyerCD+"&currency="+currency, function(price) {
-								console.log('기간내 가격 있음 : '+price);
-								document.querySelector('#newUnitPrice').value = price;
+								var finalPrice = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+								console.log('기간내 가격 있음 : '+finalPrice);
+								document.querySelector('#newUnitPrice').value = finalPrice;
 							});
 						} else if (count == 0) {
 							$.post('defaultPrice.do', "productCD="+productCD+"&currency="+currency, function(price) {
-								console.log('기간내 가격 없음 -> defaultPrice : '+price);
-								document.querySelector('#newUnitPrice').value = price;
+								var finalPrice = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+								console.log('기간내 가격 없음 -> defaultPrice : '+finalPrice);
+								document.querySelector('#newUnitPrice').value = finalPrice;
 							});
 						}
 					});
@@ -716,7 +767,7 @@
 		var unit = document.querySelector('#newUnit').value;
 		var qty = document.querySelector('#newQty').value;
 		var unitPrice = document.querySelector('#newUnitPrice').value;
-		var totalPrice = qty * unitPrice;
+		var totalPrice = qty * unitPrice.replace(/,/g, "");
 		
 		var rowNumber=document.querySelector('#newList-table').rows.length;
 		
@@ -734,7 +785,7 @@
 						+ "<td id='newUnit"+rowNumber+"' class='center'>"+unit+"</td>"
 						+ "<td id='newQty"+rowNumber+"' class='center'>"+qty+"</td>"
 						+ "<td id='newUnitPrice"+rowNumber+"' class='right'>"+unitPrice+"</td>"
-						+ "<td id='newTotalPrice"+rowNumber+"' class='right'>"+totalPrice+"</td>"
+						+ "<td id='newTotalPrice"+rowNumber+"' class='right'>"+totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')+"</td>"
 					+ "</tr>"
 			);
 			document.querySelectorAll('.newInput').forEach(function(el) {
@@ -768,7 +819,7 @@
 				for (var i = 0; i < table.rows.length-1; i++) {
 					var cells = rows[i+1].getElementsByTagName("td");
 					
-					insertArray[i] = { soNo: soNo, productCD: cells[2].firstChild.data, qty: cells[6].firstChild.data, unitPrice: cells[7].firstChild.data};
+					insertArray[i] = { soNo: soNo, productCD: cells[2].firstChild.data, qty: cells[6].firstChild.data, unitPrice: cells[7].firstChild.data.replace(/,/g, "")};
 					console.log(insertArray[i]);
 				};
 				
@@ -784,6 +835,7 @@
 				     dataType: 'json',
 				     success: function (res) {
 				        if (res.result) {
+							alert("입력이 완료되었습니다");
 							pageView('order.do');
 				        }
 					}
@@ -897,48 +949,129 @@ function search() {
 				</ul>
 			</div>
 			<div class="search-div">
+					<div class="row">
 				<div class="search-sub-wrap">
 					<div class="search-sub-div">
 						<div class="search-item-div">
 							<div class="search-item-text">• 오더번호</div>
-							<input type=text id="searchSoNo" class="search" list="soNoAllList" autocomplete="off">
+							<c:if test="${soNo != null && soNo != '' }">
+								<input type=text id="searchSoNo" class="search inputWidth" list="soNoAllList" autocomplete="off" value="${soNo}">
+							</c:if>
+							<c:if test="${soNo == null || soNo == '' }">
+								<input type=text id="searchSoNo" class="search inputWidth" list="soNoAllList" autocomplete="off">
+							</c:if>
 						</div>
 						<div class="search-item-div">
 							<div class="search-item-text">• 영업담당자</div>
-							<input type=text id="searchSoUser" class="search" readonly="readonly" value="${order.soUser }">
+							<input type=text id="searchSoUser" class="search inputWidth" readonly="readonly" value="${order.soUser }">
 						</div>
 						<div class="search-item-div">
 							<div class="search-item-text">• 판매가기준일</div>
-							<input type=text id="searchPricingDate" class="search dateRange">
+							<c:if test="${pricingDateRange != null && pricingDateRange != '' }">
+								<input type=text id="searchPricingDate" class="search dateRange inputWidth" value="${pricingDateRange}">
+							</c:if>
+							<c:if test="${pricingDateRange == null || pricingDateRange == '' }">
+								<input type=text id="searchPricingDate" class="search dateRange inputWidth">
+							</c:if>
 						</div>
 						<div class="search-item-div">
 							<div class="search-item-text">• 상태</div>
-							<select id="searchStatus" class="search" required="required">
-								<option value=""></option>
-								<option value="임시저장">임시저장</option>
-								<option value="승인대기">승인대기</option>
-								<option value="승인완료">승인완료</option>
-								<option value="반려">반려</option>
-								<option value="종결">종결</option>
-							</select>
+							<c:if test="${status != null && status != '' }">
+								<c:if test="${status == '임시저장' }">
+									<select id="searchStatus" class="search" required="required">
+										<option value=""></option>
+										<option value="임시저장" selected="selected">임시저장</option>
+										<option value="승인대기">승인대기</option>
+										<option value="승인완료">승인완료</option>
+										<option value="반려">반려</option>
+										<option value="종결">종결</option>
+									</select>
+								</c:if>
+								<c:if test="${status == '승인대기' }">
+									<select id="searchStatus" class="search" required="required">
+										<option value=""></option>
+										<option value="임시저장">임시저장</option>
+										<option value="승인대기" selected="selected">승인대기</option>
+										<option value="승인완료">승인완료</option>
+										<option value="반려">반려</option>
+										<option value="종결">종결</option>
+									</select>
+								</c:if>
+								<c:if test="${status == '승인완료' }">
+									<select id="searchStatus" class="search" required="required">
+										<option value=""></option>
+										<option value="임시저장">임시저장</option>
+										<option value="승인대기">승인대기</option>
+										<option value="승인완료" selected="selected">승인완료</option>
+										<option value="반려">반려</option>
+										<option value="종결">종결</option>
+									</select>
+								</c:if>
+								<c:if test="${status == '반려' }">
+									<select id="searchStatus" class="search" required="required">
+										<option value=""></option>
+										<option value="임시저장" selected="selected">임시저장</option>
+										<option value="승인대기">승인대기</option>
+										<option value="승인완료">승인완료</option>
+										<option value="반려" selected="selected">반려</option>
+										<option value="종결">종결</option>
+									</select>
+								</c:if>
+								<c:if test="${status == '종결' }">
+									<select id="searchStatus" class="search" required="required">
+										<option value=""></option>
+										<option value="임시저장">임시저장</option>
+										<option value="승인대기">승인대기</option>
+										<option value="승인완료">승인완료</option>
+										<option value="반려">반려</option>
+										<option value="종결" selected="selected">종결</option>
+									</select>
+								</c:if>
+							</c:if>
+							<c:if test="${status == null || status == '' }">
+								<select id="searchStatus" class="search" required="required">
+									<option value=""></option>
+									<option value="임시저장">임시저장</option>
+									<option value="승인대기">승인대기</option>
+									<option value="승인완료">승인완료</option>
+									<option value="반려">반려</option>
+									<option value="종결">종결</option>
+								</select>
+							</c:if>
 						</div>
 					</div>
-					<div class="search-sub-div">
-						<div class="search-item-div">
-							<div class="search-item-text">• 거래처코드</div>
-							<input type=text id="searchBuyerCD" class="search" list="buyerAllList" autocomplete="off">
+						<div class="search-sub-div">
+							<div class="search-item-div">
+								<div class="search-item-text">• 거래처코드</div>
+								<c:if test="${buyerCD != null && buyerCD != '' }">
+									<input type=text id="searchBuyerCD" class="search inputWidth" list="buyerAllList" autocomplete="off" value="${buyerCD}">
+								</c:if>
+								<c:if test="${buyerCD == null || buyerCD == '' }">
+									<input type=text id="searchBuyerCD" class="search inputWidth" list="buyerAllList" autocomplete="off">
+								</c:if>
+							</div>
+							<div class="search-item-div">
+								<div class="search-item-text">• 오더등록일</div>
+								<c:if test="${addDateRange != null && addDateRange != '' }">
+									<input type=text id="searchAddDate" class="search dateRange inputWidth" value="${addDateRange }">
+								</c:if>
+								<c:if test="${addDateRange == null || addDateRange == '' }">
+									<input type=text id="searchAddDate" class="search dateRange inputWidth">
+								</c:if>
+							</div>
+							<div class="search-item-div">
+								<div class="search-item-text">• 납품요청일</div>
+								<c:if test="${requestDateRange != null && requestDateRange != '' }">
+									<input type=text id="searchRequestDate" class="search dateRange inputWidth" value="${requestDateRange}">
+								</c:if>
+								<c:if test="${requestDateRange == null || requestDateRange == '' }">
+									<input type=text id="searchRequestDate" class="search dateRange inputWidth">
+								</c:if>
+							</div>
 						</div>
-						<div class="search-item-div">
-							<div class="search-item-text">• 오더등록일</div>
-							<input type=text id="searchAddDate" class="search dateRange">
-						</div>
-						<div class="search-item-div">
-							<div class="search-item-text">• 납품요청일</div>
-							<input type=text id="searchRequestDate" class="search dateRange">
-						</div>
-					</div>
 				</div>
-				<div class="search-box search" onclick="search()" tabIndex="0">조회</div>
+						<div class="search-box2 search right-div" onclick="search()" tabIndex="0">조회</div>
+					</div>
 			</div>
 			
 			<div class="orderList-div">
@@ -946,7 +1079,10 @@ function search() {
 					<tr>
 						<th class="col1">오더번호</th>
 						<th class="col2">거래처코드</th>
-						<th class="col3">영업 담당자</th>
+						<th class="col2">거래처명</th>
+						<th class="col2">영업 담당자 코드</th>
+						<th class="col2">영업 담당자명</th>
+						<th class="col4">금액</th>
 						<th class="col4">오더등록일</th>
 						<th class="col5">판매가기준일</th>
 						<th class="col6">납품요청일</th>
@@ -956,14 +1092,18 @@ function search() {
 					<c:if test="${not empty orderList}">
 						<c:forEach var="list" items="${orderList }">
 							<tr class="orderListTr" onclick="detail('${list.soNo}')">
-								<td class="col1">${list.soNo}</td>
-								<td class="col2">${list.buyerCD}</td>
-								<td class="col3">${list.soUser}</td>
-								<td class="col4">${list.addDate}</td>
-								<td class="col5">${list.pricingDate}</td>
-								<td class="col6">${list.requestDate}</td>
-								<td class="col7">${list.currency}</td>
-								<td class="col8">${list.status}</td>
+								<td class="col1 center">${list.soNo}</td>
+								<td class="col2 center">${list.buyerCD}</td>
+								<td class="col2 center">${list.buyerNM}</td>
+								<td class="col3 center">${list.soUser}</td>
+								<td class="col3 center">${list.name}</td>
+								<fmt:formatNumber var="totalPrice" value="${list.totalPrice}" pattern="#,###"/>
+								<td class="col4 right">${totalPrice}</td>
+								<td class="col4 center">${list.addDate}</td>
+								<td class="col5 center">${list.pricingDate}</td>
+								<td class="col6 center">${list.requestDate}</td>
+								<td class="col7 center">${list.currency}</td>
+								<td class="col8 center">${list.status}</td>
 							</tr>
 						</c:forEach>
 					</c:if>
@@ -1009,7 +1149,7 @@ function search() {
 					</div>
 					<div class="new-sub-row-div">
 						<div class="new-text">수량<span class="red_warn">*</span></div>
-						<input type="text" id="newQty" class="newInput" required="required"/>
+						<input type="text" id="newQty" class="newInput addNewProductCD" required="required"/>
 					</div>
 					<div class="new-sub-row-div">
 						<div class="new-text">판매가</div>

@@ -100,6 +100,18 @@ ul{
     cursor: pointer;
 }
 
+.search-box2{
+    width: 106px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f0f0;
+    font-size: 15px;
+    font-weight: 400;
+    cursor: pointer;
+    margin-left: 122px;
+}
+
 
  /* 신규등록과 삭제가 있는 bottom 박스*/
 .bottom-div{
@@ -492,7 +504,7 @@ th:first-child, td:first-child {
 }
 
 #searchStatus {
-	width: 166.71px;
+	width: 140px;
 	height: 26.99px;
 	position: relative;
     border: 1px solid #a4a4a4;
@@ -503,5 +515,11 @@ th:first-child, td:first-child {
 }
 
 
+.inputWidth {
+	width: 140px;
+}
 
-
+.row{
+	display: flex;
+	flex-direction: row;
+}
