@@ -34,6 +34,7 @@ select * from m_employee;
 
 SELECT * FROM t_notice;
 
+select * from m_buyer;
 --거래처 테이블
 CREATE TABLE M_BUYER (
 	BUYERCD	VARCHAR2(20) PRIMARY KEY,		--거래처코드
@@ -1474,3 +1475,13 @@ SELECT o.pricingdate, p.productNM, b.buyerNm, e.name, o.status, sum(tod.qty*tod.
 	    	AND o.pricingDate < LAST_DAY(SYSDATE)
 	    	GROUP BY o.pricingdate, p.productNM, b.buyerNm, e.name, o.status
 			ORDER BY o.pricingdate;
+
+<select id="selectBuyerList" resultType="buyer" parameterType="buyer">
+		SELECT * FROM m_buyer b, m_employee e
+			WHERE
+			b.empCd=e.empCd
+			AND b.delyn='n'
+
+		ORDER BY b.buyerCd DESC 
+	</select>
+select * from m_buyer;

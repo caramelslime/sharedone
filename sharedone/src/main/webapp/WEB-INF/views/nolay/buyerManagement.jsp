@@ -300,7 +300,7 @@
 			updateFrm.rprsvNm.value = data.rprsvNm;
 			updateFrm.businessStatus.value = data.businessStatus;
 			updateFrm.event.value = data.event;
-			updateFrm.empCd.value = data.empCd +' '+ data.name;
+			updateFrm.empCd.value = data.empCd;
 			updateFrm.status.value = data.status;
 			updateFrm.nationCd.value = data.nationCd;
 			updateFrm.postcode.value = data.postcode;
@@ -323,8 +323,11 @@
 			});
 		
 	}
+	
 	function updateBuyer(){
+		
 		var sendData = $('#updateFrm').serialize();
+		alert(sendData);
 		$.post('updateConfirm.do'
 				, sendData
 				, function(data) {
@@ -1114,7 +1117,7 @@ $('.buyerList').SumoSelect({
 					<input list="empSelect" name="empCd">
 						<datalist id="empSelect">
 							<c:forEach var="emp" items="${employee_list }">
-								<option value="${emp.empCd } ${emp.name }"></option>
+								<option value="${emp.empCd }"></option>
 							</c:forEach>
 						</datalist>
 				</div>
@@ -1142,7 +1145,7 @@ $('.buyerList').SumoSelect({
 					<input list="empSelect" name="addUser">
 						<datalist id="empSelect">
 							<c:forEach var="emp" items="${employee_list }">
-								<option value="${emp.empCd } ${emp.name }"></option>
+								<option value="${emp.empCd }"></option>
 							</c:forEach>
 						</datalist>
 				</div>

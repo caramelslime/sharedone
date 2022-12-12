@@ -55,11 +55,11 @@ public class BuyerController {
 		//System.out.println(buyerAllList);
 		//buyer정보 전체 리스트 불러오기(검색용)
 		List<Buyer> buyer_list = bs.selectBuyerList(buyer);
-		System.out.println(buyer.getRprsvNm());
+		
 		//employee정보 전체 리스트 불러오기(검색용)
 		List<Employee> employee_list = es.selectEmployeeList();
 		
-
+		System.out.println("buyer_list="+buyer_list);
 		
 		String empCd2 = empCd;
 		
@@ -82,7 +82,7 @@ public class BuyerController {
 		String msg = "";
 		int result = 0;
 		result = bs.buyerUpdate(buyer);
-		System.out.println(buyer);
+		System.out.println("수정 buyer=" + buyer);
 		if(result == 1) {
 			msg="y";
 		}else {
