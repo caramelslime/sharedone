@@ -9,6 +9,191 @@
 <title>Insert title here</title>
 <style type="text/css">@import url("/sharedone/resources/css/share.css");</style>
 <style type="text/css">@import url("/sharedone/resources/css/order.css");</style>
+
+<script src="/sharedone/resources/js/jquery.sumoselect.min.js"></script>
+<style type="text/css">@import url("/sharedone/resources/css/sumoselect.min.css");</style>
+<style type="text/css">
+
+.search-item-div {
+    width: 325px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.search-sub-wrap {
+    margin: 28px 0px 20px 64px;
+}
+.search-item-text2{
+	width:67px;
+}
+
+.insert-div{
+	background: #fff;
+    width: 860px;
+    height: 746px;
+	position: relative;
+    top: -700px;
+	box-shadow: 2px -1px 4px #b1b1b1;
+    padding: 27px 15px 15px 20px;
+	margin: auto;
+    font-size: 13px;
+}
+/* 입력 리스트 */
+.insertList-div{
+    background-color: #fff;
+    width: 92%;
+    box-shadow: 2px -1px 4px #b1b1b1;
+    margin: 17px 0 0 4%;
+    overflow: scroll;
+    height: 200px;
+    resize: both; 
+}
+
+#insertList-table{
+	margin: 4px 10px 0 10px;
+	border-collapse: collapse;
+	font-size: 12px;
+	width:1700px;
+}
+
+.insertListTr:hover{
+	background-color: #d3dfea;
+	cursor:pointer;
+}
+
+ /* 입력창 입력 완료 버튼 구역*/
+.insert-action-div{
+    background-color: #fff;
+    width: 100%;
+    height: 43px;
+    margin : 18px 0 0 2px;
+    bottom: 0;
+}
+.insert-action-btn-div{
+	display: flex;
+    margin: 0 0 0 21px;
+}
+
+.insert-action-btn{
+	border: none;
+    background-color: #00944e;
+    color: white;
+    box-shadow: 1px -1px 2px #b1b1b1;
+    margin-right: 10px;
+    height: 24px;
+    cursor: pointer;
+}
+
+.insert-sub-row-div2{
+	display: flex;
+    flex-direction: row;
+    margin-right: 36px;
+    justify-content: end;
+
+}
+.plus-img{
+	width: 17px;
+	height: 17px;
+	margin-top: 5px;
+	cursor: pointer;
+}
+.minus-img{
+	width: 17px;
+	height: 17px;
+	margin-top: 5px;
+	cursor: pointer;
+}
+
+
+/*  */
+.insert-buyerCd{
+	font-size: 12px;
+    font-style: italic;
+}
+
+/*  */
+.edit-start-btn{
+    border: none;
+    background-color: #e5e1dc;
+    box-shadow: 1px -1px 2px #b1b1b1;
+    height: 24px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.edit-finish-btn{
+    border: none;
+    background-color: #e5e1dc;
+    box-shadow: 1px -1px 2px #b1b1b1;
+    height: 24px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+.edit {
+	border: none;
+	outline: none;
+}
+.no-border {
+	border: none;
+}
+
+.list-input{
+	border: none;
+    background: transparent;
+    width: 55px;
+}
+.list-input2{
+	border: none;
+    background: transparent;
+    width: 110px;
+}
+.list-input3{
+	border: none;
+    background: transparent;
+    width: 139px;
+}
+.list-input4{
+	border: none;
+    background: transparent;
+	width: 79px;
+}
+
+.insert-action-btn {
+    border: none;
+    background-color: #293b4b;
+    color: white;
+    box-shadow: 1px -1px 2px #b1b1b1;
+    cursor: pointer;
+    width: 110px;
+    height: 39px;
+    margin: 10px auto 0 auto;
+}
+
+/*  */
+#status-select{
+    width: 98px;
+    height: 26px;
+    background-color: #d7d7d7;
+    border: none;
+}
+.insert-select{
+	height: 25px;
+    width: 144px;
+    border:none;
+    background-color: #d7d7d7;
+}
+
+
+/* semoselect */
+
+.SumoSelect>.CaptionCont {
+    background-color: #d7d7d7;
+    border: none;
+}
+.SumoSelect.open .search-txt{
+	background-color: #d7d7d7;
+}
+</style>
 <script type="text/javascript">
 	
 	function pageView(data) {
@@ -130,8 +315,8 @@
 							+ "<td class='center'>"+productGroup+"</td>"
 							+ "<td class='center'>"+qty+"</td>"
 							+ "<td class='center'>"+unit+"</td>"
-							+ "<td class='right'>"+unitPrice+"</td>"
-							+ "<td class='right'>"+totalPrice+"</td>"
+							+ "<td class='right'>"+unitPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')+"</td>"
+							+ "<td class='right'>"+totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')+"</td>"
 						+ "</tr>"
 				);
 			}
@@ -155,8 +340,29 @@
 		document.querySelector('#comment-return-input').value="";
 		document.querySelector('#comment-input').value="";
 	}
+	//검색
+	function search() {
+		var buyerCd = document.querySelector('.buyerList').value;
+		var empCd = document.querySelector('.employeeList').value;
+		pageView('pendingApprovalList.do?buyerCd='+buyerCd+'&empCd2='+empCd);
+	}
 	
-	
+</script>
+<script type="text/javascript">
+/* sumoselect */
+/* 바이어리스트 */
+$('.buyerList').SumoSelect({
+	search: true, searchText: '코드/거래처명'
+	,noMatch : '"{0}"가 없습니다'
+	});
+/* 담당자리스트 */
+$('.employeeList').SumoSelect({
+	search: true, searchText: '코드/담당자명'
+	,noMatch : '"{0}"가 없습니다',
+	});
+/* 거래처상태리스트 */
+$('.statusList').SumoSelect({
+});
 </script>
 </head>
 <body>
@@ -171,7 +377,35 @@
 					<li class="sub-text-li">오더목록</li>
 				</ul>
 			</div>
-			
+			<div class="search-div">
+				<div class="search-sub-wrap">
+				<div class="search-sub-div">
+					<div class="search-item-div">
+						<div class="search-item-text">• 거래처코드/거래처명</div>
+						<!-- sumoselect -->
+						<select class="buyerList" name="buyerSelect">
+							<!-- <option value=""></option> -->
+							<option value="${buyerCd }" selected="selected">${buyerCd } ${buyerNm2 } </option>
+							<c:forEach var="buyer" items="${buyerList }">
+								<option value="${buyer.buyerCd }">${buyer.buyerCd } ${buyer.buyerNm }</option>
+							</c:forEach>
+						</select>
+					</div>
+					<div class="search-item-div">
+						<div class="search-item-text2">• 담당자</div>
+						<select id="empCdSelect" class="employeeList" name="employeeSelect">
+							<!-- <option value=""></option> -->
+							<option value="${empCd2 }" selected="selected">${empCd2 } ${empNm }</option>
+							<c:forEach var="emp" items="${teamList }">
+								<option value="${emp.empCd }">${emp.empCd } ${emp.name }</option>
+							</c:forEach>
+						</select>
+					</div>
+				</div>
+
+					</div>
+				<div class="search-box search" onclick="search()">조회</div>
+			</div>
 			<div class="orderList-div" style="margin-top: 50px;">
 				<table class="list-table">
 					<tr>
@@ -188,8 +422,8 @@
 						<c:forEach var="list" items="${orderList }">
 							<tr class="orderListTr" onclick="detail('${list.soNo}')">
 								<td class="col1">${list.soNo}</td>
-								<td class="col2">${list.buyerCD}</td>
-								<td class="col3">${list.soUser}</td>
+								<td class="col2">${list.buyerCD} ${list.buyerNm }</td>
+								<td class="col3">${list.soUser} ${list.name }</td>
 								<td class="col4">${list.addDate}</td>
 								<td class="col5">${list.pricingDate}</td>
 								<td class="col6">${list.requestDate}</td>

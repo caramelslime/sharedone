@@ -28,4 +28,10 @@ public class EmployeeDaoImpl implements EmployeeDao{
 	public Employee selectEmpNm(String empCd) {
 		return sst.selectOne("empns.selectEmpNm", empCd);
 	}
+
+	@Override
+	public List<Employee> selectTeam(String empCd) {
+		// TODO Auto-generated method stub
+		return sst.selectList("empns.selectTeam",empCd);
+	}
 }

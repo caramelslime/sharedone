@@ -14,10 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.sharedone.sharedone.model.Buyer;
 //import com.sharedone.sharedone.service.PagingBean;
 import com.sharedone.sharedone.model.Employee;
 import com.sharedone.sharedone.model.Notice;
 import com.sharedone.sharedone.model.Order;
+import com.sharedone.sharedone.service.BuyerService;
 import com.sharedone.sharedone.service.EmployeeService;
 import com.sharedone.sharedone.service.NoticeService;
 import com.sharedone.sharedone.service.OrderService;
@@ -34,6 +36,8 @@ public class ApprovalController {
 //	private OrderDetailService ods;
 	@Autowired
 	private NoticeService ns;
+	@Autowired
+	private BuyerService bs;
 	 
 	
 	@RequestMapping("empLoginForm")
@@ -60,10 +64,24 @@ public class ApprovalController {
 		return "empLogin";
 	}
 	@RequestMapping("pendingApprovalList")
-	public String pendingApprovalList(String pageNum, Model model, Order order, HttpSession session) {
-		
+	public String pendingApprovalList(String pageNum, Model model, Order order, HttpSession session,String empCd2,String buyerCd) {
+		if(buyerCd != null && buyerCd != "") {
+		//바이어 코드에 해당하는 바이어 이름
+		Buyer buyer2 = bs.selectBuyerNm(buyerCd);
+		System.out.println("buyer2.getBuyerNm()" + buyer2.getBuyerNm());
+		String buyerNm2 = buyer2.getBuyerNm();
+		model.addAttribute("buyerNm2", buyerNm2);
+		}
+		if(empCd2 != null && empCd2 != "") {
+			//바이어 코드에 해당하는 바이어 이름
+			Employee emp = es.selectEmpNm(empCd2);
+			System.out.println("emp.getName()" + emp.getName());
+			String empNm = emp.getName();
+			model.addAttribute("empNm", empNm);
+		}
 		 String empCd=(String) session.getAttribute("empCd");
-		 order.setSoUser(empCd);
+		 order.setSoUser(empCd2);
+		 order.setEmpCd2(empCd);
 //		 int rowPerPage = 10;
 //		 //한 화면에 보여주는 페이지 수 
 //		 if(pageNum == null || pageNum.equals(""))pageNum="1"; 
@@ -76,9 +94,19 @@ public class ApprovalController {
 //		 order.setEndRow(endRow);
 		 List<Order> list =os.pendingApprovalList(order);
 //		 PagingBean pb = new PagingBean(currentPage,rowPerPage, total); 
+		//buyer정보 전체 리스트 불러오기
+		List<Buyer> buyerAllList = bs.selectBuyerAllList();
+		// System.out.println(buyerAllList);
+		// employee정보 팀 리스트 불러오기(검색용)
+		List<Employee> employee_list = es.selectTeam(empCd);
+		
 //		 model.addAttribute("order",order);
 //		 model.addAttribute("num",num);
 		 model.addAttribute("orderList",list);
+		 model.addAttribute("buyerList",buyerAllList);
+		 model.addAttribute("teamList",employee_list);
+		 model.addAttribute("buyerCd", buyerCd);
+		 model.addAttribute("empCd2", empCd2);
 //		 model.addAttribute("pb",pb);
 		 
 	 

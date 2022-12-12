@@ -94,7 +94,17 @@
 	
 	<!-- khs 승인요청중인 오더리스트 불러오기 -->
 	<select id="pendingApprovalList" parameterType="order" resultType="order">
-		select * from t_order where souser in (select empCd from m_employee where dept = (select dept from m_employee where empCd = #{soUser})) and status = '승인대기' ORDER BY adddate
+		select o.*,e.name,b.buyerNm from t_order o,m_employee e,m_buyer b 
+		<where>
+			<if test="buyerCD != null and buyerCD !=''">
+				UPPER(buyerCD) like UPPER('%'||#{buyerCD}||'%') AND
+			</if>
+			<if test="soUser != null and soUser !=''">
+				UPPER(soUser) like UPPER('%'||#{soUser}||'%') AND
+			</if>
+			o.souser=e.empCd and o.buyerCd=b.buyerCd and o.souser in (select empCd from m_employee where dept = (select dept from m_employee where empCd = #{empCd2})) and o.status = '승인대기'
+		</where>
+		 ORDER BY o.adddate desc
 	</select>
 	
 	<!-- khs 승인/반려 시 상태 업데이트 -->
