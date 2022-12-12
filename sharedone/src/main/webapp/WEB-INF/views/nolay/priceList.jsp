@@ -114,7 +114,7 @@
 						+ "<td>"+productCD+"</td>"
 						+ "<td>"+periodStart+"</td>"
 						+ "<td>"+periodEnd+"</td>"
-						+ "<td>"+listPrice+"</td>"
+						+ "<td>"+listPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')+"</td>"
 						+ "<td>"+currency+"</td>"
 						+ "<td>"
 						+ "<img  class='minus-img' alt='이미지 없음' src='/sharedone/resources/images/minus.png' onclick='removeInsert(this)' />"
