@@ -53,7 +53,7 @@ CREATE TABLE m_price (
 	periodstart	date	NOT NULL,
 	periodend	date	NOT NULL,
     listPrice NUMBER(11) NOT NULL,
-	currency	VARCHAR2(10)	NOT NULL,
+	currency	VARCHAR2(20)	NOT NULL,
 	del CHAR(1) NOT NULL,
 	PRIMARY KEY (buyercd, productcd, periodstart)
 );

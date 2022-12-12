@@ -78,14 +78,18 @@ public class PriceController {
 			for (Map<String, Object> priceInfo : info) {
 				String buyerCD = (String) priceInfo.get("buyerCD");
 				String productCD = (String) priceInfo.get("productCD");
-				String date = (String) priceInfo.get("periodStart");
-				int listPrice = Integer.parseInt((String)priceInfo.get("listPrice")) ;
+				String startDate = (String) priceInfo.get("periodStart");
+				String endDate = (String) priceInfo.get("periodEnd");
+				int listPrice = Integer.parseInt((String) priceInfo.get("listPrice"));
 				String currency = (String) priceInfo.get("currency");
-	            Date periodStart = Date.valueOf(date);
+	            Date periodStart = Date.valueOf(startDate);
+	            Date periodEnd = Date.valueOf(endDate);
 	            price.setBuyerCD(buyerCD);
 				price.setProductCD(productCD);
 				price.setPeriodStart(periodStart);
 				System.out.println(price.getPeriodStart());
+				price.setPeriodEnd(periodEnd);
+				System.out.println(price.getPeriodEnd());
 				price.setListPrice(listPrice);
 				price.setCurrency(currency);
 				System.out.println(price.getBuyerCD());

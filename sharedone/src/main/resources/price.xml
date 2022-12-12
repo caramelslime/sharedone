@@ -26,7 +26,7 @@
 	</delete>
 	
 	<insert id="priceInsert" parameterType="price">
-		INSERT INTO m_price VALUES (#{buyerCD}, #{productCD}, #{periodStart}, #{periodStart}+30, #{listPrice}, #{currency}, 'n')
+		INSERT INTO m_price VALUES (#{buyerCD}, #{productCD}, #{periodStart}, #{periodEnd}, #{listPrice}, #{currency}, 'n')
 	</insert>
 	
 	<select id="delList" parameterType="price" resultType="string">
@@ -37,7 +37,7 @@
 		update m_price set del=#{del} where buyerCD=#{buyerCD} and productCD=#{productCD} and periodStart=#{periodStart}
 	</update>
 	<select id="findDate" parameterType="price" resultType="price">
-		select * from m_price where buyerCD=#{buyerCD} and productCD=#{productCD} and (periodStart between #{periodStart} and #{periodStart}+30 or periodEnd between #{periodStart} and #{periodStart}+30) and del='n'
+		select * from m_price where buyerCD=#{buyerCD} and productCD=#{productCD} and (<![CDATA[periodStart <= #{periodEnd}]]> and <![CDATA[#{periodStart} <= periodEnd]]> and <![CDATA[periodStart <= periodEnd]]>) and del='n'
 	</select>
 	<update id="priceUpdate" parameterType="price">
 		UPDATE m_price
