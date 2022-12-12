@@ -523,3 +523,16 @@ th:first-child, td:first-child {
 	display: flex;
 	flex-direction: row;
 }
+
+.click{
+	cursor: pointer;
+}
+
+.reloadImg{
+	width: 18px;
+}
+
+.reloadImg-div {
+	margin-left: 30px;
+}
+

@@ -118,6 +118,8 @@ public class OrderController {
 		model.addAttribute("pricingDateRange", pricingDateRange);
 		model.addAttribute("buyerCD", buyerCD);
 		model.addAttribute("requestDateRange", requestDateRange);
+		model.addAttribute("leaderSoUser", leaderSoUser);
+		
 		
 		return "/nolay/order";
 	}

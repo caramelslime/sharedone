@@ -933,6 +933,44 @@ function search() {
 	}
 	
 	
+	function searchSoNoReset() {
+		document.querySelector('#searchSoNo').value='';
+	}
+	
+	function searchBuyerCDReset() {
+		document.querySelector('#searchBuyerCD').value='';
+	}
+	
+	function searchSoUserReset() {
+		document.querySelector('#searchSoUser').value='';
+	}
+	
+	function searchPricingDateReset() {
+		document.querySelector('#searchPricingDate').value='';
+	}
+	
+	function searchAddDateReset() {
+		document.querySelector('#searchAddDate').value='';
+	}
+	
+	function searchRequestDateReset() {
+		document.querySelector('#searchRequestDate').value='';
+	}
+	
+	function allReset() {
+		console.log('${leader}');
+		var leader = '${leader}';
+		
+		document.querySelector('#searchSoNo').value='';
+		document.querySelector('#searchBuyerCD').value='';
+		if (leader == 'y') {
+			document.querySelector('#searchSoUser').value='';
+		}
+		document.querySelector('#searchPricingDate').value='';
+		document.querySelector('#searchAddDate').value='';
+		document.querySelector('#searchRequestDate').value='';
+	}
+	
 </script>
 
 
@@ -956,28 +994,28 @@ function search() {
 						<div class="search-item-div">
 							<div class="search-item-text">• 오더번호</div>
 							<c:if test="${soNo != null && soNo != '' }">
-								<input type=text id="searchSoNo" class="search inputWidth" list="soNoAllList" autocomplete="off" value="${soNo}">
+								<input type=text id="searchSoNo" class="search inputWidth" list="soNoAllList" autocomplete="off" value="${soNo}"><div onclick="searchSoNoReset()" class="searchSoNoReset click">✖</div>
 							</c:if>
 							<c:if test="${soNo == null || soNo == '' }">
-								<input type=text id="searchSoNo" class="search inputWidth" list="soNoAllList" autocomplete="off">
+								<input type=text id="searchSoNo" class="search inputWidth" list="soNoAllList" autocomplete="off"><div onclick="searchSoNoReset()" class="searchSoNoReset click">✖</div>
 							</c:if>
 						</div>
 						<div class="search-item-div">
 							<div class="search-item-text">• 영업담당자</div>
 							<c:if test="${leader == 'y'}">
-								<input type=text id="searchSoUser" class="search inputWidth" list="employee_list">
+								<input type=text id="searchSoUser" class="search inputWidth" list="employee_list"><div onclick="searchSoUserReset()" class="searchSoUserReset click">✖</div>
 							</c:if>
 							<c:if test="${leader == 'n'}">
-								<input type=text id="searchSoUser" class="search inputWidth" readonly="readonly" value="${order.soUser }">
+								<input type=text id="searchSoUser" class="search inputWidth" readonly="readonly" value="${order.soUser }"><div onclick="searchSoUserReset()" class="searchSoUserReset click">✖</div>
 							</c:if>
 						</div>
 						<div class="search-item-div">
 							<div class="search-item-text">• 판매가기준일</div>
 							<c:if test="${pricingDateRange != null && pricingDateRange != '' }">
-								<input type=text id="searchPricingDate" class="search dateRange inputWidth" value="${pricingDateRange}">
+								<input type=text id="searchPricingDate" class="search dateRange inputWidth" value="${pricingDateRange}"><div onclick="searchPricingDateReset()" class="searchPricingDateReset click">✖</div>
 							</c:if>
 							<c:if test="${pricingDateRange == null || pricingDateRange == '' }">
-								<input type=text id="searchPricingDate" class="search dateRange inputWidth">
+								<input type=text id="searchPricingDate" class="search dateRange inputWidth"><div onclick="searchPricingDateReset()" class="searchPricingDateReset click">✖</div>
 							</c:if>
 						</div>
 						<div class="search-item-div">
@@ -1050,29 +1088,32 @@ function search() {
 							<div class="search-item-div">
 								<div class="search-item-text">• 거래처코드</div>
 								<c:if test="${buyerCD != null && buyerCD != '' }">
-									<input type=text id="searchBuyerCD" class="search inputWidth" list="buyerAllList" autocomplete="off" value="${buyerCD}">
+									<input type=text id="searchBuyerCD" class="search inputWidth" list="buyerAllList" autocomplete="off" value="${buyerCD}"><div onclick="searchBuyerCDReset()" class="searchBuyerCDReset click">✖</div>
 								</c:if>
 								<c:if test="${buyerCD == null || buyerCD == '' }">
-									<input type=text id="searchBuyerCD" class="search inputWidth" list="buyerAllList" autocomplete="off">
+									<input type=text id="searchBuyerCD" class="search inputWidth" list="buyerAllList" autocomplete="off"><div onclick="searchBuyerCDReset()" class="searchBuyerCDReset click">✖</div>
 								</c:if>
 							</div>
 							<div class="search-item-div">
 								<div class="search-item-text">• 오더등록일</div>
 								<c:if test="${addDateRange != null && addDateRange != '' }">
-									<input type=text id="searchAddDate" class="search dateRange inputWidth" value="${addDateRange }">
+									<input type=text id="searchAddDate" class="search dateRange inputWidth" value="${addDateRange }"><div onclick="searchAddDateReset()" class="searchAddDateReset click">✖</div>
 								</c:if>
 								<c:if test="${addDateRange == null || addDateRange == '' }">
-									<input type=text id="searchAddDate" class="search dateRange inputWidth">
+									<input type=text id="searchAddDate" class="search dateRange inputWidth"><div onclick="searchAddDateReset()" class="searchAddDateReset click">✖</div>
 								</c:if>
 							</div>
 							<div class="search-item-div">
 								<div class="search-item-text">• 납품요청일</div>
 								<c:if test="${requestDateRange != null && requestDateRange != '' }">
-									<input type=text id="searchRequestDate" class="search dateRange inputWidth" value="${requestDateRange}">
+									<input type=text id="searchRequestDate" class="search dateRange inputWidth" value="${requestDateRange}"><div onclick="searchRequestDateReset()" class="searchRequestDateReset click">✖</div>
 								</c:if>
 								<c:if test="${requestDateRange == null || requestDateRange == '' }">
-									<input type=text id="searchRequestDate" class="search dateRange inputWidth">
+									<input type=text id="searchRequestDate" class="search dateRange inputWidth"><div onclick="searchRequestDateReset()" class="searchRequestDateReset click">✖</div>
 								</c:if>
+								<div class="reloadImg-div">
+									<img class="reloadImg click" alt="" src="/sharedone/resources/images/reload.png" onclick="allReset()">
+								</div>
 							</div>
 						</div>
 				</div>
@@ -1128,12 +1169,13 @@ function search() {
 					</div>
 					<div class="new-sub-row-div">
 						<div class="new-text">영업담당자<span class="red_warn">*</span></div>
-						<input type="text" id="newSoUser" class="no-border newInput2" readonly="readonly">
+						<input type="text" id="newSoUser" class="no-border newInput2" list="employee_list">
 					</div>
 					<div class="new-sub-row-div">
 						<div class="new-text">납품요청일<span class="red_warn">*</span></div>
 						<input type="date" id="newRequestDate" class="no-border newInput2" value="">
 					</div>
+					
 					<div class="new-sub-row-div">
 						<div class="new-text">통화<span class="red_warn">*</span></div>
 						<select id="newCurrency"class="">

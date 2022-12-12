@@ -93,6 +93,9 @@ public class ApprovalController {
 //		 order.setStartRow(startRow);
 //		 order.setEndRow(endRow);
 		 List<Order> list =os.pendingApprovalList(order);
+		 for (int i=0; i < list.size(); i++) {
+				list.get(i).setTotalPrice(os.totalPrice(list.get(i).getSoNo()));
+			}
 //		 PagingBean pb = new PagingBean(currentPage,rowPerPage, total); 
 		//buyer정보 전체 리스트 불러오기
 		List<Buyer> buyerAllList = bs.selectBuyerAllList();

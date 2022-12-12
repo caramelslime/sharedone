@@ -32,7 +32,6 @@ public class Order {
 	private String pricingDateRange;
 	private String requestDateRange;
 //	khs join
-	private String buyerNm;
 	private String name;
 	private String empCd2; // 팀장 승인용
 	

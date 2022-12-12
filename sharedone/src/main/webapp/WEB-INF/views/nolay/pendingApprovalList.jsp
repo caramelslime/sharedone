@@ -443,6 +443,7 @@ $('.statusList').SumoSelect({
 						<th class="col1">오더번호</th>
 						<th class="col2">거래처코드</th>
 						<th class="col3">영업 담당자</th>
+						<th class="col4">금액</th>
 						<th class="col4">오더등록일</th>
 						<th class="col5">판매가기준일</th>
 						<th class="col6">납품요청일</th>
@@ -453,8 +454,10 @@ $('.statusList').SumoSelect({
 						<c:forEach var="list" items="${orderList }">
 							<tr class="orderListTr" onclick="detail('${list.soNo}')">
 								<td class="col1">${list.soNo}</td>
-								<td class="col2">${list.buyerCD} ${list.buyerNm }</td>
+								<td class="col2">${list.buyerCD} ${list.buyerNM }</td>
 								<td class="col3">${list.soUser} ${list.name }</td>
+								<fmt:formatNumber var="totalPrice" value="${list.totalPrice}" pattern="#,###"/>
+								<td class="col4 right">${totalPrice}</td>
 								<td class="col4">${list.addDate}</td>
 								<td class="col5">${list.pricingDate}</td>
 								<td class="col6">${list.requestDate}</td>
