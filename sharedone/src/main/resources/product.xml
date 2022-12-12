@@ -7,8 +7,8 @@
 		SELECT * FROM m_product
 		<where>
 			<if test="cdnm != null and cdnm !=''">
-				UPPER(productCD) like UPPER('%'||#{cdnm}||'%') OR
-				UPPER(productNM) like UPPER('%'||#{cdnm}||'%') AND
+				(UPPER(productCD) like UPPER('%'||#{cdnm}||'%') OR
+				UPPER(productNM) like UPPER('%'||#{cdnm}||'%')) AND
 			</if>
 			<if test="productGroup != null and productGroup !=''">
 				productGroup like '%'||#{productGroup}||'%' AND

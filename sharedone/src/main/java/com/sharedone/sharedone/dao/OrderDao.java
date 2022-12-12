@@ -42,4 +42,6 @@ public interface OrderDao {
 
 	List<Order> orderAllList(Order order);
 
+	int totalPrice(String soNo);
+
 }

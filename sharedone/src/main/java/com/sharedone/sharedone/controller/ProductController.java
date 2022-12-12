@@ -40,6 +40,8 @@ public class ProductController {
 		
 		model.addAttribute("productList", productList);
 		model.addAttribute("productAllList", productAllList);
+		model.addAttribute("cdnm", cdnm);
+		model.addAttribute("productGroup", productGroup);
 		
 		return "/nolay/product";
 	}

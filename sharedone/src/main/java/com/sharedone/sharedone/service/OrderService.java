@@ -44,4 +44,6 @@ public interface OrderService {
 
 	List<Order> orderAllList(Order order);
 
+	int totalPrice(String soNo);
+
 }

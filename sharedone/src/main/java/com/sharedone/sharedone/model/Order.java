@@ -35,4 +35,8 @@ public class Order {
 	private String buyerNm;
 	private String name;
 	private String empCd2; // 팀장 승인용
+	
+	private String buyerNM;
+	
+	private int totalPrice;
 }

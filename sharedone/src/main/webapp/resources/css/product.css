@@ -60,7 +60,7 @@ ul{
 
 }
 .search-item-div{
-    width: 325px;
+    width: 400px;
     display: flex;
     align-items: center;
 }
@@ -68,8 +68,17 @@ ul{
 	margin-left: 78px;
 }
 .search-item-text{
-    width: 100px;
+    width: 150px;
+    margin-right: 10px;
 }
+
+.search-item-text1{
+    width: 150px;
+    height: 29.98px;
+    margin-right: 10px;
+}
+
+
 .search-item-div>input{
 	border: none;
     background-color: #d7d7d7;
@@ -212,6 +221,14 @@ th:first-child, td:first-child {
 	display: flex;
 	flex-direction: row;
 }
+
+.insert-row-div2{
+	display: flex;
+	flex-direction: row;
+	height: 29.98px;
+}
+
+
 .insert-sub-row-div{
 	display: flex;
 	flex-direction: row;
@@ -321,36 +338,50 @@ th:first-child, td:first-child {
 }
 
 
-/* semoselect */
-
-.SumoSelect.open .search-txt{
-	background-color: #d7d7d7;
-}
-
-.search-item-div>input{
-	border: none;
-    background-color: #d7d7d7;
-    height: 25px;
-    position: static;
-}
-
-.SumoSelect>.CaptionCont {
-    position: relative;
-    border: 1px solid #a4a4a4;
-    min-height: 14px;
-    background-color: #d7d7d7;
-    border-radius: 2px;
-    margin: 0;
-}
-
 #searchProductGroup {
-	width: 200px;
-	height: 25.98px;
+	width: 208px;
+	height: 29.98px;
 	position: relative;
     border: 1px solid #a4a4a4;
     min-height: 14px;
     background-color: #d7d7d7;
     border-radius: 2px;
-    margin: 0;
 }
+
+#searchCdnm {
+	width: 200px;
+	height: 25.98px;
+    border: none;
+    outline: none;
+    background-color: #d7d7d7;
+    border-radius: 2px;
+}
+
+.searchCdnm-reset-div {
+	padding-left: 10px;
+	padding-right: 10px;
+	margin-top: 3px;
+}
+
+.searchCdnm-reset {
+	cursor: pointer;
+}
+
+.search-item-div2 {
+	border: none;
+}
+
+.search-item-text2{
+    width: 206px;
+	height: 29.98px;
+	position: relative;
+    border: 1px solid #a4a4a4;
+    min-height: 14px;
+    background-color: #d7d7d7;
+    border-radius: 2px;
+}
+
+
+
+
 

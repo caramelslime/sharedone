@@ -4,31 +4,31 @@
 <mapper namespace="orderns">
 
 	<select id="orderList" parameterType="map" resultType="order">
-		SELECT * FROM t_order
+		SELECT o.*, buyerNM, name FROM t_order o, m_buyer b, m_employee e
 		<where>
 			<if test="soNo != null and soNo !=''">
 				UPPER(soNo) like UPPER('%'||#{soNo}||'%') AND
 			</if>
 			<if test="buyerCD != null and buyerCD !=''">
-				UPPER(buyerCD) like UPPER('%'||#{buyerCD}||'%') AND
+				UPPER(o.buyerCD) like UPPER('%'||#{buyerCD}||'%') AND
 			</if>
 			<if test="soUser != null and soUser !=''">
 				UPPER(soUser) like UPPER('%'||#{soUser}||'%') AND
 			</if>
 			<if test="status != null and status !=''">
-				UPPER(status) like UPPER('%'||#{status}||'%') AND
+				UPPER(o.status) like UPPER('%'||#{status}||'%') AND
 			</if>
 			<if test="pricingDateStart != null and pricingDateStart !=''">
 				pricingDate BETWEEN TO_DATE(#{pricingDateStart}, 'YYYY-MM-DD') AND TO_DATE(#{pricingDateEnd}, 'YYYY-MM-DD') AND
 			</if>
 			<if test="addDateStart != null and addDateStart !=''">
-				addDate BETWEEN TO_DATE(#{addDateStart}, 'YYYY-MM-DD') AND TO_DATE(#{addDateEnd}, 'YYYY-MM-DD') AND
+				o.addDate BETWEEN TO_DATE(#{addDateStart}, 'YYYY-MM-DD') AND TO_DATE(#{addDateEnd}, 'YYYY-MM-DD') AND
 			</if>
 			<if test="requestDateStart != null and requestDateStart !=''">
 				requestDate BETWEEN TO_DATE(#{requestDateStart}, 'YYYY-MM-DD') AND TO_DATE(#{requestDateEnd}, 'YYYY-MM-DD') AND
 			</if>
 			
-			currency IS NOT NULL
+			currency IS NOT NULL AND o.buyerCD = b.buyerCD AND o.soUser = e.empcd
 		</where>
 		 ORDER BY soNo DESC
 	</select>
@@ -91,6 +91,17 @@
 		INSERT INTO t_order_detail VALUES (#{soNo}, #{productCD}, #{qty}, #{unitPrice})
 	</insert>
 	
+	<select id="orderAllList" parameterType="order" resultType="order">
+		SELECT * FROM t_order WHERE soUser = #{soUser} ORDER BY soNo DESC
+	</select>
+	
+	<select id="totalPrice" parameterType="String" resultType="int">
+		SELECT NVL(SUM(unitprice * qty),0) FROM t_order_detail WHERE soNo = #{soNo}
+	</select>
+	
+	
+	
+	
 	
 	<!-- khs 승인요청중인 오더리스트 불러오기 -->
 	<select id="pendingApprovalList" parameterType="order" resultType="order">
@@ -116,9 +127,5 @@
 			update t_order set status = '반려' where sono = #{soNo}
 		</if>
 	</update>
-	
-	<select id="orderAllList" parameterType="order" resultType="order">
-		SELECT * FROM t_order WHERE soUser = #{soUser} ORDER BY soNo DESC
-	</select>
 	
 </mapper>

@@ -291,3 +291,26 @@ UPDATE m_buyer SET delyn = 'y' WHERE buyercd = 'B00000';
 
 SELECT * FROM m_employee;
 
+SELECT * FROM tabs;
+
+SELECT * FROM t_order;
+
+SELECT * FROM m_buyer;
+
+SELECT * FROM m_employee;
+
+SELECT o.*, buyernm, name FROM t_order o, m_buyer b, m_employee e WHERE o.buyercd = b.buyercd AND o.souser = e.empcd ORDER BY soNo DESC;
+
+
+SELECT SUM(unitprice * qty) FROM t_order_detail WHERE soNo = 'S00053';
+
+SELECT SUM(unitprice * qty) FROM t_order_detail WHERE soNo = #{soNo}
+
+
+t_order o, m_buyer b, m_employee e
+
+
+SELECT o.*, buyerNM, name FROM t_order o, m_buyer b, m_employee e WHERE currency IS NOT NULL AND o.buyerCD = b.buyerCD AND o.soUser = e.empcd ORDER BY soNo;
+
+SELECT * FROM t_order WHERE soUser = '' ORDER BY soNo DESC;
+
