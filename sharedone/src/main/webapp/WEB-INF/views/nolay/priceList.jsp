@@ -65,6 +65,7 @@
 		document.querySelector('#buyerCD').value="";
 		document.querySelector('#productCD').value="";
 		document.querySelector('#periodStart').value="";
+		document.querySelector('#periodEnd').value="";
 		document.querySelector('#listPrice').value="";
 		document.querySelector('#currency').value="";
 	}
@@ -80,6 +81,7 @@
 		var buyerCD = document.querySelector('#buyerCD').value;
 		var productCD = document.querySelector('#productCD').value;
 		var periodStart = document.querySelector('#periodStart').value;
+		var periodEnd = document.querySelector('#periodEnd').value;
 		var listPrice = document.querySelector('#listPrice').value;
 		var currency = document.querySelector('#currency').value;
 		
@@ -87,7 +89,7 @@
 		
 		
 		
-		if (buyerCD == "" || productCD == "" || periodStart == "" || listPrice == "" || currency == "") {
+		if (buyerCD == "" || productCD == "" || periodStart == "" || periodEnd == "" || listPrice == "" || currency == "") {
 			alert("값을 입력하세요");
 		} else {
 			$('#insertList-table').append(
@@ -95,6 +97,7 @@
 						+ "<td>"+buyerCD+"</td>"
 						+ "<td>"+productCD+"</td>"
 						+ "<td>"+periodStart+"</td>"
+						+ "<td>"+periodEnd+"</td>"
 						+ "<td>"+listPrice+"</td>"
 						+ "<td>"+currency+"</td>"
 						+ "<td>"
@@ -102,6 +105,11 @@
 						+ "</td>"	
 					+ "</tr>"		
 			);
+			document.querySelector('#buyerCD').value="";
+			document.querySelector('#productCD').value="";
+			document.querySelector('#periodStart').value="";
+			document.querySelector('#periodEnd').value="";
+			document.querySelector('#listPrice').value="";
 			document.querySelector('#buyerCD').focus();
 		}
 		
@@ -132,6 +140,13 @@
 			}
 		});
 		$('#periodStart').keypress(function() { // enter키를 누르면 메세지 전송
+			//  누른 key값(asscii)  IE ?      IE의 값         IE아닌 모든 web값
+			var keycode = event.keyCode ? event.keyCode : event.which;
+			if (keycode == 13) { // 13이 enter(ascii값)
+				addInsert();
+			}
+		});
+		$('#periodEnd').keypress(function() { // enter키를 누르면 메세지 전송
 			//  누른 key값(asscii)  IE ?      IE의 값         IE아닌 모든 web값
 			var keycode = event.keyCode ? event.keyCode : event.which;
 			if (keycode == 13) { // 13이 enter(ascii값)
@@ -179,7 +194,7 @@
 		for (var i = 0; i < table.rows.length-1; i++) {
 			var cells = rows[i+1].getElementsByTagName("td");
 			
-			insertArray[i] = { buyerCD: cells[0].firstChild.data, productCD: cells[1].firstChild.data, periodStart: cells[2].firstChild.data, listPrice: cells[3].firstChild.data, currency: cells[4].firstChild.data};
+			insertArray[i] = { buyerCD: cells[0].firstChild.data, productCD: cells[1].firstChild.data, periodStart: cells[2].firstChild.data, periodEnd: cells[3].firstChild.data, listPrice: cells[4].firstChild.data, currency: cells[5].firstChild.data};
 			console.log(insertArray[i]);
 		};
 		
@@ -316,6 +331,7 @@
 				console.log("previousValue : "+previousValue+", thisValue : "+this.value);
 				
 				if (editable == 1 && previousValue != this.value) {
+					this.readOnly = true;
 					var updateInfo = this.getAttribute('id');
 					var str = updateInfo.split('_');
 					productUpdate(str[0], str[1], this.value);
@@ -333,6 +349,7 @@
 		console.log(buyerCd);
 		pageView('priceList.do?buyerCD='+buyerCd+'&productCD='+productCd);
 	}
+
 	
 </script>
 <script type="text/javascript">
@@ -375,8 +392,8 @@ $('.statusList').SumoSelect({
 					<div class="search-item-div">
 						<div class="search-item-text">• 거래처코드/거래처명</div>
 						<!-- sumoselect -->
-						<select class="buyerList" name="buyerSelect">
-							<option value="">선택안함</option>
+						<select class="buyerList" name="buyerSelect" placeholder="코드/거래처명">
+							<option value=""></option>
 							<c:forEach var="buyer" items="${buyerAllList }">
 								<option value="${buyer.buyerCd }">${buyer.buyerCd } ${buyer.buyerNm }</option>
 							</c:forEach>
@@ -384,8 +401,8 @@ $('.statusList').SumoSelect({
 					</div>
 					<div class="search-item-div">
 						<div class="search-item-text2">• 제품코드/제품명</div>
-						<select class="productList" name="productSelect">
-							<option value="">선택안함</option>
+						<select class="productList" name="productSelect" placeholder="코드/제품명">
+							<option value=""></option>
 							<c:forEach var="product" items="${productAllList }">
 								<option value="${product.productCD }">${product.productCD } ${product.productNM }</option>
 							</c:forEach>
@@ -404,11 +421,13 @@ $('.statusList').SumoSelect({
 							<input type='checkbox' name='selectChk' value="selectAll" onclick='selectAll(this)' />
 						</th>
 						<th class="col2">거래처 코드</th>
-						<th class="col3">제품 코드</th>
-						<th class="col4">유효기간 시작일</th>
-						<th class="col5">유효기간 종료일</th>
-						<th class="col6">판매가</th>
-						<th class="col7">통화</th>
+						<th class="col3">거래처명</th>
+						<th class="col4">제품 코드</th>
+						<th class="col5">제품명</th>
+						<th class="col6">유효기간 시작일</th>
+						<th class="col7">유효기간 종료일</th>
+						<th class="col8">판매가</th>
+						<th class="col9">통화</th>
 					</tr>
 					<c:if test="${not empty priceList}">
 						<c:forEach var="price" items="${priceList}">
@@ -417,11 +436,13 @@ $('.statusList').SumoSelect({
 									<input type="checkbox" name="selectChk" value="${price.buyerCD}%${price.productCD}%${price.periodStart}" >
 								</td>
 								<td class="col2"><input type="text" class="no-border" value="${price.buyerCD}" readonly="readonly"></td>
-								<td class="col3"><input type="text" class="no-border" value="${price.productCD}" readonly="readonly"></td>
-								<td class="col4"><input type="text" class="no-border" value="${price.periodStart}" readonly="readonly"></td>
-								<td class="col5"><input type="text" class="no-border" value="${price.periodEnd}" readonly="readonly"></td>
-								<td class="col6"><input type="number" id="${price.buyerCD}+${price.productCD}+${price.periodStart}_listPrice" class="edit" value="${price.listPrice}" readonly="readonly"></td>
-								<td class="col7">
+								<td class="col3"><input type="text" class="no-border" value="${price.buyerNM}" readonly="readonly"></td>
+								<td class="col4"><input type="text" class="no-border" value="${price.productCD}" readonly="readonly"></td>
+								<td class="col5"><input type="text" class="no-border" value="${price.productNM}" readonly="readonly"></td>
+								<td class="col6"><input type="text" class="no-border" value="${price.periodStart}" readonly="readonly"></td>
+								<td class="col7"><input type="text" class="no-border" value="${price.periodEnd}" readonly="readonly"></td>
+								<td class="col8"><input type="number" id="${price.buyerCD}+${price.productCD}+${price.periodStart}_listPrice" class="edit" value="${price.listPrice}" readonly="readonly"></td>
+								<td class="col9">
 									<select id="${price.buyerCD}+${price.productCD}+${price.periodStart}_currency" class="edit readonly" style="width: 146px;">
 										<c:if test="${price.currency == 'KRW' }">
 											<option value="KRW" selected="selected">KRW</option>
@@ -462,8 +483,8 @@ $('.statusList').SumoSelect({
 					<div class="insert-sub-row-div">
 						<div class="insert-text">거래처명<span class="red_warn">*</span></div>
 						<!-- sumoselect -->
-						<select class="buyerList" id="buyerCD" name="buyerSelect">
-							<option value="">선택안함</option>
+						<select class="buyerList" id="buyerCD" name="buyerSelect" placeholder="코드/거래처명">
+							<option value=""></option>
 							<c:forEach var="buyer" items="${buyerAllList }">
 								<option value="${buyer.buyerCd }">${buyer.buyerCd } ${buyer.buyerNm }</option>
 							</c:forEach>
@@ -471,8 +492,8 @@ $('.statusList').SumoSelect({
 					</div>
 					<div class="insert-sub-row-div">
 						<div class="insert-text">제품명<span class="red_warn">*</span></div>
-						<select class="productList" id="productCD" name="buyerSelect">
-							<option value="">선택안함</option>
+						<select class="productList" id="productCD" name="buyerSelect" placeholder="코드/제품명">
+							<option value=""></option>
 							<c:forEach var="product" items="${productAllList }">
 								<option value="${product.productCD }">${product.productCD } ${product.productNM }</option>
 							</c:forEach>
@@ -484,6 +505,10 @@ $('.statusList').SumoSelect({
 					</div>
 				</div>
 				<div class="insert-row-div">
+					<div class="insert-sub-row-div">
+						<div class="insert-text">유효기간 종료일<span class="red_warn">*</span></div>
+						<input type="date" id="periodEnd" required="required">
+					</div>
 					<div class="insert-sub-row-div">
 						<div class="insert-text">판매가<span class="red_warn">*</span></div>
 						<input type="text" id="listPrice" required="required"/>
@@ -510,9 +535,10 @@ $('.statusList').SumoSelect({
 							<th class="col1">거래처명</th>
 							<th class="col2">제품명</th>
 							<th class="col3">유효기간 시작일</th>
-							<th class="col4">판매가</th>
-							<th class="col5">통화</th>
-							<th class="col6"></th>
+							<th class="col4">유효기간 종료일</th>
+							<th class="col5">판매가</th>
+							<th class="col6">통화</th>
+							<th class="col7"></th>
 						</tr>
 					</table>
 				</div>

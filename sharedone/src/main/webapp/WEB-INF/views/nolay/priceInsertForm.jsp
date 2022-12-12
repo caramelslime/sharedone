@@ -12,6 +12,7 @@
 		var buyerNM = document.querySelector('#buyerNM').value;
 		var productNM = document.querySelector('#productNM').value;
 		var periodStart = document.querySelector('#periodStart').value;
+		var periodEnd = document.querySelector('#periodEnd').value;
 		var listPrice = document.querySelector('#listPrice').value;
 		var currency = document.querySelector('#currency').value;
 		pageView('priceInsert.do?buyerCD=' + buyerCD + '&productCD='
@@ -34,6 +35,10 @@
 		<div>
 			유효기간 시작일 <input type="date" id="periodStart" class="input"
 				value="${price.periodStart}">
+		</div>
+		<div>
+			유효기간 종료일 <input type="date" id="periodEnd" class="input"
+				value="${price.periodEnd}">
 		</div>
 		<div>
 			판매가 <input type="text" id="listPrice" class="input"

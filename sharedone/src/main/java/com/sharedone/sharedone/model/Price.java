@@ -9,7 +9,7 @@ public class Price {
 	private String buyerCD;
 	private String productCD;
 	private Date periodStart;
-	private String periodEnd;
+	private Date periodEnd;
 	private int listPrice;
 	private String currency;
 	private String del;

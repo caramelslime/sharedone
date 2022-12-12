@@ -11,7 +11,7 @@ CREATE TABLE price (
 	PRIMARY KEY (buyercd, productcd, periodstart)
 );
 
-SELECT * FROM price;
+SELECT * FROM m_price;
 
 INSERT INTO price VALUES ( 'B00001', 'P00001', '2022-11-20', '2022-12-20', '2000', '원', 'n' );
 INSERT INTO price VALUES ( 'B00002', 'P00002', '2022-11-21', '2022-12-21', '1500', '원', 'n' );

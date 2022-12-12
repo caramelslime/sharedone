@@ -31,13 +31,13 @@
 
 <c:if test="${result > 0 }">
 	<script type="text/javascript">
-		alert("삭제 완료")
+		alert("변경 완료")
 		pageView('priceDetail.do?buyerCD=${buyer.buyerCD} + productCD=${product.productCD} + periodStart=${price.periodStart}');
 	</script>
 </c:if>
 <c:if test="${!(result > 0) }">
 	<script type="text/javascript">
-		alert("삭제 실패")
+		alert("변경 실패")
 		pageView('priceDetail.do?buyerCD=${buyer.buyerCD} + productCD=${product.productCD} + periodStart=${price.periodStart}');
 	</script>
 </c:if>

@@ -30,9 +30,10 @@
 		var buyerCD = document.querySelector('#buyerCD').value;
 		var productCD = document.querySelector('#productCD').value;
 		var periodStart = document.querySelector('#periodStart').value;
+		var periodEnd = document.querySelector('#periodEnd').value;
 		var listPrice = document.querySelector('#listPrice').value;
 		var currency = document.querySelector('#currency').value;
-		pageView('productUpdate.do?buyerCD='+buyerCD+'&productCD='+productCD+'&periodStart='+periodStart+'&listPrice='+listPrice+'&currency='+currency);
+		pageView('productUpdate.do?buyerCD='+buyerCD+'&productCD='+productCD+'&periodStart='+periodStart+'&periodEnd='+periodEnd+'&listPrice='+listPrice+'&currency='+currency);
 	}
 	
 	function updateCancel() {
