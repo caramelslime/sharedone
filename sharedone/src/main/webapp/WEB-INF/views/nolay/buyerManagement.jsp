@@ -300,7 +300,7 @@
 			updateFrm.rprsvNm.value = data.rprsvNm;
 			updateFrm.businessStatus.value = data.businessStatus;
 			updateFrm.event.value = data.event;
-			updateFrm.empCd.value = data.empCd;
+			updateFrm.empCd.value = data.empCd+' '+data.empName;
 			updateFrm.status.value = data.status;
 			updateFrm.nationCd.value = data.nationCd;
 			updateFrm.postcode.value = data.postcode;
@@ -309,9 +309,8 @@
 			updateFrm.tel.value = data.tel;
 			updateFrm.email.value = data.email;
 			updateFrm.remark.value = data.remark;
-
 			updateFrm.addDate.value = data.addDate;
-			updateFrm.addUser.value = data.addUser;
+			updateFrm.addUser.value = data.addUser+' '+data.addUserName;
 			
 			$('.buyerList-div').css('opacity', '0.3');
 			$('.search-div').css('opacity', '0.3');
@@ -326,9 +325,24 @@
 	
 	function updateBuyer(){
 		
-		var sendData = $('#updateFrm').serialize();
+		var e1 = updateFrm.empCd.value;
+		var e2 = updateFrm.addUser.value;
+		var empCd1 = e1.split(" ");
+		var empCd2 = e2.split(" ");
+		
+
+		//var sendData = $('#updateFrm').serialize();
+		//alert(sendData)
+
 		$.post('updateConfirm.do'
-				, sendData
+				, "buyerCd="+updateFrm.buyerCd.value+"&buyerNm="+updateFrm.buyerNm.value
+				+"&brno="+updateFrm.brno.value+"&rprsvNm="+updateFrm.rprsvNm.value
+				+"&businessStatus="+updateFrm.businessStatus.value+"&event="+updateFrm.event.value
+				+"&empCd="+empCd1[0]+"&status="+updateFrm.status.value+"&nationCd="
+				+updateFrm.nationCd.value+"&postcode="+updateFrm.postcode.value+"&address="
+				+updateFrm.address.value+"&addressDetail="+updateFrm.addressDetail.value+"&tel="
+				+updateFrm.tel.value+"&email="+updateFrm.email.value+"&remark="+updateFrm.remark.value
+				+"&addDate="+updateFrm.addDate.value+"&addUser="+empCd2[0]
 				, function(data) {
 			if(data == "y"){
  			alert("거래처 정보가 수정되었습니다");

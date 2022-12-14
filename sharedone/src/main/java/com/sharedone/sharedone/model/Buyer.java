@@ -29,4 +29,9 @@ public class Buyer {
 	
 	//join
 	private String name;
+	
+	//사원 이름 불러오기
+	private String empName;
+	private String addUserName;
 }
+
