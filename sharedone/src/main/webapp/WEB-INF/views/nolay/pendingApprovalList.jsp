@@ -372,7 +372,7 @@
 	function search() {
 		var buyerCd = document.querySelector('.buyerList').value;
 		var empCd = document.querySelector('.employeeList').value;
-		pageView('pendingApprovalList.do?buyerCd='+buyerCd+'&empCd2='+empCd);
+		pageView('pendingApprovalList.do?buyerCD='+buyerCd+'&empCd2='+empCd);
 	}
 	
 </script>
@@ -421,7 +421,7 @@ $('.statusList').SumoSelect({
 						</select><div class="delBtn" onclick="delSearchBuyerCd()">&nbsp;✖</div>
 					</div>
 					<div class="search-item-div">
-						<div class="search-item-text2">• 담당자</div>
+						<div class="search-item-text">• 담당자</div>
 						<select id="empCdSelect" class="employeeList" name="employeeSelect">
 							<!-- <option value=""></option> -->
 							<option class="hidden" value=""></option>

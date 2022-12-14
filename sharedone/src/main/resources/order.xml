@@ -108,7 +108,7 @@
 		select o.*,e.name,b.buyerNm from t_order o,m_employee e,m_buyer b 
 		<where>
 			<if test="buyerCD != null and buyerCD !=''">
-				UPPER(buyerCD) like UPPER('%'||#{buyerCD}||'%') AND
+				UPPER(o.buyerCD) like UPPER('%'||#{buyerCD}||'%') AND
 			</if>
 			<if test="soUser != null and soUser !=''">
 				UPPER(soUser) like UPPER('%'||#{soUser}||'%') AND

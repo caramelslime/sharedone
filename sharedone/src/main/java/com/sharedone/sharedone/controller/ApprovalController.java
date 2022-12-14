@@ -64,10 +64,10 @@ public class ApprovalController {
 		return "empLogin";
 	}
 	@RequestMapping("pendingApprovalList")
-	public String pendingApprovalList(String pageNum, Model model, Order order, HttpSession session,String empCd2,String buyerCd) {
-		if(buyerCd != null && buyerCd != "") {
+	public String pendingApprovalList(String pageNum, Model model, Order order, HttpSession session,String empCd2) {
+		if(order.getBuyerCD() != null && order.getBuyerCD() != "") {
 		//바이어 코드에 해당하는 바이어 이름
-		Buyer buyer2 = bs.selectBuyerNm(buyerCd);
+		Buyer buyer2 = bs.selectBuyerNm(order.getBuyerCD());
 		System.out.println("buyer2.getBuyerNm()" + buyer2.getBuyerNm());
 		String buyerNm2 = buyer2.getBuyerNm();
 		model.addAttribute("buyerNm2", buyerNm2);
@@ -108,7 +108,7 @@ public class ApprovalController {
 		 model.addAttribute("orderList",list);
 		 model.addAttribute("buyerList",buyerAllList);
 		 model.addAttribute("teamList",employee_list);
-		 model.addAttribute("buyerCd", buyerCd);
+		 model.addAttribute("buyerCd", order.getBuyerCD());
 		 model.addAttribute("empCd2", empCd2);
 //		 model.addAttribute("pb",pb);
 		 

@@ -57,7 +57,7 @@ insert into M_BUYER values(
 , 'default'            --참고사항
 , sysdate            --등록일시
 , 'E00001'            --작성자
-, 'n'                --삭제여부
+, 'y'                --삭제여부
 );
 --E00001의 거래처
 insert into M_BUYER values(
@@ -500,27 +500,6 @@ INSERT INTO m_price VALUES ( 'B00002', 'P00007', '2022-11-06', '2022-12-06', '19
 INSERT INTO m_price VALUES ( 'B00003', 'P00008', '2022-11-07', '2022-12-07', '20000', 'KRW', 'n' );
 INSERT INTO m_price VALUES ( 'B00004', 'P00009', '2022-11-08', '2022-12-08', '24000', 'KRW', 'n' );
 INSERT INTO m_price VALUES ( 'B00005', 'P00010', '2022-11-09', '2022-12-09', '55000', 'KRW', 'n' );
-INSERT INTO m_price VALUES ( 'B00000', 'P00001', '1900-01-01', '1900-01-01', '20000', 'KRW', 'n' );
-INSERT INTO m_price VALUES ( 'B00000', 'P00002', '1900-01-01', '1900-01-01', '15000', 'KRW', 'n' );
-INSERT INTO m_price VALUES ( 'B00000', 'P00003', '1900-01-01', '1900-01-01', '30000', 'KRW', 'n' );
-INSERT INTO m_price VALUES ( 'B00000', 'P00004', '1900-01-01', '1900-01-01', '20000', 'KRW', 'n' );
-INSERT INTO m_price VALUES ( 'B00000', 'P00005', '1900-01-01', '1900-01-01', '12000', 'KRW', 'n' );
-INSERT INTO m_price VALUES ( 'B00000', 'P00006', '1900-01-01', '1900-01-01', '18000', 'KRW', 'n' );
-INSERT INTO m_price VALUES ( 'B00000', 'P00007', '1900-01-01', '1900-01-01', '19000', 'KRW', 'n' );
-INSERT INTO m_price VALUES ( 'B00000', 'P00008', '1900-01-01', '1900-01-01', '20000', 'KRW', 'n' );
-INSERT INTO m_price VALUES ( 'B00000', 'P00009', '1900-01-01', '1900-01-01', '24000', 'KRW', 'n' );
-INSERT INTO m_price VALUES ( 'B00000', 'P00010', '1900-01-01', '1900-01-01', '55000', 'KRW', 'n' );
-INSERT INTO m_price VALUES ( 'B00000', 'P00011', '1900-01-01', '1900-01-01', '30000', 'KRW', 'n' );
-INSERT INTO m_price VALUES ( 'B00000', 'P00012', '1900-01-01', '1900-01-01', '25000', 'KRW', 'n' );
-INSERT INTO m_price VALUES ( 'B00000', 'P00013', '1900-01-01', '1900-01-01', '40000', 'KRW', 'n' );
-INSERT INTO m_price VALUES ( 'B00000', 'P00014', '1900-01-01', '1900-01-01', '30000', 'KRW', 'n' );
-INSERT INTO m_price VALUES ( 'B00000', 'P00015', '1900-01-01', '1900-01-01', '22000', 'KRW', 'n' );
-INSERT INTO m_price VALUES ( 'B00000', 'P00016', '1900-01-01', '1900-01-01', '28000', 'KRW', 'n' );
-INSERT INTO m_price VALUES ( 'B00000', 'P00017', '1900-01-01', '1900-01-01', '12000', 'KRW', 'n' );
-INSERT INTO m_price VALUES ( 'B00000', 'P00018', '1900-01-01', '1900-01-01', '15000', 'KRW', 'n' );
-INSERT INTO m_price VALUES ( 'B00000', 'P00019', '1900-01-01', '1900-01-01', '45000', 'KRW', 'n' );
-INSERT INTO m_price VALUES ( 'B00000', 'P00020', '1900-01-01', '1900-01-01', '55000', 'KRW', 'n' );
---default
 INSERT INTO m_price VALUES ( 'B00000', 'P00001', '1900-01-01', '1900-01-01', '20000', 'KRW', 'n' );
 INSERT INTO m_price VALUES ( 'B00000', 'P00002', '1900-01-01', '1900-01-01', '15000', 'KRW', 'n' );
 INSERT INTO m_price VALUES ( 'B00000', 'P00003', '1900-01-01', '1900-01-01', '30000', 'KRW', 'n' );
