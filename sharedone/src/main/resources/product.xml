@@ -15,7 +15,9 @@
 			</if>
 			delyn='n'
 		</where>
-		 ORDER BY productCD
+		 ORDER BY ${sortBy}
+		 <if test='sortAs != null and sortAs == "asc"'>ASC</if>
+		 <if test='sortAs != null and sortAs == "desc"'>DESC</if>
 	</select>
 	
 	<select id="productDetail" parameterType="String" resultType="product">

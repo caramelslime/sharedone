@@ -32,8 +32,6 @@
 			cache : false
 		};
 		
-		console.log(addr);
-		
 		$.ajax(ajaxOption).done(function(data) {
 			$('#layout-body').children().remove();
 			$('#layout-body').html(data);
@@ -58,7 +56,6 @@
 		$('.edit-back').css('background-color', '#d3dfea');
 		
 		editable = 1;
-		console.log(editable);
 		
 		document.querySelectorAll('.edit').forEach(function(element) {
 			element.readOnly = false;
@@ -92,7 +89,6 @@
 			document.querySelector('#request-approval-btn').style.display = 'block';
 			
 			editable = 0;
-			console.log(editable);
 			
 			document.querySelectorAll('.edit').forEach(function(element) {
 				element.readOnly = true;
@@ -143,8 +139,29 @@
 	
 	var previousValue = "";
 	
+	 var keydown = false;
+	
 	$(function() {
 		
+		var addDateRange = '${addDateRange}';
+		var pricingDateRange = '${pricingDateRange}';
+		var requestDateRange = '${requestDateRange}';
+		console.log("addDateRange : "+addDateRange);
+		console.log("pricingDateRange : "+pricingDateRange);
+		console.log("requestDateRange : "+requestDateRange);
+		
+		if (addDateRange != '') {
+			console.log("addDateRange not null");
+			$("input#searchAddDate").attr("placeholder", addDateRange);
+		};
+		if (pricingDateRange != '') {
+			console.log("pricingDateRange not null");
+			$("input#searchPricingDate").attr("placeholder", pricingDateRange);
+		};
+		if (requestDateRange != '') {
+			console.log("requestDateRange not null");
+			$("input#searchRequestDate").attr("placeholder", requestDateRange);
+		};
 		
 		$('.dateRange').daterangepicker({
 		    locale: {
@@ -173,6 +190,7 @@
 		$(document).keydown(function() { // esc키를 insert 화면에서 나오기
 			var keycode = event.keyCode ? event.keyCode : event.which;
 			if (keycode == 27) { // 27이 esc (assii값)
+				if (keydown) return;
 				xBack();
 			}
 		});
@@ -202,10 +220,8 @@
 			$(this).val($(this).val().toUpperCase());
 			var keycode = event.keyCode ? event.keyCode : event.which;
 			if (keycode == 13) { // 13이 enter(assii값)
-					console.log("thisvalue"+this.getAttribute('id'));
 					var row1 = this.getAttribute('id').substr(15);
 					var row = Number(row1);
-					console.log(row);
 					loadDetailProductData(row);
 			}
 		});
@@ -222,7 +238,6 @@
 			var keycode = event.keyCode ? event.keyCode : event.which;
 			if (keycode == 13) { // 13이 enter(assii값)
 				var row = this.getAttribute('id').substr(9);
-				console.log(row);
 				calculateDetailTotalPrice(row);
 			}
 		});
@@ -247,29 +262,23 @@
 		
 	}
 	
-	/* function search() {
-		console.log(document.querySelector('#searchAddDate').value);
-		console.log(document.querySelector('#searchPricingDate').value);
-		
-		var soNo = document.querySelector('#searchSoNo').value;
-		var buyerCD = document.querySelector('#searchBuyerCD').value;
-		var soUser = document.querySelector('#searchSoUser').value;
-		var addDate = document.querySelector('#searchAddDate').value;
-		var pricingDate = document.querySelector('#searchPricingDate').value;
-		var requestDate = document.querySelector('#searchRequestDate').value;
-		var status = document.querySelector('#searchStatus').value;
-		
-		
-		pageView('order.do?soNo='+soNo+'&buyerCD='+buyerCD+'&soUser='+soUser+'&addDate='+addDate+'&pricingDate='+pricingDate+'&requestDate='+requestDate+'&status='+status);
-	} */
-	
 	var status = "";
+	
+	var doubleSubmitFlag = false;
+	function doubleSubmitCheck(){
+	    if(doubleSubmitFlag){
+	        return doubleSubmitFlag;
+	    }else{
+	        doubleSubmitFlag = true;
+	        return false;
+	    }
+	}
 	
 	function detail(soNo) {
 		
-		$("#detailList-table tr:not(:first)").remove();	// 상세창 닫을 때 입력한 값 제거
+		if (doubleSubmitCheck()) return;
 		
-		console.log(soNo);
+		$("#detailList-table tr:not(:first)").remove();	// 상세창 닫을 때 입력한 값 제거
 		
 		$.post('orderItems.do', "soNo="+soNo, function(data) {
 			
@@ -288,13 +297,7 @@
 					
 					var status = document.querySelector('#detailStatus').value;
 					
-					console.log("status : "+status);
-					
-					
-					loadComment();
-					
 					var rowNumber=document.querySelector('#detailList-table').rows.length;
-					console.log(rowNumber);
 					
 					if (status == '승인완료' || status == '승인대기' || status == '종결') {
 						$('#detailList-table').append(
@@ -331,6 +334,7 @@
 						);
 					}
 				}
+				loadComment();
 			}, 200);
 			
 		});
@@ -350,7 +354,13 @@
 			
 			if (status == '반려') {
 				document.querySelector('.comment-return-div').style.visibility = 'visible';
-			} else if (status == '승인완료' || status == '승인대기' || status == '종결') {
+			} else if (status == '승인완료') {
+				document.querySelector('.comment-finish-div').style.display = 'block';
+				document.querySelector('.detail-action-btn-div').style.visibility = 'hidden';
+				document.querySelector('.detailAddItem-div').style.visibility = 'hidden';
+				document.querySelector('#comment-input').readOnly=true;
+				document.querySelector('#comment-title').innerHTML='최종 승인 요청 코멘트';
+			} else if (status == '승인대기' || status == '종결') {
 				document.querySelector('.detail-action-btn-div').style.visibility = 'hidden';
 				document.querySelector('.detailAddItem-div').style.visibility = 'hidden';
 				document.querySelector('#comment-input').readOnly=true;
@@ -365,40 +375,14 @@
 	}
 	
 	function xBack(){
+		keydown = true;
 		pageView('order.do');
 		
-		/* document.querySelector('#comment-input').value=""; // 상세창 닫을 때 코멘트 입력한 값 제거
-		document.querySelector('#comment-input').readOnly=false;
-		$("#detailList-table tr:not(:first)").remove();	// 상세창 닫을 때 입력한 값 제거
-		$("#newList-table tr:not(:first)").remove();	// 상세창 닫을 때 입력한 값 제거
-		document.querySelector('.comment-return-div').style.visibility = 'hidden';
-		document.querySelector('#add-finish-btn').style.display = 'none';
-		document.querySelector('#add-cancel-btn').style.display = 'none';
-		document.querySelector('#add-row-btn').style.visibility = 'visible';
-		document.querySelector('.detailAddItem-div').style.visibility = 'visible';
-		document.querySelector('.detail-action-btn-div').style.visibility = 'visible';
-		document.querySelector('.edit-start-btn2').style.display = 'block';
-		document.querySelector('.edit-finish-btn2').style.display = 'none';
-		document.querySelector('#request-approval-btn').style.display = 'block';
-		document.querySelectorAll('.edit').forEach(function(element) {
-			element.readOnly = true;
-		})
-		document.querySelectorAll('.newInput').forEach(function(el) {
-			el.value="";
-		})
-		document.querySelectorAll('.newInput2').forEach(function(el) {
-			el.value="";
-		})
-		$('.detail-div').hide();
-		$('.new-div').hide();
-		$('.orderList-div').css('opacity', '1');
-		$('.search-div').css('opacity', '1'); */
 	}
 	
 	function addItem() {
 		
 		var rowNumber=document.querySelector('#detailList-table').rows.length;
-		console.log(rowNumber);		
 		
 		$('#detailList-table').append(
 				"<tr class='detailListTr'>"
@@ -434,8 +418,6 @@
 		
 		var rowNumber=document.querySelector('#detailList-table').rows.length-1;
 		
-		console.log(document.querySelector('.addProductCD').value);
-		
 		var productCD = document.querySelector('.addProductCD').value;
 		
 		$.post('selectByProductCD.do', "productCD="+productCD, function(data) {
@@ -452,14 +434,11 @@
 				
 				var count=0;
 				
-				console.log(document.querySelectorAll('.productCDCheck'));
 				
 				document.querySelectorAll('.productCDCheck').forEach(function(el) {
-					console.log(el.value);
 					if (el.value == document.querySelector('#productCD'+rowNumber).value) {
 						count += 1;
 					}
-					console.log(count);
 				})
 				
 				if (count>0) {
@@ -477,19 +456,21 @@
 								console.log('기간내 가격 있음 : '+price);
 								console.log(document.querySelector('#unitPrice'+rowNumber));
 								document.querySelector('#unitPrice'+rowNumber).innerHTML = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+								document.querySelector('#productNM'+rowNumber).innerHTML=productNM;
+								document.querySelector('#productGroup'+rowNumber).innerHTML=productGroup;
+								document.querySelector('#unit'+rowNumber).innerHTML=unit;
 							});
 						} else if (count == 0) {
 							$.post('defaultPrice.do', "productCD="+productCD+"&currency="+currency, function(price) {
 								console.log('기간내 가격 없음 -> defaultPrice : '+price);
 								console.log(document.querySelector('#unitPrice'+rowNumber));
 								document.querySelector('#unitPrice'+rowNumber).innerHTML = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+								document.querySelector('#productNM'+rowNumber).innerHTML=productNM;
+								document.querySelector('#productGroup'+rowNumber).innerHTML=productGroup;
+								document.querySelector('#unit'+rowNumber).innerHTML=unit;
 							});
 						}
 					});
-					
-					document.querySelector('#productNM'+rowNumber).innerHTML=productNM;
-					document.querySelector('#productGroup'+rowNumber).innerHTML=productGroup;
-					document.querySelector('#unit'+rowNumber).innerHTML=unit;
 				}
 				
 			}
@@ -501,12 +482,10 @@
 		
 		var rowNumber=row;
 		
-		console.log("rowNumber:"+rowNumber);
 		
 		var productCD = document.querySelector('#detailProductCD'+rowNumber).value;
 		
 		$.post('selectByProductCD.do', "productCD="+productCD, function(data) {
-			console.log(data);
 			var productNM = data.productNM;
 			var productGroup = data.productGroup;
 			var unit = data.unit;
@@ -521,16 +500,11 @@
 				var count=0;
 				
 				document.querySelectorAll('.productCDCheck').forEach(function(el) {
-					console.log("el.innerHTML:"+el.value);
-					console.log("rowNumber"+rowNumber);
-					console.log("detailproductCD:"+document.querySelector('#detailProductCD'+rowNumber));
 					
 					if (el.value == document.querySelector('#detailProductCD'+rowNumber).value) {
 						count += 1;
 					}
 				})
-				
-				console.log("count : "+count);
 				
 				if (count>1) {
 					alert("이미 같은 제품이 등록되어 있습니다.");
@@ -557,9 +531,6 @@
 						}
 					});
 					
-					console.log(productNM);
-					console.log(soNo, productCD);
-					console.log('#detailProductNM'+rowNumber);
 					document.querySelector('#detailProductNM'+rowNumber).innerHTML=productNM;
 					document.querySelector('#detailProductGroup'+rowNumber).innerHTML=productGroup;
 					document.querySelector('#detailUnit'+rowNumber).innerHTML=unit;
@@ -626,7 +597,6 @@
 		} else {
 			var totalPrice1 = qty*unitPrice;
 			var totalPrice = totalPrice1.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-			console.log(totalPrice);
 			document.querySelector('#totalPrice'+rowNumber).innerHTML=totalPrice;
 		}
 		
@@ -634,8 +604,6 @@
 	
 	function calculateDetailTotalPrice(row) {
 	
-		console.log("calculateDetailTotalPrice:"+row);
-		
 		var rowNumber=row
 		var count = 0;
 		
@@ -648,7 +616,6 @@
 		} else {
 			var totalPrice1 = qty*unitPrice;
 			var totalPrice = totalPrice1.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-			console.log(totalPrice);
 			document.querySelector('#detailTotalPrice'+rowNumber).innerHTML=totalPrice;
 		}
 		
@@ -801,6 +768,7 @@
 		var buyerCD = document.querySelector('#newBuyerCD').value;
 		var soUser = document.querySelector('#newSoUser').value;
 		var requestDate = document.querySelector('#newRequestDate').value;
+		var pricingDate = document.querySelector('#newPricingDate').value;
 		var currency = document.querySelector('#newCurrency').value;
 		
 		var soNo = "";
@@ -808,8 +776,7 @@
 		if (buyerCD == "" || soUser == "" || requestDate == "" || currency == "") {
 			alert("필요한 정보를 입력해 주세요.");
 		} else {
-			$.post('orderInsert.do', "buyerCD="+buyerCD+"&soUser="+soUser+"&requestDate="+requestDate+"&currency="+currency, function(data) {
-				console.log(data);
+			$.post('orderInsert.do', "buyerCD="+buyerCD+"&soUser="+soUser+"&requestDate="+requestDate+"&currency="+currency+"&pricingDate="+pricingDate, function(data) {
 				soNo = data;
 				
 				var table = document.querySelector('#newList-table');
@@ -820,10 +787,7 @@
 					var cells = rows[i+1].getElementsByTagName("td");
 					
 					insertArray[i] = { soNo: soNo, productCD: cells[2].firstChild.data, qty: cells[6].firstChild.data, unitPrice: cells[7].firstChild.data.replace(/,/g, "")};
-					console.log(insertArray[i]);
 				};
-				
-				console.log(insertArray);
 				
 			$.ajax({
 				     method: 'post',
@@ -848,26 +812,27 @@
 	
 	function requestApproval() {
 		
-		var soNo = document.querySelector('#detailSoNo').value;
-		var msg = document.querySelector('#comment-input').value;
-		var status = document.querySelector('#detailStatus').value;
-		var empCd = document.querySelector('#detailSoUser').value;
-		
-		console.log("soNo: "+soNo+", msg : "+msg);
-		var encodeMsg = encodeURIComponent(msg);
-		console.log("encodeMsg: "+encodeMsg);
-		
-		
-		$.post('requestApproval.do', "soNo="+soNo+"&content="+encodeMsg+"&status="+status+"&empCd="+empCd, function(result) {
-			if (result > 0) {
-				pageView('order.do');
-			} else if (result < 0) {
-				alert("오더상태 변경 실패");
-			} else if (result == 0) {
-				alert("코멘트 저장 실패");
-			}
-		});
-		
+		if (document.querySelector('#comment-input').value == null || document.querySelector('#comment-input').value == '') {
+			alert('승인 요청 코멘트를 입력해 주세요');
+			document.querySelector('#comment-input').focus();
+		} else {
+			var soNo = document.querySelector('#detailSoNo').value;
+			var msg = document.querySelector('#comment-input').value;
+			var status = document.querySelector('#detailStatus').value;
+			var empCd = document.querySelector('#detailSoUser').value;
+			
+			var encodeMsg = encodeURIComponent(msg);
+			
+			$.post('requestApproval.do', "soNo="+soNo+"&content="+encodeMsg+"&status="+status+"&empCd="+empCd, function(result) {
+				if (result > 0) {
+					pageView('order.do');
+				} else if (result < 0) {
+					alert("오더상태 변경 실패");
+				} else if (result == 0) {
+					alert("코멘트 저장 실패");
+				}
+			});
+		}
 	}
 	
 	function loadComment() {
@@ -876,20 +841,21 @@
 		
 		var soNo = document.querySelector('#detailSoNo').value;
 		var empCd = document.querySelector('#detailSoUser').value;
+		var status = document.querySelector('#detailStatus').value;
 		
 		console.log("커멘트 불러오기 시작");
 		
 		$.post('checkComment.do', "soNo="+soNo+"&empCd="+empCd, function(result) {
 			if (result == 0) {
 				console.log("커멘트가 없다");
-				content = " ";
+				content = "";
 				document.querySelector('#comment-input').value=content;
 			} else if (result > 0) {
 				$.post('loadComment.do', "soNo="+soNo+"&empCd="+empCd, function(result) {
 					
 					content=decodeURIComponent(result);
 					console.log("커멘트가 있어서 불러옴 : "+content);
-					document.querySelector('#comment-input').value=content;
+					$("#comment-input").attr("placeholder", content);
 				});
 			}
 			
@@ -898,13 +864,16 @@
 		$.post('checkReturnComment.do', "soNo="+soNo+"&empCd="+empCd, function(result) {
 			if (result == 0) {
 				console.log("반려커멘트가 없다");
-				content = " ";
+				content = "";
 				document.querySelector('#comment-return-input').value=content;
 			} else if (result > 0) {
 				$.post('loadReturnComment.do', "soNo="+soNo+"&empCd="+empCd, function(result) {
 					
 					content=decodeURIComponent(result);
 					console.log("커멘트가 있어서 불러옴 : "+content);
+					if (status == "승인완료") {
+						document.querySelector('#comment-finish-input').value=content;
+					}
 					document.querySelector('#comment-return-input').value=content;
 				});
 			}
@@ -922,12 +891,42 @@ function search() {
 		
 		var soNo = document.querySelector('#searchSoNo').value;
 		var soUser = document.querySelector('#searchSoUser').value;
-		console.log(soUser);
-		var pricingDateRange = document.querySelector('#searchPricingDate').value;
 		var status = document.querySelector('#searchStatus').value;
 		var buyerCD = document.querySelector('#searchBuyerCD').value;
 		var addDateRange = document.querySelector('#searchAddDate').value;
+		var pricingDateRange = document.querySelector('#searchPricingDate').value;
 		var requestDateRange = document.querySelector('#searchRequestDate').value;
+		
+		var addDateRangePlaceholder = document.querySelector('#searchAddDate').getAttribute('placeholder');
+		var pricingDateRangePlaceholder = document.querySelector('#searchPricingDate').getAttribute('placeholder');
+		var requestDateRangePlaceholder = document.querySelector('#searchRequestDate').getAttribute('placeholder');
+		
+		if (addDateRange == null || addDateRange == '') {
+			if (addDateRangePlaceholder == null) {
+				addDateRange = '';
+			} else {
+				addDateRange = addDateRangePlaceholder;
+			}
+		}
+		
+		
+		if (pricingDateRange == null || pricingDateRange == '') {
+			if (pricingDateRangePlaceholder == null) {
+				pricingDateRange = '';
+			} else {
+				pricingDateRange = pricingDateRangePlaceholder;
+			}
+		}
+		
+		if (requestDateRange == null || requestDateRange == '') {
+			if (requestDateRangePlaceholder == null) {
+				requestDateRange = '';
+			} else {
+				requestDateRange = requestDateRangePlaceholder;
+			}
+		}
+		
+		console.log('order.do?soNo='+soNo+'&soUser='+soUser+'&pricingDateRange='+pricingDateRange+'&status='+status+'&buyerCD='+buyerCD+'&addDateRange='+addDateRange+'&requestDateRange='+requestDateRange);
 		
 		pageView('order.do?soNo='+soNo+'&soUser='+soUser+'&pricingDateRange='+pricingDateRange+'&status='+status+'&buyerCD='+buyerCD+'&addDateRange='+addDateRange+'&requestDateRange='+requestDateRange);
 	}
@@ -947,18 +946,20 @@ function search() {
 	
 	function searchPricingDateReset() {
 		document.querySelector('#searchPricingDate').value='';
+		$("input#searchPricingDate").attr("placeholder", '');
 	}
 	
 	function searchAddDateReset() {
 		document.querySelector('#searchAddDate').value='';
+		$("input#searchAddDate").attr("placeholder", '');
 	}
 	
 	function searchRequestDateReset() {
 		document.querySelector('#searchRequestDate').value='';
+		$("input#searchRequestDate").attr("placeholder", '');
 	}
 	
 	function allReset() {
-		console.log('${leader}');
 		var leader = '${leader}';
 		
 		document.querySelector('#searchSoNo').value='';
@@ -969,6 +970,10 @@ function search() {
 		document.querySelector('#searchPricingDate').value='';
 		document.querySelector('#searchAddDate').value='';
 		document.querySelector('#searchRequestDate').value='';
+		document.querySelector('#searchStatus').value='';
+		$("input#searchPricingDate").attr("placeholder", '');
+		$("input#searchAddDate").attr("placeholder", '');
+		$("input#searchRequestDate").attr("placeholder", '');
 	}
 	
 </script>
@@ -993,30 +998,36 @@ function search() {
 					<div class="search-sub-div">
 						<div class="search-item-div">
 							<div class="search-item-text">• 오더번호</div>
-							<c:if test="${soNo != null && soNo != '' }">
-								<input type=text id="searchSoNo" class="search inputWidth" list="soNoAllList" autocomplete="off" value="${soNo}"><div onclick="searchSoNoReset()" class="searchSoNoReset click">✖</div>
-							</c:if>
-							<c:if test="${soNo == null || soNo == '' }">
-								<input type=text id="searchSoNo" class="search inputWidth" list="soNoAllList" autocomplete="off"><div onclick="searchSoNoReset()" class="searchSoNoReset click">✖</div>
-							</c:if>
+							<div class="search-item-text2 insert-row-div">
+								<c:if test="${soNo != null && soNo != '' }">
+									<input type=text id="searchSoNo" class="search inputWidth search-text2" list="soNoAllList" autocomplete="off" value="${soNo}"><div onclick="searchSoNoReset()" class="searchSoNoReset reset click">✖</div>
+								</c:if>
+								<c:if test="${soNo == null || soNo == '' }">
+									<input type=text id="searchSoNo" class="search inputWidth search-text2" list="soNoAllList" autocomplete="off"><div onclick="searchSoNoReset()" class="searchSoNoReset reset click">✖</div>
+								</c:if>
+							</div>
 						</div>
 						<div class="search-item-div">
 							<div class="search-item-text">• 영업담당자</div>
-							<c:if test="${leader == 'y'}">
-								<input type=text id="searchSoUser" class="search inputWidth" list="employee_list"><div onclick="searchSoUserReset()" class="searchSoUserReset click">✖</div>
-							</c:if>
-							<c:if test="${leader == 'n'}">
-								<input type=text id="searchSoUser" class="search inputWidth" readonly="readonly" value="${order.soUser }"><div onclick="searchSoUserReset()" class="searchSoUserReset click">✖</div>
-							</c:if>
+							<div class="search-item-text3 insert-row-div">
+								<c:if test="${leader == 'y'}">
+									<input type=text id="searchSoUser" class="search inputWidth search-text3" list="employee_list" value="${order.soUser}" autocomplete="off"><div onclick="searchSoUserReset()" class="searchSoUserReset reset click">✖</div>
+								</c:if>
+								<c:if test="${leader == 'n'}">
+									<input type=text id="searchSoUser" class="search inputWidth search-text3" readonly="readonly" value="${order.soUser }">
+								</c:if>
+							</div>
 						</div>
 						<div class="search-item-div">
 							<div class="search-item-text">• 판매가기준일</div>
-							<c:if test="${pricingDateRange != null && pricingDateRange != '' }">
-								<input type=text id="searchPricingDate" class="search dateRange inputWidth" value="${pricingDateRange}"><div onclick="searchPricingDateReset()" class="searchPricingDateReset click">✖</div>
-							</c:if>
-							<c:if test="${pricingDateRange == null || pricingDateRange == '' }">
-								<input type=text id="searchPricingDate" class="search dateRange inputWidth"><div onclick="searchPricingDateReset()" class="searchPricingDateReset click">✖</div>
-							</c:if>
+							<div class="search-item-text3 insert-row-div">
+								<c:if test="${pricingDateRange != null && pricingDateRange != '' }">
+									<input type=text id="searchPricingDate" class="search dateRange inputWidth search-text3" autocomplete="off"><div onclick="searchPricingDateReset()" class="searchPricingDateReset reset click">✖</div>
+								</c:if>
+								<c:if test="${pricingDateRange == null || pricingDateRange == '' }">
+									<input type=text id="searchPricingDate" class="search dateRange inputWidth search-text3" autocomplete="off"><div onclick="searchPricingDateReset()" class="searchPricingDateReset reset click">✖</div>
+								</c:if>
+							</div>
 						</div>
 						<div class="search-item-div">
 							<div class="search-item-text">• 상태</div>
@@ -1083,38 +1094,45 @@ function search() {
 								</select>
 							</c:if>
 						</div>
+						<div class="reloadDiv">
+							<img class="reloadImg click" alt="" src="/sharedone/resources/images/reload.png" onclick="allReset()">
+						</div>
 					</div>
 						<div class="search-sub-div">
 							<div class="search-item-div">
 								<div class="search-item-text">• 거래처코드</div>
-								<c:if test="${buyerCD != null && buyerCD != '' }">
-									<input type=text id="searchBuyerCD" class="search inputWidth" list="buyerAllList" autocomplete="off" value="${buyerCD}"><div onclick="searchBuyerCDReset()" class="searchBuyerCDReset click">✖</div>
-								</c:if>
-								<c:if test="${buyerCD == null || buyerCD == '' }">
-									<input type=text id="searchBuyerCD" class="search inputWidth" list="buyerAllList" autocomplete="off"><div onclick="searchBuyerCDReset()" class="searchBuyerCDReset click">✖</div>
-								</c:if>
+								<div class="search-item-text2 insert-row-div">
+									<c:if test="${buyerCD != null && buyerCD != '' }">
+										<input type=text id="searchBuyerCD" class="search inputWidth search-text2" list="buyerAllList" autocomplete="off" value="${buyerCD}"><div onclick="searchBuyerCDReset()" class="searchBuyerCDReset reset click">✖</div>
+									</c:if>
+									<c:if test="${buyerCD == null || buyerCD == '' }">
+										<input type=text id="searchBuyerCD" class="search inputWidth search-text2" list="buyerAllList" autocomplete="off"><div onclick="searchBuyerCDReset()" class="searchBuyerCDReset reset click">✖</div>
+									</c:if>
+								</div>
 							</div>
 							<div class="search-item-div">
 								<div class="search-item-text">• 오더등록일</div>
-								<c:if test="${addDateRange != null && addDateRange != '' }">
-									<input type=text id="searchAddDate" class="search dateRange inputWidth" value="${addDateRange }"><div onclick="searchAddDateReset()" class="searchAddDateReset click">✖</div>
-								</c:if>
-								<c:if test="${addDateRange == null || addDateRange == '' }">
-									<input type=text id="searchAddDate" class="search dateRange inputWidth"><div onclick="searchAddDateReset()" class="searchAddDateReset click">✖</div>
-								</c:if>
+								<div class="search-item-text3 insert-row-div">
+									<c:if test="${addDateRange != null && addDateRange != '' }">
+										<input type=text id="searchAddDate" class="search dateRange inputWidth search-text3" value="${addDateRange }" autocomplete="off"><div onclick="searchAddDateReset()" class="searchAddDateReset reset click">✖</div>
+									</c:if>
+									<c:if test="${addDateRange == null || addDateRange == '' }">
+										<input type=text id="searchAddDate" class="search dateRange inputWidth search-text3" autocomplete="off"><div onclick="searchAddDateReset()" class="searchAddDateReset reset click">✖</div>
+									</c:if>
+								</div>
 							</div>
 							<div class="search-item-div">
 								<div class="search-item-text">• 납품요청일</div>
-								<c:if test="${requestDateRange != null && requestDateRange != '' }">
-									<input type=text id="searchRequestDate" class="search dateRange inputWidth" value="${requestDateRange}"><div onclick="searchRequestDateReset()" class="searchRequestDateReset click">✖</div>
-								</c:if>
-								<c:if test="${requestDateRange == null || requestDateRange == '' }">
-									<input type=text id="searchRequestDate" class="search dateRange inputWidth"><div onclick="searchRequestDateReset()" class="searchRequestDateReset click">✖</div>
-								</c:if>
-								<div class="reloadImg-div">
-									<img class="reloadImg click" alt="" src="/sharedone/resources/images/reload.png" onclick="allReset()">
+								<div class="search-item-text3 insert-row-div">
+									<c:if test="${requestDateRange != null && requestDateRange != '' }">
+										<input type=text id="searchRequestDate" class="search dateRange inputWidth search-text3" value="${requestDateRange}" autocomplete="off"><div onclick="searchRequestDateReset()" class="searchRequestDateReset reset click">✖</div>
+									</c:if>
+									<c:if test="${requestDateRange == null || requestDateRange == '' }">
+										<input type=text id="searchRequestDate" class="search dateRange inputWidth search-text3" autocomplete="off"><div onclick="searchRequestDateReset()" class="searchRequestDateReset reset click">✖</div>
+									</c:if>
 								</div>
 							</div>
+							
 						</div>
 				</div>
 						<div class="search-box2 search right-div" onclick="search()" tabIndex="0">조회</div>
@@ -1171,10 +1189,6 @@ function search() {
 						<div class="new-text">영업담당자<span class="red_warn">*</span></div>
 						<input type="text" id="newSoUser" class="no-border newInput2" list="employee_list">
 					</div>
-					<div class="new-sub-row-div">
-						<div class="new-text">납품요청일<span class="red_warn">*</span></div>
-						<input type="date" id="newRequestDate" class="no-border newInput2" value="">
-					</div>
 					
 					<div class="new-sub-row-div">
 						<div class="new-text">통화<span class="red_warn">*</span></div>
@@ -1184,6 +1198,17 @@ function search() {
 							<option value="EUR">EUR</option>
 							<option value="JPY">JPY</option>
 						</select>
+					</div>
+				</div>
+				
+				<div class="new-row-div">
+					<div class="new-sub-row-div">
+						<div class="new-text">납품요청일<span class="red_warn">*</span></div>
+						<input type="date" id="newRequestDate" class="no-border newInput2" value="">
+					</div>
+					<div class="new-sub-row-div">
+						<div class="new-text">판매가기준일<span class="red_warn">*</span></div>
+						<input type="date" id="newPricingDate" class="no-border newInput2" value="">
 					</div>
 				</div>
 				
@@ -1318,8 +1343,17 @@ function search() {
 					</div>
 				</div>
 				
-				<div class="comment-div">
+				<div class="comment-finish-div" style="display: none;">
 					<div>
+						승인 코멘트
+					</div>
+					<div>
+						<textarea id="comment-finish-input" readonly="readonly"></textarea>
+					</div>
+				</div>
+				
+				<div class="comment-div">
+					<div id="comment-title">
 						코멘트
 					</div>
 					<div>

@@ -381,6 +381,48 @@ th:first-child, td:first-child {
     border-radius: 2px;
 }
 
+.sort-div {
+	cursor: pointer;
+}
+
+.edit:focus{
+  outline: 1px solid;
+}
+
+.edit:disabled {
+    color: black;
+    -webkit-appearance: none;
+	-moz-appearance: none;
+	text-indent: 1px;
+	text-overflow: '';
+}
+
+.headerCol1 {
+	width: 100px;
+}
+
+.headerCol2 {
+	width: 400px;
+}
+
+.headerCol3 {
+	width: 400px;
+}
+
+.headerCol4 {
+	width: 150px;
+}
+
+.headerCol4 {
+	width: 150px;
+}
+
+.text-center {
+	text-align: center;
+}
+
+
+
 
 
 

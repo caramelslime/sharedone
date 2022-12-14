@@ -42,7 +42,6 @@ public class OrderRestController {
 	@ResponseBody
 	public List<Order> orderItems(String soNo) {
 		List<Order> orderItems = os.selectOrderItems(soNo);
-		System.out.println(orderItems);
 		return orderItems;
 	}
 
@@ -50,7 +49,6 @@ public class OrderRestController {
 	@ResponseBody
 	public Order selectByProductCD(String productCD) {
 		Order product = os.selectByProductCD(productCD);
-		System.out.println(product);
 		return product;
 	}
 
@@ -58,7 +56,6 @@ public class OrderRestController {
 	@ResponseBody
 	public int addOrderDetail(String soNo, String productCD, int qty, int unitPrice) {
 		int result = os.addOrderDetail(soNo, productCD, qty, unitPrice);
-		System.out.println(result);
 		return result;
 	}
 
@@ -66,23 +63,20 @@ public class OrderRestController {
 	@ResponseBody
 	public int removeOrderDetail(String soNo, String productCD) {
 		int result = os.removeOrderDetail(soNo, productCD);
-		System.out.println(result);
 		return result;
 	}
 
 	@RequestMapping("/orderInsert")
 	@ResponseBody
-	public String orderInsert(String buyerCD, String soUser, Date requestDate, String currency) {
+	public String orderInsert(String buyerCD, String soUser, Date requestDate, String currency, String pricingDate) {
 
 		int totalOrder = os.totalOrder();
 
-		System.out.println("totalOrder : " + totalOrder);
 
 		String soNo = "";
 		soNo = "S" + String.format("%05d", totalOrder + 1);
 
-		int result = os.addOrder(soNo, buyerCD, soUser, requestDate, currency);
-		System.out.println("result : " + result);
+		int result = os.addOrder(soNo, buyerCD, soUser, requestDate, currency, pricingDate);
 		return soNo;
 	}
 
@@ -97,7 +91,6 @@ public class OrderRestController {
 			info = JSONArray.fromObject(data);
 
 			for (Map<String, Object> orderInfo : info) {
-				System.out.println(orderInfo.get("soNo"));
 				String soNo = (String) orderInfo.get("soNo");
 				String productCD = (String) orderInfo.get("productCD");
 				String strQty = (String) orderInfo.get("qty");
@@ -128,10 +121,6 @@ public class OrderRestController {
 	String previousStatus = status;
 	status = "승인대기";
 	
-	System.out.println("soNo: "+soNo);
-	System.out.println("content: "+content);
-	System.out.println("status: "+status);
-	System.out.println("empCd: "+empCd);
 	
 	int noticeCd = ns.getMax();
 	
@@ -157,8 +146,6 @@ public class OrderRestController {
 	public int checkComment(Model model, String soNo, String empCd) {
 		int count = 0;
 		count = ns.checkComment(soNo, empCd);
-		System.out.println("soNo: "+soNo+"empCd: "+empCd);
-		System.out.println(count);
 		return count;
 	}
 	
@@ -167,7 +154,6 @@ public class OrderRestController {
 	public String loadComment(Model model, String soNo, String empCd, String content) {
 		content ="";
 		content = ns.loadComment(soNo, empCd);
-		System.out.println(content);
 		return content;
 	}
 	
@@ -176,8 +162,6 @@ public class OrderRestController {
 	public int checkReturnComment(Model model, String soNo, String empCd) {
 		int count = 0;
 		count = ns.checkReturnComment(soNo, empCd);
-		System.out.println("soNo: "+soNo+"empCd: "+empCd);
-		System.out.println(count);
 		return count;
 	}
 	
@@ -185,7 +169,6 @@ public class OrderRestController {
 	@ResponseBody
 	public int checkValidPrice(String productCD, String buyerCD, String currency) {
 		int count = os.checkValidPrice(productCD, buyerCD, currency);
-		System.out.println(count);
 		return count;
 	}
 	
@@ -193,7 +176,6 @@ public class OrderRestController {
 	public String loadReturnComment(Model model, String soNo, String empCd, String content) {
 		content ="";
 		content = ns.loadReturnComment(soNo, empCd);
-		System.out.println(content);
 		return content;
 	}
 	
@@ -201,7 +183,6 @@ public class OrderRestController {
 	@ResponseBody
 	public int validPrice(String productCD, String buyerCD, String currency) {
 		int price = os.validPrice(productCD, buyerCD, currency);
-		System.out.println(price);
 		return price;
 	}
 	
@@ -209,7 +190,6 @@ public class OrderRestController {
 	@ResponseBody
 	public int defaultPrice(String productCD, String currency) {
 		int price = os.defaultPrice(productCD, currency);
-		System.out.println(price);
 		return price;
 	}
 	
@@ -220,9 +200,6 @@ public class OrderRestController {
 	@RequestMapping("detailProductDelete")
 	public String detailProductDelete(String soNo) {
 		
-		
-		System.out.println(soNo);
-		
 		int result = os.detailProductDelete(soNo);
 		
 		
@@ -231,12 +208,6 @@ public class OrderRestController {
 	
 	@RequestMapping("detailProductUpdate")
 	public String detailProductUpdate(Order order, Model model, String soNo, String productCD, int qty, int unitPrice) {
-		
-		
-		System.out.println(soNo);
-		System.out.println(productCD);
-		System.out.println(qty);
-		System.out.println(unitPrice);
 		
 		int result = os.detailProductUpdate(soNo, productCD, qty, unitPrice);
 		

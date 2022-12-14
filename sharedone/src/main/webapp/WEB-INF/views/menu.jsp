@@ -113,7 +113,7 @@
 		<div class="menu-div" id="icon-div">
 			<img style="width:120px; height : 50px;" alt="" src="/sharedone/resources/images/logo.png">
 		</div>
-		<div class="menu-div"  onclick="pageView('product.do')">
+		<div class="menu-div"  onclick="pageView('product.do?sortBy=productCD&sortAs=desc')">
 			<img class="menu-img" alt="이미지 없음" src="/sharedone/resources/images/product.png"/>&nbsp;제품관리
 		</div>
 		<div class="menu-div"  onclick="pageView2('buyerManagement.do')">

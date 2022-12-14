@@ -29,10 +29,12 @@ public class ProductController {
 	}
 	
 	@RequestMapping("product")
-	public String product(Product product, Model model, String cdnm, String productGroup) {
+	public String product(Product product, Model model, String cdnm, String productGroup, String sortBy, String sortAs) {
 		
 		product.setCdnm(cdnm);
 		product.setProductGroup(productGroup);
+		product.setSortBy(sortBy);
+		product.setSortAs(sortAs);
 		
 		List<Product> productList = ps.productList(product);
 		
@@ -42,6 +44,8 @@ public class ProductController {
 		model.addAttribute("productAllList", productAllList);
 		model.addAttribute("cdnm", cdnm);
 		model.addAttribute("productGroup", productGroup);
+		model.addAttribute("sortBy", sortBy);
+		model.addAttribute("sortAs", sortAs);
 		
 		return "/nolay/product";
 	}
@@ -57,7 +61,6 @@ public class ProductController {
 		    info = JSONArray.fromObject(data);
 		    
 		    for (Map<String, Object> productInfo : info) {
-		    	System.out.println(productInfo.get("productNM"));
 		    	String productNM = (String) productInfo.get("productNM");
 		        String unit = (String) productInfo.get("unit");
 		        String productGroup = (String) productInfo.get("productGroup");
@@ -94,11 +97,8 @@ public class ProductController {
 		String[] selectDelete =selectChk;
 		String[] delList= new String[selectDelete.length];
 		
-		System.out.println(selectDelete);
-		
 		if (selectDelete[0].equals("selectAll")) {
 			for (int i = 1; i < selectDelete.length; i++) {
-				System.out.println(selectDelete[i]);
 				if (ps.delList(selectDelete[i]).equals("n")) {
 					delList[i-1] = "y";
 				} else if (ps.delList(selectDelete[i]).equals("y")) {
@@ -108,7 +108,6 @@ public class ProductController {
 		} else {
 			for (int i = 0; i < selectDelete.length; i++) {
 				if (ps.delList(selectDelete[i]).equals("n")) {
-					System.out.println(selectDelete[i]);
 					delList[i] = "y";
 				} else if (ps.delList(selectDelete[i]).equals("y")) {
 					delList[i] = "n";
@@ -128,7 +127,6 @@ public class ProductController {
 			}
 		}
 		
-		System.out.println(result);
 		model.addAttribute("result", result);
 		
 		return "/nolay/product";
@@ -138,12 +136,7 @@ public class ProductController {
 	@RequestMapping("productUpdate")
 	public String productUpdate(Product product, Model model, String productCD, String type, String value) {
 		
-		System.out.println(productCD);
-		System.out.println(type);
-		System.out.println(value);
-		
 		if (type.equals("productNM")) {
-			System.out.println("productNM");
 			product.setProductNM(value);
 		} else if (type.equals("unit")) {
 			product.setUnit(value);
@@ -152,8 +145,6 @@ public class ProductController {
 		}
 		
 		product.setProductCD(productCD);
-		
-		System.out.println(product);
 		
 		String result = String.valueOf(ps.productUpdate(product));
 		

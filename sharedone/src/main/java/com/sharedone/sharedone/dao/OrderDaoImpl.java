@@ -20,11 +20,23 @@ public class OrderDaoImpl implements OrderDao {
 
 	@Override
 	public List<Order> orderList(Order order) {
+		
+		System.out.println("order(OrderDaoImpl) : "+order);
+		System.out.println("pricingDateRange(OrderDaoImpl) : "+order.getPricingDateRange());
+		System.out.println("addDateRange(OrderDaoImpl) : "+order.getAddDateRange());
+		System.out.println("requestDateRange(OrderDaoImpl) : "+order.getRequestDateRange());
+		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("soNo", order.getSoNo());
 		map.put("soUser", order.getSoUser());
 		
-		if (order.getPricingDateRange() != null && order.getPricingDateRange()!="") {
+		String pricingDateRange = order.getPricingDateRange();
+		System.out.println(pricingDateRange);
+		
+		
+		if (pricingDateRange == null || "".equals(pricingDateRange) || pricingDateRange.length() == 0) {
+			
+		} else {
 			String[] splitPricingDate = order.getPricingDateRange().split("~");
 			String pricingDateStart = splitPricingDate[0].trim();
 			String pricingDateEnd = splitPricingDate[1].trim();
@@ -32,11 +44,11 @@ public class OrderDaoImpl implements OrderDao {
 			map.put("pricingDateEnd", pricingDateEnd);
 		}
 		
+		
 		map.put("status", order.getStatus());
 		map.put("buyerCD", order.getBuyerCD());
 		
 		if (order.getAddDateRange() != null && order.getAddDateRange()!="") {
-			System.out.println("order.getAddDateRange() : "+order.getAddDateRange());
 			String[] splitAddDate = order.getAddDateRange().split("~");
 			String addDateStart = splitAddDate[0].trim();
 			String addDateEnd = splitAddDate[1].trim();
@@ -44,7 +56,6 @@ public class OrderDaoImpl implements OrderDao {
 			map.put("addDateEnd", addDateEnd);
 		}
 		
-		System.out.println("RequestDateRange : "+order.getRequestDateRange());
 		
 		if (order.getRequestDateRange() != null && order.getRequestDateRange()!="") {
 			String[] splitRequestDate = order.getRequestDateRange().split("~");
@@ -53,6 +64,7 @@ public class OrderDaoImpl implements OrderDao {
 			map.put("requestDateStart", requestDateStart);
 			map.put("requestDateEnd", requestDateEnd);
 		}
+		
 		
 		return sst.selectList("orderns.orderList", map);
 	}
@@ -91,13 +103,14 @@ public class OrderDaoImpl implements OrderDao {
 	}
 
 	@Override
-	public int addOrder(String soNo, String buyerCD, String soUser, Date requestDate, String currency) {
+	public int addOrder(String soNo, String buyerCD, String soUser, Date requestDate, String currency, String pricingDate) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("soNo", soNo);
 		map.put("buyerCD", buyerCD);
 		map.put("soUser", soUser);
 		map.put("requestDate", requestDate);
 		map.put("currency", currency);
+		map.put("pricingDate", pricingDate);
 		return sst.insert("orderns.addOrder", map);
 	}
 

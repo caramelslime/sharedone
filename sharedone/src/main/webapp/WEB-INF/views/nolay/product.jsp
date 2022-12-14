@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
@@ -8,29 +8,38 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
-<style type="text/css">@import url("/sharedone/resources/css/share.css");</style>
-<style type="text/css">@import url("/sharedone/resources/css/product.css");</style>
+<style type="text/css">
+@import url("/sharedone/resources/css/share.css");
+</style>
+<style type="text/css">
+@import url("/sharedone/resources/css/product.css");
+</style>
 
-<style type="text/css">@import url("/sharedone/resources/css/sumoselect.min.css");</style>
+<style type="text/css">
+@import url("/sharedone/resources/css/sumoselect.min.css");
+</style>
 <script src="/sharedone/resources/js/jquery.sumoselect.min.js"></script>
 
 <style type="text/css">
-	.SumoSelect>.CaptionCont {
-    position: relative;
-    border: 1px solid #a4a4a4;
-    min-height: 14px;
-    background-color: #d7d7d7;
-    border-radius: 2px;
-    margin: 0;
+.SumoSelect>.CaptionCont {
+	position: relative;
+	border: 1px solid #a4a4a4;
+	min-height: 14px;
+	background-color: #d7d7d7;
+	border-radius: 2px;
+	margin: 0;
 }
 </style>
 
 <script type="text/javascript">
 	
-//	document.querySelector('#searchCdnm').focus();
+	var sortAs = '${param.sortAs}';
+	var sortBy = '${param.sortBy}';
+	
 	
 	/* 비동기 화면 출력 */
 	function pageView(data) {
+		console.log("pageView : "+data);
 		var addr = data;
 	
 		var ajaxOption = {
@@ -104,6 +113,14 @@
 	}
 	
 	$(function() {
+		
+		var cdnm2 = '${cdnm}';
+		
+		if (cdnm2 != null || cdnm2 != '') {
+			document.querySelector('#searchCdnm').value = cdnm2;
+		}
+		
+		$(".readonly").attr("disabled", "disabled");
 		
 		/* 제품 추가창에서 엔터 누르면 addInsert실행 */
 		$('.insert').keypress(function() { // enter키를 누르면 메세지 전송
@@ -180,7 +197,8 @@
 		     dataType: 'json',
 		     success: function (res) {
 		        if (res.result) {
-					pageView('product.do');
+		        	
+		        	search();
 		        }
 			}
 	   });
@@ -234,7 +252,7 @@
 			
 		}
 		setTimeout(function() {
-			pageView('product.do');
+			pageView('product.do?sortBy='+sortBy+'&sortAs='+sortAs);
 	    }, 200);
 	}
 	
@@ -260,18 +278,19 @@
 	function editStart() {
 		document.querySelector('.edit-start-btn').style.display = 'none';
 		document.querySelector('.edit-finish-btn').style.display = 'block';
-		$('.productList-div').css('background-color', '#d3dfea');
+		$('.col3, .col4, .col5').css('background-color', '#d3dfea');
 		editable = 1;
+		readOnlyOff();
 		console.log(editable);
 	}
 	
 	/* 제품 수정 비활성화 */
 	function editFinish() {
-		document.querySelector('.edit-start-btn').style.display = 'block';
-		document.querySelector('.edit-finish-btn').style.display = 'none';
-		$('.productList-div').css('background-color', '#fff');
-		editable = 0;
-		console.log(editable);
+		
+		var cdnm = document.querySelector('#searchCdnm').value;
+		var productGroup = document.querySelector('#searchProductGroup').value;
+		
+		pageView('product.do?cdnm='+cdnm+'&productGroup='+productGroup+'&sortBy='+sortBy+'&sortAs='+sortAs);
 	}
 	
 	var previousValue = "";
@@ -307,7 +326,7 @@
 		var cdnm = document.querySelector('#searchCdnm').value;
 		var productGroup = document.querySelector('#searchProductGroup').value;
 		
-		pageView('product.do?cdnm='+cdnm+'&productGroup='+productGroup);
+		pageView('product.do?cdnm='+cdnm+'&productGroup='+productGroup+'&sortBy='+sortBy+'&sortAs='+sortAs);
 	}
 	
 	
@@ -322,18 +341,44 @@
 		document.querySelector('#searchCdnm').value='';
 	}
 	
+	function readOnlyOff() {
+		$(".readonly").attr("disabled", false);
+	}
+	
+	function readOnlyOn() {
+		$(".readonly").attr("disabled", true);
+	}
+	
+	function sortChange(sortB, sortA) {
+		
+		var cdnm = document.querySelector('#searchCdnm').value;
+		var productGroup = document.querySelector('#searchProductGroup').value;
+		
+		if (sortB == sortBy) {
+			if (sortA == 'asc') {
+				pageView('product.do?cdnm='+cdnm+'&productGroup='+productGroup+'&sortBy='+sortB+'&sortAs=desc');
+			} else if (sortA == 'desc') {
+				pageView('product.do?cdnm='+cdnm+'&productGroup='+productGroup+'&sortBy='+sortB+'&sortAs=asc');
+			}
+		} else if (sortB != sortBy) {
+			pageView('product.do?cdnm='+cdnm+'&productGroup='+productGroup+'&sortBy='+sortB+'&sortAs=desc');
+		}
+	}
+	
 	
 </script>
 
 </head>
 <body>
-	
+
 	<div class="main-container">
 		<div class="content">
 			<div class="top-div">
 				<div class="top-title">제품관리</div>
 				<ul class="top-ul">
-					<li><img class="home-img" src="/sharedone/resources/images/home.png"/><span class="home-text">HOME</span></li>
+					<li><img class="home-img"
+						src="/sharedone/resources/images/home.png" /><span
+						class="home-text">HOME</span></li>
 					<li class="s-li">/</li>
 					<li class="sub-text-li">제품목록</li>
 				</ul>
@@ -345,100 +390,188 @@
 							<div class="search-item-text1">• 제품 코드 / 제품명</div>
 							<div class="search-item-text2 insert-row-div">
 								<c:if test="${cdnm != null && cdnm != '' }">
-								<input type=text id="searchCdnm" class="search" name="productSelect" value="${cdnm }" list="productAllList" autocomplete="off">
+									<input type=text id="searchCdnm" class="search" name="productSelect"
+										list="productAllList" autocomplete="off">
 								</c:if>
 								<c:if test="${cdnm == null || cdnm == '' }">
-								<input type=text id="searchCdnm" class="search" name="productSelect" list="productAllList" autocomplete="off">
+									<input type=text id="searchCdnm" class="search"
+										name="productSelect" list="productAllList" autocomplete="off">
 								</c:if>
-								<div class="searchCdnm-reset-div"><div onclick="searchCdnmReset()" class="searchCdnm-reset">✖</div></div>
+								<div class="searchCdnm-reset-div">
+									<div onclick="searchCdnmReset()" class="searchCdnm-reset">✖</div>
+								</div>
 							</div>
 						</div>
 					</div>
 					<div class="search-item-div">
 						<div class="search-item-text">• 제품 그룹</div>
 						<c:if test="${productGroup != null && productGroup != '' }">
-						<select id="searchProductGroup" class="search" required="required">
-							<c:if test="${productGroup == '스낵류' }">
-								<option value="">전체</option>
-								<option value="스낵류" selected="selected">스낵류</option>
-								<option value="초콜릿류">초콜릿류</option>
-							</c:if>
-							<c:if test="${productGroup == '초콜릿류' }">
-								<option value="">전체</option>
-								<option value="스낵류">스낵류</option>
-								<option value="초콜릿류" selected="selected">초콜릿류</option>
-							</c:if>
-						</select>
+							<select id="searchProductGroup" class="search"
+								required="required">
+								<c:if test="${productGroup == '스낵류' }">
+									<option value="">전체</option>
+									<option value="스낵류" selected="selected">스낵류</option>
+									<option value="초콜릿류">초콜릿류</option>
+								</c:if>
+								<c:if test="${productGroup == '초콜릿류' }">
+									<option value="">전체</option>
+									<option value="스낵류">스낵류</option>
+									<option value="초콜릿류" selected="selected">초콜릿류</option>
+								</c:if>
+							</select>
 						</c:if>
 						<c:if test="${productGroup == null || productGroup == '' }">
-						<select id="searchProductGroup" class="search" required="required">
-							<option value="">전체</option>
-							<option value="스낵류">스낵류</option>
-							<option value="초콜릿류">초콜릿류</option>
-						</select>
+							<select id="searchProductGroup" class="search"
+								required="required">
+								<option value="">전체</option>
+								<option value="스낵류">스낵류</option>
+								<option value="초콜릿류">초콜릿류</option>
+							</select>
 						</c:if>
-					</div>	
+					</div>
 				</div>
 				<div class="search-box search" onclick="search()" tabIndex="0">조회</div>
 			</div>
-			
+
 			<div class="productList-div">
 				<table class="list-table">
 					<tr>
-						<th class="col1">
-							<input type='checkbox' name='selectChk' value="selectAll" onclick='selectAll(this)' />
+						<th class="headerCol1"><input type='checkbox' name='selectChk'
+							value="selectAll" onclick='selectAll(this)' /></th>
+						<th class="headerCol2">제품 코드 <c:choose>
+								<c:when test="${sortBy eq 'productCD' && sortAs eq 'asc' }">
+									<span class="sort-div" onclick="sortChange('productCD', 'asc')">▲</span>
+								</c:when>
+								<c:when test="${sortBy eq 'productCD' && sortAs eq 'desc' }">
+									<span class="sort-div"
+										onclick="sortChange('productCD', 'desc')">▼</span>
+								</c:when>
+								<c:otherwise>
+									<span class="sort-div"
+										onclick="sortChange('productCD', 'desc')">▽</span>
+								</c:otherwise>
+							</c:choose>
 						</th>
-						<th class="col2">제품 코드</th>
-						<th class="col3">제품명</th>
-						<th class="col4">단위</th>
-						<th class="col5">제품 그룹</th>
+						<th class="headerCol3">제품명 <c:choose>
+								<c:when test="${sortBy eq 'productNM' && sortAs eq 'asc' }">
+									<span class="sort-div" onclick="sortChange('productNM', 'asc')">▲</span>
+								</c:when>
+								<c:when test="${sortBy eq 'productNM' && sortAs eq 'desc' }">
+									<span class="sort-div"
+										onclick="sortChange('productNM', 'desc')">▼</span>
+								</c:when>
+								<c:otherwise>
+									<span class="sort-div"
+										onclick="sortChange('productNM', 'desc')">▽</span>
+								</c:otherwise>
+							</c:choose>
+						</th>
+						<th class="headerCol4">단위</th>
+						<th class="headerCol5">제품 그룹 <c:choose>
+								<c:when test="${sortBy eq 'productGroup' && sortAs eq 'asc' }">
+									<span class="sort-div"
+										onclick="sortChange('productGroup', 'asc')">▲</span>
+								</c:when>
+								<c:when test="${sortBy eq 'productGroup' && sortAs eq 'desc' }">
+									<span class="sort-div"
+										onclick="sortChange('productGroup', 'desc')">▼</span>
+								</c:when>
+								<c:otherwise>
+									<span class="sort-div"
+										onclick="sortChange('productGroup', 'desc')">▽</span>
+								</c:otherwise>
+							</c:choose>
+						</th>
 					</tr>
 					<c:if test="${not empty productList}">
 						<c:forEach var="list" items="${productList }">
 							<tr class="productListTr">
-								<td class="col1">
-									<input type="checkbox" name="selectChk" value="${list.productCD}" >
-								</td>
-								<td class="col2"><input type="text" class="no-border" value="${list.productCD}" readonly="readonly"></td>
-								<td class="col3"><input type="text" id="${list.productCD}_productNM" class="edit" <%-- onclick="edit('${list.productCD}'+'_productNM')" --%> value="${list.productNM}" readonly="readonly"></td>
-								<td class="col4"><input type="text" id="${list.productCD}_unit" class="edit" value="${list.unit}" readonly="readonly"></td>
-								<td class="col5"><input type="text" id="${list.productCD}_productGroup" class="edit" value="${list.productGroup }" readonly="readonly"></td>
+								<td class="col1" align="center"><input type="checkbox" name="selectChk"
+									value="${list.productCD}"></td>
+								<td class="col2" align="center"><input type="text" class="no-border text-center"
+									value="${list.productCD}" readonly="readonly"></td>
+								<td class="col3" align="center"><input type="text"
+									id="${list.productCD}_productNM" class="edit text-center"
+									<%-- onclick="edit('${list.productCD}'+'_productNM')" --%> value="${list.productNM}"
+									readonly="readonly"></td>
+								<td class="col4" align="center"><select id="${list.productCD}_unit"
+									class="edit readonly text-center">
+										<c:if test="${list.unit == 'box'}">
+											<option value="box" selected="selected">box</option>
+										</c:if>
+										<c:if test="${list.unit != 'box'}">
+											<option value="box">box</option>
+										</c:if>
+										<c:if test="${list.unit == 'ea'}">
+											<option value="ea" selected="selected">ea</option>
+										</c:if>
+										<c:if test="${list.unit != 'ea'}">
+											<option value="ea">ea</option>
+										</c:if>
+								</select></td>
+
+								<td class="col5" align="center">
+								<select id="${list.productCD}_productGroup" class="edit readonly text-center">
+										<c:if test="${list.productGroup == '스낵류'}">
+											<option value="스낵류" selected="selected">스낵류</option>
+										</c:if>
+										<c:if test="${list.productGroup != '스낵류'}">
+											<option value="스낵류">스낵류</option>
+										</c:if>
+										<c:if test="${list.productGroup == '초콜릿류'}">
+											<option value="초콜릿류" selected="selected">초콜릿류</option>
+										</c:if>
+										<c:if test="${list.productGroup != '초콜릿류'}">
+											<option value="초콜릿류">초콜릿류</option>
+										</c:if>
+								</select></td>
+
 							</tr>
 						</c:forEach>
 					</c:if>
-					
+
 				</table>
 			</div>
-			
+
 			<div class="insert-div">
-				<div class="x-div"><div onclick="xBack()" class="x-sub-div">✖</div></div>
-				
+				<div class="x-div">
+					<div onclick="xBack()" class="x-sub-div">✖</div>
+				</div>
+
 				<div class="insert-row-div">
 					<div class="insert-sub-row-div">
-						<div class="insert-text">제품명<span class="red_warn">*</span></div>
-						<input type="text" id="insertProductNM" class="insert" required="required"/>
+						<div class="insert-text">
+							제품명<span class="red_warn">*</span>
+						</div>
+						<input type="text" id="insertProductNM" class="insert"
+							required="required" />
 					</div>
 					<div class="insert-sub-row-div">
-						<div class="insert-text">단위<span class="red_warn">*</span></div>
+						<div class="insert-text">
+							단위<span class="red_warn">*</span>
+						</div>
 						<select id="insertUnit" class="insert" required="required">
 							<option value="box">box</option>
 							<option value="ea">ea</option>
 						</select>
 					</div>
 					<div class="insert-sub-row-div">
-						<div class="insert-text">제품 그룹<span class="red_warn">*</span></div>
+						<div class="insert-text">
+							제품 그룹<span class="red_warn">*</span>
+						</div>
 						<select id="insertProductGroup" class="insert" required="required">
 							<option value="스낵류">스낵류</option>
 							<option value="초콜릿류">초콜릿류</option>
 						</select>
 					</div>
 					<div class="insert-sub-row-div">
-						<img class="plus-img" alt="이미지 없음" src="/sharedone/resources/images/plus.png" onclick="addInsert()" />
+						<img class="plus-img" alt="이미지 없음"
+							src="/sharedone/resources/images/plus.png" onclick="addInsert()" />
 					</div>
 				</div>
-				
+
 				<hr class="insert-hr">
-				
+
 				<div class="insertList-div">
 					<table id="insertList-table">
 						<tr>
@@ -455,34 +588,37 @@
 					</div>
 				</div>
 			</div>
-			
+
 			<div class="bottom-div">
 				<div class="bottom-btn-div">
 					<c:set var="editable" value="a"></c:set>
-					<button class="new-product-input-btn" onclick="newProductInputView()">제품등록</button>
+					<button class="new-product-input-btn"
+						onclick="newProductInputView()">제품등록</button>
 					<button class="del-btn" onclick="check()">삭제</button>
-					<button class="edit-start-btn" onclick="editStart()" style="display: block;">수정하기</button>
-					<button class="edit-finish-btn" onclick="editFinish()" style="display: none;">수정 완료</button>
+					<button class="edit-start-btn" onclick="editStart()"
+						style="display: block;">수정하기</button>
+					<button class="edit-finish-btn" onclick="editFinish()"
+						style="display: none;">수정 완료</button>
 				</div>
 			</div>
 		</div>
 		<div style="display: none;">
-			
+
 			<datalist id="CDList">
 				<c:forEach var="product" items="${productList }">
 					<option value="${product.productCD}">${product.productNM}</option>
 				</c:forEach>
 			</datalist>
-			
+
 			<div style="display: none;">
-			<datalist id="productAllList">
-				<c:forEach var="product" items="${productAllList }">
-					<option value="${product.productCD}">${product.productNM}</option>
-				</c:forEach>
-			</datalist>
-		</div>
+				<datalist id="productAllList">
+					<c:forEach var="product" items="${productAllList }">
+						<option value="${product.productCD}">${product.productNM}</option>
+					</c:forEach>
+				</datalist>
+			</div>
 		</div>
 	</div>
-	
+
 </body>
 </html>
