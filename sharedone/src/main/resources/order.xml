@@ -55,7 +55,7 @@
 	</delete>
 	
 	<insert id="addOrder" parameterType="map">
-		INSERT INTO t_order VALUES (#{soNo}, #{buyerCD}, #{soUser}, sysdate, sysdate, #{requestDate}, '임시저장', #{currency})
+		INSERT INTO t_order VALUES (#{soNo}, #{buyerCD}, #{soUser}, sysdate, #{pricingDate}, #{requestDate}, '임시저장', #{currency})
 	</insert>
 	
 	<select id="totalOrder" resultType="int">

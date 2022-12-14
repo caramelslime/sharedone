@@ -35,8 +35,11 @@ public class OrderController {
 	@RequestMapping("order")
 	public String order(HttpSession session, Order order, Model model, String soNo, String buyerCD, String soUser, String addDateRange, String pricingDateRange, String requestDateRange, String status) {
 		
+		System.out.println("pricingDateRange(OrderController) : "+pricingDateRange);
+		System.out.println("addDateRange(OrderController) : "+addDateRange);
+		System.out.println("requestDateRange(OrderController) : "+requestDateRange);
+		
 		String leaderSoUser = soUser;
-		System.out.println("leaderSoUser : "+leaderSoUser);
 		soUser = (String) session.getAttribute("empCd");
 		
 		String team = "";
@@ -60,12 +63,6 @@ public class OrderController {
 			}
 		}
 		
-		System.out.println("soUser : "+soUser);
-		
-		
-		System.out.println("soUser : "+soUser);
-		System.out.println("leader : "+leader);
-		
 		model.addAttribute("team", team);
 		model.addAttribute("leader", leader);
 		
@@ -76,6 +73,8 @@ public class OrderController {
 		order.setPricingDateRange(pricingDateRange);
 		order.setRequestDateRange(requestDateRange);
 		order.setStatus(status);
+		
+		System.out.println(order);
 		
 		List<Product> productAllList = ps.productAllList();
 		model.addAttribute("productAllList", productAllList);
@@ -88,8 +87,6 @@ public class OrderController {
 		
 		model.addAttribute("orderList", orderList);
 		
-		
-		
 		List<Order> orderAllList = os.orderAllList(order);
 		model.addAttribute("orderAllList", orderAllList);
 		
@@ -101,16 +98,6 @@ public class OrderController {
 		
 		model.addAttribute("order", order);
 		
-		System.out.println(soNo);
-		System.out.println(soUser);
-		System.out.println(addDateRange);
-		System.out.println(status);
-		System.out.println(pricingDateRange);
-		System.out.println(buyerCD);
-		System.out.println(requestDateRange);
-		
-		
-		
 		model.addAttribute("soNo", soNo);
 		model.addAttribute("soUser", soUser);
 		model.addAttribute("addDateRange", addDateRange);
@@ -119,7 +106,6 @@ public class OrderController {
 		model.addAttribute("buyerCD", buyerCD);
 		model.addAttribute("requestDateRange", requestDateRange);
 		model.addAttribute("leaderSoUser", leaderSoUser);
-		
 		
 		return "/nolay/order";
 	}

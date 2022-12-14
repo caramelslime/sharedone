@@ -47,8 +47,8 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public int addOrder(String soNo, String buyerCD, String soUser, Date requestDate, String currency) {
-		return od.addOrder(soNo, buyerCD, soUser, requestDate, currency);
+	public int addOrder(String soNo, String buyerCD, String soUser, Date requestDate, String currency, String pricingDate) {
+		return od.addOrder(soNo, buyerCD, soUser, requestDate, currency, pricingDate);
 	}
 
 	@Override

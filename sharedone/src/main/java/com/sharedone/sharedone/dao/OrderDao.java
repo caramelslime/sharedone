@@ -20,7 +20,7 @@ public interface OrderDao {
 
 	int removeOrderDetail(String soNo, String productCD);
 
-	int addOrder(String soNo, String buyerCD, String soUser, Date requestDate, String currency);
+	int addOrder(String soNo, String buyerCD, String soUser, Date requestDate, String currency, String pricingDate);
 
 	int totalOrder();
 

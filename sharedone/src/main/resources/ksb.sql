@@ -314,4 +314,11 @@ SELECT o.*, buyerNM, name FROM t_order o, m_buyer b, m_employee e WHERE currency
 
 SELECT * FROM t_order WHERE soUser = '' ORDER BY soNo DESC;
 
+SELECT * FROM m_buyer;
+
 SELECT * FROM t_order;
+
+
+
+
+

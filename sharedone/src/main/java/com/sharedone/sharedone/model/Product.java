@@ -18,4 +18,6 @@ public class Product {
 	private String value;
 	
 	private int listPrice;
+	private String sortBy;
+	private String sortAs;
 }
