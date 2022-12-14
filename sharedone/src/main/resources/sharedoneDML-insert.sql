@@ -489,7 +489,6 @@ insert into M_BUYER values(
 , 'E00014'            --작성자
 , 'n'                --삭제여부
 );
-
 --판매가격 데이터
 INSERT INTO m_price VALUES ( 'B00001', 'P00001', '2022-11-20', '2022-12-20', '20000', 'KRW', 'n' );
 INSERT INTO m_price VALUES ( 'B00002', 'P00002', '2022-11-21', '2022-12-21', '15000', 'KRW', 'n' );
