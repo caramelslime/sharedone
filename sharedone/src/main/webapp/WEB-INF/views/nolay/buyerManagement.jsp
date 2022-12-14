@@ -327,7 +327,6 @@
 	function updateBuyer(){
 		
 		var sendData = $('#updateFrm').serialize();
-		alert(sendData);
 		$.post('updateConfirm.do'
 				, sendData
 				, function(data) {
