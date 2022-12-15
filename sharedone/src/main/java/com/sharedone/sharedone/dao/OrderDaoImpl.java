@@ -139,20 +139,23 @@ public class OrderDaoImpl implements OrderDao {
 	}
 
 	@Override
-	public int checkValidPrice(String productCD, String buyerCD, String currency) {
+	public int checkValidPrice(String productCD, String buyerCD, String currency, Date pricingDate) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("productCD", productCD);
 		map.put("buyerCD", buyerCD);
 		map.put("currency", currency);
+		map.put("pricingDate", pricingDate);
+		System.out.println("dao(map): "+map);
 		return sst.selectOne("orderns.checkValidPrice", map);
 	}
 
 	@Override
-	public int validPrice(String productCD, String buyerCD, String currency) {
+	public int validPrice(String productCD, String buyerCD, String currency, Date pricingDate) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("productCD", productCD);
 		map.put("buyerCD", buyerCD);
 		map.put("currency", currency);
+		map.put("pricingDate", pricingDate);
 		return sst.selectOne("orderns.validPrice", map);
 	}
 

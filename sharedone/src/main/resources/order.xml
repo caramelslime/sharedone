@@ -73,13 +73,13 @@
 	
 	<select id="checkValidPrice" parameterType="map" resultType="int">
 		<![CDATA[
-			SELECT COUNT(*) FROM m_price WHERE buyerCD = #{buyerCD} AND productCD = #{productCD} AND currency = #{currency} AND sysdate >= periodstart AND sysdate <=periodend
+			SELECT COUNT(*) FROM m_price WHERE buyerCD = #{buyerCD} AND productCD = #{productCD} AND currency = #{currency} AND #{pricingDate} >= periodstart AND #{pricingDate} <=periodend
 		]]> 
 	</select>
 	
 	<select id="validPrice" parameterType="map" resultType="int">
 		<![CDATA[
-			SELECT listprice FROM m_price WHERE buyerCD = #{buyerCD} AND productCD = #{productCD} AND currency=#{currency} AND sysdate >= periodstart AND sysdate <=periodend
+			SELECT listprice FROM m_price WHERE buyerCD = #{buyerCD} AND productCD = #{productCD} AND currency=#{currency} AND #{pricingDate} >= periodstart AND #{pricingDate} <=periodend
 		]]> 
 	</select>
 	

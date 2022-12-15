@@ -193,8 +193,10 @@ public class OrderRestController {
 	
 	@RequestMapping("/checkValidPrice")
 	@ResponseBody
-	public int checkValidPrice(String productCD, String buyerCD, String currency) {
-		int count = os.checkValidPrice(productCD, buyerCD, currency);
+	public int checkValidPrice(String productCD, String buyerCD, String currency, Date pricingDate) {
+		System.out.println("컨트롤러(pricingDate): "+pricingDate);
+		int count = os.checkValidPrice(productCD, buyerCD, currency, pricingDate);
+		System.out.println("count(컨트롤러): "+count);
 		return count;
 	}
 	
@@ -207,8 +209,8 @@ public class OrderRestController {
 	
 	@RequestMapping("/validPrice")
 	@ResponseBody
-	public int validPrice(String productCD, String buyerCD, String currency) {
-		int price = os.validPrice(productCD, buyerCD, currency);
+	public int validPrice(String productCD, String buyerCD, String currency, Date pricingDate) {
+		int price = os.validPrice(productCD, buyerCD, currency, pricingDate);
 		return price;
 	}
 	

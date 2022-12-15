@@ -426,10 +426,17 @@
 		
 		var productCD = document.querySelector('.addProductCD').value;
 		
+ 		var pricingDate = document.querySelector('#detailPricingDate').value;
+ 		
+ 		var buyerCD = document.querySelector('#detailBuyerCD').value;
+ 		
+ 		var currency = document.querySelector('#detailCurrency').value;
+		
 		$.post('selectByProductCD.do', "productCD="+productCD, function(data) {
 			var productNM = data.productNM;
 			var productGroup = data.productGroup;
 			var unit = data.unit;
+			
 			
 			
 			if (data == null || data == "") {
@@ -453,12 +460,12 @@
 					document.querySelector('#productCD'+rowNumber).focus();
 				} else if (count == 0) {
 					
-					var buyerCD = document.querySelector('#newBuyerCD').value;
-					var currency = document.querySelector('#newCurrency').value;
 					
-					$.post('checkValidPrice.do', "productCD="+productCD+"&buyerCD="+buyerCD+"&currency="+currency, function(count) {
+					
+					$.post('checkValidPrice.do', "productCD="+productCD+"&buyerCD="+buyerCD+"&currency="+currency+"&pricingDate="+pricingDate, function(count) {
+						console.log("checkValidPrice끝나고: "+count);
 						if (count > 0) {
-							$.post('validPrice.do', "productCD="+productCD+"&buyerCD="+buyerCD+"&currency="+currency, function(price) {
+							$.post('validPrice.do', "productCD="+productCD+"&buyerCD="+buyerCD+"&currency="+currency+"&pricingDate="+pricingDate, function(price) {
 								console.log('기간내 가격 있음 : '+price);
 								console.log(document.querySelector('#unitPrice'+rowNumber));
 								document.querySelector('#unitPrice'+rowNumber).innerHTML = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -705,6 +712,11 @@
 		var rowNumber=document.querySelector('#detailList-table').rows.length-1;
 	
 		var productCD = document.querySelector('#newProductCD').value;
+ 		var pricingDate = document.querySelector('#newPricingDate').value;
+ 		var buyerCD = document.querySelector('#newBuyerCD').value;
+ 		var currency = document.querySelector('#newCurrency').value;
+		
+		
 		
 		$.post('selectByProductCD.do', "productCD="+productCD, function(data) {
 			var productNM = data.productNM;
@@ -735,15 +747,15 @@
 					var buyerCD = document.querySelector('#newBuyerCD').value;
 					var currency = document.querySelector('#newCurrency').value;
 					
-					$.post('checkValidPrice.do', "productCD="+productCD+"&buyerCD="+buyerCD+"&currency="+currency, function(count) {
+					$.post('checkValidPrice.do', "productCD="+productCD+"&buyerCD="+buyerCD+"&currency="+currency+"&pricingDate="+pricingDate, function(count) {
 						if (count > 0) {
-							$.post('validPrice.do', "productCD="+productCD+"&buyerCD="+buyerCD+"&currency="+currency, function(price) {
+							$.post('validPrice.do', "productCD="+productCD+"&buyerCD="+buyerCD+"&currency="+currency+"&pricingDate="+pricingDate, function(price) {
 								var finalPrice = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 								console.log('기간내 가격 있음 : '+finalPrice);
 								document.querySelector('#newUnitPrice').value = finalPrice;
 							});
 						} else if (count == 0) {
-							$.post('defaultPrice.do', "productCD="+productCD+"&currency="+currency, function(price) {
+							$.post('defaultPrice.do', "productCD="+productCD+"&currency="+currency+"&pricingDate="+pricingDate, function(price) {
 								var finalPrice = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 								console.log('기간내 가격 없음 -> defaultPrice : '+finalPrice);
 								document.querySelector('#newUnitPrice').value = finalPrice;
@@ -834,7 +846,7 @@
 				     success: function (res) {
 				        if (res.result) {
 							alert("입력이 완료되었습니다");
-							pageView('order.do?soNo='+soNo+'&soUser='+soUser+'&pricingDateRange='+pricingDateRange+'&status='+status+'&buyerCD='+buyerCD+'&addDateRange='+addDateRange+'&requestDateRange='+requestDateRange+'&sortBy=soNo&sortAs=desc');
+							search('soNo', 'desc');
 				        }
 					}
 			   });

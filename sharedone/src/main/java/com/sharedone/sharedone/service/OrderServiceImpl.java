@@ -74,13 +74,13 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public int checkValidPrice(String productCD, String buyerCD, String currency) {
-		return od.checkValidPrice(productCD, buyerCD, currency);
+	public int checkValidPrice(String productCD, String buyerCD, String currency, Date pricingDate) {
+		return od.checkValidPrice(productCD, buyerCD, currency, pricingDate);
 	}
 
 	@Override
-	public int validPrice(String productCD, String buyerCD, String currency) {
-		return od.validPrice(productCD, buyerCD, currency);
+	public int validPrice(String productCD, String buyerCD, String currency, Date pricingDate) {
+		return od.validPrice(productCD, buyerCD, currency, pricingDate);
 	}
 
 	@Override
