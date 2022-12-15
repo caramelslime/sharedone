@@ -69,6 +69,8 @@
 	/* 제품 수정 비활성화 */
 	function editFinish() {
 		
+		$('.edit-back').css('background-color', '#fff');
+		
 		var count = 0;
 		document.querySelectorAll('.edit').forEach(function(element) {
 			if (element.value == '' || element.value == null) {
@@ -87,7 +89,9 @@
 			alert('제품 정보와 합계를 불러온 후에 저장해주세요');
 		} else {
 		
-			document.querySelector('.edit-start-btn2').style.display = 'block';
+			document.querySelectorAll('.edit-start-btn2').forEach(function(el) {
+				el.style.visibility = 'visible';
+			})
 			document.querySelector('.edit-finish-btn2').style.display = 'none';
 			document.querySelector('#request-approval-btn').style.display = 'block';
 			
@@ -506,8 +510,15 @@
 		
 		var rowNumber=row;
 		
-		
 		var productCD = document.querySelector('#detailProductCD'+rowNumber).value;
+		
+ 		var pricingDate = document.querySelector('#detailPricingDate').value;
+ 		
+ 		var buyerCD = document.querySelector('#detailBuyerCD').value;
+ 		
+ 		var currency = document.querySelector('#detailCurrency').value;
+		
+		
 		
 		$.post('selectByProductCD.do', "productCD="+productCD, function(data) {
 			var productNM = data.productNM;
@@ -534,14 +545,15 @@
 					alert("이미 같은 제품이 등록되어 있습니다.");
 					document.querySelector('#detailProductCD'+rowNumber).value="";
 					document.querySelector('#detailProductCD'+rowNumber).focus();
+					return;
 				} else if (count == 1) {
 					
 					var buyerCD = document.querySelector('#detailBuyerCD').value;
 					var currency = document.querySelector('#detailCurrency').value;
 					
-					$.post('checkValidPrice.do', "productCD="+productCD+"&buyerCD="+buyerCD+"&currency="+currency, function(count) {
+					$.post('checkValidPrice.do', "productCD="+productCD+"&buyerCD="+buyerCD+"&currency="+currency+"&pricingDate="+pricingDate, function(count) {
 						if (count > 0) {
-							$.post('validPrice.do', "productCD="+productCD+"&buyerCD="+buyerCD+"&currency="+currency, function(price) {
+							$.post('validPrice.do', "productCD="+productCD+"&buyerCD="+buyerCD+"&currency="+currency+"&pricingDate="+pricingDate, function(price) {
 								console.log('기간내 가격 있음 : '+price);
 								console.log(document.querySelector('#detailUnitPrice'+rowNumber));
 								document.querySelector('#detailUnitPrice'+rowNumber).innerHTML = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -551,7 +563,7 @@
 							console.log("테스트1"+document.querySelector('#detailCurrency').value);
 							
 							if (document.querySelector('#detailCurrency').value == 'KRW') {
-								$.post('defaultPrice.do', "productCD="+productCD+"&currency="+currency, function(price) {
+								$.post('defaultPrice.do', "productCD="+productCD+"&currency="+currency+"&pricingDate="+pricingDate, function(price) {
 									console.log('기간내 가격 없음 -> defaultPrice : '+price);
 									alert("판매가 기준일에 부합하는 가격이 없어 기본 가격(KRW)이 입력되었습니다.");
 									console.log(document.querySelector('#detailUnitPrice'+rowNumber));
@@ -570,6 +582,7 @@
 					document.querySelector('#detailProductGroup'+rowNumber).innerHTML=productGroup;
 					document.querySelector('#detailUnit'+rowNumber).innerHTML=unit;
 					document.querySelector('#detailTotalPrice'+rowNumber).innerHTML="";
+					
 				}
 				
 			}
