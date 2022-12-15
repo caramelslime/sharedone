@@ -30,9 +30,9 @@ public interface OrderDao {
 
 	int updateApproveOrRefer(Notice notice);
 
-	int checkValidPrice(String productCD, String buyerCD, String currency);
+	int checkValidPrice(String productCD, String buyerCD, String currency, Date pricingDate);
 
-	int validPrice(String productCD, String buyerCD, String currency);
+	int validPrice(String productCD, String buyerCD, String currency, Date pricingDate);
 
 	int defaultPrice(String productCD, String currency);
 

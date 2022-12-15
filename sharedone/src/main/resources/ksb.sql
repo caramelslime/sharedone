@@ -331,5 +331,5 @@ SELECT COUNT(*) FROM m_product WHERE productNM = '가나다';
 SELECT COUNT(*) FROM m_product WHERE productNM = #{productNM}
 
 
-
+SELECT COUNT(*) FROM m_price WHERE buyerCD = 'B00024' AND productCD = 'P00001' AND currency = 'KRW' AND TO_DATE('2022-12-08', 'YYYY--MM-DD') >= periodstart AND TO_DATE('2022-12-10', 'YYYY--MM-DD') <=periodend
 

@@ -32,9 +32,9 @@ public interface OrderService {
 //	khs 승인/반려시 상태 업데이트
 	int updateApproveOrRefer(Notice notice);
 
-	int checkValidPrice(String productCD, String buyerCD, String currency);
+	int checkValidPrice(String productCD, String buyerCD, String currency, Date pricingDate);
 
-	int validPrice(String productCD, String buyerCD, String currency);
+	int validPrice(String productCD, String buyerCD, String currency, Date pricingDate);
 
 	int defaultPrice(String productCD, String currency);
 
