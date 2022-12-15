@@ -319,6 +319,17 @@ SELECT * FROM m_buyer;
 SELECT * FROM t_order;
 
 
+INSERT INTO m_price VALUES ( 'B00000', #{productCD, '1900-01-01', '1900-01-01', #{defaultPrice}, 'KRW', 'n' );
+
+DELETE FROM m_product WHERE productCD = 'P00032';
+
+
+SELECT * FROM m_product;
+
+SELECT COUNT(*) FROM m_product WHERE productNM = '가나다';
+
+SELECT COUNT(*) FROM m_product WHERE productNM = #{productNM}
+
 
 
 

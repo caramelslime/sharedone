@@ -38,4 +38,7 @@ public class Order {
 	private String buyerNM;
 	
 	private int totalPrice;
+	
+	private String sortBy;
+	private String sortAs;
 }

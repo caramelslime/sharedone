@@ -61,5 +61,12 @@
 	<select id="selectProductNm" parameterType="string" resultType="product">
 		SELECT * FROM m_product WHERE productCd=#{productCD2}
 	</select>
+	<delete id="cancelProductInsert" parameterType="String">
+		DELETE m_product WHERE productCD = #{productCD}
+	</delete>
+	
+	<select id="productNMCheck" parameterType="String" resultType="int">
+		SELECT COUNT(*) FROM m_product WHERE productNM = #{productNM}
+	</select>
 	
 </mapper>

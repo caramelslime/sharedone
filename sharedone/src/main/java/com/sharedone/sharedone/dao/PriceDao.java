@@ -23,6 +23,8 @@ public interface PriceDao {
 
 	List<Price> findDate(Price price);
 
+	int defaultPrice(String productCD, int defaultPrice);
+
 	
 
 	

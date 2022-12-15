@@ -33,8 +33,18 @@
 
 <script type="text/javascript">
 	
-	var sortAs = '${param.sortAs}';
-	var sortBy = '${param.sortBy}';
+	var sortAs = '${sortAs}';
+	var sortBy = '${sortBy}';
+	
+	var doubleSubmitFlag = false;
+	function doubleSubmitCheck(){
+	    if(doubleSubmitFlag){
+	        return doubleSubmitFlag;
+	    }else{
+	        doubleSubmitFlag = true;
+	        return false;
+	    }
+	}
 	
 	
 	/* 비동기 화면 출력 */
@@ -58,12 +68,7 @@
 	
 	/* 입력창 닫고 목록 표시 */
 	function xBack(){
-		$('.insert-div').hide();
-		$('.productList-div').css('opacity', '1');
-		$('.search-div').css('opacity', '1');
-		$("#insertList-table tr:not(:first)").remove();	// 입력창 닫을 때 입력한 값 제거
-		document.querySelector('#insertUnit').value="";
-		document.querySelector('#insertProductNM').value="";
+		search();
 	}
 	
 	/* 입력창 보여주기 */
@@ -76,34 +81,69 @@
 	
 	/* 제품등록에서 새로운 제품을 제품목록에 추가하기 */
 	function addInsert() {
+		
+		if (doubleSubmitCheck()) return;
+		
 		var productNM = document.querySelector('#insertProductNM').value;
 		var unit = document.querySelector('#insertUnit').value;
 		var productGroup = document.querySelector('#insertProductGroup').value;
+		var defaultPrice = document.querySelector('#insertDefaultPrice').value;
 		
 		var rowNumber=document.querySelector('#insertList-table').rows.length;
 		
 		console.log(productNM, unit, productGroup);
 		
+		doubleSubmitFlag = true;
 		
-		if (productNM == "" || unit == "" || productGroup == "") {
+		if (productNM == "" || unit == "" || productGroup == "" || defaultPrice =="") {
 			alert("값을 입력하세요");
+			doubleSubmitFlag = false;
 		} else {
-			$('#insertList-table').append(
-					"<tr class='insertListTr'>"
-						+ "<td>"+productNM+"</td>"
-						+ "<td>"+unit+"</td>"
-						+ "<td>"+productGroup+"</td>"
-						+ "<td>"
-						+ "<img  class='minus-img' alt='이미지 없음' src='/sharedone/resources/images/minus.png' onclick='removeInsert(this)' />"
-						+ "</td>"	
-					+ "</tr>"
-			);
-			document.querySelector('#insertUnit').value="";
-			document.querySelector('#insertProductNM').value="";
-			document.querySelector('#insertProductNM').focus();
-		}
-		
-		
+			
+			console.log("널이 아님");
+			var count=0;
+			
+			console.log(productNM);
+			
+			$.post('productNMCheck.do', "productNM="+productNM, function(data) {
+				console.log("data : "+data);
+				count += parseInt(data);
+				
+				console.log("db검색 후 count : "+count);
+				
+				document.querySelectorAll('.productNMCheck').forEach(function(el) {
+					console.log(el.innerHTML);
+					if (el.innerHTML == document.querySelector('#insertProductNM').value) {
+						console.log(el.innerHTML);
+						count += 1;
+					}
+				})
+				
+				if (count>0) {
+					alert("같은 이름이 존재합니다.");
+					document.querySelector('#insertDefaultPrice').value="";
+					document.querySelector('#insertProductNM').value="";
+					document.querySelector('#insertProductNM').focus();
+				} else if (count == 0) {
+					$('#insertList-table').append(
+							"<tr class='insertListTr'>"
+								+ "<td class='productNMCheck'>"+productNM+"</td>"
+								+ "<td>"+unit+"</td>"
+								+ "<td>"+defaultPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')+"</td>"
+								+ "<td>"+productGroup+"</td>"
+								+ "<td>"
+								+ "<img  class='minus-img' alt='이미지 없음' src='/sharedone/resources/images/minus.png' onclick='removeInsert(this)' />"
+								+ "</td>"	
+							+ "</tr>"
+					);
+					document.querySelector('#insertDefaultPrice').value="";
+					document.querySelector('#insertProductNM').value="";
+					document.querySelector('#insertProductNM').focus();
+				}
+				
+				doubleSubmitFlag = false;
+			});
+		} 
 	}
 	
 	/* 제품등록에서 제품목록에 추가된 제품 제거 */
@@ -172,6 +212,7 @@
 	
 	/* 제품등록 목록에 추가된 제품을 DB에 입력*/
 	function insertAction() {
+		
 		var table = document.querySelector('#insertList-table');
 		var rows = document.getElementById("insertList-table").getElementsByTagName("tr");
 		var insertArray = new Array(table.rows.length-1);
@@ -181,7 +222,9 @@
 		for (var i = 0; i < table.rows.length-1; i++) {
 			var cells = rows[i+1].getElementsByTagName("td");
 			
-			insertArray[i] = { productNM: cells[0].firstChild.data, unit: cells[1].firstChild.data, productGroup: cells[2].firstChild.data};
+			var defaultPrice = cells[2].firstChild.data.replace(/,/g, "");
+			
+			insertArray[i] = { productNM: cells[0].firstChild.data, unit: cells[1].firstChild.data, defaultPrice: defaultPrice, productGroup: cells[3].firstChild.data};
 			console.log(insertArray[i]);
 		};
 		
@@ -197,7 +240,6 @@
 		     dataType: 'json',
 		     success: function (res) {
 		        if (res.result) {
-		        	
 		        	search();
 		        }
 			}
@@ -216,44 +258,47 @@
 	
 	/* 체크박스 선택여부 확인 후 삭제 */
 	function check() {
-		const checkboxes2 = document.getElementsByName('selectChk');
 		
-		
-		let count = 0;
-		for (let i=0; i<checkboxes2.length;i++) {
-			if (checkboxes2[i].checked == true) {
-				count++;
-			}
-		}
-		
-		var obj = $("[name=selectChk]");
-		var selectChk = Array();
-		
-		$('input:checkbox[name=selectChk]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.
-			selectChk.push(this.value);
-        });
-		console.log(selectChk);
-		
-		if(count<=0) {
-			alert("제품을 선택해주세요");
-			return false;
-		} else {
-			$(function() {
-				$.ajax({
-				    url: 'productDelete.do',
-					type : "POST",
-					async : true,
-					traditional: true,
-					data: {"selectChk" : selectChk},
-					dataType : "json",
-					cache : false
-				});
-			});
+			const checkboxes2 = document.getElementsByName('selectChk');
 			
-		}
-		setTimeout(function() {
-			pageView('product.do?sortBy='+sortBy+'&sortAs='+sortAs);
-	    }, 200);
+			let count = 0;
+			for (let i=0; i<checkboxes2.length;i++) {
+				if (checkboxes2[i].checked == true) {
+					count++;
+				}
+			}
+			
+			var obj = $("[name=selectChk]");
+			var selectChk = Array();
+			
+			$('input:checkbox[name=selectChk]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.
+				selectChk.push(this.value);
+	        });
+			console.log(selectChk);
+			
+			if(count<=0) {
+				alert("제품을 선택해주세요");
+				return false;
+			} else {
+				
+				if (confirm("진짜로 삭제하시겠습니까?")) {
+					$(function() {
+						$.ajax({
+						    url: 'productDelete.do',
+							type : "POST",
+							async : true,
+							traditional: true,
+							data: {"selectChk" : selectChk},
+							dataType : "json",
+							cache : false
+						});
+					});
+					
+					setTimeout(function() {
+						pageView('product.do?sortBy='+sortBy+'&sortAs='+sortAs);
+				    }, 200);
+				}
+			}
 	}
 	
 	/* 제품 업데이트 */
@@ -438,7 +483,8 @@
 					<tr>
 						<th class="headerCol1"><input type='checkbox' name='selectChk'
 							value="selectAll" onclick='selectAll(this)' /></th>
-						<th class="headerCol2">제품 코드 <c:choose>
+						<th class="headerCol2">제품 코드
+							<c:choose>
 								<c:when test="${sortBy eq 'productCD' && sortAs eq 'asc' }">
 									<span class="sort-div" onclick="sortChange('productCD', 'asc')">▲</span>
 								</c:when>
@@ -557,6 +603,12 @@
 					</div>
 					<div class="insert-sub-row-div">
 						<div class="insert-text">
+							기본 가격(KRW)<span class="red_warn">*</span>
+						</div>
+						<input type="text" id="insertDefaultPrice" class="insert" autocomplete="off" required="required" />
+					</div>
+					<div class="insert-sub-row-div">
+						<div class="insert-text">
 							제품 그룹<span class="red_warn">*</span>
 						</div>
 						<select id="insertProductGroup" class="insert" required="required">
@@ -577,6 +629,7 @@
 						<tr>
 							<th class="col1">제품명</th>
 							<th class="col2">단위</th>
+							<th class="col2">기본 가격(KRW)</th>
 							<th class="col3">제품 그룹</th>
 							<th class="col4"></th>
 						</tr>

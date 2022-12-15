@@ -18,7 +18,8 @@
 
 <script type="text/javascript">
 	
-	
+	var sortAs = '${sortAs}';
+	var sortBy = '${sortBy}';
 	
 	function pageView(data) {
 		
@@ -49,7 +50,9 @@
 			el.style.visibility = 'hidden';
 		})
 		document.querySelector('#add-row-btn').style.visibility = 'hidden';
-		document.querySelector('.edit-start-btn2').style.display = 'none';
+		document.querySelectorAll('.edit-start-btn2').forEach(function(el) {
+			el.style.visibility = 'hidden';
+		})
 		document.querySelector('.edit-finish-btn2').style.display = 'block';
 		document.querySelector('#request-approval-btn').style.display = 'none';
 		
@@ -183,7 +186,7 @@
 			//  누른 key값(asscii)  IE ?      IE의 값         IE아닌 모든 web값
 			var keycode = event.keyCode ? event.keyCode : event.which;
 			if (keycode == 13) { // 13이 enter(assii값)
-				search();
+				search('soNo', 'desc');
 			}
 		});
 		
@@ -353,7 +356,7 @@
 			var status = document.querySelector('#detailStatus').value;
 			
 			if (status == '반려') {
-				document.querySelector('.comment-return-div').style.visibility = 'visible';
+				document.querySelector('.comment-return-div').style.display = 'block';
 			} else if (status == '승인완료') {
 				document.querySelector('.comment-finish-div').style.display = 'block';
 				document.querySelector('.detail-action-btn-div').style.visibility = 'hidden';
@@ -376,7 +379,7 @@
 	
 	function xBack(){
 		keydown = true;
-		pageView('order.do');
+		search(sortBy, sortAs);
 		
 	}
 	
@@ -408,7 +411,10 @@
 		document.querySelector('#add-row-btn').style.visibility = 'hidden';
 		document.querySelector('#add-finish-btn').style.display = 'block';
 		document.querySelector('#add-cancel-btn').style.display = 'block';
-		document.querySelector('.edit-start-btn2').style.visibility = 'hidden';
+		document.querySelectorAll('.edit-start-btn2').forEach(function(el) {
+			el.style.visibility = 'hidden';
+		})
+		
 		document.querySelector('#request-approval-btn').style.visibility = 'hidden';
 		
 	}
@@ -461,14 +467,25 @@
 								document.querySelector('#unit'+rowNumber).innerHTML=unit;
 							});
 						} else if (count == 0) {
-							$.post('defaultPrice.do', "productCD="+productCD+"&currency="+currency, function(price) {
-								console.log('기간내 가격 없음 -> defaultPrice : '+price);
-								console.log(document.querySelector('#unitPrice'+rowNumber));
-								document.querySelector('#unitPrice'+rowNumber).innerHTML = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-								document.querySelector('#productNM'+rowNumber).innerHTML=productNM;
-								document.querySelector('#productGroup'+rowNumber).innerHTML=productGroup;
-								document.querySelector('#unit'+rowNumber).innerHTML=unit;
-							});
+							
+							console.log("테스트2"+document.querySelector('#detailCurrency').value);
+							
+							if (document.querySelector('#detailCurrency').value == 'KRW') {
+								$.post('defaultPrice.do', "productCD="+productCD+"&currency="+currency, function(price) {
+									console.log('기간내 가격 없음 -> defaultPrice : '+price);
+									console.log(document.querySelector('#unitPrice'+rowNumber));
+									alert("판매가 기준일에 부합하는 가격이 없어 기본 가격(KRW)이 입력되었습니다.");
+									document.querySelector('#unitPrice'+rowNumber).innerHTML = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+									document.querySelector('#productNM'+rowNumber).innerHTML=productNM;
+									document.querySelector('#productGroup'+rowNumber).innerHTML=productGroup;
+									document.querySelector('#unit'+rowNumber).innerHTML=unit;
+								});
+							} else {
+								alert("판매가 기준일과 통화에 부합하는 가격이 없습니다.");
+								document.querySelector('#productCD'+rowNumber).value="";
+								document.querySelector('#productCD'+rowNumber).focus();
+								return;
+							}
 						}
 					});
 				}
@@ -523,11 +540,22 @@
 								document.querySelector('#detailUnitPrice'+rowNumber).innerHTML = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 							});
 						} else if (count == 0) {
-							$.post('defaultPrice.do', "productCD="+productCD+"&currency="+currency, function(price) {
-								console.log('기간내 가격 없음 -> defaultPrice : '+price);
-								console.log(document.querySelector('#detailUnitPrice'+rowNumber));
-								document.querySelector('#detailUnitPrice'+rowNumber).innerHTML = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-							});
+							
+							console.log("테스트1"+document.querySelector('#detailCurrency').value);
+							
+							if (document.querySelector('#detailCurrency').value == 'KRW') {
+								$.post('defaultPrice.do', "productCD="+productCD+"&currency="+currency, function(price) {
+									console.log('기간내 가격 없음 -> defaultPrice : '+price);
+									alert("판매가 기준일에 부합하는 가격이 없어 기본 가격(KRW)이 입력되었습니다.");
+									console.log(document.querySelector('#detailUnitPrice'+rowNumber));
+									document.querySelector('#detailUnitPrice'+rowNumber).innerHTML = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+								});
+							} else {
+								alert("판매가 기준일과 통화에 부합하는 가격이 없습니다.");
+								document.querySelector('#detailProductCD'+rowNumber).value="";
+								document.querySelector('#detailProductCD'+rowNumber).focus();
+								return;
+							}
 						}
 					});
 					
@@ -573,11 +601,14 @@
 				document.querySelector('#add-finish-btn').style.display = 'none';
 				document.querySelector('#add-cancel-btn').style.display = 'none';
 				document.querySelector('#add-row-btn').style.visibility = 'visible';
-				document.querySelector('.edit-start-btn2').style.visibility = 'visible';
+				document.querySelectorAll('.edit-start-btn2').forEach(function(el) {
+					el.style.visibility = 'visible';
+				});
 				document.querySelector('#request-approval-btn').style.visibility = 'visible';
 				document.querySelectorAll('.minus-img').forEach(function(el) {
 					el.style.visibility = 'visible';
-				})
+				});
+				doubleSubmitFlag = false;
 				detail(soNo);
 			})
 		}
@@ -624,6 +655,7 @@
 	function removeItem(e) {
 
 		if (confirm("진짜로 삭제하시겠습니까?")) {
+			doubleSubmitFlag = false;
 			var split = e.getAttribute('id').split('_');
 			var productCD = split[1];
 			var soNo = document.querySelector('#detailSoNo').value;
@@ -648,7 +680,9 @@
 		document.querySelector('#add-finish-btn').style.display = 'none';
 		document.querySelector('#add-cancel-btn').style.display = 'none';
 		document.querySelector('#add-row-btn').style.visibility = 'visible';
-		document.querySelector('.edit-start-btn2').style.visibility = 'visible';
+		document.querySelectorAll('.edit-start-btn2').forEach(function(el) {
+			el.style.visibility = 'visible';
+		})
 		document.querySelector('#request-approval-btn').style.visibility = 'visible';
 		document.querySelectorAll('.minus-img').forEach(function(el) {
 			el.style.visibility = 'visible';
@@ -800,7 +834,7 @@
 				     success: function (res) {
 				        if (res.result) {
 							alert("입력이 완료되었습니다");
-							pageView('order.do');
+							pageView('order.do?soNo='+soNo+'&soUser='+soUser+'&pricingDateRange='+pricingDateRange+'&status='+status+'&buyerCD='+buyerCD+'&addDateRange='+addDateRange+'&requestDateRange='+requestDateRange+'&sortBy=soNo&sortAs=desc');
 				        }
 					}
 			   });
@@ -825,7 +859,7 @@
 			
 			$.post('requestApproval.do', "soNo="+soNo+"&content="+encodeMsg+"&status="+status+"&empCd="+empCd, function(result) {
 				if (result > 0) {
-					pageView('order.do');
+					pageView('order.do?soNo='+soNo+'&sortBy=soNo&sortAs=desc');
 				} else if (result < 0) {
 					alert("오더상태 변경 실패");
 				} else if (result == 0) {
@@ -834,6 +868,32 @@
 			});
 		}
 	}
+	
+	function terminate() {
+		if (document.querySelector('#comment-input').value == null || document.querySelector('#comment-input').value == '') {
+			alert('종결을 위한 코멘트를 입력해 주세요');
+			document.querySelector('#comment-input').focus();
+		} else {
+			var soNo = document.querySelector('#detailSoNo').value;
+			var msg = document.querySelector('#comment-input').value;
+			var status = document.querySelector('#detailStatus').value;
+			var empCd = document.querySelector('#detailSoUser').value;
+			
+			var encodeMsg = encodeURIComponent(msg);
+			
+			$.post('terminate.do', "soNo="+soNo+"&content="+encodeMsg+"&status="+status+"&empCd="+empCd, function(result) {
+				if (result > 0) {
+					alert("종결상태로 변경 완료");
+					pageView('order.do?soNo='+soNo+'&sortBy=soNo&sortAs=desc');
+				} else if (result < 0) {
+					alert("종결상태로 변경 실패");
+				} else if (result == 0) {
+					alert("코멘트 저장 실패");
+				}
+			});
+		}
+	}
+	
 	
 	function loadComment() {
 		
@@ -887,7 +947,7 @@
 	
 	
 	
-function search() {
+function search(sortB, sortA) {
 		
 		var soNo = document.querySelector('#searchSoNo').value;
 		var soUser = document.querySelector('#searchSoUser').value;
@@ -926,9 +986,9 @@ function search() {
 			}
 		}
 		
-		console.log('order.do?soNo='+soNo+'&soUser='+soUser+'&pricingDateRange='+pricingDateRange+'&status='+status+'&buyerCD='+buyerCD+'&addDateRange='+addDateRange+'&requestDateRange='+requestDateRange);
+		console.log('order.do?soNo='+soNo+'&soUser='+soUser+'&pricingDateRange='+pricingDateRange+'&status='+status+'&buyerCD='+buyerCD+'&addDateRange='+addDateRange+'&requestDateRange='+requestDateRange+'&sortBy='+sortB+'&sortAs='+sortA);
 		
-		pageView('order.do?soNo='+soNo+'&soUser='+soUser+'&pricingDateRange='+pricingDateRange+'&status='+status+'&buyerCD='+buyerCD+'&addDateRange='+addDateRange+'&requestDateRange='+requestDateRange);
+		pageView('order.do?soNo='+soNo+'&soUser='+soUser+'&pricingDateRange='+pricingDateRange+'&status='+status+'&buyerCD='+buyerCD+'&addDateRange='+addDateRange+'&requestDateRange='+requestDateRange+'&sortBy='+sortB+'&sortAs='+sortA);
 	}
 	
 	
@@ -975,6 +1035,20 @@ function search() {
 		$("input#searchAddDate").attr("placeholder", '');
 		$("input#searchRequestDate").attr("placeholder", '');
 	}
+	
+	function sortChange(sortB, sortA) {
+		
+		if (sortB == sortBy) {
+			if (sortA == 'asc') {
+				search(sortB, 'desc');
+			} else if (sortA == 'desc') {
+				search(sortB, 'asc');
+			}
+		} else if (sortB != sortBy) {
+			search(sortB, 'desc');
+		}
+	}
+	
 	
 </script>
 
@@ -1135,24 +1209,164 @@ function search() {
 							
 						</div>
 				</div>
-						<div class="search-box2 search right-div" onclick="search()" tabIndex="0">조회</div>
+						<div class="search-box2 search right-div" onclick="search('soNo', 'desc')" tabIndex="0">조회</div>
 					</div>
 			</div>
 			
 			<div class="orderList-div">
 				<table class="list-table">
 					<tr>
-						<th class="col1">오더번호</th>
-						<th class="col2">거래처코드</th>
-						<th class="col2">거래처명</th>
-						<th class="col2">영업 담당자 코드</th>
-						<th class="col2">영업 담당자명</th>
-						<th class="col4">금액</th>
-						<th class="col4">오더등록일</th>
-						<th class="col5">판매가기준일</th>
-						<th class="col6">납품요청일</th>
-						<th class="col7">통화</th>
-						<th class="col8">상태</th>
+						<th class="col1">오더번호
+							<c:choose>
+								<c:when test="${sortBy eq 'soNo' && sortAs eq 'asc' }">
+									<span class="sort-div" onclick="sortChange('soNo', 'asc')">▲</span>
+								</c:when>
+								<c:when test="${sortBy eq 'soNo' && sortAs eq 'desc' }">
+									<span class="sort-div"
+										onclick="sortChange('soNo', 'desc')">▼</span>
+								</c:when>
+								<c:otherwise>
+									<span class="sort-div"
+										onclick="sortChange('soNo', 'desc')">▽</span>
+								</c:otherwise>
+							</c:choose>
+						</th>
+						<th class="col2">거래처코드
+							<c:choose>
+								<c:when test="${sortBy eq 'o.buyerCD' && sortAs eq 'asc' }">
+									<span class="sort-div" onclick="sortChange('o.buyerCD', 'asc')">▲</span>
+								</c:when>
+								<c:when test="${sortBy eq 'o.buyerCD' && sortAs eq 'desc' }">
+									<span class="sort-div"
+										onclick="sortChange('o.buyerCD', 'desc')">▼</span>
+								</c:when>
+								<c:otherwise>
+									<span class="sort-div"
+										onclick="sortChange('o.buyerCD', 'desc')">▽</span>
+								</c:otherwise>
+							</c:choose>
+						</th>
+						<th class="col2">거래처명
+							<c:choose>
+								<c:when test="${sortBy eq 'buyerNM' && sortAs eq 'asc' }">
+									<span class="sort-div" onclick="sortChange('buyerNM', 'asc')">▲</span>
+								</c:when>
+								<c:when test="${sortBy eq 'buyerNM' && sortAs eq 'desc' }">
+									<span class="sort-div"
+										onclick="sortChange('buyerNM', 'desc')">▼</span>
+								</c:when>
+								<c:otherwise>
+									<span class="sort-div"
+										onclick="sortChange('buyerNM', 'desc')">▽</span>
+								</c:otherwise>
+							</c:choose>
+						</th>
+						<th class="col2">영업 담당자 코드
+							<c:choose>
+								<c:when test="${sortBy eq 'soUser' && sortAs eq 'asc' }">
+									<span class="sort-div" onclick="sortChange('soUser', 'asc')">▲</span>
+								</c:when>
+								<c:when test="${sortBy eq 'soUser' && sortAs eq 'desc' }">
+									<span class="sort-div"
+										onclick="sortChange('soUser', 'desc')">▼</span>
+								</c:when>
+								<c:otherwise>
+									<span class="sort-div"
+										onclick="sortChange('soUser', 'desc')">▽</span>
+								</c:otherwise>
+							</c:choose>
+						</th>
+						<th class="col2">영업 담당자명
+							<c:choose>
+								<c:when test="${sortBy eq 'name' && sortAs eq 'asc' }">
+									<span class="sort-div" onclick="sortChange('name', 'asc')">▲</span>
+								</c:when>
+								<c:when test="${sortBy eq 'name' && sortAs eq 'desc' }">
+									<span class="sort-div"
+										onclick="sortChange('name', 'desc')">▼</span>
+								</c:when>
+								<c:otherwise>
+									<span class="sort-div"
+										onclick="sortChange('name', 'desc')">▽</span>
+								</c:otherwise>
+							</c:choose>
+						</th>
+						<th class="col4">금액	</th>
+						<th class="col4">오더등록일
+							<c:choose>
+								<c:when test="${sortBy eq 'o.addDate' && sortAs eq 'asc' }">
+									<span class="sort-div" onclick="sortChange('o.addDate', 'asc')">▲</span>
+								</c:when>
+								<c:when test="${sortBy eq 'o.addDate' && sortAs eq 'desc' }">
+									<span class="sort-div"
+										onclick="sortChange('o.addDate', 'desc')">▼</span>
+								</c:when>
+								<c:otherwise>
+									<span class="sort-div"
+										onclick="sortChange('o.addDate', 'desc')">▽</span>
+								</c:otherwise>
+							</c:choose>
+						</th>
+						<th class="col5">판매가기준일
+							<c:choose>
+								<c:when test="${sortBy eq 'pricingDate' && sortAs eq 'asc' }">
+									<span class="sort-div" onclick="sortChange('pricingDate', 'asc')">▲</span>
+								</c:when>
+								<c:when test="${sortBy eq 'pricingDate' && sortAs eq 'desc' }">
+									<span class="sort-div"
+										onclick="sortChange('pricingDate', 'desc')">▼</span>
+								</c:when>
+								<c:otherwise>
+									<span class="sort-div"
+										onclick="sortChange('pricingDate', 'desc')">▽</span>
+								</c:otherwise>
+							</c:choose>
+						</th>
+						<th class="col6">납품요청일
+							<c:choose>
+								<c:when test="${sortBy eq 'requestDate' && sortAs eq 'asc' }">
+									<span class="sort-div" onclick="sortChange('requestDate', 'asc')">▲</span>
+								</c:when>
+								<c:when test="${sortBy eq 'requestDate' && sortAs eq 'desc' }">
+									<span class="sort-div"
+										onclick="sortChange('requestDate', 'desc')">▼</span>
+								</c:when>
+								<c:otherwise>
+									<span class="sort-div"
+										onclick="sortChange('requestDate', 'desc')">▽</span>
+								</c:otherwise>
+							</c:choose>
+						</th>
+						<th class="col7">통화
+							<c:choose>
+								<c:when test="${sortBy eq 'currency' && sortAs eq 'asc' }">
+									<span class="sort-div" onclick="sortChange('currency', 'asc')">▲</span>
+								</c:when>
+								<c:when test="${sortBy eq 'currency' && sortAs eq 'desc' }">
+									<span class="sort-div"
+										onclick="sortChange('currency', 'desc')">▼</span>
+								</c:when>
+								<c:otherwise>
+									<span class="sort-div"
+										onclick="sortChange('currency', 'desc')">▽</span>
+								</c:otherwise>
+							</c:choose>
+						</th>
+						<th class="col8">상태
+							<c:choose>
+								<c:when test="${sortBy eq 'o.status' && sortAs eq 'asc' }">
+									<span class="sort-div" onclick="sortChange('o.status', 'asc')">▲</span>
+								</c:when>
+								<c:when test="${sortBy eq 'o.status' && sortAs eq 'desc' }">
+									<span class="sort-div"
+										onclick="sortChange('o.status', 'desc')">▼</span>
+								</c:when>
+								<c:otherwise>
+									<span class="sort-div"
+										onclick="sortChange('o.status', 'desc')">▽</span>
+								</c:otherwise>
+							</c:choose>
+						</th>
 					</tr>
 					<c:if test="${not empty orderList}">
 						<c:forEach var="list" items="${orderList }">
@@ -1334,7 +1548,7 @@ function search() {
 						</tr>
 					</table>
 				</div>
-				<div class="comment-return-div" style="visibility: hidden;">
+				<div class="comment-return-div comment-margin" style="display: none;">
 					<div>
 						반려 코멘트
 					</div>
@@ -1343,7 +1557,7 @@ function search() {
 					</div>
 				</div>
 				
-				<div class="comment-finish-div" style="display: none;">
+				<div class="comment-finish-div comment-margin" style="display: none;">
 					<div>
 						승인 코멘트
 					</div>
@@ -1352,7 +1566,7 @@ function search() {
 					</div>
 				</div>
 				
-				<div class="comment-div">
+				<div class="comment-div comment-margin">
 					<div id="comment-title">
 						코멘트
 					</div>
@@ -1365,6 +1579,7 @@ function search() {
 				<div class="detail-action-div">
 					<div class="detail-action-btn-div">
 						<button class="edit-start-btn2" onclick="editStart()" style="display: block;">수정하기</button>
+						<button class="edit-start-btn2" onclick="terminate()" style="display: block;">종결</button>
 						<button class="edit-finish-btn2" onclick="editFinish()" style="display: none;">수정 완료</button>
 						<button id="request-approval-btn" class="detail-action-btn2" onclick="requestApproval()" style="display: block;">승인 요청</button>
 					</div>

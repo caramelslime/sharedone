@@ -22,4 +22,6 @@ public class Price {
 	
 	public String bcdnm;
 	public String pcdnm;
+	
+	private int defaultPrice;
 }

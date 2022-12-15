@@ -108,4 +108,9 @@ public class OrderServiceImpl implements OrderService {
 		// TODO Auto-generated method stub
 		return od.totalPrice(soNo);
 	}
+
+	@Override
+	public int terminate(String soNo, String status) {
+		return od.terminate(soNo, status);
+	}
 }

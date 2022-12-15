@@ -33,7 +33,7 @@ public class OrderController {
 	private EmployeeService es;
 	
 	@RequestMapping("order")
-	public String order(HttpSession session, Order order, Model model, String soNo, String buyerCD, String soUser, String addDateRange, String pricingDateRange, String requestDateRange, String status) {
+	public String order(HttpSession session, Order order, Model model, String soNo, String buyerCD, String soUser, String addDateRange, String pricingDateRange, String requestDateRange, String status, String sortBy, String sortAs) {
 		
 		System.out.println("pricingDateRange(OrderController) : "+pricingDateRange);
 		System.out.println("addDateRange(OrderController) : "+addDateRange);
@@ -73,7 +73,8 @@ public class OrderController {
 		order.setPricingDateRange(pricingDateRange);
 		order.setRequestDateRange(requestDateRange);
 		order.setStatus(status);
-		
+		order.setSortBy(sortBy);
+		order.setSortAs(sortAs);
 		System.out.println(order);
 		
 		List<Product> productAllList = ps.productAllList();
@@ -106,6 +107,8 @@ public class OrderController {
 		model.addAttribute("buyerCD", buyerCD);
 		model.addAttribute("requestDateRange", requestDateRange);
 		model.addAttribute("leaderSoUser", leaderSoUser);
+		model.addAttribute("sortBy", sortBy);
+		model.addAttribute("sortAs", sortAs);
 		
 		return "/nolay/order";
 	}

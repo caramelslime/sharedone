@@ -47,4 +47,8 @@
 		</set>		
 		WHERE productCD=#{productCD}
 	</update>
+	<insert id="defaultPrice" parameterType="map">
+		INSERT INTO m_price VALUES ( 'B00000', #{productCD}, '1900-01-01', '1900-01-01', #{defaultPrice}, 'KRW', 'n' )
+	</insert>
+	
 </mapper>

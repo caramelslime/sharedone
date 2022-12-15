@@ -46,4 +46,6 @@ public interface OrderService {
 
 	int totalPrice(String soNo);
 
+	int terminate(String soNo, String status);
+
 }

@@ -66,4 +66,14 @@ public class ProductDaoImpl implements ProductDao {
 	public Product selectProductNm(String productCD2) {
 		return sst.selectOne("productns.selectProductNm",productCD2);
 	}
+
+	@Override
+	public void cancelProductInsert(String productCD) {
+		sst.delete("productns.cancelProductInsert", productCD);
+	}
+
+	@Override
+	public int productNMCheck(String productNM) {
+		return sst.selectOne("productns.productNMCheck", productNM);
+	}
 }

@@ -54,4 +54,10 @@ public class PriceServiceImpl implements PriceService {
 		// TODO Auto-generated method stub
 		return pd.findDate(price);
 	}
+
+	@Override
+	public int defaultPrice(String productCD, int defaultPrice) {
+		return pd.defaultPrice(productCD, defaultPrice);
+		
+	}
 }

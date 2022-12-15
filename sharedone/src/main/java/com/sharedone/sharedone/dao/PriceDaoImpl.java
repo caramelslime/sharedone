@@ -56,4 +56,12 @@ public class PriceDaoImpl implements PriceDao {
 		// TODO Auto-generated method stub
 		return sst.selectList("pricens.findDate",price);
 	}
+
+	@Override
+	public int defaultPrice(String productCD, int defaultPrice) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("productCD", productCD);
+		map.put("defaultPrice", defaultPrice);
+		return sst.update("pricens.defaultPrice", map);
+	}
 }

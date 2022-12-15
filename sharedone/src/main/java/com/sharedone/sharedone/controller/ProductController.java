@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.sharedone.sharedone.model.Price;
 import com.sharedone.sharedone.model.Product;
+import com.sharedone.sharedone.service.PriceService;
 import com.sharedone.sharedone.service.ProductService;
 
 import net.sf.json.JSONArray;
@@ -22,6 +24,10 @@ public class ProductController {
 	
 	@Autowired
 	private ProductService ps;
+	
+	@Autowired
+	private PriceService prs;
+	
 	
 	@RequestMapping("main")
 	public String main () {
@@ -53,7 +59,7 @@ public class ProductController {
 	@SuppressWarnings("unchecked")
 	@RequestMapping(path = "productInsert")
 	@ResponseBody
-	public Map<String, Object> productInsert(@RequestParam String data, Model model, Product product) {
+	public Map<String, Object> productInsert(@RequestParam String data, Model model, Product product, Price price) {
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		try {
@@ -63,12 +69,13 @@ public class ProductController {
 		    for (Map<String, Object> productInfo : info) {
 		    	String productNM = (String) productInfo.get("productNM");
 		        String unit = (String) productInfo.get("unit");
+		        int defaultPrice = Integer.parseInt((String)productInfo.get("defaultPrice")) ;
 		        String productGroup = (String) productInfo.get("productGroup");
+		        
 		        
 		        product.setProductNM(productNM);
 		        product.setUnit(unit);
 		        product.setProductGroup(productGroup);
-		        
 		        
 		        int totalProduct = ps.totalProduct();
 		  	  	
@@ -78,8 +85,13 @@ public class ProductController {
 	        	productCD = "P"+String.format("%05d",totalProduct+1);
 	        	product.setProductCD(productCD);
 		        
-		        ps.productInsert(product);
-		        
+		        int result2 = ps.productInsert(product);
+		        if (result2 > 0) {
+		        	int result3 = prs.defaultPrice(productCD, defaultPrice);
+		        	if (result3 == 0) {
+		        		ps.cancelProductInsert(productCD);
+		        	}
+		        }
 		    }  
 		     result.put("result", true);
 		    
@@ -152,7 +164,17 @@ public class ProductController {
 	}
 	
 	
-	
+	@RequestMapping(path = "productNMCheck")
+	@ResponseBody
+	public int productNMCheck(String productNM) {
+		int result = 0;
+		
+		result = ps.productNMCheck(productNM);
+		
+		System.out.println("productNMCheck result : "+result);
+		
+		return result;
+	}
 	
 	
 	

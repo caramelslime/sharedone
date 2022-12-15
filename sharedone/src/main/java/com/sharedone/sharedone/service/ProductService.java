@@ -27,4 +27,8 @@ public interface ProductService {
 //	khs 제품명 찾기
 	Product selectProductNm(String productCD2);
 
+	void cancelProductInsert(String productCD);
+
+	int productNMCheck(String productNM);
+
 }

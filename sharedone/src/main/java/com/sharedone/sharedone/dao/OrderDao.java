@@ -44,4 +44,6 @@ public interface OrderDao {
 
 	int totalPrice(String soNo);
 
+	int terminate(String soNo, String status);
+
 }
