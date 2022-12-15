@@ -116,7 +116,7 @@ public class OrderRestController {
 	
 
 	@RequestMapping("requestApproval")
-	public int requestApproval(Order order, Model model, String soNo, String content, String status, String empCd) {
+	public int requestApproval(String soNo, String content, String status, String empCd) {
 	
 	String previousStatus = status;
 	status = "승인대기";
@@ -130,7 +130,8 @@ public class OrderRestController {
 		
 		result = ns.addComment(soNo, content, noticeCd, empCd);
 		if 	(result == 0) {
-			status = previousStatus; os.approvalUpdate(soNo, status);
+			status = previousStatus;
+			os.approvalUpdate(soNo, status);
 		}
 	} else if (approvalUpdateResult == 0) {
 		result = -1;
@@ -139,6 +140,31 @@ public class OrderRestController {
 	return result;
 	
 	}
+	
+	@RequestMapping("terminate")
+	public int terminate(String soNo, String content, String status, String empCd) {
+		
+		String previousStatus = status;
+		status = "종결";
+		
+		int noticeCd = ns.getMax();
+		int terminateResult = os.terminate(soNo, status);
+		int result = 0;
+		
+		if (terminateResult > 0) {
+			
+			result = ns.addComment(soNo, content, noticeCd, empCd);
+			if 	(result == 0) {
+				status = previousStatus;
+				os.approvalUpdate(soNo, status);
+			}
+		} else if (terminateResult == 0) {
+			result = -1;
+		}
+		
+		return result;
+	}
+	
 	
 	
 	

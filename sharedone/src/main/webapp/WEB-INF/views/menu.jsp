@@ -122,7 +122,7 @@
 		<div class="menu-div"  onclick="pageView3('priceList.do')">
 			<img class="menu-img" alt="이미지 없음" src="/sharedone/resources/images/price.png"/>&nbsp;판매가격관리
 		</div>
-		<div class="menu-div"  onclick="pageView('order.do')">
+		<div class="menu-div"  onclick="pageView('order.do?sortBy=soNo&sortAs=desc')">
 			<img class="menu-img" alt="이미지 없음" src="/sharedone/resources/images/order.png"/>&nbsp;오더관리
 		</div>
 		<div class="menu-div"  onclick="pageView4('orderReport.do')">

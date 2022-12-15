@@ -24,6 +24,8 @@ public interface PriceService {
 
 	List<Price> findDate(Price price);
 
+	int defaultPrice(String productCD, int defaultPrice);
+
 
 
 

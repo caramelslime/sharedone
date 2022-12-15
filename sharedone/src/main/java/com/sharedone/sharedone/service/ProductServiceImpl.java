@@ -62,4 +62,14 @@ public class ProductServiceImpl implements ProductService {
 		// TODO Auto-generated method stub
 		return pd.selectProductNm(productCD2);
 	}
+
+	@Override
+	public void cancelProductInsert(String productCD) {
+		pd.cancelProductInsert(productCD);
+	}
+
+	@Override
+	public int productNMCheck(String productNM) {
+		return pd.productNMCheck(productNM);
+	}
 }

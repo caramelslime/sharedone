@@ -20,4 +20,5 @@ public class Product {
 	private int listPrice;
 	private String sortBy;
 	private String sortAs;
+	private int defaultPrice;
 }

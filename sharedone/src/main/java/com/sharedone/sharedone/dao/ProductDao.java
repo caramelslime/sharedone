@@ -26,4 +26,8 @@ public interface ProductDao {
 
 	Product selectProductNm(String productCD2);
 
+	void cancelProductInsert(String productCD);
+
+	int productNMCheck(String productNM);
+
 }

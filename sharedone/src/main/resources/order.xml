@@ -10,10 +10,12 @@
 				UPPER(soNo) like UPPER('%'||#{soNo}||'%') AND
 			</if>
 			<if test="buyerCD != null and buyerCD !=''">
-				UPPER(o.buyerCD) like UPPER('%'||#{buyerCD}||'%') AND
+				(UPPER(o.buyerCD) like UPPER('%'||#{buyerCD}||'%') OR
+				UPPER(buyerNM) like UPPER('%'||#{buyerCD}||'%')) AND
 			</if>
 			<if test="soUser != null and soUser !=''">
-				UPPER(soUser) like UPPER('%'||#{soUser}||'%') AND
+				(UPPER(soUser) like UPPER('%'||#{soUser}||'%') OR
+				UPPER(name) like UPPER('%'||#{soUser}||'%')) AND
 			</if>
 			<if test="status != null and status !=''">
 				UPPER(o.status) like UPPER('%'||#{status}||'%') AND
@@ -30,7 +32,10 @@
 			
 			currency IS NOT NULL AND o.buyerCD = b.buyerCD AND o.soUser = e.empcd
 		</where>
-		 ORDER BY soNo DESC
+		 ORDER BY ${sortBy}
+		 <if test='sortAs != null and sortAs == "asc"'>ASC</if>
+		 <if test='sortAs != null and sortAs == "desc"'>DESC</if>
+		 
 	</select>
 	
 	<select id="selectOrderHeader" parameterType="string" resultType="order">
@@ -99,7 +104,9 @@
 		SELECT NVL(SUM(unitprice * qty),0) FROM t_order_detail WHERE soNo = #{soNo}
 	</select>
 	
-	
+	<update id="terminate" parameterType="map">
+		UPDATE t_order SET status=#{status} WHERE soNo=#{soNo}
+	</update>
 	
 	
 	

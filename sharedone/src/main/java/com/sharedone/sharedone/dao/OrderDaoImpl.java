@@ -29,6 +29,8 @@ public class OrderDaoImpl implements OrderDao {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("soNo", order.getSoNo());
 		map.put("soUser", order.getSoUser());
+		map.put("sortBy", order.getSortBy());
+		map.put("sortAs", order.getSortAs());
 		
 		String pricingDateRange = order.getPricingDateRange();
 		System.out.println(pricingDateRange);
@@ -159,6 +161,7 @@ public class OrderDaoImpl implements OrderDao {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("productCD", productCD);
 		map.put("currency", currency);
+		System.out.println(currency);
 		return sst.selectOne("orderns.defaultPrice", map);
 	}
 
@@ -185,5 +188,13 @@ public class OrderDaoImpl implements OrderDao {
 	@Override
 	public int totalPrice(String soNo) {
 		return sst.selectOne("orderns.totalPrice", soNo);
+	}
+
+	@Override
+	public int terminate(String soNo, String status) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("soNo", soNo);
+		map.put("status", status);
+		return sst.update("orderns.terminate", map);
 	}
 }
